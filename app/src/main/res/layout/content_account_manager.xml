@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.holo.helloustb.AccountManager"
+    tools:showIn="@layout/activity_account_manager">
+
+    <Button
+        android:id="@+id/logout_ele"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout_ele"
+        android:onClick="LoginClick"/>
+
+    <Button
+        android:id="@+id/logout_network"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout_network"
+        android:onClick="LoginClick"/>
+
+    <Button
+        android:id="@+id/logout_volunteer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout_volunteer"
+        android:onClick="LoginClick"/>
+
+    <Button
+        android:id="@+id/logout_e"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout_e"
+        android:onClick="LoginClick"/>
+</LinearLayout>

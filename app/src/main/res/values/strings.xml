@@ -1,0 +1,371 @@
+<resources>
+    <string name="app_name">HelloUSTB</string>
+    <string name="home_title">Hello USTB</string>
+
+    <!--Activity 标题-->
+    <string name="title_activity_main">Hello USTB</string>
+    <string name="title_activity_guide">GUIDE</string>
+    <string name="title_activity_browser">浏览器</string>
+    <string name="title_activity_timetable">课程表</string>
+    <string name="title_activity_file_manager">下载</string>
+    <string name="title_activity_record_query">成绩查询</string>
+    <string name="title_activity_innovation_credit">创新学分</string>
+    <string name="title_activity_share_app">分享应用</string>
+    <string name="title_activity_timetable_detail">课程详情</string>
+    <string name="title_activity_feedback">反馈</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="title_activity_general_setting">通用</string>
+    <string name="title_activity_about">关于</string>
+    <string name="title_activity_information">个人信息</string>
+    <string name="title_activity_account">个人中心</string>
+    <string name="title_activity_account_manager">账号管理</string>
+    <string name="title_activity_campus_card">校园卡</string>
+    <string name="title_activity_volunteer">志愿服务</string>
+    <string name="title_activity_library">图书馆</string>
+    <string name="title_activity_book_detail">图书详情</string>
+    <string name="title_activity_my_volunteer_list">我的工时列表</string>
+    <string name="title_activity_volunteer_search">搜索活动</string>
+    <string name="title_activity_volunteer_detail">活动详情</string>
+    <string name="title_activity_volunteer_search_result">搜索结果</string>
+    <string name="title_activity_playground">操场</string>
+    <string name="NotExit">请再按一次退出本程序</string>
+    <string name="action_settings">设置</string>
+    <!--/Activity 标题-->
+
+    <!-- 开始界面 -->
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="bottomtext">&#169;2015 genshen.hol.es \nAll Right Reserved</string>
+    <!-- 开始界面 -->
+    <!-- 引导页 -->
+    <string name="start">开始</string>
+    <string name="guide_net_login">一键登录校园网</string>
+    <string name="guide_score">期末考试查成绩</string>
+    <string name="guide_more">更多功能等你体验</string>
+    <string name="guide_net_detail">无需等待 一键搞定</string>
+    <string name="guide_score_detail">动动手指 成绩浮现</string>
+    <string name="guide_more_detail">查课表，查校园卡消费，查创新学分&#8230;</string>
+    <!-- /引导页 -->
+
+    <!-- Toast 提示-->
+    <string name="NoNetwork">当前网络连接不可用</string>
+    <string name="httpClientUseing">请等待后台操作完成后再进行此项操作</string>
+    <string name="request_error">网络请求错误</string>
+    <string name="connectionTimeout">网络连接超时,请稍后重试</string>
+    <string name="errorPassword">用户名或密码错误</string>
+    <!-- /Toast 提示-->
+
+    <!-- Dialog-->
+    <string name="alert_login">登录</string>
+    <string name="alert_sure">确定</string>
+    <string name="alert_cancel">取消</string>
+    <string name="alert_title_net">校园网用户登录</string>
+    <string name="alert_title_deu">本科教学网用户登录</string>
+    <string name="alert_title_e">电子信息门户用户登录</string>
+    <string name="alert_title_ele">选课系统登录</string>
+    <string name="alert_title_volunteer">志愿服务课程管理系统登录</string>
+    <string name="edu_login_success">本科教学网登录成功</string>
+    <string name="network_requesting">正在请求网路</string>
+    <string name="request_network">请求网络</string>
+    <string name="errorEmptyUsername">学号不能为空</string>
+    <string name="errorEmptyPassword">密码不能为空</string>
+    <string name="dialog_score_weight">加权成绩</string>
+    <!-- /Dialog-->
+    <!--error fragment-->
+    <string name="network_unavailable">当前网络连接不可用</string>
+    <!--/error fragment-->
+    <!-- enter.xml -->
+    <string name="schnum">学号</string>
+    <string name="pass">密码</string>
+    <string name="pleaseinput">请输入登录账号</string>
+    <!-- enter.xml -->
+
+    <!-- 更新版本 -->
+    <string name="update_downloading">正在后台下载更新包，下载完成后将会通知您安装</string>
+    <string name="update_download">正在下载</string>
+    <string name="startDownload">开始下载</string>
+    <string name="updateNow">现在更新</string>
+    <string name="sayLater">稍后再说</string>
+    <string name="updateRequest">检查到有新版本，是否立即更新？\n</string>
+    <string name="versionUpdate">版本更新</string>
+    <string name="haveUpdated">当前版本已是最新版本！</string>
+    <!-- 更新版本 -->
+
+    <!-- 侧滑栏 -->
+    <string name="image">image</string>
+    <string name="left_side_home">首页</string>
+    <string name="left_side_record_query">成绩查询</string>
+    <string name="left_side_elective_system">选课系统</string>
+    <string name="left_side_my_schedule">我的课表</string>
+    <string name="left_side_volunteer">志愿服务</string>
+    <string name="left_side_quality_development">素质拓展</string>
+    <string name="left_side_library">图书馆</string>
+    <string name="left_side_campus_network">校园网</string>
+    <string name="left_side_setting">设置</string>
+    <string name="left_side_playground">操场</string>
+    <!-- /侧滑栏 -->
+    <!-- 主界面 -->
+    <string name="navigation_drawer_open">drawer_open</string>
+    <string name="navigation_drawer_close">drawer_close</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_home">首页</string>
+    <string name="menu_login">个人中心</string>
+    <string name="menu_collect">我的收藏</string>
+    <string name="menu_message">消息</string>
+    <!-- /主界面 -->
+
+    <!-- 首页 -->
+    <string name="loading">正在加载&#8230;</string>
+    <string name="notice_title">你可能关注以下内容</string>
+    <!-- /首页 -->
+
+    <!-- 设置界面 -->
+    <string name="setting">设置</string>
+    <string name="mycenter">个人中心</string>
+    <string name="general">通用</string>
+    <string name="about">关于作者</string>
+    <string name="feedback">意见反馈</string>
+    <string name="setting_about">关于</string>
+    <string name="check_update">检查更新</string>
+    <string name="share_app">分享应用</string>
+    <string name="app_web">应用网站</string>
+    <string name="file_manager">下载</string>
+    <string name="version_base">Hello USTB  v </string>
+    <!-- 设置界面 -->
+    <!--通用设置-->
+    <string name="this_week_num">当前周数</string>
+    <!--/通用设置-->
+    <!--意见反馈-->
+    <string name="feedback_submit">提交</string>
+    <string name="contact_information">联系方式(选填,QQ/邮箱/手机号&#8230;)</string>
+    <string name="submit_fail_empty">提交失败，您有部分内容未填写完整</string>
+    <string name="FeedbackTitle">意见反馈</string>
+    <string name="feedbackContent">感谢您的支持，请在此处填写您的意见反馈</string>
+    <string name="submitSuccess">提交成功，感谢你的反馈</string>
+    <!--/意见反馈-->
+    <!--下载文件管理-->
+    <string name="noApplicationToOpen">未找到相关应用打开该文件</string>
+    <!--/下载文件管理-->
+    <!-- 分享应用 -->
+    <string name="no_app_exist">发送失败,应用安装包不存在</string>
+    <string name="send_to_friend">发送给好友</string>
+    <string name="er_wei_ma_download">扫描二维码 下载Hello USTB</string>
+    <string name="click_to_copy_link">点击二维码可复制下载链接</string>
+    <!-- /分享应用 -->
+
+    <!-- 相关链接 -->
+    <string name="teach">http://teach.ustb.edu.cn</string>
+    <string name="sch_net">http://202.204.48.66</string>
+    <string name="tea_login">http://seam.ustb.edu.cn:8080/jwgl/Login</string>
+    <!-- 相关链接   校园网 -->
+    <string name="zifuwu_login">http://zifuwu.ustb.edu.cn:8080/logintemp.jsp</string>
+    <string name="zifuwu_userinfo">http://zifuwu.ustb.edu.cn:8080/userinfo.jsp</string>
+    <!-- 相关链接   /校园网  -->
+    <!-- 相关链接    选课系统 -->
+    <string name="ele_login">http://elearning.ustb.edu.cn/choose_courses/j_spring_security_check</string>
+    <string name="ele_score">http://elearning.ustb.edu.cn/choose_courses/information/singleStuInfo_singleStuInfo_loadSingleStuScorePage.action</string>
+    <string name="ele_innovation_credit">http://elearning.ustb.edu.cn/choose_courses/information/singleStuInfo_singleStuInfo_loadSingleStuCxxfPage.action</string>
+    <string name="school_timetable_addresss">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_courseList_loadTermCourses.action</string>
+    <!-- 相关链接    选课系统 -->
+    <!-- 相关链接  志愿者 -->
+    <string name="vol_login">http://sztz.ustb.edu.cn/zyz/slogin.do</string>
+    <string name="volunteer_home">http://sztz.ustb.edu.cn/zyz/student.do</string>
+    <string name="my_volunteer_list">http://sztz.ustb.edu.cn/zyz/score.do</string>
+    <string name="volunteer_search">http://sztz.ustb.edu.cn/zyz/activityshow.do?method=search</string>
+    <string name="volunteer_view">http://sztz.ustb.edu.cn/zyz/activityshow.do?method=view</string>
+    <!-- 相关链接 /志愿者 -->
+    <string name="tea_hp">http://seam.ustb.edu.cn:8080/jwgl/index.jsp</string>
+    <string name="information_url">http://seam.ustb.edu.cn:8080/jwgl/stuinfo.jsp</string>
+    <string name="e_login">http://e.ustb.edu.cn/userPasswordValidate.portal</string>
+    <string name="CampusCard_url">http://e.ustb.edu.cn/index.portal?.pn=p378_p381</string>
+    <!-- 图书馆 -->
+    <string name="lib_search_address">http://lib.ustb.edu.cn:8080/opac/openlink.php</string>
+    <string name="lib_main">http://lib.ustb.edu.cn:8080/opac/</string>
+
+    <!--图书馆 搜索-->
+    <string name="start_search">检索</string>
+    <string name="lib_search_hint">请键入检索内容</string>
+    <string name="lib_book_search">检索</string>
+    <string name="lib_home">主页</string>
+    <string name="lib_book_no">图书编号:</string>
+    <string name="lib_book_info">图书详细信息</string>
+    <string name="lib_book_where">馆藏信息</string>
+    <string name="book_where_suoshu">索书号:</string>
+    <string name="book_where_tiaoma">条码号:</string>
+    <string name="book_where_year">年卷期:</string>
+    <string name="book_where_place">校区—馆藏地:</string>
+    <string name="no_book_in_douban">豆瓣还没有这本书&#8230;</string>
+    <string name="todouban">豆瓣书评 </string>
+    <string name="book_where_state">书刊状态:</string>
+    <string name="no_book_found">未找到相关图书</string>
+    <string name="no_book_found_more">未找到更多的图书</string>
+    <string name="pull_to_load">上拉加载更多</string>
+    <string name="is_loading">正在加载</string>
+    <string name="release_to_load">释放以加载更多</string>
+    <string name="tosearch">图书检索</string>
+    <!--/图书馆 搜索-->
+    <!-- /图书馆 -->
+    <!-- 个人网站链接 -->
+    <string name="downloadURL">http://genshen.hol.es/blog/frontend/web/file/helloustb.rar</string>
+    <string name="UpdateAddress">http://genshen.hol.es/blog/frontend/web/index.php?r=hello%2Fjson-apk</string>
+    <string name="wifi_check_url">http://genshen.hol.es/code/android/myustb/wifi.php</string>
+    <string name="myHomePage">http://genshen.hol.es</string>
+    <string name="app_website">http://genshen.hol.es/blog/frontend/web/index.php?r=hello</string>
+    <!-- 注意：更新下载链接时，要更新二维码 -->
+    <string name="download_link">http://genshen.hol.es/blog/frontend/web/index.php?r=hello%2Fdownload</string>
+    <!-- /个人网站链接 -->
+    <!-- /相关链接 -->
+
+    <!-- 浏览器 -->
+    <string name="copyUrl">复制链接</string>
+    <string name="openWithOtherBrowser">用浏览器打开</string>
+    <string name="collect">收藏</string>
+    <string name="noOperation">无效操作</string>
+    <string name="haveCopied">链接已复制到剪切板</string>
+    <string name="share">分享</string>
+    <!-- /浏览器 -->
+    <!---成绩查询-->
+    <string name="pleaseChoose">选择学期 查询成绩</string>
+    <string name="innovation_credit">创新学分</string>
+    <string name="course_name">课程名称</string>
+    <string name="score">成绩</string>
+    <string name="credit">学分</string>
+    <string name="course_type">课程类别</string>
+    <string name="share_score">晒晒成绩单</string>
+    <string name="weight">加权</string>
+    <string name="weight_title">加权成绩</string>
+    <!---/成绩查询-->
+    <!-- 课程表主界面 -->
+    <string name="import_table">导入课表</string>
+    <string name="through_out">查看课表</string>
+    <string name="share_table">分享课表</string>
+    <string name="sch_timetable_title">今日课表</string>
+    <string name="Course_No">编号</string>
+    <string name="Course_Time">上课时间</string>
+    <string name="Course_Name">课程名称</string>
+    <string name="Course_Room">上课教室</string>
+    <string name="Course_Teacher">授课老师</string>
+    <string name="cancelImport">取消导入</string>
+    <string name="haveImported">你已经导入过了，确定是否重新导入？\n(新导入的数据会覆盖原有数据)</string>
+    <string name="reImport">重新导入</string>
+    <string name="importCourse">导入课程表</string>
+    <string name="importing">正在导入，请稍后&#8230;</string>
+    <string name="CourseDbName">/MyUstb/Data/Course/Course.db</string>
+    <string name="importsuccess">课程表导入成功</string>
+    <string name="importfail">课程表导入失败</string>
+    <string name="startimport">正在导入课程表，请稍后&#8230;</string>
+    <string name="shareMe">分享课表</string>
+    <!-- 课程表主界面 -->
+    <!-- 课程详情 -->
+    <string name="detail_class_info">课堂信息</string>
+    <string name="detail_course_info">课程信息</string>
+    <string name="detail_course_name_key">课程名称</string>
+    <string name="detail_course_teach_key">授课老师</string>
+    <string name="detail_course_place_key">上课地点</string>
+    <string name="detail_course_time_key">上课时间</string>
+    <string name="detail_course_student_num_key">课堂人数</string>
+    <string name="detail_course_week_key">周数</string>
+    <string name="detail_course_position_key">节数</string>
+    <!--  -->
+    <string name="detail_course_learn_time_key">课程学时</string>
+    <string name="detail_course_credit_key">课程学分</string>
+    <string name="detail_course_type_key">课程分类</string>
+    <string name="detail_course_time_place_key">所有课堂</string>
+    <!-- /课程详情 -->
+    <!--课程表 总-->
+    <string name="no_course_imported">你尚未导入课表</string>
+    <string name="timetable_monday">周一</string>
+    <string name="timetable_tuesday">周二</string>
+    <string name="timetable_wednesday">周三</string>
+    <string name="timetable_thursday">周四</string>
+    <string name="timetable_friday">周五</string>
+    <string name="timetable_saturday">周六</string>
+    <string name="timetable_sunday">周日</string>
+    <!--课程表 总-->
+    <!--志愿服务-->
+    <string name="search_title">搜索活动</string>
+    <string name="login_vol_button">志愿服务登录</string>
+    <string name="login_vol_button_again">再试一次</string>
+    <string name="vol_my_work">我的工时</string>
+    <string name="vol_zero">0</string>
+    <string name="work_time">获得工时:</string>
+    <string name="vol_school">学院</string>
+    <string name="vol_class">班级</string>
+    <string name="vol_search_hint">搜索活动</string>
+    <string name="search_tip">你可以按照活动编号、活动名称、活动地点等条件搜索</string>
+    <string name="no_search_result">未找到符合条件的活动信息</string>
+    <!--志愿服务-->
+
+    <!--个人中心-->
+    <string name="account_ac">账号管理</string>
+    <string name="account_msg">消息中心</string>
+    <string name="account_collection">我的收藏</string>
+
+    <string name="logout_ele">注销选课系统网账号</string>
+    <string name="ensure_logout_ele">你确定注销选课系统账号吗?</string>
+    <string name="logout_ele_success">选课系统注销成功</string>
+
+    <string name="logout_network">注销校园网账号</string>
+    <string name="ensure_logout_net">你确定注销校园网账号吗?</string>
+    <string name="logout_net_success">校园网注销成功</string>
+
+    <string name="logout_volunteer">注销志愿服务课程网账号</string>
+    <string name="ensure_logout_volunteer">你确定注销志愿服务课程网账号吗?</string>
+    <string name="logout_vol_success">注销志愿服务课程网成功</string>
+
+
+    <string name="logout_e">注销信息门户账号</string>
+    <string name="ensure_logout_e">你确定注销信息门户账号吗?</string>
+    <string name="logout_e_success">校园信息门户账号注销成功</string>
+
+
+    <!--/个人中心-->
+
+    <!--progressWheel Test-->
+    <string name="main_text">Options:</string>
+    <string name="option_progress">Progress:</string>
+    <string name="option_bar_color">Bar color:</string>
+    <string name="option_wheel_color">Wheel color:</string>
+    <string name="interpolated">Interpolated progress:</string>
+    <string name="linear">Linear progress:</string>
+    <string name="ok">确定</string>
+    <string name="about_text">This app is for demonstrate the Material-ish progress wheel library, which provides a Material-style progress wheel compatible back to API 9. You can have indeterminate and determinate versions of the progress wheel, the later with a linear animation or a interpolated one like in the guidelines.\n\nRefer to the Github project page for more info at https://github.com/pnikosis/materialish-progress. </string>
+    <string-array name="progress_value_options">
+        <item>Cycle between 0% and 100%</item>
+        <item>0%</item>
+        <item>10%</item>
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+        <item>100%</item>
+    </string-array>
+    <string-array name="progress_color_options">
+        <item>Default</item>
+        <item>Red</item>
+        <item>Magenta</item>
+    </string-array>
+    <string-array name="wheel_color_options">
+        <item>Default</item>
+        <item>Light Gray</item>
+        <item>Gray</item>
+    </string-array>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+        "Components with responsive elevations may encounter other components as they move between "
+        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
+        "through other material, components avoid interfering with one another any number of ways, "
+        "whether on a per component basis or using the entire app layout.\n"
+        "On a component level, components can move or be removed before they cause interference. "
+        "For example, a floating action button (FAB) can disappear or move off screen before a "
+        "user picks up a card, or it can move if a snackbar appears.\n"
+        "On the layout level, design your app layout to minimize opportunities for interference. "
+        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
+        "when a user tries to pick up one of cards.\n\n"
+    </string>
+    <!--/progressWheel Test-->
+
+
+</resources>

@@ -1,0 +1,66 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="navigation_drawer_width">260dp</dimen>
+    <dimen name="navigation_image_width">60dp</dimen>
+
+    <dimen name="md_preference_content_inset">20dp</dimen>
+
+    <dimen name="horizontal_margin_small">8dp</dimen>
+    <dimen name="horizontal_margin_large">16dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="tab_height">40dp</dimen>
+
+    <dimen name="list_vertical_margin_small">8dp</dimen>
+
+    <!--card-->
+    <dimen name="color_card_corner_radius">2dp</dimen>
+    <dimen name="color_card_padding_vertical">15dp</dimen>
+    <dimen name="color_card_padding_horizontal">8dp</dimen>
+    <dimen name="color_card_margin_horizontal">4dp</dimen>
+    <dimen name="color_card_margin_vertical">4dp</dimen>
+
+    <!--dialog-->
+    <dimen name="dialog_padding_horizontal">6dp</dimen>
+    <!--/dialog-->
+
+    <!--record query-->
+    <dimen name="record_width">6dp</dimen>
+    <dimen name="margin_axis_record_left">10dp</dimen>
+    <dimen name="margin_axis_record_right">20dp</dimen>
+    <dimen name="padding_text_record_vertical">10dp</dimen>
+    <dimen name="padding_text_record_hor">20dp</dimen>
+    <!---activity-->
+    <dimen name="score_color_image_padding">16dp</dimen>
+    <dimen name="score_text_padding">16dp</dimen>
+    <dimen name="app_bar_height">200dp</dimen>
+    <!--record query-->
+
+    <!--share_app-->
+    <dimen name="share_app_vertical_margin_small">8dp</dimen>
+    <dimen name="share_app_horizontal_margin_small">16dp</dimen>
+    <!--/share_app-->
+
+    <!--today course-->
+    <dimen name="course_left_margin">20dp</dimen>
+    <dimen name="teach_margin_large">20dp</dimen>
+    <dimen name="course_margin_img">8dp</dimen>
+    <dimen name="course_img_width">30dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <!--today course-->
+
+    <dimen name="volunteer_search_tip_left_right">48dp</dimen>
+    <dimen name="volunteer_search_tip_top">50dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <!--account-->
+    <dimen name="account_image">30dp</dimen>
+    <dimen name="account_item_padding_horizontal">20dp</dimen>
+    <dimen name="account_item_padding_vertical">10dp</dimen>
+    <dimen name="account_item_text_margin">60dp</dimen>
+    <!--/account-->
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.holo.fragment.TodayCourseFrament">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_text_record_vertical"
+            android:paddingEnd="@dimen/padding_text_record_hor"
+            android:paddingLeft="@dimen/padding_text_record_hor"
+            android:paddingRight="@dimen/padding_text_record_hor"
+            android:paddingStart="@dimen/padding_text_record_hor"
+            android:paddingTop="@dimen/padding_text_record_vertical"
+            android:text="@string/sch_timetable_title"
+            android:textColor="@color/steel_blue"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/CourseListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+
+    <include
+        layout="@layout/fab_today_course_frag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin" />
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <!--    android:singleLine="true"
+        android:ellipsize="marquee" -->
+    <TextView
+        android:id="@+id/lib_search_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/steel_blue"
+        android:textStyle="bold"
+        android:text="C语言概叙" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/lib_search_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中文图书" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/lib_book_no" />
+        <TextView
+            android:id="@+id/lib_search_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IS 1299" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/lib_search_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="馆藏副本" />
+        <TextView
+            android:id="@+id/lib_search_borrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:text="可借副本" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lib_search_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="xxx著" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/lib_search_press_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="北航出版社" />
+
+        <TextView
+            android:id="@+id/lib_search_publish_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:text="2015" />
+    </LinearLayout>
+
+</LinearLayout>

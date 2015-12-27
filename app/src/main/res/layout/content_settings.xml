@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.holo.helloustb.Settings"
+    tools:showIn="@layout/activity_settings">
+
+    <LinearLayout
+        android:id="@+id/setting"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/general"
+                style="@style/setting_text"
+                android:clickable="true"
+                android:onClick="click_Hander"
+                android:text="@string/general" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/gray2" />
+
+            <TextView
+                android:id="@+id/file_manager"
+                style="@style/setting_text"
+                android:clickable="true"
+                android:onClick="click_Hander"
+                android:text="@string/file_manager" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/about"
+                style="@style/setting_text"
+                android:clickable="true"
+                android:onClick="click_Hander"
+                android:text="@string/about" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/gray2" />
+
+            <TextView
+                android:id="@+id/share_app"
+                style="@style/setting_text"
+                android:clickable="true"
+                android:onClick="click_Hander"
+                android:text="@string/share_app" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/gray2" />
+
+            <TextView
+                android:id="@+id/setting_about"
+                style="@style/setting_text_no_arrow"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:clickable="true"
+                android:onClick="click_Hander"
+                android:text="@string/setting_about" />
+            <!--style="@style/NoRightText"-->
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

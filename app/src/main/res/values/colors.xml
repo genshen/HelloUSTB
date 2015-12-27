@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3399FF</color>
+    <color name="colorPrimaryDark">#3399CC</color>
+    <color name="colorAccent">#607D8B</color>
+    <color name="tab_header">#58A2F0</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="background">#ffefefef</color>
+    <color name="transparent">#00000000</color>
+    <color name="default_bg">#EEEEEE</color>
+    <color name="black">#000000</color>
+    <color name="bg">#20FFFFFF</color>
+    <color name="leftSilde">#30FFFFFF</color>
+    <color name="side_nav_bar">#3392E1</color>
+    <color name="white">#FFFFFF</color>
+    <color name="presses_text_color">#F07000</color>
+    <color name="link_text_color">#44FFFFFF</color>
+    <color name="presse_background">#F5F5F5</color>
+    <color name="gray">#F0F0F0</color>
+    <color name="gray2">#CDCDC1</color>
+    <color name="gray_d">#707070</color>
+    <color name="grayOrBlack">#222222</color>
+    <color name="thin">#dcdcdc</color>
+    <color name="yellow">#F7AA0F</color>
+    <color name="red">#F64B39</color>
+    <color name="blue_light">#06AEE9</color>
+    <color name="dark_blue">#143553</color>
+    <color name="dark_olive_green">#556B2F</color>
+    <color name="steel_blue">#4682B4</color>
+    <color name="title_blue">#4078c0</color>
+    <color name="green">#3CB371</color>
+    <color name="olive_drab">#556B2F</color>
+    <color name="brown">#663300</color>
+    <color name="red_light">#FF0000</color>
+    <color name="purple">#6633CC</color>
+    <color name="bright_yellow">#FFFF00</color>
+
+    <!--general settings color-->
+    <color name="preference_list_item_press">#E7E7E7</color>
+    <color name="preference_item_title_color">#000000</color>
+    <color name="preference_item_summary_color">#AAAAAA</color>
+    <!--/general settings color-->
+</resources>

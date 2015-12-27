@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.holo.helloustb.Account"
+    tools:showIn="@layout/activity_account">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/account_ac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/account_item_padding_horizontal"
+            android:paddingRight="@dimen/account_item_padding_horizontal"
+            android:paddingTop="@dimen/account_item_padding_vertical"
+            android:paddingBottom="@dimen/account_item_padding_vertical"
+            android:clickable="true"
+            android:onClick="AccountClick">
+
+            <ImageView
+                android:layout_width="@dimen/account_image"
+                android:layout_height="@dimen/account_image"
+                android:contentDescription="@string/image"
+                android:src="@drawable/account_ac" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_text_margin"
+                android:layout_marginStart="@dimen/account_item_text_margin"
+                android:text="@string/account_ac"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/account_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/account_item_padding_horizontal"
+            android:paddingRight="@dimen/account_item_padding_horizontal"
+            android:paddingTop="@dimen/account_item_padding_vertical"
+            android:paddingBottom="@dimen/account_item_padding_vertical"
+            android:clickable="true"
+            android:onClick="AccountClick">
+
+            <ImageView
+                android:layout_width="@dimen/account_image"
+                android:layout_height="@dimen/account_image"
+                android:contentDescription="@string/image"
+                android:src="@drawable/account_collection" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_text_margin"
+                android:layout_marginStart="@dimen/account_item_text_margin"
+                android:text="@string/account_collection"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/account_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/account_item_padding_horizontal"
+            android:paddingRight="@dimen/account_item_padding_horizontal"
+            android:paddingTop="@dimen/account_item_padding_vertical"
+            android:paddingBottom="@dimen/account_item_padding_vertical"
+            android:clickable="true"
+            android:onClick="AccountClick">
+
+            <ImageView
+                android:layout_width="@dimen/account_image"
+                android:layout_height="@dimen/account_image"
+                android:contentDescription="@string/image"
+                android:src="@drawable/account_msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/account_item_text_margin"
+                android:layout_marginStart="@dimen/account_item_text_margin"
+                android:text="@string/account_msg"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/list_vertical_margin_small"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/list_vertical_margin_small">
+
+    <RelativeLayout
+        android:id="@+id/course_left_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/Course_No"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/course_margin_img"
+            android:text="2"
+            android:textSize="26sp"
+            android:textColor="@color/steel_blue" />
+        <!--<ImageView-->
+            <!--android:id="@+id/course_image"-->
+            <!--android:layout_width="@dimen/course_img_width"-->
+            <!--android:layout_height="@dimen/course_img_width"-->
+            <!--android:layout_toRightOf="@+id/Course_No"-->
+            <!--android:layout_toEndOf="@+id/Course_No"-->
+            <!--android:src="@drawable/push_tips_course"/>-->
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_toRightOf="@+id/course_left_content"
+        android:layout_toEndOf="@+id/course_left_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/course_left_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/Course_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="人工智能"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/Course_Room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="逸夫楼205"
+                android:textColor="@color/gray_d" />
+
+            <TextView
+                android:id="@+id/Course_Teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/Course_Room"
+                android:layout_toRightOf="@+id/Course_Room"
+                android:layout_marginLeft="@dimen/teach_margin_large"
+                android:layout_marginStart="@dimen/teach_margin_large"
+                android:gravity="center"
+                android:text="孙义"
+                android:textColor="@color/gray_d" />
+
+            <TextView
+                android:id="@+id/Course_Time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="10：15-11：30"
+                android:textColor="@color/gray_d" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
