@@ -3,26 +3,22 @@ package com.holo.helloustb;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.KeyEvent;
-import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -39,7 +35,6 @@ import com.holo.fragment.TodayCourseFrament;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.holo.sdcard.SdCardPro;
-import com.holo.view.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -222,6 +217,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.innovation_credit:
                 Intent innovation=new Intent(MainActivity.this,InnovationCredit.class);
                 startActivity(innovation);
+                break;
+            case R.id.exam_query:
+                Intent exam_query=new Intent(MainActivity.this,ExamQuery.class);
+                startActivity(exam_query);
                 break;
             case R.id.import_me:
                 CourseDbHelper course = new CourseDbHelper(MainActivity.this, 1);

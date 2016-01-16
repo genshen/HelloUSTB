@@ -6,12 +6,22 @@
     android:layout_height="wrap_content">
 
     <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/exam_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="Myclick"
+        android:src="@drawable/fab_add"
+        fab:fab_label="@string/exam_time_place_query"
+        fab:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/innovation_credit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/fab_add"
         android:clickable="true"
         android:onClick="Myclick"
+        android:src="@drawable/fab_add"
         fab:fab_label="@string/innovation_credit"
         fab:fab_size="mini" />
 

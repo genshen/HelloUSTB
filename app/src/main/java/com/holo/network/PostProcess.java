@@ -3,13 +3,11 @@
  */
 package com.holo.network;
 
+import org.unbescape.html.HtmlEscape;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import com.holo.sdcard.SdCardPro;
-
-import android.util.Log;
 
 
 /**
@@ -31,6 +29,9 @@ public class PostProcess {
                 break;
             case 5:
                 dataInfo.data = getTimeTable(br);    //获得课程表
+                break;
+            case 6:
+                dataInfo.data = getExamList(br);    //考试时间地点
                 break;
             case 7:        //校园网验证
                 dataInfo.code = validateNetPass(br);
@@ -60,6 +61,35 @@ public class PostProcess {
             return data_list;
         } catch (IOException e) {
             // TODO 自动生成的 catch 块
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 考试成绩与地点
+     * @param br BufferedReader
+     * @return  ArrayList<String>
+     */
+    private static ArrayList<String> getExamList(BufferedReader br) {
+        String line;
+        ArrayList<String> process_result = new ArrayList<>();
+        try {
+            while ((line = br.readLine()) != null) {
+                if (line.contains("<td>")) {
+//                    <td>2050415 </td><td>操作系统(实验)</td><td>&nbsp;&nbsp;</td><td></td><td>该课程考试时间地点由任课老师课上公布，本系统不发布。</td>
+                    line = HtmlEscape.unescapeHtml(line);
+                    String split_str[] = line.split("<|>");
+                    process_result.add(split_str[2]);
+                    process_result.add(split_str[6]);
+                    process_result.add(split_str[10]);
+                    process_result.add(split_str[14]);
+                    process_result.add(split_str[18]);
+                }
+            }
+            br.close();
+            return process_result;
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }

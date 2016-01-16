@@ -213,12 +213,18 @@ public class GetProcess {
         }
     }
 
+    /**
+     * 查询创新学分
+     * @param br_html
+     * @return
+     */
     private static ArrayList<String> getInnovationCredits(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
             while ((line = br_html.readLine()) != null) {
                 if (line.contains("td>")) {
+                    line = HtmlEscape.unescapeHtml(line);
                     String split_str[] = line.split("<|>");
                     process_result.add(split_str[6]);
                     process_result.add(split_str[10]);

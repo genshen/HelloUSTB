@@ -1,30 +1,21 @@
 package com.holo.fragment;
 
-import android.graphics.Rect;
-import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.holo.helloustb.R;
-import com.holo.view.MagicScrollView;
-import com.holo.view.MagicTextView;
+import com.holo.view.RiseNumberTextView;
 
 import java.util.ArrayList;
 
 public class VolunteerHomeFragment extends Fragment {
     private static final String VOL_RESULT = "vol_result";
     private ArrayList<String> volunteer_meg;
-    public static int mWinheight;
-    int[] location = new int[2];
-    private MagicScrollView mScrollView;
-    private MagicTextView mIncomeTxt;
-    private LinearLayout mContainer;
+
 
     public static VolunteerHomeFragment newInstance(ArrayList<String> vol_result) {
         VolunteerHomeFragment fragment = new VolunteerHomeFragment();
@@ -57,37 +48,12 @@ public class VolunteerHomeFragment extends Fragment {
         ((TextView) rootView.findViewById(R.id.vol_school)).setText(school);
         ((TextView) rootView.findViewById(R.id.vol_class)).setText(vol_class);
 
-        Rect fram = new Rect();
-        getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(fram);
-        mWinheight = fram.height();
-        mScrollView = (MagicScrollView) rootView.findViewById(R.id.magic_scroll);
-        mContainer = (LinearLayout) rootView.findViewById(R.id.vol_home_text_parent);
-        mIncomeTxt = (MagicTextView) rootView.findViewById(R.id.vol_my_work);
-        mIncomeTxt.setValue(work_hour);
-        initListener();
-        mHandler.sendEmptyMessage(0);
-
+        RiseNumberTextView work_hour_text = (RiseNumberTextView) rootView.findViewById(R.id.vol_my_work);
+        work_hour_text.setRiseInterval(0, work_hour)
+                .setDuration(2000)
+                .runInt(false)
+                .setDecimal(2)
+                .start();
         return rootView;
     }
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            int height = mContainer.getMeasuredHeight();
-            Log.d("height  is ====>", "" + height);
-            onMeasureTxt(mIncomeTxt);
-            mScrollView.sendScroll(MagicScrollView.UP, 0);
-        }
-    };
-
-    private void initListener() {
-        mScrollView.AddListener(mIncomeTxt);
-    }
-
-    private void onMeasureTxt(MagicTextView view) {
-        // 用来获取view在距离屏幕顶端的距离(屏幕顶端也是scrollView的顶端)
-        view.getLocationInWindow(location);
-        view.setLocHeight(location[1]);
-        Log.d("window y is ====>", "" + location[1]);
-    }
-
 }

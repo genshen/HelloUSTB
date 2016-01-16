@@ -9,10 +9,37 @@
     tools:context="com.holo.helloustb.InnovationCredit"
     tools:showIn="@layout/activity_innovation_credit">
 
+    <LinearLayout
+        android:id="@+id/credit_sum_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/innovation_credit_top_sum_padding"
+        android:paddingEnd="@dimen/innovation_credit_top_sum_padding"
+        android:paddingStart="@dimen/innovation_credit_top_sum_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_innovation_credit"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <com.holo.view.RiseNumberTextView
+            android:id="@+id/credit_sum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/vol_zero"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/innovation_credit_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/credit_sum_tag" />
 
     <com.holo.view.ProgressWheel
         android:id="@+id/progress_wheel"
@@ -22,4 +49,5 @@
         android:visibility="invisible"
         wheel:matProg_barColor="#5588FF"
         wheel:matProg_progressIndeterminate="true" />
+
 </RelativeLayout>

@@ -63,4 +63,8 @@
     <dimen name="account_item_padding_vertical">10dp</dimen>
     <dimen name="account_item_text_margin">60dp</dimen>
     <!--/account-->
+
+    <!--创新学分-->
+    <dimen name="innovation_credit_top_sum_padding">18dp</dimen>
+    <!--创新学分-->
 </resources>
