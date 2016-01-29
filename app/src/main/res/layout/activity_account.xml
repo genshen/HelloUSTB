@@ -26,6 +26,7 @@
                 android:id="@+id/account_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/status_bar_height_minus"
                 android:contentDescription="@string/image"
                 android:scaleType="fitXY"
                 android:src="@drawable/nav_morning" />

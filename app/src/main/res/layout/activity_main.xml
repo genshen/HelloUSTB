@@ -13,24 +13,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/navigation_drawer"
-        android:name="com.example.menu.NavigationDrawerFragment"
-        android:layout_width="@dimen/navigation_drawer_width"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:orientation="vertical"
-        android:background="@color/white" >
-        <include layout="@layout/leftslide"/>
-    </LinearLayout>
-    <!--<android.support.design.widget.NavigationView-->
-        <!--android:id="@+id/nav_view"-->
-        <!--android:layout_width="wrap_content"-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/navigation_drawer"-->
+        <!--android:name="com.example.menu.NavigationDrawerFragment"-->
+        <!--android:layout_width="@dimen/navigation_drawer_width"-->
         <!--android:layout_height="match_parent"-->
         <!--android:layout_gravity="start"-->
-        <!--android:fitsSystemWindows="true"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="vertical">-->
 
+        <!--<include layout="@layout/leftslide" />-->
+    <!--</LinearLayout>-->
+
+    <!--用上面那段的时候即得在proguard-rule里面删除LinearLayoutManager-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_drawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:fitsSystemWindows="true">
         <!--app:headerLayout="@layout/nav_header_main"-->
-        <!--app:menu="@menu/activity_main_drawer" />-->
+        <!--app:menu="@menu/activity_main_drawer"-->
+
+        <include layout="@layout/leftslide" />
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

@@ -5,6 +5,9 @@
     <dimen name="navigation_drawer_width">260dp</dimen>
     <dimen name="navigation_image_width">60dp</dimen>
 
+    <dimen name="status_bar_height">0dp</dimen>
+    <dimen name="status_bar_height_minus">0dp</dimen>
+
     <dimen name="md_preference_content_inset">20dp</dimen>
 
     <dimen name="horizontal_margin_small">8dp</dimen>

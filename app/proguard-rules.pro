@@ -24,6 +24,7 @@
 -keep class java.security.**{*;}
 
 -keep class android.support.v7.widget.SearchView { *; }
+-keep class android.support.v7.widget.LinearLayoutManager { *; }
 
 -dontwarn javax.mail.**
 -dontwarn javax.activation.**
