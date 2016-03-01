@@ -1,7 +1,5 @@
 package com.holo.helloustb;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -58,7 +54,7 @@ public class About extends AppCompatActivity {
             e.printStackTrace();
         }
         TextView version = (TextView) findViewById(R.id.this_version);
-        version.setText(getString(R.string.version_base) + versionName);
+        version.setText(getString(R.string.version_base, versionName));
     }
 
     public void clickHander(View view) {

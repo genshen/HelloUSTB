@@ -13,7 +13,7 @@ import java.util.Map;
 public class GetPostHandler {
 
     private final static int TIMEOUT = 8000;
-    private static String tag_now = "";
+    public static String tag_now = "";
 
     public static void HtmlOut(BufferedReader br) {
         try {

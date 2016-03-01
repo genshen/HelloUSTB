@@ -42,12 +42,7 @@ public class FileInfo {
         if (dotIndex < 0) {
             return null;
         }
-
-        String end = file_name.substring(dotIndex, file_name.length()).toLowerCase();
-        if (end.isEmpty()) {
-            return null;
-        }
-        return end;
+        return file_name.substring(dotIndex, file_name.length()).toLowerCase();
     }
 
     public static int getFileIcon(String end) {
@@ -126,6 +121,9 @@ public class FileInfo {
     }
 
     public static String matchApp(String name) {
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
         switch (name) {
             case ".doc":
                 return "application/msword";

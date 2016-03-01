@@ -36,6 +36,14 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/this_version"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            android:text="@string/build_time"/>
     </RelativeLayout>
 
     <Space

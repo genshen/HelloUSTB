@@ -130,7 +130,8 @@
     <string name="share_app">分享应用</string>
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
-    <string name="version_base">Hello USTB  v </string>
+    <string name="version_base">Hello USTB  v%s </string>
+    <string name="build_time">built Tue, 01 Mar 2016 </string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>

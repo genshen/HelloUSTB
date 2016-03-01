@@ -85,16 +85,15 @@ public class FileManager extends AppCompatActivity {
 
     private void openFile(File file){
         String end = FileInfo.getEnd(file);
-        if(end != null)
+        String type = FileInfo.matchApp(end);
+        if(type!= null && !type.isEmpty())
         {
-            String type = FileInfo.matchApp(end);
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.fromFile(file), type);
             startActivity(intent);
-        }else
-        {
+        }else {
             Toast.makeText(this, R.string.noApplicationToOpen, Toast.LENGTH_LONG).show();
         }
     }

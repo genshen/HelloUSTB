@@ -1,28 +1,23 @@
 package com.holo.fragment;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 
-import com.holo.account.LoginDialog;
 import com.holo.base.StrPro;
 import com.holo.dataBase.CourseDbHelper;
 import com.holo.dataBase.QueryData;
 import com.holo.helloustb.MainActivity;
 import com.holo.helloustb.R;
 import com.holo.helloustb.TimetableDetail;
-import com.holo.sdcard.SdCardPro;
 
 import java.util.HashMap;
 import java.util.List;
