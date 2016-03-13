@@ -17,13 +17,17 @@ public class GetPostHandler {
 
     public static void HtmlOut(BufferedReader br) {
         try {
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setTagEmpty(){
+        tag_now = "";
     }
 
     /**

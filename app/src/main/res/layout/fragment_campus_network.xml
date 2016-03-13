@@ -1,20 +1,169 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.holo.fragment.CampusNetworkFragment">
 
-    <ImageView
-        android:id="@+id/wifi_login_success"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/image"
-        android:src="@drawable/wifi_login_success" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/network_information"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/wifi_login_success" />
-</RelativeLayout>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/wifi_login_success"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/image"
+            android:src="@drawable/ic_wifi" />
+
+        <LinearLayout
+            android:id="@+id/campus_network_info_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wifi_login_success"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/campus_network_info_padding_vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/campus_network_info_padding_vertical"
+                android:paddingLeft="@dimen/campus_network_info_padding_horizontal"
+                android:paddingRight="@dimen/campus_network_info_padding_horizontal"
+                android:paddingTop="@dimen/campus_network_info_padding_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/campus_network_account"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/campus_network_account_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/campus_network_info_value_margin"
+                    android:layout_marginStart="@dimen/campus_network_info_value_margin"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/campus_network_info_padding_vertical"
+                android:paddingLeft="@dimen/campus_network_info_padding_horizontal"
+                android:paddingRight="@dimen/campus_network_info_padding_horizontal"
+                android:paddingTop="@dimen/campus_network_info_padding_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/campus_network_money_left"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/campus_network_money_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/campus_network_info_value_margin"
+                    android:layout_marginStart="@dimen/campus_network_info_value_margin"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/campus_network_info_padding_vertical"
+                android:paddingLeft="@dimen/campus_network_info_padding_horizontal"
+                android:paddingRight="@dimen/campus_network_info_padding_horizontal"
+                android:paddingTop="@dimen/campus_network_info_padding_vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/campus_network_flow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/campus_network_flow"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/campus_network_flow_v4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/campus_network_info_value_margin"
+                    android:layout_marginStart="@dimen/campus_network_info_value_margin"
+                    android:layout_toEndOf="@+id/campus_network_flow"
+                    android:layout_toRightOf="@+id/campus_network_flow"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/campus_network_flow_v6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/campus_network_flow_v4"
+                    android:layout_marginLeft="@dimen/campus_network_info_value_margin"
+                    android:layout_marginStart="@dimen/campus_network_info_value_margin"
+                    android:layout_marginTop="@dimen/campus_network_flow_margin_top"
+                    android:layout_toEndOf="@+id/campus_network_flow"
+                    android:layout_toRightOf="@+id/campus_network_flow"
+                    android:singleLine="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/campus_network_info_content"
+            android:layout_margin="@dimen/campus_network_card_view_padding"
+            card_view:cardBackgroundColor="#364d5a"
+            card_view:cardCornerRadius="@dimen/campus_network_card_view_round_corner">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/chart_view_legend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:text="@string/campus_network_flow"
+                    android:textColor="#9fb7cc"
+                    android:textSize="12sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/chart_view_flow_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#9fb7cc"
+                    android:textSize="12sp" />
+
+                <com.db.chart.view.LineChartView xmlns:chart="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/campus_network_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_below="@+id/chart_view_legend"
+                    android:layout_marginTop="8dp"
+                    chart:chart_axisColor="#30547d99"
+                    chart:chart_labelColor="#FFFFFF" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</ScrollView>

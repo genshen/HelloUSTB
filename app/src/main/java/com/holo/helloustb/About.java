@@ -16,12 +16,10 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.holo.network.DataInfo;
-import com.holo.network.GetPostHandler;
-
-import java.util.ArrayList;
+import com.holo.network.VersionChecker;
 
 public class About extends AppCompatActivity {
+    private VersionChecker checker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +41,28 @@ public class About extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (checker != null) {
+            checker.setOnUpdate(null);
+        }
+
+    }
+
     private void setVersion() {
-        // TODO Auto-generated method stub
         String versionName = "1.1.0";
         try {
             PackageInfo info = getPackageManager().getPackageInfo(About.this.getPackageName(), 0);
             versionName = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         TextView version = (TextView) findViewById(R.id.this_version);
         version.setText(getString(R.string.version_base, versionName));
     }
 
-    public void clickHander(View view) {
+    public void clickHandle(View view) {
         int id = view.getId();
         switch (id) {
             case R.id.check_update:
@@ -78,71 +83,45 @@ public class About extends AppCompatActivity {
     }
 
     public void CheckUpdate() {
-        if (((MyApplication) getApplication()).CheckNetwork()) {
-            GetPostHandler.handlerGet(handler, getString(R.string.UpdateAddress), "MYWEB", 0x110, 10, "utf-8");
-        } else {
-            Toast.makeText(getApplicationContext(), R.string.NoNetwork, Toast.LENGTH_LONG).show();
-        }
+        checker = new VersionChecker(getString(R.string.UpdateAddress), this);
+        checker.setOnUpdate(new VersionChecker.Update() {
+            @Override
+            public void onUpdate(boolean latestVersion) {
+                if (latestVersion) {
+                    handler.sendEmptyMessage(0x110);
+                } else {
+                    handler.sendEmptyMessage(0x111);
+                }
+            }
+        });
+        checker.check(((MyApplication) getApplication()).CheckNetwork());
     }
 
     Handler handler = new Handler() {
         @SuppressWarnings("unchecked")
         @Override
         public void handleMessage(Message msg) {
-            DataInfo data_info = (DataInfo) msg.obj;
-            if (data_info.code == DataInfo.ERROR_PASSWORD) {
-//                cancelProcessDialog();
-                Toast.makeText(About.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
-                return;
-            } else if (data_info.code == DataInfo.TimeOut) {
-//                cancelProcessDialog();
-                Toast.makeText(About.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                return;
-            }
-            ArrayList<String> str_msg = data_info.data;
-
             switch (msg.what) {
-                case 0:
-                    Toast.makeText(About.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                    break;
                 case 0x110:
-                    int versionCode = 0;
-//					String spiltArr[] = str_msg.split("@");
-                    if (str_msg == null || str_msg.size() != 4) {
-                        Toast.makeText(About.this, R.string.request_error, Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    final String latestVersionCode = str_msg.get(0);
-                    final String latestVersionName = str_msg.get(1);
-                    final long apk_size = Long.parseLong(str_msg.get(3));
-                    try {
-                        PackageInfo info = About.this.getPackageManager().getPackageInfo(About.this.getPackageName(), 0);
-                        versionCode = info.versionCode;
-                    } catch (PackageManager.NameNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-//					Toast.makeText(Settings.this, versionCode+"@"+latestVersionCode, Toast.LENGTH_SHORT).show();
-                    if (versionCode < Integer.parseInt(latestVersionCode)) {//
-                        new MaterialDialog.Builder(About.this)
-                                .title(R.string.versionUpdate)
-                                .content(getString(R.string.updateRequest) + "v" + latestVersionName + "\n" + str_msg.get(2))
-                                .positiveText(R.string.updateNow)
-                                .negativeText(R.string.sayLater)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
-                                        Toast.makeText(About.this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(About.this, DownloadApk.class);
-                                        intent.putExtra("latestVersion", latestVersionName);
-                                        intent.putExtra("size", apk_size);
-                                        startService(intent);
-                                    }
-                                })
-                                .show();
-                    } else {
-                        Toast.makeText(About.this, R.string.haveUpdated, Toast.LENGTH_SHORT).show();
-                    }
+                    new MaterialDialog.Builder(About.this)
+                            .title(R.string.versionUpdate)
+                            .content(getString(R.string.updateRequest, checker.version_name_new, checker.version_describe))
+                            .positiveText(R.string.updateNow)
+                            .negativeText(R.string.sayLater)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                                    Toast.makeText(About.this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(About.this, DownloadApk.class);
+                                    intent.putExtra("latestVersion", checker.version_name_new);
+                                    intent.putExtra("size", checker.package_size);
+                                    startService(intent);
+                                }
+                            })
+                            .show();
+                    break;
+                case 0x111:
+                    Toast.makeText(About.this, R.string.haveUpdated, Toast.LENGTH_SHORT).show();
                     break;
             }
         }

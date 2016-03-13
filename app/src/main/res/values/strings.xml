@@ -86,7 +86,7 @@
     <string name="startDownload">开始下载</string>
     <string name="updateNow">现在更新</string>
     <string name="sayLater">稍后再说</string>
-    <string name="updateRequest">检查到有新版本，是否立即更新？\n</string>
+    <string name="updateRequest">检查到有新版本，是否立即更新？\nv%1$s\n%2$s</string>
     <string name="versionUpdate">版本更新</string>
     <string name="haveUpdated">当前版本已是最新版本！</string>
     <!-- 更新版本 -->
@@ -131,7 +131,7 @@
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
     <string name="version_base">Hello USTB  v%s </string>
-    <string name="build_time">built Tue, 01 Mar 2016 </string>
+    <string name="build_time">built Tue, 13 Mar 2016 </string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>
@@ -266,6 +266,7 @@
     <string name="shareMe">分享课表</string>
     <!-- 课程表主界面 -->
     <!-- 课程详情 -->
+    <string name="timetable_detail_title">%s</string>
     <string name="detail_class_info">课堂信息</string>
     <string name="detail_course_info">课程信息</string>
     <string name="detail_course_name_key">课程名称</string>
@@ -275,7 +276,6 @@
     <string name="detail_course_student_num_key">课堂人数</string>
     <string name="detail_course_week_key">周数</string>
     <string name="detail_course_position_key">节数</string>
-    <!--  -->
     <string name="detail_course_learn_time_key">课程学时</string>
     <string name="detail_course_credit_key">课程学分</string>
     <string name="detail_course_type_key">课程分类</string>
@@ -283,6 +283,7 @@
     <!-- /课程详情 -->
     <!--课程表 总-->
     <string name="no_course_imported">你尚未导入课表</string>
+    <string name="lesson_id">%d</string>
     <string name="timetable_monday">周一</string>
     <string name="timetable_tuesday">周二</string>
     <string name="timetable_wednesday">周三</string>
@@ -305,6 +306,17 @@
     <string name="no_search_result">未找到符合条件的活动信息</string>
     <!--志愿服务-->
 
+    <!--校园网-->
+    <string name="campus_network_account">账号</string>
+    <string name="campus_network_account_value">%1$s(%2$s)</string>
+    <string name="campus_network_money_left">余额</string>
+    <string name="campus_network_money_value">%s元</string>
+    <string name="campus_network_flow">流量</string>
+    <string name="chart_view_flow">IPV4流量</string>
+    <string name="chart_view_flow_value">%1$s:%2$sMB</string>
+    <string name="campus_network_flow_value_v4">IPV4:%sMB</string>
+    <string name="campus_network_flow_value_v6">IPV6:%sMB</string>
+    <!--校园网-->
     <!--个人中心-->
     <string name="account_ac">账号管理</string>
     <string name="account_msg">消息中心</string>
@@ -326,8 +338,6 @@
     <string name="logout_e">注销信息门户账号</string>
     <string name="ensure_logout_e">你确定注销信息门户账号吗?</string>
     <string name="logout_e_success">校园信息门户账号注销成功</string>
-
-
     <!--/个人中心-->
 
     <!--progressWheel Test-->
@@ -358,6 +368,10 @@
         <item>Light Gray</item>
         <item>Gray</item>
     </string-array>
+
+    <string name="large_text">
+
+    </string>
 
     <!--/progressWheel Test-->
 

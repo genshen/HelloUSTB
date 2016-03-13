@@ -4,13 +4,11 @@ package com.holo.network;
  * Created by 根深 on 2015/11/13.
  */
 
+import org.unbescape.html.HtmlEscape;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.unbescape.html.HtmlEscape;
 
 
 /**
@@ -43,7 +41,7 @@ public class GetProcess {
             case 9:
                 return getWifiState(br_html);
             case 10:
-                return getNewVersionInfo(br_html);
+                break;
             case 11:
                 return getInnovationCredits(br_html);
             case 13:
@@ -189,25 +187,6 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private static ArrayList<String> getNewVersionInfo(BufferedReader br_html) {
-        String line;
-        ArrayList<String> process_result = new ArrayList<>();
-        try {
-            if ((line = br_html.readLine()) != null) {
-                JSONObject version = new JSONObject(line);
-                process_result.add(version.get("version_code").toString());
-                process_result.add(version.getString("version_name"));
-                process_result.add(version.getString("describe"));
-                process_result.add(version.get("size").toString());
-            }
-            br_html.close();
-            return process_result;
-        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

@@ -29,101 +29,102 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".DownloadApk"/>
+        <service android:name=".DownloadApk" />
 
         <activity
             android:name=".GuideActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_guide"
-            android:theme="@style/Theme.NoActionBar.FullScreen"/>
+            android:theme="@style/Theme.NoActionBar.FullScreen" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Browser"
             android:label="@string/title_activity_browser"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FileManager"
             android:label="@string/title_activity_file_manager"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Record_query"
             android:label="@string/title_activity_record_query"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ShareApp"
             android:label="@string/title_activity_share_app"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".About"
             android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".TimetableDetail"
-            android:label="@string/detail_course_info"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Timetable"
             android:label="@string/title_activity_timetable"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TimetableDetail"
+            android:label="@string/title_activity_timetable_detail"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Library"
             android:label="@string/title_activity_library"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BookDetail"
             android:label="@string/title_activity_book_detail"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Volunteer"
             android:label="@string/title_activity_volunteer"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MyVolunteerList"
             android:label="@string/title_activity_my_volunteer_list"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VolunteerDetail"
             android:label="@string/title_activity_volunteer_detail"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VolunteerSearch"
             android:label="@string/title_activity_volunteer_search"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VolunteerSearchResult"
             android:label="@string/title_activity_volunteer_search_result"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Account"
             android:label="@string/title_activity_account"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Feedback"
             android:label="@string/title_activity_feedback"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GeneralSetting"
             android:label="@string/title_activity_general_setting"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".InnovationCredit"
             android:label="@string/title_activity_innovation_credit"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AccountManager"
             android:label="@string/title_activity_account_manager"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ExamQuery"
             android:label="@string/title_activity_exam_query"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -55,11 +55,25 @@
     <dimen name="course_img_width">30dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <!--today course-->
-
+    <!--course detail-->
+    <dimen name="course_detail_card_radius">4dp</dimen>
+    <dimen name="course_detail_padding">16dp</dimen>
+    <dimen name="course_detail_card_padding">8dp</dimen>
+    <dimen name="course_detail_card_margin">12dp</dimen>
+    <!--/course detail-->
     <dimen name="volunteer_search_tip_left_right">48dp</dimen>
     <dimen name="volunteer_search_tip_top">50dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <!---->
+    <dimen name="campus_network_info_padding_horizontal">16dp</dimen>
+    <dimen name="campus_network_info_padding_vertical">6dp</dimen>
+    <dimen name="campus_network_info_value_margin">8dp</dimen>
+    <dimen name="campus_network_flow_margin_top">4dp</dimen>
+    <dimen name="campus_network_chart_height">200dp</dimen>
+    <dimen name="campus_network_card_view_padding">20dp</dimen>
+    <dimen name="campus_network_card_view_round_corner">4dp</dimen>
+    <!---->
     <!--account-->
     <dimen name="account_image">30dp</dimen>
     <dimen name="account_item_padding_horizontal">20dp</dimen>

@@ -1,108 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.holo.helloustb.TimetableDetail">
+    tools:context=".TimetableDetail"
+    tools:showIn="@layout/activity_timetable_detail">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="@dimen/course_detail_padding">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:text="@string/detail_class_info" />
-        <View android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_d"/>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="@dimen/course_detail_card_radius">
 
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_name_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_name_value" />
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_teach_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_teacher_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_place_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_place_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_time_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_time_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_week_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_week_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_position_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_position_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_student_num_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_student_num_value"/>
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/course_detail_card_padding"
+                android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:text="@string/detail_course_info" />
-        <View android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_d"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/detail_class_info"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_learn_time_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_learn_time_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_credit_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_credit_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_type_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_type_value"/>
-        </LinearLayout>
-        <LinearLayout style="@style/detail_linear">
-            <TextView style="@style/detail_course_key"
-                android:text="@string/detail_course_time_place_key"/>
-            <TextView style="@style/detail_course_value"
-                android:id="@+id/detail_course_time_place_value"/>
-        </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_d" />
 
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_name_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_name_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_teach_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_teacher_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_place_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_place_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_time_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_time_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_week_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_week_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_position_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_position_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_student_num_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_student_num_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/course_detail_card_margin"
+            android:layout_marginBottom="@dimen/course_detail_card_margin"
+            card_view:cardCornerRadius="@dimen/course_detail_card_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/course_detail_card_padding"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/detail_course_info"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_d" />
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_learn_time_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_learn_time_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_credit_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_credit_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_type_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_type_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/detail_linear">
+
+                    <TextView
+                        style="@style/detail_course_key"
+                        android:text="@string/detail_course_time_place_key" />
+
+                    <TextView
+                        android:id="@+id/detail_course_time_place_value"
+                        style="@style/detail_course_value" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
-</ScrollView>
+
+</android.support.v4.widget.NestedScrollView>

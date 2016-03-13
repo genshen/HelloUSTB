@@ -1,8 +1,6 @@
 package com.holo.helloustb;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,17 +32,21 @@ import com.holo.fragment.RecordFragment;
 import com.holo.fragment.TodayCourseFrament;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
+import com.holo.network.VersionChecker;
 import com.holo.sdcard.SdCardPro;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
+import static com.holo.network.VersionChecker.Update;
+
 public class MainActivity extends AppCompatActivity {
     //        implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private View navigation_drawer;
     private Toolbar toolbar;
+    private VersionChecker checker;
 
     public int state;
     private long lastDown = 0;
@@ -80,17 +82,27 @@ public class MainActivity extends AppCompatActivity {
 //        navigationView.setNavigationItemSelectedListener(this);
 
 //      ((LinearLayout) findViewById(R.id.main_container)).removeAllViews();
-        int open_id = getIntent().getIntExtra("open_id", 1);
-        state = open_id;    //如果不是通知栏打开的，则为1，否则是7；
+        state = getIntent().getIntExtra("open_id", 1);    //如果不是通知栏打开的，则为1，否则是7;
         if (state == 7) {
 //			WifiCheck.mNotifyManager.cancel(WifiCheck.mNotificationId);
             toolbar.setTitle(R.string.left_side_campus_network);
             Login(new LoginDialog(LoginDialog.LoginNet), "Net", 0x107);
         } else {
             toolbar.setTitle(R.string.left_side_home);
-            get(getString(R.string.UpdateAddress), "MYWEB", 0x110, 10, "utf-8", true);
+            get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", false);
+            checker = new VersionChecker(getString(R.string.UpdateAddress), this);
+            checker.setOnUpdate(new Update() {
+                @Override
+                public void onUpdate(boolean latestVersion) {
+                    if(latestVersion){
+                        updateUI.sendEmptyMessage(0x003);
+                    }
+                }
+            });
+            checker.check(((MyApplication) getApplication()).CheckNetwork());
         }
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -115,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if( id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent setting = new Intent(MainActivity.this, Settings.class);
             startActivity(setting);
         }
@@ -123,10 +135,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
 //        ((MyApplication) getApplication()).setUpShortCut();
         super.onStart();
     }
+
     @Override
     public void onResume() {
         Calendar cal = Calendar.getInstance();
@@ -150,6 +163,13 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GetPostHandler.setTagEmpty();
+        checker.setOnUpdate(null);
+    }
+
     private void drawerToggle() {
         if (mDrawerLayout.isDrawerOpen(navigation_drawer)) {
             mDrawerLayout.closeDrawer(navigation_drawer);
@@ -160,15 +180,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     class ClickHand implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            // TODO 自动生成的方法存根
             int id = view.getId();
             switch (id) {
                 case R.id.account:
-                    Intent mycenter = new Intent(MainActivity.this, Account.class);
-                    startActivity(mycenter);
+                    Intent my_center = new Intent(MainActivity.this, Account.class);
+                    startActivity(my_center);
                     break;
                 case R.id.home:
                     state = 1;
@@ -215,15 +235,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void Myclick(View view) {
+    public void FabClick(View view) {
         int id = view.getId();
         switch (id) {
             case R.id.innovation_credit:
-                Intent innovation=new Intent(MainActivity.this,InnovationCredit.class);
+                Intent innovation = new Intent(MainActivity.this, InnovationCredit.class);
                 startActivity(innovation);
                 break;
             case R.id.exam_query:
-                Intent exam_query=new Intent(MainActivity.this,ExamQuery.class);
+                Intent exam_query = new Intent(MainActivity.this, ExamQuery.class);
                 startActivity(exam_query);
                 break;
             case R.id.import_me:
@@ -296,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
             username = myaccount[0];
             password = myaccount[1];
             ld.setAccount(username, password);
-            post(MainActivity.this.getString(ld.post_address), tag, feedback,  ld.verify_id, "GB2312", ld.post_params, true);
+            post(MainActivity.this.getString(ld.post_address), tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
         }
     }
 
@@ -332,15 +352,15 @@ public class MainActivity extends AppCompatActivity {
                 case 0x102:    //login elearning.ustb.edu.cn，post
                     savePass();
                     Toast.makeText(MainActivity.this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
-                    get(getString(R.string.ele_score),"ELE", 0x103, 3, "UTF-8", false);
+                    get(getString(R.string.ele_score), "ELE", 0x103, 3, "UTF-8", false);
                     break;
-                    //因为网站问题，暂时无法获取个人信息
-                    // 是否需要得到 得到个人信息？
+                //因为网站问题，暂时无法获取个人信息
+                // 是否需要得到 得到个人信息？
 //				get(getString(R.string.information_url),0x103,14,"GB2312");
-                case 0x103:	//get all score ,get
+                case 0x103:    //get all score ,get
                     cancelProcessDialog();
-                    if(str_msg.size() % 8 == 2) {
-                        RecordFragment fragment =  RecordFragment.newInstance(str_msg);
+                    if (str_msg.size() % 8 == 2) {
+                        RecordFragment fragment = RecordFragment.newInstance(str_msg);
                         getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
                     } else {
                         Toast.makeText(MainActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
@@ -366,13 +386,6 @@ public class MainActivity extends AppCompatActivity {
                     zfw_login.setAccount(username, password);
                     MainActivity.this.post(getString(R.string.zifuwu_login), "ZFW", 0x106, 71, "GB2312", zfw_login.post_params, false);
                     break;
-                case 0x110://版本更新
-//							String spiltArr[] = str_msg.split("@");
-                    if (str_msg!=null && str_msg.size() == 4) {//网络连接有效...
-                        showUpdate(str_msg);
-                    }
-                    get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", false);
-                    break;
                 case 0x007://show selfhelp infomaton get
                     cancelProcessDialog();
                     Bundle argument = new Bundle();
@@ -385,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    Handler updataUI = new Handler() {
+    Handler updateUI = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -398,6 +411,9 @@ public class MainActivity extends AppCompatActivity {
                 case 0x002:
                     cancelProcessDialog();
                     Toast.makeText(MainActivity.this, R.string.importfail, Toast.LENGTH_SHORT).show();
+                    break;
+                case 0x003: // show new version dialog
+                    showUpdate(checker.versionCode,checker.version_name_new,checker.package_size,checker.version_describe);
                     break;
             }
         }
@@ -412,9 +428,9 @@ public class MainActivity extends AppCompatActivity {
                     boolean success = store_data.SaveToDb(course_data.get(0));
                     store_data.close();
                     if (success) {
-                        updataUI.sendEmptyMessage(0x001);
+                        updateUI.sendEmptyMessage(0x001);
                     } else {
-                        updataUI.sendEmptyMessage(0x002);
+                        updateUI.sendEmptyMessage(0x002);
                     }
                 }
             }.start();
@@ -423,33 +439,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showUpdate(final ArrayList<String> Version) {
-        int versionCode = 0;
-        try {
-            PackageInfo info = MainActivity.this.getPackageManager().getPackageInfo(MainActivity.this.getPackageName(), 0);
-            versionCode = info.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        if (versionCode < Integer.parseInt(Version.get(0))) {    //当前版本小于服务器版本
-            new MaterialDialog.Builder(this)
-                    .title(R.string.versionUpdate)
-                    .content(getString(R.string.updateRequest) + "v" + Version.get(1) + "\n" + Version.get(2))
-                    .positiveText(R.string.updateNow)
-                    .negativeText(R.string.sayLater)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
-                            Toast.makeText(MainActivity.this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, DownloadApk.class);
-                            intent.putExtra("latestVersion", Version.get(1));
-                            intent.putExtra("size", Long.parseLong(Version.get(3)));
-                            startService(intent);
-                        }
-                    })
-                    .show();
-        }
+    private void showUpdate(final int versionCode, final String versionName, final long size, final String describe) {
+        new MaterialDialog.Builder(this)
+                .title(R.string.versionUpdate)
+                .content(getString(R.string.updateRequest, versionName, describe))
+                .positiveText(R.string.updateNow)
+                .negativeText(R.string.sayLater)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                        Toast.makeText(MainActivity.this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, DownloadApk.class);
+                        intent.putExtra("latestVersion", versionName);
+                        intent.putExtra("size", size);
+                        startService(intent);
+                    }
+                })
+                .show();
     }
 
     private void get(String url, String tag, int feedback, int id, String code, boolean setdialog) {
@@ -483,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void savePass() { // TODO 自动生成的方法存根
+    private void savePass() {
         if (canWrite) {
             SdCardPro.checkDirExit();
             StrPro.WriteWithEncryption(username + "@" + password, passFileName);

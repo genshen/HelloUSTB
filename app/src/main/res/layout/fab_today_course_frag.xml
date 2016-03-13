@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/fab_add"
         android:clickable="true"
-        android:onClick="Myclick"
+        android:onClick="FabClick"
         fab:fab_label="@string/import_table"
         fab:fab_size="mini" />
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/fab_add"
         android:clickable="true"
-        android:onClick="Myclick"
+        android:onClick="FabClick"
         fab:fab_label="@string/through_out"
         fab:fab_size="mini" />
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/fab_add"
         android:clickable="true"
-        android:onClick="Myclick"
+        android:onClick="FabClick"
         fab:fab_label="@string/share_table"
         fab:fab_size="mini" />
 

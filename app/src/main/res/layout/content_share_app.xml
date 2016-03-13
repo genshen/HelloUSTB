@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:clickable="true"
-            android:onClick="clickHander">
+            android:onClick="clickHandle">
             <ImageView
                 android:id="@+id/send_image"
                 android:layout_width="50sp"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:clickable="true"
-            android:onClick="clickHander">
+            android:onClick="clickHandle">
             <ImageView
                 android:id="@+id/er_wei_ma_img"
                 android:layout_width="match_parent"

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:onClick="Myclick"
+        android:onClick="FabClick"
         android:src="@drawable/fab_add"
         fab:fab_label="@string/exam_time_place_query"
         fab:fab_size="mini" />
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:onClick="Myclick"
+        android:onClick="FabClick"
         android:src="@drawable/fab_add"
         fab:fab_label="@string/innovation_credit"
         fab:fab_size="mini" />

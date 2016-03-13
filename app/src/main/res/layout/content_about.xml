@@ -59,7 +59,7 @@
             android:id="@+id/check_update"
             style="@style/setting_text_no_arrow"
             android:clickable="true"
-            android:onClick="clickHander"
+            android:onClick="clickHandle"
             android:text="@string/check_update" />
 
         <View
@@ -71,7 +71,7 @@
             android:id="@+id/feedback"
             style="@style/setting_text"
             android:clickable="true"
-            android:onClick="clickHander"
+            android:onClick="clickHandle"
             android:text="@string/feedback" />
 
         <View
@@ -83,7 +83,7 @@
             android:id="@+id/app_web"
             style="@style/setting_text"
             android:clickable="true"
-            android:onClick="clickHander"
+            android:onClick="clickHandle"
             android:text="@string/app_web" />
     </LinearLayout>
 </LinearLayout>
