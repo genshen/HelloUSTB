@@ -1,6 +1,6 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">12dp</dimen> <!--change 16 to 12 due to setting title size to 18-->
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="navigation_drawer_width">260dp</dimen>
     <dimen name="navigation_image_width">60dp</dimen>

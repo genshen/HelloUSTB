@@ -34,8 +34,8 @@ public class GetProcess {
                 break;
             case 6:
                 break;
-            case 7://校园网用户信息
-                return strprocess7(br_html);
+            case 7:   //校园网用户信息
+                return getFlowInfo(br_html);
             case 8:
                 break;
             case 9:
@@ -169,14 +169,14 @@ public class GetProcess {
         }
     }
 
-    private static ArrayList<String> strprocess7(BufferedReader br_html) {
+    private static ArrayList<String> getFlowInfo(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
+            String regex = ".+<font.+</font>.+";
             while ((line = br_html.readLine()) != null) {
                 //<td width="35%" align="left" valign="center"><font color="blue"> 计费组:&nbsp </font>互联网学生</td>
                 //String regex="\\w+valign=\"center\">\\s+<font\\s+color=\"blue\">\\s+\\w+&nbsp\\s+</font>\\w+";
-                String regex = ".+<font.+</font>.+";
                 if (line.matches(regex)) {
 //				    response=response.replaceFirst("<B>",'1');
                     line = line.replaceAll("<B>", "");

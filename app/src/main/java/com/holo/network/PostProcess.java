@@ -68,8 +68,9 @@ public class PostProcess {
 
     /**
      * 考试成绩与地点
+     *
      * @param br BufferedReader
-     * @return  ArrayList<String>
+     * @return ArrayList<String>
      */
     private static ArrayList<String> getExamList(BufferedReader br) {
         String line;
@@ -77,7 +78,7 @@ public class PostProcess {
         try {
             while ((line = br.readLine()) != null) {
                 if (line.contains("<td>")) {
-//                    <td>2050415 </td><td>操作系统(实验)</td><td>&nbsp;&nbsp;</td><td></td><td>该课程考试时间地点由任课老师课上公布，本系统不发布。</td>
+//           eg: <td>2050415 </td><td>操作系统(实验)</td><td>&nbsp;&nbsp;</td><td></td><td>该课程考试时间地点由任课老师课上公布，本系统不发布。</td>
                     line = HtmlEscape.unescapeHtml(line);
                     String split_str[] = line.split("<|>");
                     process_result.add(split_str[2]);
@@ -95,7 +96,7 @@ public class PostProcess {
         }
     }
 
-    private static int validateElePass(BufferedReader br) {    // TODO 自动生成的方法存根
+    private static int validateElePass(BufferedReader br) {
         String line;
         try {
             line = br.readLine();    //读取第一行
@@ -111,7 +112,7 @@ public class PostProcess {
         return DataInfo.ERROR_PASSWORD;
     }
 
-    private static int validateEduPass(BufferedReader br) {    // TODO 自动生成的方法存根
+    private static int validateEduPass(BufferedReader br) {
         String line;
         try {
             line = br.readLine();    //读取第一行
@@ -126,7 +127,7 @@ public class PostProcess {
         return DataInfo.ERROR_PASSWORD;
     }
 
-    private static int validateNetPass(BufferedReader br) {    // TODO 自动生成的方法存根
+    private static int validateNetPass(BufferedReader br) {
         String line;
         try {
             while ((line = br.readLine()) != null) {
@@ -143,27 +144,24 @@ public class PostProcess {
         return DataInfo.ERROR_PASSWORD;
     }
 
-    private static int validateZifuwuPass(BufferedReader br) {    // TODO 自动生成的方法存根
+    private static int validateZifuwuPass(BufferedReader br) {
         String line;
         try {
             line = br.readLine();
             br.close();
-            if (line.contains("html"))    //包含“html”，登录成功
-            {
+            if (line.contains("html")) {  //包含“html”，登录成功
                 return DataInfo.OK;
             }
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;
     }
 
-    private static int validateVolPass(BufferedReader br) {   // TODO 自动生成的方法存根
+    private static int validateVolPass(BufferedReader br) {
         String line;
         try {
-            for (int i = 0; i < 6; i++)    //前面有5个空字符
-            {
+            for (int i = 0; i < 6; i++){    //前面有5个空字符
                 line = br.readLine();
                 if (line.contains("script")) {
                     br.close();

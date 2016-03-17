@@ -11,7 +11,8 @@ public class DataInfo {
     public final static int ERROR_PASSWORD = -1;
     public int code;
     public ArrayList<String> data;
-    public DataInfo(){
+
+    public DataInfo() {
         this.code = OK;
         this.data = null;
     }

@@ -93,6 +93,8 @@
 
     <!-- 侧滑栏 -->
     <string name="image">image</string>
+    <string name="nav_header_title">个人中心</string>
+    <string name="nav_header_subtitle">个人资料待完善</string>
     <string name="left_side_home">首页</string>
     <string name="left_side_record_query">成绩查询</string>
     <string name="left_side_elective_system">选课系统</string>

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             Login(new LoginDialog(LoginDialog.LoginNet), "Net", 0x107);
         } else {
             toolbar.setTitle(R.string.left_side_home);
-            get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", false);
+            get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", true);
             checker = new VersionChecker(getString(R.string.UpdateAddress), this);
             checker.setOnUpdate(new Update() {
                 @Override
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                     zfw_login.setAccount(username, password);
                     MainActivity.this.post(getString(R.string.zifuwu_login), "ZFW", 0x106, 71, "GB2312", zfw_login.post_params, false);
                     break;
-                case 0x007://show selfhelp infomaton get
+                case 0x007://show self_help information get
                     cancelProcessDialog();
                     Bundle argument = new Bundle();
                     argument.putStringArrayList("Campus_network_information", str_msg);

@@ -48,7 +48,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"
+        android:src="@drawable/ic_fab_login"
+        app:backgroundTint="#F9BF2D"
+        app:rippleColor="#F9BF4F"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
