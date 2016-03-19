@@ -25,6 +25,7 @@
 
 -keep class android.support.v7.widget.SearchView { *; }
 -keep class android.support.v7.widget.LinearLayoutManager { *; }
+-keep class com.jpardogo.android.googleprogressbar.** { *; }
 
 -dontwarn javax.mail.**
 -dontwarn javax.activation.**

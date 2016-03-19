@@ -1,5 +1,7 @@
 package com.holo.account;
 
+import com.holo.helloustb.R;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -7,8 +9,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.holo.helloustb.R;
 
 public class LoginDialog {
 	final public static int LoginEdu = 1;
@@ -65,9 +65,7 @@ public class LoginDialog {
 			break;
 		case LoginVol:
 			passFileName = "/MyUstb/Pass_store/sch_vol_pass.ustb";
-			post_params.put("identy", "1");
-			post_params.put("btnlogon.x", "21");
-			post_params.put("btnlogon.y","11");
+			post_params.put("lastUrl", "");
 			verify_id = 11;
 			break;
 		case LoginEle:

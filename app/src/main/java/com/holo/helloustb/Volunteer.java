@@ -1,12 +1,11 @@
 package com.holo.helloustb;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,15 +16,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.holo.account.LoginDialog;
 import com.holo.base.StrPro;
 import com.holo.fragment.VolunteerHomeFragment;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.holo.sdcard.SdCardPro;
-import com.holo.view.ProgressWheel;
+import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -35,7 +32,7 @@ public class Volunteer extends AppCompatActivity {
     String passFileName, account, password;
     Boolean canWrite = false;
 
-    ProgressWheel progress_wheel;
+    GoogleProgressBar progress_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +40,9 @@ public class Volunteer extends AppCompatActivity {
         setContentView(R.layout.activity_volunteer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        progress_wheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
         showLogin();
     }
 
@@ -81,12 +77,12 @@ public class Volunteer extends AppCompatActivity {
 
             //error password and timeout process
             if (data_info.code == DataInfo.ERROR_PASSWORD) {
-                progress_wheel.setVisibility(View.INVISIBLE);
-                setVounteerMessage(R.string.errorPassword, R.string.login_vol_button_again);
+                progress_bar.setVisibility(View.INVISIBLE);
+                setVolunteerMessage(R.string.errorPassword, R.string.login_vol_button_again);
                 return;
             } else if (data_info.code == DataInfo.TimeOut) {
-                progress_wheel.setVisibility(View.INVISIBLE);
-                setVounteerMessage(R.string.connectionTimeout, R.string.login_vol_button_again);
+                progress_bar.setVisibility(View.INVISIBLE);
+                setVolunteerMessage(R.string.connectionTimeout, R.string.login_vol_button_again);
                 return;
             }
 
@@ -96,17 +92,17 @@ public class Volunteer extends AppCompatActivity {
 //						Toast.makeText(Volunteer.this, str_msg, Toast.LENGTH_SHORT).show();
                     islogin = true;
                     savePass();
-                    get(getString(R.string.volunteer_home), "VOL", 0x402, 15, "gb2312", false);
+                    get(getString(R.string.volunteer_home), "VOL", 0x402, 15, "utf-8", false);
                     break;
                 case 0x402://home of volunteer home Page;
-                    progress_wheel.setVisibility(View.INVISIBLE);
+                    progress_bar.setVisibility(View.INVISIBLE);
                     ((RelativeLayout) findViewById(R.id.volunteer_container)).removeAllViews();
 
                     VolunteerHomeFragment fragment_volunteer_home = VolunteerHomeFragment.newInstance(str_msg);
                     getFragmentManager().beginTransaction().replace(R.id.volunteer_container, fragment_volunteer_home).commit();
                     break;
                 case 0x403:
-                    progress_wheel.setVisibility(View.INVISIBLE);
+                    progress_bar.setVisibility(View.INVISIBLE);
                     Bundle vol_list =new Bundle();
                     vol_list.putStringArrayList("list",str_msg);
                     Intent list=new Intent(Volunteer.this,MyVolunteerList.class);
@@ -121,7 +117,7 @@ public class Volunteer extends AppCompatActivity {
     public void volClick(View view) {
         switch (view.getId()) {
             case R.id.for_detail:
-                get(getString(R.string.my_volunteer_list),"VOL",0x403,16,"gb2312",true);
+                get(getString(R.string.my_volunteer_list),"VOL",0x403,16,"utf-8",true);
                 break;
             case R.id.vol_login_button:
                 showLogin();
@@ -140,18 +136,18 @@ public class Volunteer extends AppCompatActivity {
         if (!SdCardPro.fileIsExists(passFileName)) {
             canWrite = true;
             final View enter = getLayoutInflater().inflate(R.layout.dialog_enter, null);
-            new MaterialDialog.Builder(this)
-                    .title(title)
-                    .customView(enter, false)
-                    .positiveText(R.string.alert_login)
-                    .negativeText(R.string.alert_cancel)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+
+            new AlertDialog.Builder(this)
+                    .setTitle(title)
+                    .setView(enter)
+                    .setNegativeButton(R.string.alert_cancel, null)
+                    .setPositiveButton(R.string.alert_login, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                        public void onClick(DialogInterface dialog, int which) {
                             account = ((TextView) enter.findViewById(R.id.account)).getText().toString();
                             password = ((TextView) enter.findViewById(R.id.pass)).getText().toString();
                             vol_login.setAccount(account, password);
-                            post(postAddress, "VOL", feedback, vol_login.verify_id, "gb2312", vol_login.post_params, true);
+                            post(postAddress, "VOL", feedback, vol_login.verify_id, "utf-8", vol_login.post_params, true);
                         }
                     })
                     .show();
@@ -171,7 +167,7 @@ public class Volunteer extends AppCompatActivity {
         }
     }
 
-    private void setVounteerMessage(int msg_text, int msg_btn) {
+    private void setVolunteerMessage(int msg_text, int msg_btn) {
         Button btn = (Button) findViewById(R.id.vol_login_button);
         TextView text = (TextView) findViewById(R.id.volunteer_message);
         if (btn != null && text != null) {
@@ -185,17 +181,17 @@ public class Volunteer extends AppCompatActivity {
     // just used to login
     private void post(String url, String tag, int feedback, int id, String code, Map<String, String> post_params, Boolean progress) {
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            if (progress) progress_wheel.setVisibility(View.VISIBLE);
+            if (progress) progress_bar.setVisibility(View.VISIBLE);
             GetPostHandler.handlerPost(handler, url, tag, feedback, id, code, post_params);
         } else {
 //            Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
-            setVounteerMessage(R.string.NoNetwork, R.string.login_vol_button_again);
+            setVolunteerMessage(R.string.NoNetwork, R.string.login_vol_button_again);
         }
     }
 
     private void get(String url, String tag, int feedback, int id, String code, Boolean progress) {
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            if (progress) progress_wheel.setVisibility(View.VISIBLE);
+            if (progress) progress_bar.setVisibility(View.VISIBLE);
             GetPostHandler.handlerGet(handler, url, tag, feedback, id, code);
         } else {
             Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();

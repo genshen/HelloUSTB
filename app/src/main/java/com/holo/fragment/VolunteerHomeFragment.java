@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.holo.helloustb.R;
 import com.holo.view.RiseNumberTextView;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 public class VolunteerHomeFragment extends Fragment {
     private static final String VOL_RESULT = "vol_result";
+    private static final int VolunteerDataLength = 4;
     private ArrayList<String> volunteer_meg;
 
 
@@ -42,18 +44,23 @@ public class VolunteerHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_volunteer_home, container, false);
 
-        float work_hour = Float.parseFloat(volunteer_meg.get(4));
-        String school = volunteer_meg.get(0).split("：")[1];    //学院； 特别注意分号字符，是中文的
-        String vol_class = volunteer_meg.get(1).split("：")[1];    //班级
-        ((TextView) rootView.findViewById(R.id.vol_school)).setText(school);
-        ((TextView) rootView.findViewById(R.id.vol_class)).setText(vol_class);
+        if (volunteer_meg.size() == VolunteerDataLength) {
+            float work_hour = Float.parseFloat(volunteer_meg.get(3));
+            String school = volunteer_meg.get(1);  //学院
+            String vol_class = volunteer_meg.get(2); //班级
+            ((TextView) rootView.findViewById(R.id.vol_school)).setText(school);
+            ((TextView) rootView.findViewById(R.id.vol_class)).setText(vol_class);
 
-        RiseNumberTextView work_hour_text = (RiseNumberTextView) rootView.findViewById(R.id.vol_my_work);
-        work_hour_text.setRiseInterval(0, work_hour)
-                .setDuration(2000)
-                .runInt(false)
-                .setDecimal(2)
-                .start();
+            RiseNumberTextView work_hour_text = (RiseNumberTextView) rootView.findViewById(R.id.vol_my_work);
+            work_hour_text.setRiseInterval(0, work_hour)
+                    .setDuration(2000)
+                    .runInt(false)
+                    .setDecimal(2)
+                    .start();
+        } else {
+            Toast.makeText(getActivity(), R.string.request_error, Toast.LENGTH_SHORT).show();
+        }
+
         return rootView;
     }
 }

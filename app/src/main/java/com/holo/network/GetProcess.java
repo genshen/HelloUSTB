@@ -52,14 +52,14 @@ public class GetProcess {
                 return volunteer_home(br_html);
             case 16:
                 return get_volunteer_list(br_html);
-//			case 17:
-//				return get_volunteer_search(br_html);
+			case 17:
+				return get_volunteer_search_data(br_html);
             case 18:
                 return get_volunteer_detail(br_html);
             case 19:
                 return get_libaray_search(br_html);
             case 20:
-                return get_libaray_book_detail(br_html);
+                return get_library_book_detail(br_html);
             case 21:
                 return get_book_douban(br_html);
             default:
@@ -253,65 +253,11 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
             return null;
         }
     }
 
-    private static ArrayList<String> volunteer_home(BufferedReader br_html) {
-        String line ;
-        ArrayList<String> process_result = new ArrayList<>();
-        try {
-            while ((line = br_html.readLine()) != null) {
-                String regex = ".+br .+";
-                String regex2 = ".+qiangdiao.+";
-                if (line.matches(regex)) {
-                    String split_str[] = line.split("<");
-                    process_result.add(split_str[0].trim());        //去空格，得到个人信息
-                } else if (line.matches(regex2)) {
-                    String split_str[] = line.split("<|>");
-                    process_result.add(split_str[6]);
-                }
-            }
-            br_html.close();
-            return process_result;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private static ArrayList<String> get_volunteer_list(BufferedReader br_html) {
-        String line = null;
-        ArrayList<String> process_result = new ArrayList<String>();
-        try {
-            while ((line = br_html.readLine()) != null) {
-//					listoption
-//					String regex=".+<b.+";
-//					String regex2=".+red.+";
-                if (line.contains("red")) {
-                    process_result.add(line.split("<|>")[2]);
-                } else if (line.contains("<br")) {                //活动时间
-                    line = line.replaceAll("&nbsp;", "");
-                    String split_str[] = line.split("<|>");
-                    process_result.add(split_str[0] + split_str[2]);
-                } else if (line.contains("b>")) {                //标题
-                    process_result.add(line.split("<|>")[2]);
-                } else if (line.contains("<p")) {                //地点与类型
-                    process_result.add(line.split("<")[0]);
-                } else if (line.contains("opt")) {                //链接
-                    process_result.add(line.split("=|'")[10]);
-                }
-            }
-            br_html.close();
-            return process_result;
-        } catch (IOException e) {
-            // TODO 自动生成的 catch 块
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     private static ArrayList<String> getWifiState(BufferedReader br_html) {
         String line ;
@@ -327,77 +273,26 @@ public class GetProcess {
         }
     }
 
-//	private static ArrayList<String> get_volunteer_search(BufferedReader br_html) {
-//
-//		String line = null;
-//		ArrayList<String> process_result = new ArrayList<String>();
-//		try {
-//				while ((line = br_html.readLine()) != null)
-//				{
-//					if(line.contains("b>"))	//活动名称与链接
-//					{
-//						String split_str[]=line.split(">|<|\"");
-//						process_result.add(split_str[4]);
-//						process_result.add(split_str[6]);
-//					}else if(line.contains("br")){
-//						String split_str[]=line.split(">|<");
-//						switch(split_str.length)//招募方式等
-//						{
-//						case 2:	//活动编号	活动类型：等
-//							process_result.add(split_str[0]);
-//							break;
-//						case 3:	//成员招募方式
-//							process_result.add(split_str[2]);
-//							break;
-//						case 4:
-//							process_result.add( split_str[0]+ split_str[2].replaceAll("&nbsp;", "")  );
-//							break;
-//						}
-//					}else if(line.contains("fon"))	//参与人数 与感兴趣人数
-//					{
-//						String split_str[]=line.split(">|<");
-//						process_result.add(split_str[2]);
-//						process_result.add(split_str[6]);
-//					}
-//
-//				}
-//				br_html.close();
-//
-//				return process_result;
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//				return null;
-//		}
-//	}
-
-    private static ArrayList<String> get_volunteer_detail(BufferedReader br_html) {
-        String line = null;
-        int tag = 0;
-        ArrayList<String> process_result = new ArrayList<String>();
+    private static ArrayList<String> volunteer_home(BufferedReader br_html) {
+        String line ;
+        ArrayList<String> process_result = new ArrayList<>();
         try {
-            while ((line = br_html.readLine()) != null) {
-                if (line.contains("br")) {
-                    String[] strArr = line.split("<|>");
-                    if (strArr.length <= 2) {
-                        process_result.add(strArr[0].replaceAll("&nbsp;", "").trim());
-                    } else if (strArr.length == 3)    //
-                    {
-                        process_result.add(strArr[2]);
-                    } else if (strArr.length == 4) {    //没有发起者的联系方式
-                        process_result.add(null);
-                    } else {
-                        process_result.add(strArr[4]);
-                    }
 
-                } else if (line.contains("back")) {
-                    process_result.add(line.split("<|>")[2]);
-                } else if (line.contains("messagetitle")) {
-                    if (tag > 0 && tag < 3)    //忽略第一个
-                    {
-                        line = br_html.readLine();
-                        process_result.add(line.split("<|>")[2].replaceAll("&nbsp;", ""));
-                    }
-                    tag++;
+            while ((line = br_html.readLine()) != null) {
+                String regex = ".+ul.+jj.+";
+                String regex2 = ".+326,.+";
+                if(line.contains("hy")){
+                    br_html.readLine();
+                    process_result.add(br_html.readLine().trim());
+                }
+                else if (line.matches(regex)) {
+                    br_html.readLine();
+                    br_html.readLine();
+                    br_html.readLine();
+                    process_result.add(br_html.readLine().trim()); //去空格，得到个人信息
+                } else if (line.matches(regex2)) {
+                    String split_str[] = line.split("<|>");
+                    process_result.add(split_str[2]);
                 }
             }
             br_html.close();
@@ -408,8 +303,81 @@ public class GetProcess {
         }
     }
 
+    //todo check the length of array
+    private static ArrayList<String> get_volunteer_list(BufferedReader br_html) {
+        String line;
+        ArrayList<String> process_result = new ArrayList<>();
+        try {
+            while ((line = br_html.readLine()) != null) {
+                if (line.contains("cjhd_mc")) {
+                    String[] str_arr = line.split("<|>");
+                    process_result.add(str_arr[4]);     // 标题
+                    process_result.add(str_arr[8]);    //活动时间
+                } else if (line.contains("an></")) {   // including </span></li>
+                    String other_data = line.split("<|>")[4];
+                    process_result.add(other_data);
+                }
+            }
+            br_html.close();
+            return process_result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+	private static ArrayList<String> get_volunteer_search_data(BufferedReader br_html) {
+        String line;
+        ArrayList<String> process_result = new ArrayList<>();
+        try {
+            while ((line = br_html.readLine()) != null) {
+                if (line.contains("<a id=")) {
+                    process_result.add( line.split("<|>")[2]);     // 标题
+                } else if (line.contains("an></")) {   // including </span></li>
+                    if(line.trim().startsWith("<!--")){
+                        process_result.add(line.split("<|>")[5]);
+                    }else{
+                        process_result.add(line.split("<|>")[4]);
+                    }
+                }
+            }
+            br_html.close();
+            return process_result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+	}
+
+    // todo check index
+    private static ArrayList<String> get_volunteer_detail(BufferedReader br_html) {
+        String line;
+        ArrayList<String> process_result = new ArrayList<>();
+        try {
+            while ((line = br_html.readLine()) != null) {
+                if (line.contains("<pre")) {
+                    process_result.add(line.split("<|>")[2]);
+                } else if (line.contains("an></")) {   // including </span></li>
+                    if(line.trim().startsWith("<!--")){
+                        process_result.add(line.split("<|>")[5]);
+                    }else{
+                        process_result.add(line.split("<|>")[4]);
+                    }
+                }
+                // for more information like keywords
+//                else  if (  line.trim().startsWith("<p><b>")) {
+//                    process_result.add(line.split("<|>")[6]);
+//                }
+            }
+            br_html.close();
+            return process_result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private static ArrayList<String> get_libaray_search(BufferedReader br_html) {
-        // TODO Auto-generated method stub
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
@@ -445,14 +413,13 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
             return null;
         }
     }
 
-    private static ArrayList<String> get_libaray_book_detail(BufferedReader br_html) {
-        String line = null;
+    private static ArrayList<String> get_library_book_detail(BufferedReader br_html) {
+        String line ;
         ArrayList<String> process_result = new ArrayList<String>();
         boolean isset = true;
         try {
@@ -517,7 +484,6 @@ public class GetProcess {
             }
             br_html.close();
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         return null;

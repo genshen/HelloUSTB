@@ -1,32 +1,21 @@
 package com.holo.helloustb;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.holo.base.SerializableList;
-import com.holo.network.DataInfo;
-import com.holo.network.GetPostHandler;
-import com.holo.view.ProgressWheel;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class Record_query extends AppCompatActivity {
     int scoreSum_elective[] = {0, 0};
@@ -70,13 +59,12 @@ public class Record_query extends AppCompatActivity {
                 break;
             case R.id.weight:
                 String weight_m = "GPA:"+GPA+"\n含选修:" + getWeight(scoreSum_elective) + "\n不含选修:" + getWeight(scoreSum);
-                new MaterialDialog.Builder(this)
-                        .title(R.string.dialog_score_weight)
-                        .content(weight_m)
-                        .positiveText(R.string.ok)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_score_weight)
+                        .setMessage(weight_m)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                            public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })

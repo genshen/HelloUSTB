@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
-import com.holo.view.ProgressWheel;
+import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class VolunteerSearchResult extends AppCompatActivity {
-    ProgressWheel progress_wheel;
+    GoogleProgressBar progress_bar;
     TextView search_message;
 
     @Override
@@ -35,7 +35,7 @@ public class VolunteerSearchResult extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        progress_wheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
         search_message = (TextView) findViewById(R.id.search_message);
 
         Intent intent = getIntent();
@@ -43,14 +43,32 @@ public class VolunteerSearchResult extends AppCompatActivity {
         String key_word = intent.getStringExtra("key_word");
 
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            GetPostHandler.handlerPost(handler, getString(R.string.volunteer_search), "VOL", 0x100, 10,
-                    "gb2312", getPostData(search_method, key_word));
+            GetPostHandler.handlerGet(handler, getSearchUrl(search_method, 1, key_word), "VOL", 0x100, 17, "utf-8");
         } else {
             Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
             search_message.setText(getString(R.string.NoNetwork));
             search_message.setError(getString(R.string.NoNetwork));
-            progress_wheel.setVisibility(View.INVISIBLE);
+            progress_bar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private String getSearchUrl(int search_method, int pageNum, String keyword) {
+// and int stage,int type,int org,int state
+        String name = "";
+        String id = "";
+        String place = "";
+        switch (search_method) {
+            case 0:
+                id = keyword;
+                break;
+            case 1:
+                name = keyword;
+                break;
+            case 2:
+                place = keyword;
+                break;
+        }
+        return getString(R.string.volunteer_search, pageNum, name, place, id, "");
     }
 
     @Override
@@ -68,7 +86,7 @@ public class VolunteerSearchResult extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             DataInfo data_info = (DataInfo) msg.obj;
-            progress_wheel.setVisibility(View.INVISIBLE);
+            progress_bar.setVisibility(View.INVISIBLE);
 
             if (data_info.code == DataInfo.TimeOut) {
                 Toast.makeText(VolunteerSearchResult.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
@@ -90,86 +108,50 @@ public class VolunteerSearchResult extends AppCompatActivity {
         }
     };
 
+    List<Map<String, Object>> listitems = new ArrayList<>();
     private void setSearchData(final ArrayList<String> search_result) {
         ListView search_result_list = (ListView) findViewById(R.id.search_result_list);
 
-        List<Map<String, Object>> listitems = new ArrayList<>();
-        for (int i = 0; i < search_result.size() / 8; i++) {
+        int length = search_result.size() / 8;
+        for (int i = 0; i < length; i++) {
             Map<String, Object> listitem = new HashMap<>();
             listitem.put("search_activity_name", search_result.get(8 * i));
-            listitem.put("search_activity_id", search_result.get(8 * i + 1));    //id
-            listitem.put("search_activity_type", search_result.get(8 * i + 2));
-            listitem.put("search_activity_place", search_result.get(8 * i + 4));
-            listitem.put("search_activity_state", "火热报名中");
-            listitem.put("search_activity_join", search_result.get(8 * i + 5) + "人参与");
-            listitem.put("search_activity_time", search_result.get(8 * i + 3));
+            listitem.put("search_activity_id", "活动编号:"+search_result.get(8 * i + 1));
+            listitem.put("search_activity_type","活动类型:"+ search_result.get(8 * i + 2));
+            listitem.put("search_activity_place", "活动地点:"+search_result.get(8 * i + 3));
+            listitem.put("search_activity_hours", "活动工时:"+search_result.get(8 * i + 4));
+            listitem.put("search_activity_state", "活动状态:"+search_result.get(8 * i + 5));
+            listitem.put("search_activity_time", "活动时间:"+search_result.get(8 * i + 6));
+            listitem.put("search_activity_org", "发起人:"+search_result.get(8 * i + 7));
+            listitem.put("id_for_detail", search_result.get(8 * i + 1));
             listitems.add(listitem);
         }
 
         SimpleAdapter home_adapter = new SimpleAdapter(this, listitems, R.layout.listview_volunteer_search_result,
                 new String[]{"search_activity_name", "search_activity_id", "search_activity_type",
-                        "search_activity_place", "search_activity_state", "search_activity_join",
-                        "search_activity_time"},
+                        "search_activity_place", "search_activity_hours", "search_activity_state",
+                        "search_activity_time","search_activity_org"},
                 new int[]{R.id.search_result_activity_name, R.id.search_result_activity_id, R.id.search_result_activity_type,
-                        R.id.search_result_activity_place, R.id.search_result_activity_state, R.id.search_result_activity_join,
-                        R.id.search_result_activity_timer});
+                        R.id.search_result_activity_place, R.id.search_result_activity_hours, R.id.search_result_activity_state,
+                        R.id.search_result_activity_time,R.id.search_result_activity_org});
         search_result_list.setAdapter(home_adapter);
 
         search_result_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
                 Intent search_result_activity = new Intent(VolunteerSearchResult.this, VolunteerDetail.class);
-
-                search_result_activity.putExtra("flag", 1);
-                search_result_activity.putExtra("id", search_result.get(8 * position + 1).split("：")[1]);
-                search_result_activity.putExtra("title", search_result.get(8 * position));
-                search_result_activity.putExtra("join", search_result.get(8 * position + 5));
-                search_result_activity.putExtra("interest", search_result.get(8 * position + 6));
+                Map<String, Object> data_map = listitems.get(position);
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("name", data_map.get("search_activity_name"));
+                map.put("timer", data_map.get("search_activity_time"));
+                map.put("type", data_map.get("search_activity_type"));
+                map.put("place", data_map.get("search_activity_place"));
+                map.put("work_hour", data_map.get("search_activity_hours"));
+                search_result_activity.putExtra("detail",map);
+                search_result_activity.putExtra("id", listitems.get(position).get("id_for_detail").toString());
                 startActivity(search_result_activity);
             }
         });
 
-    }
-
-    private Map<String, String> getPostData(int search_method, String key_word) {
-        // TODO Auto-generated method stub
-        String name = "";
-        String id = "";
-        String place = "";
-//        try {
-        switch (search_method) {
-            case 0:
-                id = key_word;  //URLEncoder.encode(key_word, "gbk");
-                break;
-            case 1:
-                name = key_word;  //URLEncoder.encode(key_word, "gbk");
-                break;
-            case 2:
-                place = key_word;  //URLEncoder.encode(key_word, "gbk");// key_word;
-                break;
-        }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-        Map<String, String> post_data = new HashMap<>();
-        post_data.put("id", id);
-        post_data.put("name", name);
-        post_data.put("place", place);
-        post_data.put("abilityRequire", "");
-        post_data.put("keywords", "");
-        post_data.put("inoutSchool", "-1");
-        post_data.put("activityType2", "-1");
-        post_data.put("organization", "-1");
-        post_data.put("Submit", "");
-
-//		return getString(R.string.volunteer_search)+"&id="
-//				+ id +"&name=" + name + "&place=" + place
-//				+"&abilityRequire=&keywords=&inoutSchool=-1&activityType2=-1&organization=-1&Submit=";
-//		http://sztz.ustb.edu.cn/zyz/activityshow.do?method=search
-//		name=e&id=&place=	&abilityRequire=&keywords=&inoutSchool=-1
-//		&activityType2=-1&organization=-1&Submit=
-        return post_data;
     }
 }

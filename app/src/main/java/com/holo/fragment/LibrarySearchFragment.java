@@ -1,20 +1,17 @@
 package com.holo.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -25,7 +22,7 @@ import com.holo.helloustb.MyApplication;
 import com.holo.helloustb.R;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
-import com.holo.view.ProgressWheel;
+import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,9 +40,8 @@ public class LibrarySearchFragment extends Fragment {
     private List<Map<String, Object>> search_list;
     private SimpleAdapter search_adapter;
     private ListView search_listview;
-    private ProgressWheel progress_wheel;
+    private GoogleProgressBar progress_bar;
     MaterialRefreshLayout materialRefreshLayout;
-
 
     public LibrarySearchFragment() {
     }
@@ -75,13 +71,13 @@ public class LibrarySearchFragment extends Fragment {
             }
         });
 
-        progress_wheel = (ProgressWheel)rootview.findViewById(R.id.progress_wheel);
+        progress_bar = (GoogleProgressBar)rootview.findViewById(R.id.progress_bar);
         search_listview = (ListView) rootview.findViewById(R.id.lib_search_list);
         Button search_bt = (Button) rootview.findViewById(R.id.search_start);
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress_wheel.setVisibility(View.VISIBLE);
+                progress_bar.setVisibility(View.VISIBLE);
                 search();
             }
         });
@@ -95,7 +91,7 @@ public class LibrarySearchFragment extends Fragment {
         public void handleMessage(Message msg) {
             DataInfo data_info = (DataInfo) msg.obj;
             if (data_info.code == DataInfo.TimeOut) {
-                progress_wheel.setVisibility(View.INVISIBLE);
+                progress_bar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -105,7 +101,7 @@ public class LibrarySearchFragment extends Fragment {
             switch (msg.what) {
                 case 0x100: //response for click search
                     setListViewInit(str_msg);
-                    progress_wheel.setVisibility(View.INVISIBLE);
+                    progress_bar.setVisibility(View.INVISIBLE);
 //                    if (!Library.frontShow)
 
                     break;

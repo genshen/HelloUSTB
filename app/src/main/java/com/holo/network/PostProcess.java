@@ -17,7 +17,6 @@ public class PostProcess {
 
     //验证用户名和密码是否错误，错误返回-1，否则返回一个正整数；
     public static DataInfo MainProcess(BufferedReader br, int id) {
-        // TODO 自动生成的方法存根
         DataInfo dataInfo = new DataInfo();
 
         switch (id) {
@@ -36,9 +35,6 @@ public class PostProcess {
             case 7:        //校园网验证
                 dataInfo.code = validateNetPass(br);
                 break;
-            case 10:
-                dataInfo.data = getVolunteerSearchData(br);
-                break;
             case 11:
                 dataInfo.code = validateVolPass(br);
                 break;
@@ -53,14 +49,12 @@ public class PostProcess {
     }
 
     private static ArrayList<String> getTimeTable(BufferedReader br) {
-        // TODO Auto-generated method stub
         ArrayList<String> data_list = new ArrayList<>();
         try {
             data_list.add(br.readLine());
             br.close();
             return data_list;
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
             return null;
         }
@@ -106,7 +100,6 @@ public class PostProcess {
                 return DataInfo.OK;
             }
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;
@@ -121,7 +114,6 @@ public class PostProcess {
                 return DataInfo.OK;
             }
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;
@@ -138,7 +130,6 @@ public class PostProcess {
             }
             br.close();
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;
@@ -159,68 +150,22 @@ public class PostProcess {
     }
 
     private static int validateVolPass(BufferedReader br) {
-        String line;
+
         try {
-            for (int i = 0; i < 6; i++){    //前面有5个空字符
-                line = br.readLine();
-                if (line.contains("script")) {
+            String line = br.readLine();
+            if (line.contains("errDiv")) {
                     br.close();
                     return DataInfo.ERROR_PASSWORD;
-                }
             }
             br.close();
             return DataInfo.OK;
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;
     }
 
-    private static ArrayList<String> getVolunteerSearchData(BufferedReader br) {
-        // TODO Auto-generated method stub
-        String line;
-        ArrayList<String> process_result = new ArrayList<>();
-        try {
-            while ((line = br.readLine()) != null) {
-//					all += line;
-                if (line.contains("b>"))    //活动名称与链接
-                {
-                    String split_str[] = line.split(">|<");
-                    process_result.add(split_str[4]);
-//						process_result.add(split_str[6]);
-                } else if (line.contains("br")) {
-                    String split_str[] = line.split(">|<");
-                    switch (split_str.length)//招募方式等
-                    {
-                        case 2:    //活动编号	活动类型：等
-                            process_result.add(split_str[0]);
-                            break;
-                        case 3:    //成员招募方式
-                            process_result.add(split_str[2]);
-                            break;
-                        case 4:
-                            process_result.add(split_str[0] + split_str[2].replaceAll("&nbsp;", ""));
-                            break;
-                    }
-                } else if (line.contains("fon"))    //参与人数 与感兴趣人数
-                {
-                    String split_str[] = line.split(">|<");
-                    process_result.add(split_str[2]);
-                    process_result.add(split_str[6]);
-                }
-            }
-//				SdCardPro.write(all, "/MyUstb/vol_error.html");
-            br.close();
-        } catch (IOException e) {
-            // TODO 自动生成的 catch 块
-            e.printStackTrace();
-        }
-        return process_result;
-    }
-
     private static int validateE(BufferedReader br) {
-        // TODO 自动生成的方法存根
         String line;
         try {
             line = br.readLine();
@@ -229,7 +174,6 @@ public class PostProcess {
                 return DataInfo.OK;
             }
         } catch (IOException e) {
-            // TODO 自动生成的 catch 块
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;
@@ -247,7 +191,6 @@ public class PostProcess {
             }
             br.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 //        SdCardPro.write(all, "/MyUstb/e_error.log");

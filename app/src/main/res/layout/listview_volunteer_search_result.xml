@@ -32,18 +32,23 @@
         android:layout_height="wrap_content"/>
     
      <TextView
-        android:id="@+id/search_result_activity_state"
+        android:id="@+id/search_result_activity_hours"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
      
       
      <TextView
-        android:id="@+id/search_result_activity_join"
+        android:id="@+id/search_result_activity_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
      
     <TextView
-        android:id="@+id/search_result_activity_timer"
+        android:id="@+id/search_result_activity_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+  <TextView
+        android:id="@+id/search_result_activity_org"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

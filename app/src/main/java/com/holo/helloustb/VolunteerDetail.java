@@ -14,9 +14,10 @@ import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class VolunteerDetail extends AppCompatActivity {
-    String title, join, interest, state;
+    String detail_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +28,13 @@ public class VolunteerDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        String detail_id = intent.getStringExtra("id");
-        title = intent.getStringExtra("title");
-        join = intent.getStringExtra("join");
-        interest = intent.getStringExtra("interest");
-        state = intent.getIntExtra("flag", 0) == 0 ? "活动状态:活动已审批" : "活动状态:火热报名中";
+        detail_id = intent.getStringExtra("id");
+        setBaseInformation((HashMap) getIntent().getSerializableExtra("detail"));
 
         //get function in oncreate
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            GetPostHandler.handlerGet(handler, getString(R.string.volunteer_view) + "&id=" + detail_id,
-                    "VOL", 0x100, 18, "GB2312");
+            GetPostHandler.handlerGet(handler, getString(R.string.volunteer_detail_view, detail_id),
+                    "VOL", 0x100, 18, "utf-8");
         } else {
             Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
         }
@@ -60,7 +58,7 @@ public class VolunteerDetail extends AppCompatActivity {
         public void handleMessage(Message msg) {
             DataInfo data_info = (DataInfo) msg.obj;
             if (data_info.code == DataInfo.TimeOut) {
-//                progress_wheel.setVisibility(View.INVISIBLE);
+//                progress_bar.setVisibility(View.INVISIBLE);
                 Toast.makeText(VolunteerDetail.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -71,61 +69,47 @@ public class VolunteerDetail extends AppCompatActivity {
                     int length = str_msg.size();
                     String data[];
 
-                    int[] id = {R.id.detail_title, R.id.detail_join, R.id.detail_interest, R.id.detail_state,
-                            R.id.detail_id, R.id.detail_type, R.id.detail_time, R.id.detail_place,
-                            R.id.detail_hour, R.id.detail_organizer_unit,
-                            R.id.detail_recruit_method, R.id.detail_organizer_num, R.id.detail_organizer_contact,
+                    int[] id = {R.id.detail_join, R.id.detail_interest, R.id.detail_id,
+                            R.id.detail_type, R.id.detail_place, R.id.detail_hour,
+                            R.id.detail_recruit_method, R.id.detail_state,
+                            R.id.detail_organizer_unit, R.id.detail_organizer_person, R.id.detail_deadline,
                             R.id.detail_duty, R.id.detail_ability, R.id.detail_recruit_condition,
-                            R.id.detail_introduce, R.id.detail_plan};
-//						0-id;1-type	;2-time;3-place;4-hour;5-organizer_unit; 6-recruit_method;
-//						7-organizer_num; 8 -organizer_contact;
-//						9-duty;10:ablity;11-condition;12-intruduce;13-plan
-                    if (length == 13) // there is no tel of the organizer
+                            R.id.detail_introduce, R.id.detail_plan, R.id.detail_organizer_contact};
+                    if (length == 15) // there is no tel of the organizer
                     {
-                        data = new String[]{title, join, interest, state,
-                                str_msg.get(0), str_msg.get(1), str_msg.get(2), str_msg.get(3),
-                                str_msg.get(4), str_msg.get(5),
-                                str_msg.get(6), str_msg.get(7), "组织者联系方式: 无",
-                                str_msg.get(8), str_msg.get(9), str_msg.get(10),
-                                "活动介绍:" + str_msg.get(11), "活动计划:" + str_msg.get(12)};
-                    } else if (length == 14) {
-                        data = new String[]{title, join, interest, state,
-                                str_msg.get(0), str_msg.get(1), str_msg.get(2), str_msg.get(3),
-                                str_msg.get(4), str_msg.get(5),
-                                str_msg.get(6), str_msg.get(7), "组织者联系方式:" + str_msg.get(8),
-                                str_msg.get(9), str_msg.get(10), str_msg.get(11),
-                                "活动介绍:" + str_msg.get(12), "活动计划:" + str_msg.get(13)};
+                        data = new String[]{"", "", "活动编号:" + str_msg.get(0),
+                                "活动类型:" + str_msg.get(1), "活动地点:" + str_msg.get(2), "活动工时:" + str_msg.get(3),
+                                "招募方式:" + str_msg.get(4),  "活动状态:" + str_msg.get(5),
+                                "活动组织方:" + str_msg.get(6),"发起人:" + str_msg.get(7), "报名截止时间 :" +str_msg.get(8),
+                                "志愿者职责:"+ str_msg.get(9),  "志愿者能力要求:"+str_msg.get(10), "招募选拔条件:" + str_msg.get(11),
+                                "活动介绍:" + str_msg.get(12), "活动计划:" + str_msg.get(13), "组织者联系方式:无"};
+                    } else if (length == 16) {
+                        data = new String[]{"", "", "活动编号:" + str_msg.get(0),
+                                "活动类型:" + str_msg.get(1), "活动地点:" + str_msg.get(2), "活动工时:" + str_msg.get(3),
+                                "招募方式:" + str_msg.get(4),  "活动状态:" + str_msg.get(5),
+                                "活动组织方:" + str_msg.get(6),"发起人:" + str_msg.get(7), "报名截止时间 :" +str_msg.get(8),
+                                "志愿者职责:"+ str_msg.get(9),  "志愿者能力要求:"+str_msg.get(10), "招募选拔条件:" + str_msg.get(11),
+                                "活动介绍:" + str_msg.get(12), "活动计划:" + str_msg.get(13), "组织者联系方式:" + str_msg.get(14)};
                     } else {
                         // set empty messages
                         return;
                     }
 
-                    for (int i = 0; i < 18; i++) {
+                    for (int i = 0; i < 17; i++) {
                         TextView tv = (TextView) findViewById(id[i]);
                         tv.setText(data[i]);
                     }
                     break;
             }
         }
-//			感兴趣：
-//			callCount=1
-//					c0-scriptName=GETATTIME
-//					c0-methodName=InterestActivity
-//					c0-id=3960_1437553689786
-//					c0-param0=string:10527
-//					c0-param1=boolean:false
-//					c0-param2=boolean:false
-//					xml=true
-
-//			callCount=1
-//					c0-scriptName=GETATTIME
-//					c0-methodName=JoinActivity
-//					c0-id=5977_1437554251339
-//					c0-param0=string:10526
-//					c0-param1=boolean:false
-//					c0-param2=boolean:false
-//					xml=true
-//			http://sztz.ustb.edu.cn/zyz/dwr/exec/GETATTIME.JoinActivity.dwr
-
     };
+
+    private void setBaseInformation(HashMap map) {
+        ((TextView) findViewById(R.id.detail_title)).setText(map.get("name").toString());
+//        ((TextView) findViewById(R.id.detail_id)).setText(detail_id);
+//        ((TextView) findViewById(R.id.detail_hour)).setText(map.get("work_hour").toString());
+//        ((TextView) findViewById(R.id.detail_time)).setText(map.get("timer").toString());
+//        ((TextView) findViewById(R.id.detail_place)).setText(map.get("place").toString());
+//        ((TextView) findViewById(R.id.detail_type)).setText(map.get("type").toString());
+    }
 }

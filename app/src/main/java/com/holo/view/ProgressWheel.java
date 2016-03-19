@@ -83,6 +83,7 @@ public class ProgressWheel extends View {
     /**
      * The constructor for the ProgressWheel
      */
+    @SuppressWarnings("not use it ")
     public ProgressWheel(Context context, AttributeSet attrs) {
         super(context, attrs);
 

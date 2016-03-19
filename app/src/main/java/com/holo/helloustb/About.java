@@ -1,12 +1,13 @@
 package com.holo.helloustb;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -14,8 +15,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.holo.network.VersionChecker;
 
 public class About extends AppCompatActivity {
@@ -103,14 +102,13 @@ public class About extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0x110:
-                    new MaterialDialog.Builder(About.this)
-                            .title(R.string.versionUpdate)
-                            .content(getString(R.string.updateRequest, checker.version_name_new, checker.version_describe))
-                            .positiveText(R.string.updateNow)
-                            .negativeText(R.string.sayLater)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    new AlertDialog.Builder(About.this)
+                            .setTitle(R.string.versionUpdate)
+                            .setMessage(getString(R.string.updateRequest, checker.version_name_new, checker.version_describe))
+                            .setNegativeButton(R.string.sayLater, null)
+                            .setPositiveButton(R.string.updateNow, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                                public void onClick(DialogInterface dialog, int which) {
                                     Toast.makeText(About.this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(About.this, DownloadApk.class);
                                     intent.putExtra("latestVersion", checker.version_name_new);

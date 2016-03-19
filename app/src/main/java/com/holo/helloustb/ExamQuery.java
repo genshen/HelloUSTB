@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.holo.base.StrPro;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
-import com.holo.view.ProgressWheel;
+import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ExamQuery extends AppCompatActivity {
-    ProgressWheel progress_wheel;
+    GoogleProgressBar progress_bar;
     final String passFileName = "/MyUstb/Pass_store/sch_ele_pass.ustb";
 
     @Override
@@ -34,14 +34,14 @@ public class ExamQuery extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        progress_wheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
         if (((MyApplication) getApplication()).CheckNetwork()) {
             String myaccount[] = StrPro.ReadWithEncryption(passFileName).split("@");
             GetPostHandler.handlerPost(handler, getString(R.string.ele_exam_time_place_query),
                     "ELE", 0x001, 6, "UTF-8", getPostData(myaccount[0]));
         } else {
             Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
-            progress_wheel.setVisibility(View.GONE);
+            progress_bar.setVisibility(View.GONE);
         }
     }
 
@@ -59,7 +59,7 @@ public class ExamQuery extends AppCompatActivity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            progress_wheel.setVisibility(View.GONE);
+            progress_bar.setVisibility(View.GONE);
 
             DataInfo data_info = (DataInfo) msg.obj;
             if (data_info.code == DataInfo.TimeOut) {

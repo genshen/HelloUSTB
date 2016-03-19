@@ -75,7 +75,11 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/detail_organizer_num"
+            android:id="@+id/detail_organizer_person"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/detail_deadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

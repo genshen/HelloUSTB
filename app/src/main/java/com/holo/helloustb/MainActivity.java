@@ -1,25 +1,23 @@
 package com.holo.helloustb;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.holo.account.LoginDialog;
 import com.holo.base.BasicDate;
 import com.holo.base.StrPro;
@@ -34,6 +32,7 @@ import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.holo.network.VersionChecker;
 import com.holo.sdcard.SdCardPro;
+import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             checker.setOnUpdate(new Update() {
                 @Override
                 public void onUpdate(boolean latestVersion) {
-                    if(latestVersion){
+                    if (latestVersion) {
                         updateUI.sendEmptyMessage(0x003);
                     }
                 }
@@ -251,14 +250,13 @@ public class MainActivity extends AppCompatActivity {
                 if (course.isTableEmpty()) {
                     Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x104);
                 } else {
-                    new MaterialDialog.Builder(this)
-                            .title(R.string.importCourse)
-                            .content(R.string.haveImported)
-                            .positiveText(R.string.reImport)
-                            .negativeText(R.string.cancelImport)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.importCourse)
+                            .setMessage(R.string.haveImported)
+                            .setNegativeButton(R.string.cancelImport, null)
+                            .setPositiveButton(R.string.reImport, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                                public void onClick(DialogInterface dialog, int which) {
                                     StoreData sd = new StoreData(MainActivity.this);
                                     sd.clearTable();
                                     sd.close();
@@ -289,14 +287,14 @@ public class MainActivity extends AppCompatActivity {
         if (!SdCardPro.fileIsExists(ld.passFileName)) {
             canWrite = true;
             final View enter = getLayoutInflater().inflate(R.layout.dialog_enter, null);
-            new MaterialDialog.Builder(this)
-                    .title(ld.dialog_title)
-                    .customView(enter, false)
-                    .positiveText(R.string.alert_login)
-                    .negativeText(R.string.alert_cancel)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+
+            new AlertDialog.Builder(this)
+                    .setTitle(ld.dialog_title)
+                    .setView(enter)
+                    .setNegativeButton(R.string.alert_cancel, null)
+                    .setPositiveButton(R.string.alert_login, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                        public void onClick(DialogInterface dialog, int which) {
                             username = ((TextView) enter.findViewById(R.id.account)).getText().toString();
                             password = ((TextView) enter.findViewById(R.id.pass)).getText().toString();
 //                            TextInputLayout text_input_layout_account = (TextInputLayout) enter.findViewById(R.id.text_input_layout_account);
@@ -413,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, R.string.importfail, Toast.LENGTH_SHORT).show();
                     break;
                 case 0x003: // show new version dialog
-                    showUpdate(checker.versionCode,checker.version_name_new,checker.package_size,checker.version_describe);
+                    showUpdate(checker.versionCode, checker.version_name_new, checker.package_size, checker.version_describe);
                     break;
             }
         }
@@ -440,14 +438,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showUpdate(final int versionCode, final String versionName, final long size, final String describe) {
-        new MaterialDialog.Builder(this)
-                .title(R.string.versionUpdate)
-                .content(getString(R.string.updateRequest, versionName, describe))
-                .positiveText(R.string.updateNow)
-                .negativeText(R.string.sayLater)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.versionUpdate)
+                .setMessage(getString(R.string.updateRequest, versionName, describe))
+                .setNegativeButton(R.string.sayLater, null)
+                .setPositiveButton(R.string.updateNow, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction witch) {
+                    public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(MainActivity.this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, DownloadApk.class);
                         intent.putExtra("latestVersion", versionName);
@@ -496,19 +493,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    GoogleProgressBar main_google_progress_bar;
     private void setProcessDialog() {
-        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        final View progress_wheel = getLayoutInflater().inflate(R.layout.progress_wheel, null);
-        RelativeLayout rl = (RelativeLayout) findViewById(R.id.main_container);
-        rl.addView(progress_wheel, p);
+        if(main_google_progress_bar == null){
+            main_google_progress_bar = (GoogleProgressBar)findViewById(R.id.main_google_progress_bar);
+        }
+        main_google_progress_bar.setVisibility(View.VISIBLE);
     }
 
     private void cancelProcessDialog() {
-        View progress_wheel = findViewById(R.id.progress_wheel);
-        if (progress_wheel != null) {
-            RelativeLayout rl = (RelativeLayout) findViewById(R.id.main_container);
-            rl.removeAllViews();
+        if(main_google_progress_bar == null){
+            main_google_progress_bar = (GoogleProgressBar)findViewById(R.id.main_google_progress_bar);
         }
+        main_google_progress_bar.setVisibility(View.INVISIBLE);
     }
 }

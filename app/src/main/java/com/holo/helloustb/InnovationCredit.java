@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
-import com.holo.view.ProgressWheel;
 import com.holo.view.RiseNumberTextView;
+import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InnovationCredit extends AppCompatActivity {
-    ProgressWheel progress_wheel;
+    GoogleProgressBar progress_bar;
     float credit_sum = 0;
 
     @Override
@@ -33,10 +33,10 @@ public class InnovationCredit extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        progress_wheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
         if (((MyApplication) getApplication()).CheckNetwork()) {
 //           setProcessDialog();
-            progress_wheel.setVisibility(View.VISIBLE);
+            progress_bar.setVisibility(View.VISIBLE);
             GetPostHandler.handlerGet(handler, getString(R.string.ele_innovation_credit), "ELE", 0x001, 11, "UTF-8");
         } else {
             Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
@@ -57,7 +57,7 @@ public class InnovationCredit extends AppCompatActivity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            progress_wheel.setVisibility(View.INVISIBLE);
+            progress_bar.setVisibility(View.INVISIBLE);
 
             DataInfo data_info = (DataInfo) msg.obj;
             if (data_info.code == DataInfo.TimeOut) {

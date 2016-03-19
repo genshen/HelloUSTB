@@ -133,7 +133,7 @@
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
     <string name="version_base">Hello USTB  v%s </string>
-    <string name="build_time">built Tue, 13 Mar 2016 </string>
+    <string name="build_time">built Tue, 20 Mar 2016 </string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>
@@ -172,11 +172,11 @@
     <string name="school_timetable_addresss">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_courseList_loadTermCourses.action</string>
     <!-- 相关链接    选课系统 -->
     <!-- 相关链接  志愿者 -->
-    <string name="vol_login">http://sztz.ustb.edu.cn/zyz/slogin.do</string>
-    <string name="volunteer_home">http://sztz.ustb.edu.cn/zyz/student.do</string>
-    <string name="my_volunteer_list">http://sztz.ustb.edu.cn/zyz/score.do</string>
-    <string name="volunteer_search">http://sztz.ustb.edu.cn/zyz/activityshow.do?method=search</string>
-    <string name="volunteer_view">http://sztz.ustb.edu.cn/zyz/activityshow.do?method=view</string>
+    <string name="vol_login">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=user&amp;a=login</string>
+    <string name="volunteer_home">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=index&amp;a=showIndex</string>
+    <string name="my_volunteer_list">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=attendActivity</string>
+    <string name="volunteer_search">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=recruitingActivity&amp;pageNum=%1$d&amp;activityName=%2$s&amp;activityAddr=%3$s&amp;zyznlyq=%4$s&amp;activityKeywords=%5$s&amp;stage=0&amp;type=0&amp;org=0&amp;state=1</string>
+    <string name="volunteer_detail_view">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=showDetail&amp;activityId=%s</string>
     <!-- 相关链接 /志愿者 -->
     <string name="tea_hp">http://seam.ustb.edu.cn:8080/jwgl/index.jsp</string>
     <string name="information_url">http://seam.ustb.edu.cn:8080/jwgl/stuinfo.jsp</string>
@@ -300,7 +300,10 @@
     <string name="login_vol_button_again">再试一次</string>
     <string name="vol_my_work">我的工时</string>
     <string name="vol_zero">0</string>
-    <string name="work_time">获得工时:</string>
+    <string name="work_time">活动工时:</string>
+    <string name="volunteer_activity_type">活动类型:</string>
+    <string name="volunteer_activity_place">活动地点:</string>
+    <string name="volunteer_activity_timer">活动时间:</string>
     <string name="vol_school">学院</string>
     <string name="vol_class">班级</string>
     <string name="vol_search_hint">搜索活动</string>
