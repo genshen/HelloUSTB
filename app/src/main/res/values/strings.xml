@@ -309,6 +309,7 @@
     <string name="vol_search_hint">搜索活动</string>
     <string name="search_tip">你可以按照活动编号、活动名称、活动地点等条件搜索</string>
     <string name="no_search_result">未找到符合条件的活动信息</string>
+    <string name="no_search_result_more">没有更多活动信息啦~</string>
     <!--志愿服务-->
 
     <!--校园网-->

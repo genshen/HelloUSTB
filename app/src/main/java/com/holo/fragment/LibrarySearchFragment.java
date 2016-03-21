@@ -24,6 +24,8 @@ import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +35,9 @@ import java.util.Map;
  * A placeholder fragment containing a simple view.
  */
 public class LibrarySearchFragment extends Fragment {
-
     private String search_key = "";
     private int page = 1;
-    private boolean is_init = false;    //
-    private List<Map<String, Object>> search_list;
+    private boolean is_init = false, is_loading = false;
     private SimpleAdapter search_adapter;
     private ListView search_listview;
     private GoogleProgressBar progress_bar;
@@ -48,47 +48,52 @@ public class LibrarySearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_search_library, container, false);
+        View root_view = inflater.inflate(R.layout.fragment_search_library, container, false);
 
-        materialRefreshLayout = (MaterialRefreshLayout) rootview.findViewById(R.id.lib_refresh);
+        materialRefreshLayout = (MaterialRefreshLayout) root_view.findViewById(R.id.lib_refresh);
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(final MaterialRefreshLayout materialRefreshLayout) {
-                if (search_key.isEmpty()) {
+                if (search_key.isEmpty() || is_loading) {
                     materialRefreshLayout.finishRefresh();
                     return;
                 }
-                search(search_key);
+                page = 1;
+                is_init = false;
+                get(getSearchURL(search_key, page), "LIB", 0x101, 19, "utf-8");
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                if (!is_init) {
+                if (!is_init || is_loading) {
                     materialRefreshLayout.finishRefreshLoadMore();
                     return;
                 }
-                get(getSearchURL(search_key, page + 1), "LIB", 0x101, 19, "utf-8");
+                get(getSearchURL(search_key, page), "LIB", 0x102, 19, "utf-8");
             }
         });
 
-        progress_bar = (GoogleProgressBar)rootview.findViewById(R.id.progress_bar);
-        search_listview = (ListView) rootview.findViewById(R.id.lib_search_list);
-        Button search_bt = (Button) rootview.findViewById(R.id.search_start);
+        progress_bar = (GoogleProgressBar) root_view.findViewById(R.id.progress_bar);
+        search_listview = (ListView) root_view.findViewById(R.id.lib_search_list);
+        setListViewInit();
+        Button search_bt = (Button) root_view.findViewById(R.id.search_start);
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress_bar.setVisibility(View.VISIBLE);
-                search();
+                if(!is_loading){
+                    is_init = false;
+                    search();
+                }
+
             }
         });
-        return rootview;
+        return root_view;
     }
 
-
     Handler handler = new Handler() {
-        @SuppressWarnings("unchecked")
         @Override
         public void handleMessage(Message msg) {
+            is_loading = false;
             DataInfo data_info = (DataInfo) msg.obj;
             if (data_info.code == DataInfo.TimeOut) {
                 progress_bar.setVisibility(View.INVISIBLE);
@@ -97,45 +102,43 @@ public class LibrarySearchFragment extends Fragment {
             }
 
             ArrayList<String> str_msg = data_info.data;
-
             switch (msg.what) {
                 case 0x100: //response for click search
-                    setListViewInit(str_msg);
                     progress_bar.setVisibility(View.INVISIBLE);
-//                    if (!Library.frontShow)
-
+                    if (str_msg.size() == 0) {
+                        Toast.makeText(getActivity(), R.string.no_search_result, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    page++;
+                    is_init = true;
+                    setSearchResult(str_msg, true);
                     break;
-                case 0x101: //response for load more
-//                    if (!Library.frontShow) {
-                    if (checkIndex(str_msg))    //看是否到达索引结尾
-                    {
+                case 0x101: // response for refresh
+                    materialRefreshLayout.finishRefresh();
+                    if (str_msg.size() == 0) {    //如果没找到书籍
+                        Toast.makeText(getActivity(), R.string.no_book_found, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    page++;
+                    is_init = true;
+                    setSearchResult(str_msg, true);
+                    break;
+                case 0x102: //response for load more
+                    materialRefreshLayout.finishRefreshLoadMore();
+                    if (checkIndex(str_msg)) {    //看是否到达索引结尾
                         Toast.makeText(getActivity(), R.string.no_book_found_more, Toast.LENGTH_LONG).show();
-                        materialRefreshLayout.finishRefreshLoadMore();
                         break;
                     }
-                    setSearchResult(str_msg);
-                    search_adapter.notifyDataSetChanged();
                     page++;
-//                    }
-                    //返回结果是否为空?
-                    materialRefreshLayout.finishRefreshLoadMore();
+                    setSearchResult(str_msg, false);
                     break;
-                case 0x103: // response for refresh
-                    materialRefreshLayout.finishRefresh();
-                    setListViewInit(str_msg);
-                    break;
+
             }
         }
     };
 
-    private void setListViewInit(ArrayList<String> str_msg) {
-        if (str_msg.size() == 0)    //如果没找到书籍
-        {
-            Toast.makeText(getActivity(), R.string.no_book_found, Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        setSearchResult(str_msg);
+    private List<Map<String, Object>> search_list = new ArrayList<>();
+    private void setListViewInit() {
         search_adapter = new SimpleAdapter(getActivity(), search_list, R.layout.listview_lib_search_result,
                 new String[]{"lib_type", "lib_name", "lib_num", "lib_copy", "lib_borrow",
                         "lib_author", "lib_press_name", "lib_publish_time"},
@@ -143,8 +146,6 @@ public class LibrarySearchFragment extends Fragment {
                         R.id.lib_search_copy, R.id.lib_search_borrow, R.id.lib_search_author,
                         R.id.lib_search_press_name, R.id.lib_search_publish_time});
         search_listview.setAdapter(search_adapter);
-        is_init = true;
-
         search_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -154,39 +155,36 @@ public class LibrarySearchFragment extends Fragment {
                 startActivity(detail);
             }
         });
-//                    }
-    }
-
-    private void setSearchResult(ArrayList<String> search_reault) {
-        for (int i = 0; i < search_reault.size() / 9; i++) {
-            Map<String, Object> listitem = new HashMap<String, Object>();
-            listitem.put("lib_type", search_reault.get(9 * i));
-            listitem.put("lib_link", search_reault.get(9 * i + 1));    //���û����
-            listitem.put("lib_name", search_reault.get(9 * i + 2));
-            listitem.put("lib_num", search_reault.get(9 * i + 3));
-            listitem.put("lib_copy", search_reault.get(9 * i + 4));
-            listitem.put("lib_borrow", search_reault.get(9 * i + 5));
-            listitem.put("lib_author", search_reault.get(9 * i + 6));
-            listitem.put("lib_press_name", search_reault.get(9 * i + 7));
-            listitem.put("lib_publish_time", search_reault.get(9 * i + 8));
-            search_list.add(listitem);
-        }
     }
 
     private void search() {
         String search_key = ((EditText) getActivity().findViewById(R.id.lib_search_text)).getText().toString();
         if (!search_key.isEmpty()) {
             this.search_key = search_key;
-            page = 1;    //页数还原;
-            search_list = new ArrayList<>();    //列表清空
+            page = 1;   //页数还原;
             get(getSearchURL(search_key, page), "LIB", 0x100, 19, "utf-8");
         }
     }
 
-    private void search(String key) {
-        page = 1;    //页数还原;
-        search_list = new ArrayList<>();    //列表清空
-        get(getSearchURL(key, page), "LIB", 0x103, 19, "utf-8");
+    private void setSearchResult(ArrayList<String> search_result, boolean clear) {
+        if (clear) {
+            search_list.clear();
+        }
+        int length = search_result.size() / 9;
+        for (int i = 0; i < length; i++) {
+            Map<String, Object> listitem = new HashMap<>();
+            listitem.put("lib_type", search_result.get(9 * i));
+            listitem.put("lib_link", search_result.get(9 * i + 1));
+            listitem.put("lib_name", search_result.get(9 * i + 2));
+            listitem.put("lib_num", search_result.get(9 * i + 3));
+            listitem.put("lib_copy", search_result.get(9 * i + 4));
+            listitem.put("lib_borrow", search_result.get(9 * i + 5));
+            listitem.put("lib_author", search_result.get(9 * i + 6));
+            listitem.put("lib_press_name", search_result.get(9 * i + 7));
+            listitem.put("lib_publish_time", search_result.get(9 * i + 8));
+            search_list.add(listitem);
+        }
+        search_adapter.notifyDataSetChanged();
     }
 
     protected boolean checkIndex(ArrayList<String> list) {
@@ -201,19 +199,27 @@ public class LibrarySearchFragment extends Fragment {
             if (id == (search_list.size() + 1)) {
                 return false;
             }
-
         }
         return true;
     }
 
     private String getSearchURL(String search_key, int page) {
+        String search_url = "";
+        try {
+            search_url = URLEncoder.encode(search_key, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return getString(R.string.lib_search_address)
-                + "?strSearchType=title&strText="
-                + search_key + "&page=" + page;
+                + "?strSearchType=title&strText=" + search_url + "&page=" + page;
     }
 
     private void get(String url, String tag, int feedback, int id, String code) {
         if (((MyApplication) getActivity().getApplication()).CheckNetwork()) {
+            if (feedback == 0x100) { // clicked search button
+                progress_bar.setVisibility(View.VISIBLE);
+            }
+            is_loading = true;
             GetPostHandler.handlerGet(handler, url, tag, feedback, id, code);
         } else {
             Toast.makeText(getActivity(), R.string.NoNetwork, Toast.LENGTH_LONG).show();

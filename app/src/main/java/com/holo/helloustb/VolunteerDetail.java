@@ -7,18 +7,20 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
+import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class VolunteerDetail extends AppCompatActivity {
     String detail_id;
-
+    GoogleProgressBar progress_bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +29,14 @@ public class VolunteerDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        progress_bar = (GoogleProgressBar)findViewById(R.id.progress_bar);
         Intent intent = getIntent();
         detail_id = intent.getStringExtra("id");
         setBaseInformation((HashMap) getIntent().getSerializableExtra("detail"));
 
         //get function in oncreate
         if (((MyApplication) getApplication()).CheckNetwork()) {
+            progress_bar.setVisibility(View.VISIBLE);
             GetPostHandler.handlerGet(handler, getString(R.string.volunteer_detail_view, detail_id),
                     "VOL", 0x100, 18, "utf-8");
         } else {
@@ -58,7 +62,7 @@ public class VolunteerDetail extends AppCompatActivity {
         public void handleMessage(Message msg) {
             DataInfo data_info = (DataInfo) msg.obj;
             if (data_info.code == DataInfo.TimeOut) {
-//                progress_bar.setVisibility(View.INVISIBLE);
+                progress_bar.setVisibility(View.INVISIBLE);
                 Toast.makeText(VolunteerDetail.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -66,6 +70,7 @@ public class VolunteerDetail extends AppCompatActivity {
 
             switch (msg.what) {
                 case 0x100:
+                    progress_bar.setVisibility(View.INVISIBLE);
                     int length = str_msg.size();
                     String data[];
 
