@@ -117,7 +117,7 @@ public class CampusNetworkFragment extends Fragment {
         float[] data = M(calendar_now, today_flow);
         float[] variance = new float[DATA_LENGTH - 1];
         int day_counter = calendar_now.get(Calendar.DAY_OF_MONTH) - 1;
-        for (int i = DATA_LENGTH - 2; i > 0; i--) {
+        for (int i = DATA_LENGTH - 2; i >= 0; i--) {
             if (day_counter != 0) {
                 variance[i] = data[i + 1] - data[i];
             } else {
