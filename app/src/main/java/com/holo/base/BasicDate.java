@@ -7,26 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 public class BasicDate {
-    public static int getweek() {//���չ�ʽ
+    public static int getWeek() {
         Calendar cal = Calendar.getInstance();
-//		Date date =new Date();
-        int year = cal.get(Calendar.YEAR);//date.getYear();
-        int month = cal.get(Calendar.MONTH) + 1;//date.getMonth();
-        int day = cal.get(Calendar.DATE);//date.getDay();
-        //System.out.println(year+"-"+month+"-"+day+"=");
-        if (month == 1 || month == 2) {
-            year--;
-            month += 12;
-        }
-        int c = year / 100;
-        int y = year % 100;
-        int week = (c / 4) - 2 * c + (y + y / 4) + (13 * (month + 1)) / 5 + day - 1;
-        week %= 7;
-        if (week <= 0) {
-            week += 7;
-        }
-        ;
-        return week;
+        int week = cal.get(Calendar.DAY_OF_WEEK) - 2;
+        return week < 0 ? week + 7 : week; //from  0(Mon) to 6(Sun)
     }
 
     public static String getMyday() {
@@ -88,7 +72,7 @@ public class BasicDate {
                 year = record.get(2 + 8 * i);
             }
         }
-        if(length != 0) score_list.add(score_li);
+        if (length != 0) score_list.add(score_li);
         return score_list;
     }
 

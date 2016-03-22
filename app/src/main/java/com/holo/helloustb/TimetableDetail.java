@@ -22,8 +22,8 @@ public class TimetableDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        int week_no = intent.getIntExtra("week", 0) + 1;    //周几
-        int position = intent.getIntExtra("position", 0) + 1;    //第几节课
+        int week_no = intent.getIntExtra("week", 0);    //周几 0-6
+        int position = intent.getIntExtra("position", 0);    //第几节课 0-5
         String course_id = intent.getStringExtra("course_id");    //课程编号
 
         QueryData qd = new QueryData(this);

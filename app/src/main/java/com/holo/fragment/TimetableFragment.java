@@ -40,7 +40,7 @@ public class TimetableFragment extends Fragment {
         if (!courseDb.isTableEmpty()) {
             QueryData qd = new QueryData(getActivity());
 
-            Cursor cursor = qd.getSomedayCourse(position + 1);
+            Cursor cursor = qd.getSomedayCourse(position);
             TimeTableList ttl = new TimeTableList(cursor);
             cursor.close();
 
@@ -76,13 +76,11 @@ public class TimetableFragment extends Fragment {
 
         @Override
         public int getCount() {
-            // TODO 自动生成的方法存根
             return 6;
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO 自动生成的方法存根
             return null;
         }
 
@@ -116,7 +114,6 @@ public class TimetableFragment extends Fragment {
                 tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//						 TODO Auto-generated method stub
                         Intent intent = new Intent(getActivity(), TimetableDetail.class);
                         intent.putExtra("week", week);
                         intent.putExtra("course_id", course_id);

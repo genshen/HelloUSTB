@@ -27,6 +27,7 @@
         <item>第24周</item>
     </string-array>
     <string-array name="week_values">
+        <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -49,7 +50,6 @@
         <item>20</item>
         <item>21</item>
         <item>22</item>
-        <item>24</item>
-        <item>24</item>
+        <item>23</item>
     </string-array>
 </resources>

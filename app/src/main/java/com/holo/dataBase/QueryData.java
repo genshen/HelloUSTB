@@ -1,14 +1,16 @@
 package com.holo.dataBase;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.holo.base.BasicDate;;
+import com.holo.base.BasicDate;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+;
 
 public class QueryData {
     SQLiteDatabase course_db;
@@ -24,14 +26,13 @@ public class QueryData {
         course.close();
     }
 
-
     public List<HashMap<String, Object>> getTodayCourse(int week_num) {
-        List<HashMap<String, Object>> mlist = new ArrayList<>();
+        List<HashMap<String, Object>> mList = new ArrayList<>();
         String[] key = {"week_day", "lesson_no", "course_id", "times", "course_name", "place", "teachers"};
         int length = 7;
 
         String sql = "select * from Course_info " +
-                " where week_id = " + week_num + " and week_day = " + BasicDate.getweek();
+                " where week_id >> "+ week_num + "&1 = 1 and week_day = " + BasicDate.getWeek() +" order by lesson_no";
         Cursor cursor = course_db.rawQuery(sql, null);
 
         cursor.moveToFirst();
@@ -40,26 +41,25 @@ public class QueryData {
             for (int i = 0; i < length; i++) {
                 listitem.put(key[i], cursor.getString(cursor.getColumnIndex(key[i])));
             }
-            mlist.add(listitem);
+            listitem.put("lesson_no", cursor.getInt(cursor.getColumnIndex("lesson_no"))+1); //todo ,have done! re save  lesson_no 0-5 -> 1-6
+            mList.add(listitem);
             cursor.moveToNext();
         }
         cursor.close();
-        return mlist;
+        return mList;
     }
 
     //获得某一天的课表
     public Cursor getSomedayCourse(int position) {
-        // TODO 自动生成的方法存根
         String sql;
-        sql = "select * from course_info  where week_day = " + position + " group by course_id , lesson_no";
+        sql = "select * from course_info  where week_day = " + position;
         return course_db.rawQuery(sql, null);
     }
 
     public  HashMap<String, Object> getCourseById(String id, int week_no, int position) {
-        String sql = "select * from course_info  where course_id = " + id +
-                " limit 1";
+        String sql = "select * from course_info  where course_id = " + id + " limit 1";
         Cursor cursor = course_db.rawQuery(sql, null);
-        HashMap<String, Object> course_detail = new HashMap<String, Object>();
+        HashMap<String, Object> course_detail = new HashMap<>();
 
         if (cursor.getCount() == 1) {
             cursor.moveToFirst();

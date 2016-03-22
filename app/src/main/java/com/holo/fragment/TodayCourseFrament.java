@@ -36,7 +36,7 @@ public class TodayCourseFrament extends Fragment {
         CourseDbHelper course = new CourseDbHelper(getActivity(), 1);
         if (!course.isTableEmpty()) {
             SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            int week_num =Integer.parseInt( pre.getString("week_num", "1"));
+            int week_num =Integer.parseInt( pre.getString("week_num", "0"));
 
             QueryData qd = new QueryData(getActivity());
             final List<HashMap<String, Object>> mapList = qd.getTodayCourse(week_num);

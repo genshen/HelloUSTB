@@ -17,13 +17,13 @@ public class CourseDbHelper extends SQLiteOpenHelper {
             "student_num integer," +        //学生数目
             "learn_time integer," +        //学时
             "credit integer," +            //学分
-            "week_id integer," +            //第几周
-            "week_day integer," +        //周几
+            "week_id integer," +           //哪些几周,某一为为1表示该周有课
+            "week_day integer," +         //周几
             "lesson_no integer," +        //第几节课
             "course_id integer," +        //课程ID
-            "course_name varchar," +    //课程名称
-            "course_type varchar," +        //课程类型
-            "teachers varchar," +        //教师
+            "course_name varchar," +      //课程名称
+            "course_type varchar," +      //课程类型
+            "teachers varchar," +         //教师
             "time_place varchar," +        //时间地点
             "place varchar," +            //地点
             "times varchar," +            //上课时间
