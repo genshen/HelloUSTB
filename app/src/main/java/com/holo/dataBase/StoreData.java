@@ -39,8 +39,7 @@ public class StoreData {
             JSONArray data = dataJson.getJSONArray("selectedCourses");
             for (int i = data.length() - 1; i >= 0; i--) {
                 JSONObject course = data.getJSONObject(i);
-                Object value = course.get("XS");
-                if (value != null) {
+                if (course != null) {
                     if (!InsertToDB(getValueByKey("SKRS", course, false),//上课人数
                             getValueByKey("XS", course, false),//学时
                             getValueByKey("XF", course, false),//学分
@@ -53,10 +52,9 @@ public class StoreData {
                     )) {
                         return false;
                     }
-
-                    //				System.out.print( v +"\n");
-                    //				//配套课
-                    //				addPTK(course.getJSONArray("PTK"));
+                    if (!addPTK(course.getJSONArray("PTK"))) {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -65,6 +63,33 @@ public class StoreData {
             return false;
         }
 
+    }
+
+    //配套课(如实验课)
+    private boolean addPTK(JSONArray ptks) {
+        try {
+            for (int i = ptks.length() - 1; i >= 0; i--) {
+                JSONObject ptk = ptks.getJSONObject(i);
+                if (ptk != null) {
+                    if (!InsertToDB(getValueByKey("SKRS", ptk, false),//上课人数
+                            getValueByKey("XS", ptk, false),//学时
+                            getValueByKey("XF", ptk, false),//学分
+                            getValueByKey("ID", ptk, false),//ID
+                            getValueByKey("KCM", ptk, true),//课程名称
+                            "未知",     //课程类型 null
+                            addJSM(ptk.getJSONArray("JSM")),    //教师
+                            getValueByKey("SKSJDDSTR", ptk, true),//上课时间地点
+                            addSKSJDD(ptk.getJSONObject("SKSJDD")) //上课详细时间地点
+                    )) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private boolean InsertToDB(String student_num, String learn_time,
@@ -82,7 +107,7 @@ public class StoreData {
                     (key++) + "," + student_num + "," + learn_time + "," + credit + "," +
                     week_id + "," + lesson.week_day + "," + lesson.lesson_no + "," + course_id +
                     ",\'" + course_name + "\',\'" + course_type + "\',\'" + teachers + "\',\'" + time_place +
-                    "\',\'" +  lesson.class_place + "\',\'" + time + "\',\'" + lesson.weeks + "\')";
+                    "\',\'" + lesson.class_place + "\',\'" + time + "\',\'" + lesson.weeks + "\')";
             course_db.execSQL(sql_sentence);
         }
         return true;
@@ -108,21 +133,20 @@ public class StoreData {
 
 
     private static String getValueByKey(String key, JSONObject data, boolean return_str) {
-        Object value = null;
+        Object value;
         try {
             value = data.get(key);
+            if (value != null) {
+                return value.toString();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String s = value.toString();
-        if (s.equals("null") || s.isEmpty()) {
-            if (return_str) {
-                return "";
-            } else {
-                return "0";
-            }
+        if (return_str) {
+            return "";
+        } else {
+            return "0";
         }
-        return s;
     }
 
     private static HashMap<LessonPlaceTime, Integer> addSKSJDD(JSONObject jsonObj) {
@@ -133,7 +157,7 @@ public class StoreData {
                 String key = (String) it.next();
                 JSONArray arr = jsonObj.getJSONArray(key);
                 if (arr != null && arr.length() == 2) {
-                    LessonPlaceTime lessonKey = new LessonPlaceTime(Integer.parseInt(key), arr.getString(0),arr.getString(1));
+                    LessonPlaceTime lessonKey = new LessonPlaceTime(Integer.parseInt(key), arr.getString(0), arr.getString(1));
                     Integer val_obj = lessonSet.get(lessonKey);
                     int val = val_obj == null ? 0 : val_obj;
                     val = val | (1 << lessonKey.week_id); // eg: val = 001010 means we have course at week 2 and week 4

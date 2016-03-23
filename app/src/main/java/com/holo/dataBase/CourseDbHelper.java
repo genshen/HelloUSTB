@@ -12,7 +12,7 @@ import com.holo.sdcard.SdCardPro;
  */
 public class CourseDbHelper extends SQLiteOpenHelper {
     final String TableName = "Course_info";
-    public static final String DATABASE_NAME = SdCardPro.getSDPath() + "/MyUstb/Data/Course/CoursTest.db";
+    public static final String DATABASE_NAME = SdCardPro.getSDPath() + "/MyUstb/Data/Course/Course_v101.db";
     String SQL_CREATE_COURSE = "create table Course_info(_id integer primary key," +
             "student_num integer," +        //学生数目
             "learn_time integer," +        //学时
