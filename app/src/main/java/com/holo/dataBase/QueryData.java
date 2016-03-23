@@ -10,12 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-;
-
 public class QueryData {
     SQLiteDatabase course_db;
     public CourseDbHelper course;
-    final String TableName = "Course_info";
+    final String TableName = CourseDbHelper.CourseInfoTable.TableName;
 
     public QueryData(Context context) {
         course = new CourseDbHelper(context, 1);
@@ -28,20 +26,27 @@ public class QueryData {
 
     public List<HashMap<String, Object>> getTodayCourse(int week_num) {
         List<HashMap<String, Object>> mList = new ArrayList<>();
-        String[] key = {"week_day", "lesson_no", "course_id", "times", "course_name", "place", "teachers"};
-        int length = 7;
-
-        String sql = "select * from Course_info " +
-                " where week_id >> "+ week_num + "&1 = 1 and week_day = " + BasicDate.getWeek() +" order by lesson_no";
+        String[] key = {CourseDbHelper.CourseInfoTable._ID,CourseDbHelper.CourseInfoTable.WEEK_DAY,
+                CourseDbHelper.CourseInfoTable.LESSON_NO, CourseDbHelper.CourseInfoTable.COURSE_ID,
+                CourseDbHelper.CourseInfoTable.TIMES, CourseDbHelper.CourseInfoTable.COURSE_NAME,
+                CourseDbHelper.CourseInfoTable.PLACE, CourseDbHelper.CourseInfoTable.TEACHERS};
+        String sql = "select * from Course_info " + " where week_id >> " +
+                week_num + "&1 = 1 and week_day = " + BasicDate.getWeek() + " order by lesson_no";
         Cursor cursor = course_db.rawQuery(sql, null);
 
         cursor.moveToFirst();
+        int length =key.length;
         while (!cursor.isAfterLast()) {
             HashMap<String, Object> listitem = new HashMap<>();
             for (int i = 0; i < length; i++) {
-                listitem.put(key[i], cursor.getString(cursor.getColumnIndex(key[i])));
+                if (i == 2) {
+                    listitem.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])) + 1);
+                } else if (i < 4) {
+                    listitem.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])));
+                } else {
+                    listitem.put(key[i], cursor.getString(cursor.getColumnIndex(key[i])));
+                }
             }
-            listitem.put("lesson_no", cursor.getInt(cursor.getColumnIndex("lesson_no"))+1); //todo ,have done! re save  lesson_no 0-5 -> 1-6
             mList.add(listitem);
             cursor.moveToNext();
         }
@@ -56,17 +61,17 @@ public class QueryData {
         return course_db.rawQuery(sql, null);
     }
 
-    public  HashMap<String, Object> getCourseById(String id, int week_no, int position) {
-        String sql = "select * from course_info  where course_id = " + id + " limit 1";
+    public HashMap<String, Object> getCourseById(int id) {
+        String sql = "select * from course_info  where _id = " + id;
         Cursor cursor = course_db.rawQuery(sql, null);
         HashMap<String, Object> course_detail = new HashMap<>();
 
         if (cursor.getCount() == 1) {
             cursor.moveToFirst();
-            String[] key = {"student_num", "learn_time", "credit", "course_name", "course_type",
-                    "teachers", "time_place", "place", "times", "weeks"};
+            String[] key = {"student_num", "learn_time", "credit", "week_day", "lesson_no",
+                    "course_name", "course_type", "teachers", "time_place", "place", "times", "weeks"};
             for (int i = 0; i < key.length; i++) {
-                if (i < 3) {
+                if (i < 5) {
                     course_detail.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])));
                 } else {
                     course_detail.put(key[i], cursor.getString(cursor.getColumnIndex(key[i])));

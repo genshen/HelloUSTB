@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.holo.base.BasicDate;
 import com.holo.base.StrPro;
 import com.holo.dataBase.CourseDbHelper;
 import com.holo.dataBase.QueryData;
@@ -22,8 +23,7 @@ import com.holo.helloustb.TimetableDetail;
 import java.util.HashMap;
 import java.util.List;
 
-
-public class TodayCourseFrament extends Fragment {
+public class TodayCourseFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,10 +36,9 @@ public class TodayCourseFrament extends Fragment {
         CourseDbHelper course = new CourseDbHelper(getActivity(), 1);
         if (!course.isTableEmpty()) {
             SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            int week_num =Integer.parseInt( pre.getString("week_num", "0"));
-
+            long week_start_days = pre.getLong(GeneralSettingFragment.WEEK_START, 0);
             QueryData qd = new QueryData(getActivity());
-            final List<HashMap<String, Object>> mapList = qd.getTodayCourse(week_num);
+            final List<HashMap<String, Object>> mapList = qd.getTodayCourse(BasicDate.getWeekNum(week_start_days));
             MainActivity.shareCourse = StrPro.getCourseShareStr(mapList);
 
             SimpleAdapter adapter = new SimpleAdapter(getActivity(), mapList, R.layout.listview_today_course,
@@ -52,17 +51,12 @@ public class TodayCourseFrament extends Fragment {
             mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (position >=  mapList.size()) return;
+                    if (position >= mapList.size()) return;
                     HashMap<String, Object> map = mapList.get(position);
-
-                    int week = Integer.parseInt(map.get("week_day").toString());
-                    String course_id = map.get("course_id").toString();
-                    int pos = Integer.parseInt(map.get("lesson_no").toString());
+                    int _id = (int)map.get("_id");
 
                     Intent intent = new Intent(getActivity(), TimetableDetail.class);
-                    intent.putExtra("week", week);
-                    intent.putExtra("course_id", course_id);
-                    intent.putExtra("position", pos);
+                    intent.putExtra("_id", _id);
                     startActivity(intent);
                 }
             });

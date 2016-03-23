@@ -63,12 +63,11 @@ public class CampusNetworkFragment extends Fragment {
                 .setDotsRadius(5f)
                 .setDotsColor(Color.parseColor("#FFFFFF"));
         mChart.addData(dataset);
-        mChart.setClickablePointRadius(20.0f);
+        mChart.setClickablePointRadius(40.0f);
 
         mChart.setOnEntryClickListener(new OnEntryClickListener() {
             @Override
             public void onClick(int setIndex, int entryIndex, Rect entryRect) {
-                //todo
                 setFlowChatValue(mValues[entryIndex], mLabels[entryIndex]);
             }
         });

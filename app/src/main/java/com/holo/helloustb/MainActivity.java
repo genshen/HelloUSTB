@@ -27,7 +27,7 @@ import com.holo.fragment.CampusNetworkFragment;
 import com.holo.fragment.ErrorFragment;
 import com.holo.fragment.HomeFragment;
 import com.holo.fragment.RecordFragment;
-import com.holo.fragment.TodayCourseFrament;
+import com.holo.fragment.TodayCourseFragment;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.holo.network.VersionChecker;
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                     state = 4;
                     drawerToggle();
                     ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
-                    TodayCourseFrament fragment = new TodayCourseFrament();
+                    TodayCourseFragment fragment = new TodayCourseFragment();
                     getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
                     break;
                 case R.id.volunteer:
@@ -403,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0x001:
                     cancelProcessDialog();
                     Toast.makeText(MainActivity.this, R.string.importsuccess, Toast.LENGTH_SHORT).show();
-                    TodayCourseFrament fragment = new TodayCourseFrament(); //show new timetable after imported
+                    TodayCourseFragment fragment = new TodayCourseFragment(); //show new timetable after imported
                     getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
                     break;
                 case 0x002:

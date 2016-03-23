@@ -36,7 +36,7 @@
     <!-- 开始界面 -->
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_start">StartActivity</string>
-    <string name="bottomtext">&#169;2015 genshen.hol.es \nAll Right Reserved</string>
+    <string name="bottomtext">&#169;2015&#8211;2016 genshen.hol.es \nAll Right Reserved</string>
     <!-- 开始界面 -->
     <!-- 引导页 -->
     <string name="start">开始</string>
@@ -282,6 +282,7 @@
     <string name="detail_course_credit_key">课程学分</string>
     <string name="detail_course_type_key">课程分类</string>
     <string name="detail_course_time_place_key">所有课堂</string>
+    <string name="setting_course_edit">编辑</string>
     <!-- /课程详情 -->
     <!--课程表 总-->
     <string name="no_course_imported">你尚未导入课表</string>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -22,17 +23,15 @@ public class TimetableDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        int week_no = intent.getIntExtra("week", 0);    //周几 0-6
-        int position = intent.getIntExtra("position", 0);    //第几节课 0-5
-        String course_id = intent.getStringExtra("course_id");    //课程编号
+        int _id = intent.getIntExtra("_id", 1);
 
         QueryData qd = new QueryData(this);
-        HashMap<String, Object> course_detail = qd.getCourseById(course_id, week_no, position);
-        course_detail.put("position", "周" + week_no + " 第" + position + "节");
+        HashMap<String, Object> course_detail = qd.getCourseById(_id);
+        course_detail.put("position", "周" + ((int) course_detail.get("week_day") + 1) +
+                " 第" + ((int) course_detail.get("lesson_no") + 1) + "节");
         getSupportActionBar().setTitle(getString(R.string.timetable_detail_title, course_detail.get("course_name").toString()));
         setValue(course_detail);
     }
-
 
     private void setValue(HashMap<String, Object> course_detail) {
         String[] key = {"course_name", "teachers", "place", "times", "weeks", "position", "student_num",
@@ -51,6 +50,11 @@ public class TimetableDetail extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_timetable_detail, menu);
+        return true;
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

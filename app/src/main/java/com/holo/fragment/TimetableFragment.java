@@ -93,9 +93,9 @@ public class TimetableFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             // 由于只有6个，所以可以不考虑view的回收
             final int pos = position;
-            View rootview = LayoutInflater.from(mContext).inflate(R.layout.listview_timetable, null);
-            TextView lesson_id = (TextView) rootview.findViewById(R.id.timetable_lesson_id);
-            LinearLayout lesson_summary = (LinearLayout) rootview.findViewById(R.id.timetable_lesson_summary);
+            View root_view = LayoutInflater.from(mContext).inflate(R.layout.listview_timetable, null);
+            TextView lesson_id = (TextView) root_view.findViewById(R.id.timetable_lesson_id);
+            LinearLayout lesson_summary = (LinearLayout) root_view.findViewById(R.id.timetable_lesson_summary);
             lesson_id.setText(getContext().getString(R.string.lesson_id, position + 1));
 
             ArrayList<Map<String, Object>> c = ttl.getCourseList(position);
@@ -103,7 +103,7 @@ public class TimetableFragment extends Fragment {
             for (int i = 0; i < size; i++) {
                 TextView tv = new TextView(mContext);
                 Map<String, Object> lesson = c.get(i);
-                final String course_id = lesson.get("course_id").toString();
+                final int _id = (int) lesson.get("_id");
                 String content = lesson.get("course_name") + "\n" +
                         lesson.get("teachers") + "\n" +
                         lesson.get("place") + "\n" +
@@ -115,16 +115,14 @@ public class TimetableFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), TimetableDetail.class);
-                        intent.putExtra("week", week);
-                        intent.putExtra("course_id", course_id);
-                        intent.putExtra("position", pos);
+                        intent.putExtra("_id", _id);
                         startActivity(intent);
                     }
                 });
                 lesson_summary.addView(tv);
             }    //end for
 
-            return rootview;
+            return root_view;
         }
     }
 }

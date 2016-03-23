@@ -11,9 +11,9 @@ import com.holo.sdcard.SdCardPro;
  * Created by 根深 on 2015/11/20.
  */
 public class CourseDbHelper extends SQLiteOpenHelper {
-    final String TableName = "Course_info";
     public static final String DATABASE_NAME = SdCardPro.getSDPath() + "/MyUstb/Data/Course/Course_v101.db";
-    String SQL_CREATE_COURSE = "create table Course_info(_id integer primary key," +
+    String SQL_CREATE_COURSE = "create table " + CourseInfoTable.TableName +
+            "(_id integer primary key," +   //id
             "student_num integer," +        //学生数目
             "learn_time integer," +        //学时
             "credit integer," +            //学分
@@ -27,7 +27,7 @@ public class CourseDbHelper extends SQLiteOpenHelper {
             "time_place varchar," +        //时间地点
             "place varchar," +            //地点
             "times varchar," +            //上课时间
-            "weeks varchar)";            //那几周都有课
+            "weeks varchar)";            //哪几周都有课
 
     public CourseDbHelper(Context context, int version) {
         super(context, DATABASE_NAME, null, version);
@@ -45,11 +45,31 @@ public class CourseDbHelper extends SQLiteOpenHelper {
 
     public boolean isTableEmpty() {
         //  SELECT COUNT(*) FROM table_name
-        String sql = "SELECT * FROM " + TableName;
+        String sql = "SELECT * FROM " + CourseInfoTable.TableName;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         boolean empty = (cursor.getCount() == 0);
         cursor.close();
         return empty;
+    }
+
+    public class CourseInfoTable {
+        public static final String TableName = "TableName";
+
+        public static final String _ID = "_id";
+        public static final String STUDENT_NUM = "student_num";
+        public static final String LEARN_TIME = "learn_time";
+        public static final String CREDIT = "credit";
+        public static final String WEEK_ID = "week_id";
+        public static final String WEEK_DAY = "week_day";
+        public static final String LESSON_NO = "lesson_no";
+        public static final String COURSE_ID = "course_id";
+        public static final String COURSE_NAME = "course_name";
+        public static final String COURSE_TYPE = "course_type";
+        public static final String TEACHERS = "teachers";
+        public static final String TIME_PLACE = "time_place";
+        public static final String PLACE = "place";
+        public static final String TIMES = "times";
+        public static final String WEEKS = "weeks";
     }
 }

@@ -7,10 +7,23 @@ import java.util.List;
 import java.util.Map;
 
 public class BasicDate {
+    final static int MAX_WEEK_NUM = 24;
+    final static int ONE_DAY = 1000 * 3600 * 24;
+
     public static int getWeek() {
         Calendar cal = Calendar.getInstance();
         int week = cal.get(Calendar.DAY_OF_WEEK) - 2;
         return week < 0 ? week + 7 : week; //from  0(Mon) to 6(Sun)
+    }
+
+
+    // pretend the first day of a week is monday!
+    public static int getWeekNum(long week_start_days) {
+        long to_days = System.currentTimeMillis() / ONE_DAY;
+        if (week_start_days > to_days || week_start_days == 0) {
+            return 0;
+        }
+        return (int) (to_days - week_start_days) / 7 % MAX_WEEK_NUM; // mod 24
     }
 
     public static String getMyday() {
@@ -19,10 +32,10 @@ public class BasicDate {
     }
 
     public static int getEndYear() {
-        Calendar cal = Calendar.getInstance();//ʹ��������
-        int to_year = cal.get(Calendar.YEAR);//�õ���
+        Calendar cal = Calendar.getInstance();
+        int to_year = cal.get(Calendar.YEAR);
         int to_month = cal.get(Calendar.MONTH) + 1;
-        if (to_month < 8)    //���＾ѧ�ڱ���һ��
+        if (to_month < 8)
         {
             to_year--;
         }

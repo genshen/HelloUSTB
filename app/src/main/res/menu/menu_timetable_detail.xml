@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".TimetableDetail">
     <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_edit"
+        android:orderInCategory="10"
+        android:title="@string/setting_course_edit"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
