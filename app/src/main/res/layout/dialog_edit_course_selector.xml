@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.holo.view.SelectWheel
+        android:id="@+id/wheel_view_week_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:entries="@array/week_days"
+        app:lwvHighlightColor="@color/colorPrimary"
+        app:lwvMarkTextColor="#919191"  />
+
+    <com.holo.view.SelectWheel
+        android:id="@+id/wheel_view_lesson_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:entries="@array/lessons"
+        app:lwvHighlightColor="@color/colorPrimary"
+        app:lwvMarkTextColor="#919191" />
+</LinearLayout>

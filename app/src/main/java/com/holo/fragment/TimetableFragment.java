@@ -30,21 +30,19 @@ import java.util.Map;
  */
 public class TimetableFragment extends Fragment {
     final int databaseVersion = 1;
+    boolean hasImported = false;
+    int position;
+    TimeTableList ttl;
+    TimeTableAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        int position = FragmentPagerItem.getPosition(getArguments());
-
+        position = FragmentPagerItem.getPosition(getArguments());
         CourseDbHelper courseDb = new CourseDbHelper(getActivity(), databaseVersion);
         if (!courseDb.isTableEmpty()) {
-            QueryData qd = new QueryData(getActivity());
-
-            Cursor cursor = qd.getSomedayCourse(position);
-            TimeTableList ttl = new TimeTableList(cursor);
-            cursor.close();
-
-            TimeTableAdapter adapter = new TimeTableAdapter(ttl, getActivity(), position);
+            hasImported = true;
+            adapter = new TimeTableAdapter(ttl, getActivity(), position);
             View rootView = inflater.inflate(R.layout.fragment_timetable, container, false);
             ((ListView) rootView.findViewById(R.id.timetableListView)).setAdapter(adapter);
             return rootView;
@@ -54,6 +52,19 @@ public class TimetableFragment extends Fragment {
 //                    Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
         return inflater.inflate(R.layout.fragment_timetable, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(hasImported){
+            QueryData qd = new QueryData(getActivity());
+            Cursor cursor = qd.getSomedayCourse(position);
+            adapter.ttl = new TimeTableList(cursor);
+            adapter.notifyDataSetChanged();
+            cursor.close();
+            qd.close();
+        }
     }
 
     @Override
@@ -92,11 +103,12 @@ public class TimetableFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // 由于只有6个，所以可以不考虑view的回收
-            final int pos = position;
             View root_view = LayoutInflater.from(mContext).inflate(R.layout.listview_timetable, null);
             TextView lesson_id = (TextView) root_view.findViewById(R.id.timetable_lesson_id);
             LinearLayout lesson_summary = (LinearLayout) root_view.findViewById(R.id.timetable_lesson_summary);
             lesson_id.setText(getContext().getString(R.string.lesson_id, position + 1));
+
+            if(ttl == null) return root_view;
 
             ArrayList<Map<String, Object>> c = ttl.getCourseList(position);
             int size = c.size();

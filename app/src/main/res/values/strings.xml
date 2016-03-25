@@ -13,6 +13,7 @@
     <string name="title_activity_exam_query">考试查询</string>
     <string name="title_activity_share_app">分享应用</string>
     <string name="title_activity_timetable_detail">课程详情</string>
+    <string name="title_activity_timetable_edit">编辑课程</string>
     <string name="title_activity_feedback">反馈</string>
     <string name="title_activity_settings">设置</string>
     <string name="title_activity_general_setting">通用</string>
@@ -59,6 +60,7 @@
     <string name="alert_login">登录</string>
     <string name="alert_sure">确定</string>
     <string name="alert_cancel">取消</string>
+    <string name="alert_ok">确定</string>
     <string name="alert_title_net">校园网用户登录</string>
     <string name="alert_title_deu">本科教学网用户登录</string>
     <string name="alert_title_e">电子信息门户用户登录</string>
@@ -267,6 +269,9 @@
     <string name="startimport">正在导入课程表，请稍后&#8230;</string>
     <string name="shareMe">分享课表</string>
     <!-- 课程表主界面 -->
+    <!--今日课表-->
+    <string name="no_lesson_today">你今天没有课哟~</string>
+    <!--/今日课表-->
     <!-- 课程详情 -->
     <string name="timetable_detail_title">%s</string>
     <string name="detail_class_info">课堂信息</string>
@@ -283,6 +288,10 @@
     <string name="detail_course_type_key">课程分类</string>
     <string name="detail_course_time_place_key">所有课堂</string>
     <string name="setting_course_edit">编辑</string>
+    <string name="setting_course_delete">删除</string>
+    <string name="dialog_delete_course_ack_title">删除课程</string>
+    <string name="dialog_delete_course_ack_ok">删除</string>
+    <string name="dialog_delete_course_ack_message">你确定删除课程%s?</string>
     <!-- /课程详情 -->
     <!--课程表 总-->
     <string name="no_course_imported">你尚未导入课表</string>
@@ -341,46 +350,22 @@
     <string name="ensure_logout_volunteer">你确定注销志愿服务课程网账号吗?</string>
     <string name="logout_vol_success">注销志愿服务课程网成功</string>
 
-
     <string name="logout_e">注销信息门户账号</string>
     <string name="ensure_logout_e">你确定注销信息门户账号吗?</string>
     <string name="logout_e_success">校园信息门户账号注销成功</string>
     <!--/个人中心-->
-
-    <!--progressWheel Test-->
-    <string name="main_text">Options:</string>
-    <string name="option_progress">Progress:</string>
-    <string name="option_bar_color">Bar color:</string>
-    <string name="option_wheel_color">Wheel color:</string>
-    <string name="interpolated">Interpolated progress:</string>
-    <string name="linear">Linear progress:</string>
-    <string name="ok">确定</string>
-    <string name="about_text">This app is for demonstrate the Material-ish progress wheel library, which provides a Material-style progress wheel compatible back to API 9. You can have indeterminate and determinate versions of the progress wheel, the later with a linear animation or a interpolated one like in the guidelines.\n\nRefer to the Github project page for more info at https://github.com/pnikosis/materialish-progress. </string>
-    <string-array name="progress_value_options">
-        <item>Cycle between 0% and 100%</item>
-        <item>0%</item>
-        <item>10%</item>
-        <item>25%</item>
-        <item>50%</item>
-        <item>75%</item>
-        <item>100%</item>
-    </string-array>
-    <string-array name="progress_color_options">
-        <item>Default</item>
-        <item>Red</item>
-        <item>Magenta</item>
-    </string-array>
-    <string-array name="wheel_color_options">
-        <item>Default</item>
-        <item>Light Gray</item>
-        <item>Gray</item>
-    </string-array>
-
-    <string name="large_text">
-
-    </string>
-
-    <!--/progressWheel Test-->
-
-
+    <!-- Strings related to login -->
+    <string name="edit_course_name">课程名称</string>
+    <string name="edit_course_teacher">授课老师</string>
+    <string name="edit_course_place">上课地点</string>
+    <string name="edit_course_week_id">周数</string>
+    <string name="edit_course_lesson_no">节数</string>
+    <string name="edit_alert_week_id_title">修改课程周数</string>
+    <string name="edit_alert_lesson_no_title">修改课程节数</string>
+    <string name="edit_action_submit">保存</string>
+    <string name="error_empty_course_name">课程名不能为空</string>
+    <string name="error_empty_course_teacher">授课老师不能为空</string>
+    <string name="error_empty_course_place">上课地点不能为空</string>
+    <string name="error_week_id_needed">请选择上课周数</string>
+    <!-- Strings related to login -->
 </resources>

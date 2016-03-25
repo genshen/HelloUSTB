@@ -2,6 +2,7 @@ package com.holo.helloustb;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +14,9 @@ import com.holo.dataBase.QueryData;
 import java.util.HashMap;
 
 public class TimetableDetail extends AppCompatActivity {
+    int _id, i = 0;
+    HashMap<String, Object> course_detail;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,17 +24,25 @@ public class TimetableDetail extends AppCompatActivity {
         setContentView(R.layout.activity_timetable_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        int _id = intent.getIntExtra("_id", 1);
+        _id = intent.getIntExtra("_id", 1);
+    }
 
+    @Override
+    protected void onResume() {
+        if (course_detail != null)
+            course_detail.clear();
         QueryData qd = new QueryData(this);
-        HashMap<String, Object> course_detail = qd.getCourseById(_id);
+        course_detail = qd.getCourseById(_id);
+        qd.close();
         course_detail.put("position", "周" + ((int) course_detail.get("week_day") + 1) +
                 " 第" + ((int) course_detail.get("lesson_no") + 1) + "节");
-        getSupportActionBar().setTitle(getString(R.string.timetable_detail_title, course_detail.get("course_name").toString()));
+        actionBar.setTitle(getString(R.string.timetable_detail_title, course_detail.get("course_name").toString()));
         setValue(course_detail);
+        super.onResume();
     }
 
     private void setValue(HashMap<String, Object> course_detail) {
@@ -59,10 +71,24 @@ public class TimetableDetail extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.action_edit:
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(TimetableEdit.DATA_FLAG, course_detail);
+                bundle.putBoolean(TimetableEdit.ADD_NEW_FLAG, false);
+                bundle.putInt(TimetableEdit.ID_FLAG, _id);
+                Intent intent = new Intent(this, TimetableEdit.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
             case android.R.id.home:
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

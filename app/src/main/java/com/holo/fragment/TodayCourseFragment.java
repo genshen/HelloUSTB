@@ -53,7 +53,7 @@ public class TodayCourseFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position >= mapList.size()) return;
                     HashMap<String, Object> map = mapList.get(position);
-                    int _id = (int)map.get("_id");
+                    int _id = (int) map.get("_id");
 
                     Intent intent = new Intent(getActivity(), TimetableDetail.class);
                     intent.putExtra("_id", _id);
@@ -62,19 +62,7 @@ public class TodayCourseFragment extends Fragment {
             });
             qd.close();
         }
-
         course.close();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-//    private void CursorToMap(Cursor cursor) {
-//
-//    }
-//    getCourseImage(){
-//
-//    }
 }

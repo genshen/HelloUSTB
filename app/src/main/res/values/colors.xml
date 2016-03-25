@@ -41,4 +41,8 @@
     <color name="preference_item_title_color">#000000</color>
     <color name="preference_item_summary_color">#AAAAAA</color>
     <!--/general settings color-->
+    <!--timetable_edit-->
+    <color name="timetable_edit_week_id_select">#3399FF</color>
+    <color name="timetable_edit_week_id_item">#AAAAAA</color>
+    <!--timetable_edit-->
 </resources>

@@ -57,4 +57,21 @@ public class BaseDate {
 		}
 	}
 
+	public static String getCourseTime(int lesson_no) {
+		switch (lesson_no) {
+			case 0:
+				return "8:00-9:35";
+			case 1:
+				return "9:55-11:30";
+			case 2:
+				return "13:30-15:05";
+			case 3:
+				return "15:20-16:55";
+			case 4:
+				return "17:10-18:45";
+			case 5:
+				return "19:30-21:05";
+		}
+		return "8:00-9:35";
+	}
 }

@@ -3,6 +3,8 @@ package com.holo.dataBase;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.holo.base.BaseDate;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,7 +103,7 @@ public class StoreData {
             System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
             LessonPlaceTime lesson = entry.getKey();
             int week_id = entry.getValue();
-            String time = getCourseTime(lesson.lesson_no);
+            String time = BaseDate.getCourseTime(lesson.lesson_no);
 
             String sql_sentence = "insert into Course_info values(" +
                     (key++) + "," + student_num + "," + learn_time + "," + credit + "," +
@@ -111,24 +113,6 @@ public class StoreData {
             course_db.execSQL(sql_sentence);
         }
         return true;
-    }
-
-    private static String getCourseTime(int course_no) {
-        switch (course_no) {
-            case 0:
-                return "8:00-9:35";
-            case 1:
-                return "9:55-11:30";
-            case 2:
-                return "13:30-15:05";
-            case 3:
-                return "15:20-16:55";
-            case 4:
-                return "17:10-18:45";
-            case 5:
-                return "19:30-21:05";
-        }
-        return "8:00-9:35";
     }
 
 

@@ -62,7 +62,7 @@ public class Record_query extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_score_weight)
                         .setMessage(weight_m)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.alert_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();

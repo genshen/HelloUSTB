@@ -71,6 +71,10 @@
         <activity
             android:name=".TimetableDetail"
             android:label="@string/title_activity_timetable_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TimetableEdit"
+            android:label="@string/title_activity_timetable_edit"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Library"
@@ -124,7 +128,6 @@
             android:name=".ExamQuery"
             android:label="@string/title_activity_exam_query"
             android:theme="@style/AppTheme.NoActionBar" />
-
     </application>
 
 </manifest>

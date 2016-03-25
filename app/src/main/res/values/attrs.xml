@@ -23,5 +23,28 @@
         <attr name="matProg_linearProgress" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="lwvWheelView">
+        <attr name="android:entries" />
+        <attr name="lwvHighlightColor" format="color|reference"/>
+        <attr name="lwvMarkColor" format="color|reference"/>
+        <attr name="lwvMarkTextColor" format="color|reference"/>
+        <attr name="lwvIntervalFactor" format="float"/>
+        <attr name="lwvMarkRatio" format="float"/>
+        <attr name="lwvCursorSize" format="dimension"/>
+        <attr name="lwvMarkTextSize" format="dimension"/>
+        <attr name="lwvCenterMarkTextSize" format="dimension"/>
+        <attr name="lwvAdditionalCenterMark" format="string|reference"/>
+    </declare-styleable>
 
+    <declare-styleable name="multiSelectView">
+        <attr name="msvItemTextColor" format="color"/>
+        <attr name="msvItemTextSize" format="dimension"/>
+        <attr name="msvItemPadding" format="dimension"/>
+        <attr name="msvItemCount" format="integer"/>
+        <attr name="msvRowNum" format="integer"/>
+        <attr name="msvItemRadius" format="dimension"/>
+        <attr name="msvItemBackgroundColor" format="color"/>
+        <attr name="msvItemSelectedColor" format="color"/>
+        <attr name="msvItemHeight" format="dimension"/>
+    </declare-styleable>
 </resources>

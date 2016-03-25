@@ -1,6 +1,7 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="nav_header_vertical_spacing">12dp</dimen> <!--change 16 to 12 due to setting title size to 18-->
+    <dimen name="nav_header_vertical_spacing">12dp</dimen>
+    <!--change 16 to 12 due to setting title size to 18-->
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="navigation_drawer_width">260dp</dimen>
     <dimen name="navigation_image_width">60dp</dimen>
@@ -61,11 +62,17 @@
     <dimen name="course_detail_card_padding">8dp</dimen>
     <dimen name="course_detail_card_margin">12dp</dimen>
     <!--/course detail-->
+    <!--course edit-->
+    <dimen name="course_edit_item_min_height">4dp</dimen>
+    <dimen name="course_edit_item_padding_vertical">6dp</dimen>
+    <dimen name="course_edit_item_padding_horizontal">4dp</dimen>
+    <!--/course edit-->
+
     <dimen name="volunteer_search_tip_left_right">48dp</dimen>
     <dimen name="volunteer_search_tip_top">50dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <!---->
+    <!--campus_network-->
     <dimen name="campus_network_info_padding_horizontal">16dp</dimen>
     <dimen name="campus_network_info_padding_vertical">6dp</dimen>
     <dimen name="campus_network_info_value_margin">8dp</dimen>
@@ -73,7 +80,7 @@
     <dimen name="campus_network_chart_height">200dp</dimen>
     <dimen name="campus_network_card_view_padding">20dp</dimen>
     <dimen name="campus_network_card_view_round_corner">4dp</dimen>
-    <!---->
+    <!--/campus_network-->
     <!--account-->
     <dimen name="account_image">30dp</dimen>
     <dimen name="account_item_padding_horizontal">20dp</dimen>

@@ -1,0 +1,143 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="false"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.holo.helloustb.TimetableEdit"
+    tools:showIn="@layout/activity_timetable_edit">
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <!--Course Name-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_course_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edit_course_name"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--Teacher-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_course_teacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edit_course_teacher"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--place-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_course_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edit_course_place"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!--week_id: all weeks-->
+        <RelativeLayout
+            android:id="@+id/edit_course_week_id_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/course_edit_item_min_height"
+            android:background="@drawable/course_edit_item_background"
+            android:clickable="true"
+            android:onClick="editHandle"
+            android:paddingLeft="@dimen/course_edit_item_padding_horizontal"
+            android:paddingRight="@dimen/course_edit_item_padding_horizontal"
+            android:paddingTop="@dimen/course_edit_item_padding_vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/edit_course_week_id_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_course_week_id"
+                android:textSize="12sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/edit_course_week_id_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_course_week_id_title"
+                android:layout_marginTop="2dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <!--lesson_no & week_day-->
+        <RelativeLayout
+            android:id="@+id/edit_course_lesson_no_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/course_edit_item_min_height"
+            android:background="@drawable/course_edit_item_background"
+            android:clickable="true"
+            android:onClick="editHandle"
+            android:paddingLeft="@dimen/course_edit_item_padding_horizontal"
+            android:paddingRight="@dimen/course_edit_item_padding_horizontal"
+            android:paddingTop="@dimen/course_edit_item_padding_vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/edit_course_lesson_no_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_course_lesson_no"
+                android:textSize="12sp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/edit_course_lesson_no_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edit_course_lesson_no_title"
+                android:layout_marginTop="2dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/submit_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/edit_action_submit"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

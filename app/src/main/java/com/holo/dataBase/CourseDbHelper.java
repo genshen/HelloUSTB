@@ -54,7 +54,7 @@ public class CourseDbHelper extends SQLiteOpenHelper {
     }
 
     public class CourseInfoTable {
-        public static final String TableName = "TableName";
+        public static final String TableName = "Course_info";
 
         public static final String _ID = "_id";
         public static final String STUDENT_NUM = "student_num";
