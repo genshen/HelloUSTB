@@ -1,5 +1,7 @@
 package com.holo.helloustb;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.holo.dataBase.DeleteData;
 import com.holo.dataBase.QueryData;
 
 import java.util.HashMap;
@@ -79,6 +82,23 @@ public class TimetableDetail extends AppCompatActivity {
                 Intent intent = new Intent(this, TimetableEdit.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.action_delete:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.dialog_delete_course_ack_title)
+                        .setMessage(getString(R.string.dialog_delete_course_ack_message,
+                                course_detail.get("course_name").toString()))
+                        .setNegativeButton(R.string.alert_cancel, null)
+                        .setPositiveButton(R.string.dialog_delete_course_ack_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                DeleteData deleteData = new DeleteData(TimetableDetail.this);
+                                deleteData.deleteCourseById(_id);
+                                deleteData.close();
+                                finish();
+                            }
+                        })
+                        .show();
                 break;
             case android.R.id.home:
                 finish();
