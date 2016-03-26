@@ -135,7 +135,7 @@
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
     <string name="version_base">Hello USTB  v%s </string>
-    <string name="build_time">built Tue, 20 Mar 2016 </string>
+    <string name="build_time">built Sun, 27 Mar 2016 </string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>
@@ -179,6 +179,7 @@
     <string name="my_volunteer_list">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=attendActivity</string>
     <string name="volunteer_search">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=recruitingActivity&amp;pageNum=%1$d&amp;activityName=%2$s&amp;activityAddr=%3$s&amp;zyznlyq=%4$s&amp;activityKeywords=%5$s&amp;stage=0&amp;type=0&amp;org=0&amp;state=1</string>
     <string name="volunteer_detail_view">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=showDetail&amp;activityId=%s</string>
+    <string name="volunteer_activity_join">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=joinActivity&amp;activityId=%s</string>
     <!-- 相关链接 /志愿者 -->
     <string name="tea_hp">http://seam.ustb.edu.cn:8080/jwgl/index.jsp</string>
     <string name="information_url">http://seam.ustb.edu.cn:8080/jwgl/stuinfo.jsp</string>
@@ -291,7 +292,7 @@
     <string name="setting_course_delete">删除</string>
     <string name="dialog_delete_course_ack_title">删除课程</string>
     <string name="dialog_delete_course_ack_ok">删除</string>
-    <string name="dialog_delete_course_ack_message">你确定删除课程%s?</string>
+    <string name="dialog_delete_course_ack_message">你确定删除课程"%s"?</string>
     <!-- /课程详情 -->
     <!--课程表 总-->
     <string name="no_course_imported">你尚未导入课表</string>
@@ -304,6 +305,20 @@
     <string name="timetable_saturday">周六</string>
     <string name="timetable_sunday">周日</string>
     <!--课程表 总-->
+    <!-- 编辑课程 -->
+    <string name="edit_course_name">课程名称</string>
+    <string name="edit_course_teacher">授课老师</string>
+    <string name="edit_course_place">上课地点</string>
+    <string name="edit_course_week_id">周数</string>
+    <string name="edit_course_lesson_no">节数</string>
+    <string name="edit_alert_week_id_title">修改课程周数</string>
+    <string name="edit_alert_lesson_no_title">修改课程节数</string>
+    <string name="edit_action_submit">保存</string>
+    <string name="error_empty_course_name">课程名不能为空</string>
+    <string name="error_empty_course_teacher">授课老师不能为空</string>
+    <string name="error_empty_course_place">上课地点不能为空</string>
+    <string name="error_week_id_needed">请选择上课周数</string>
+    <!-- /编辑课程 -->
     <!--志愿服务-->
     <string name="search_title">搜索活动</string>
     <string name="login_vol_button">志愿服务登录</string>
@@ -320,6 +335,15 @@
     <string name="search_tip">你可以按照活动编号、活动名称、活动地点等条件搜索</string>
     <string name="no_search_result">未找到符合条件的活动信息</string>
     <string name="no_search_result_more">没有更多活动信息啦~</string>
+    <!--志愿服务详情-->
+    <string name="setting_volunteer_join">参加活动</string>
+    <string name="setting_volunteer_collect">收藏活动</string>
+    <string name="volunteer_join_success">恭喜,你参加该活动申请成功!</string>
+    <string name="dialog_join_activity_ack">你确定要参加该活动:"%s"?</string>
+    <string name="error_volunteer_join_request">添加活动请求错误</string>
+    <string name="error_obtain_detail_information">获取获得详细信息错误</string>
+    <string name="error_volunteer_join_result">参加活动错误:%1$s 错误码:%2$s</string>
+    <!--/志愿服务详情-->
     <!--志愿服务-->
 
     <!--校园网-->
@@ -354,18 +378,4 @@
     <string name="ensure_logout_e">你确定注销信息门户账号吗?</string>
     <string name="logout_e_success">校园信息门户账号注销成功</string>
     <!--/个人中心-->
-    <!-- Strings related to login -->
-    <string name="edit_course_name">课程名称</string>
-    <string name="edit_course_teacher">授课老师</string>
-    <string name="edit_course_place">上课地点</string>
-    <string name="edit_course_week_id">周数</string>
-    <string name="edit_course_lesson_no">节数</string>
-    <string name="edit_alert_week_id_title">修改课程周数</string>
-    <string name="edit_alert_lesson_no_title">修改课程节数</string>
-    <string name="edit_action_submit">保存</string>
-    <string name="error_empty_course_name">课程名不能为空</string>
-    <string name="error_empty_course_teacher">授课老师不能为空</string>
-    <string name="error_empty_course_place">上课地点不能为空</string>
-    <string name="error_week_id_needed">请选择上课周数</string>
-    <!-- Strings related to login -->
 </resources>

@@ -41,7 +41,7 @@ public class GetProcess {
             case 9:
                 return getWifiState(br_html);
             case 10:
-                break;
+                return joinVolunteerActivity(br_html);
             case 11:
                 return getInnovationCredits(br_html);
             case 13:
@@ -264,6 +264,20 @@ public class GetProcess {
         ArrayList<String> process_result = new ArrayList<>();
         try {
             line = br_html.readLine();    //返回读取的第一行
+            process_result.add(line);
+            br_html.close();
+            return process_result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static ArrayList<String> joinVolunteerActivity(BufferedReader br_html){
+        String line ;
+        ArrayList<String> process_result = new ArrayList<>();
+        try {
+            line = br_html.readLine();
             process_result.add(line);
             br_html.close();
             return process_result;
