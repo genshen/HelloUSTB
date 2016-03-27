@@ -24,7 +24,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/image"
-            android:src="@drawable/ic_launcher" />
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/this_version"

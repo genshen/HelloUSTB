@@ -33,16 +33,14 @@ public class ShareApp extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void clickHander(View v)
-    {
+    public void clickHandle(View v) {
         int id = v.getId();
-        switch(id)
-        {
+        switch (id) {
             case R.id.send_to_friend:
                 shareMe();
                 break;
             case R.id.er_wei_ma:
-                ClipboardManager clip = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager clip = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 clip.setText(getString(R.string.download_link)); // ����
                 Toast.makeText(this, R.string.haveCopied, Toast.LENGTH_SHORT).show();
                 break;

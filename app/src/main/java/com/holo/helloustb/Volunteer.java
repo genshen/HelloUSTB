@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Volunteer extends AppCompatActivity {
-    Boolean islogin = false;
+    Boolean isLogin = false;
     String passFileName, account, password;
     Boolean canWrite = false;
 
@@ -90,7 +90,7 @@ public class Volunteer extends AppCompatActivity {
             switch (msg.what) {
                 case 0x401:    //志愿者服务网登录成功
 //						Toast.makeText(Volunteer.this, str_msg, Toast.LENGTH_SHORT).show();
-                    islogin = true;
+                    isLogin = true;
                     savePass();
                     get(getString(R.string.volunteer_home), "VOL", 0x402, 15, "utf-8", false);
                     break;

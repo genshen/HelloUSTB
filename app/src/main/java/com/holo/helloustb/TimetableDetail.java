@@ -89,7 +89,7 @@ public class TimetableDetail extends AppCompatActivity {
                         .setMessage(getString(R.string.dialog_delete_course_ack_message,
                                 course_detail.get("course_name").toString()))
                         .setNegativeButton(R.string.alert_cancel, null)
-                        .setPositiveButton(R.string.dialog_delete_course_ack_ok, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.alert_delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 DeleteData deleteData = new DeleteData(TimetableDetail.this);

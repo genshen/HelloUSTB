@@ -7,12 +7,24 @@
         android:id="@+id/action_join"
         android:icon="@drawable/ic_add"
         android:orderInCategory="10"
+        android:visible="false"
+        android:enabled="false"
         android:title="@string/setting_volunteer_join"
         app:showAsAction="ifRoom" />
-    <!--<item-->
-        <!--android:id="@+id/action_collect"-->
-        <!--android:icon="@drawable/ic_action_collect"-->
-        <!--android:orderInCategory="11"-->
-        <!--android:title="@string/setting_volunteer_collect"-->
-        <!--app:showAsAction="ifRoom" />-->
+
+    <item
+        android:id="@+id/action_exit"
+        android:icon="@drawable/ic_exit"
+        android:orderInCategory="10"
+        android:visible="false"
+        android:enabled="false"
+        android:title="@string/setting_volunteer_exit"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_collect"
+        android:icon="@drawable/ic_favorite_border_white"
+        android:orderInCategory="11"
+        android:title="@string/setting_volunteer_collect"
+        app:showAsAction="ifRoom" />
 </menu>
