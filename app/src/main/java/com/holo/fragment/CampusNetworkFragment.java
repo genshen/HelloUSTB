@@ -111,7 +111,6 @@ public class CampusNetworkFragment extends Fragment {
         return new_week;
     }
 
-
     private static float[] calcVariance(Calendar calendar_now, float today_flow) {
         float[] data = M(calendar_now, today_flow);
         float[] variance = new float[DATA_LENGTH - 1];
@@ -120,7 +119,7 @@ public class CampusNetworkFragment extends Fragment {
             if (day_counter != 0) {
                 variance[i] = data[i + 1] - data[i];
             } else {
-                variance[i] = data[i];
+                variance[i] = data[i+1];
             }
             day_counter--;
         }
@@ -182,7 +181,7 @@ public class CampusNetworkFragment extends Fragment {
             int index = DATA_LENGTH - days - 1;
             index = index < 0 ? 0 : index;
             for (int i = index; i < DATA_LENGTH; i++) {
-                flowData[i] = todayFlow;
+                flowData[i] = todayFlow;//
             }
         } else {
             int index = DATA_LENGTH - days;
