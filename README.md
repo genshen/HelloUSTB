@@ -1,5 +1,5 @@
 # HelloUSTB
-a school app for USTB studentd http://genshen.hol.es/blog/frontend/web/index.php?r=hello
+a school app for USTB students http://genshen.hol.es/blog/frontend/web/index.php?r=hello
 
 
 This is a Android based campus assistant application,whitch services to USTB students. 
