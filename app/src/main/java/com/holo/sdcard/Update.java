@@ -1,6 +1,6 @@
 package com.holo.sdcard;
 
-import com.holo.base.BaseDate;
+import com.holo.base.BasicDate;
 
 public class Update {
     public static boolean Renew(int versionCode, String versionName) {
@@ -31,9 +31,9 @@ public class Update {
 
     public static boolean compareDate() {
         // TODO
-        String todayDate = BaseDate.getMyday();
+        String todayDate = BasicDate.getMyday();
         if (SdCardPro.fileIsExists("/MyUstb/openlog.log")) {
-            if (SdCardPro.read("/MyUstb/openlog.log").equals(todayDate)) {
+            if (todayDate.equals(SdCardPro.read("/MyUstb/openlog.log"))) {
                 return true;
             } else {
                 SdCardPro.delFile("/MyUstb/openlog.log");

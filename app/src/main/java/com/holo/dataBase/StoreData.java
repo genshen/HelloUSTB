@@ -3,7 +3,7 @@ package com.holo.dataBase;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.holo.base.BaseDate;
+import com.holo.base.BasicDate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,7 +103,7 @@ public class StoreData {
             System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
             LessonPlaceTime lesson = entry.getKey();
             int week_id = entry.getValue();
-            String time = BaseDate.getCourseTime(lesson.lesson_no);
+            String time = BasicDate.getCourseTime(lesson.lesson_no);
 
             String sql_sentence = "insert into Course_info values(" +
                     (key++) + "," + student_num + "," + learn_time + "," + credit + "," +

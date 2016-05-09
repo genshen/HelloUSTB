@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.holo.base.BaseDate;
+import com.holo.base.BasicDate;
 
 /**
  * Created by 根深 on 2016/3/26.
@@ -33,7 +33,7 @@ public class UpdateData {
         cv.put(CourseDbHelper.CourseInfoTable.WEEK_ID, week_id);
         cv.put(CourseDbHelper.CourseInfoTable.WEEK_DAY, week_day);
         cv.put(CourseDbHelper.CourseInfoTable.LESSON_NO, lesson_id);
-        cv.put(CourseDbHelper.CourseInfoTable.TIMES, BaseDate.getCourseTime(lesson_id));
+        cv.put(CourseDbHelper.CourseInfoTable.TIMES, BasicDate.getCourseTime(lesson_id));
         course_db.update(TableName, cv, CourseDbHelper.CourseInfoTable._ID + "=" + id, null);
     }
 }

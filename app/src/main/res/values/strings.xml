@@ -56,6 +56,13 @@
     <string name="errorPassword">用户名或密码错误</string>
     <!-- /Toast 提示-->
 
+    <!--permissions 权限-->
+    <string name="permission_external_storage_rationale">我们需要使用您的外部存储来存储一些数据</string>
+    <string name="permission_external_storage_denied">我们需要使用您的外部存储来存储一些数据</string>
+    <string name="permission_external_storage_neverask">我们需要使用您的外部存储来存储一些数据</string>
+    <string name="permission_button_allow">允许</string>
+    <string name="permission_button_deny">拒绝</string>
+    <!--permissions 权限-->
     <!-- Dialog-->
     <string name="alert_login">登录</string>
     <string name="alert_sure">确定</string>
@@ -136,7 +143,7 @@
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
     <string name="version_base">Hello USTB  v%s </string>
-    <string name="build_time">built Sun, 27 Mar 2016 </string>
+    <string name="build_time">built Mon, 2 May 2016 </string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>

@@ -1,19 +1,31 @@
 package com.holo.helloustb;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Message;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.holo.sdcard.SdCardPro;
 import com.holo.sdcard.Update;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
 public class StartActivity extends AppCompatActivity {
 
     Handler handler = new Handler() {
@@ -43,8 +55,11 @@ public class StartActivity extends AppCompatActivity {
         }
 //        View mContentView = findViewById(R.id.fullscreen_content);
 //        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        StartActivityPermissionsDispatcher.initWithCheck(this);
+    }
 
-//my code
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void init() {
         SdCardPro.checkDirExit();
         //新版本向下兼容
         int versionCode = 0;
@@ -54,7 +69,6 @@ public class StartActivity extends AppCompatActivity {
             versionCode = info.versionCode;
             versionName = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -68,7 +82,6 @@ public class StartActivity extends AppCompatActivity {
                         Thread.sleep(2000);
                     }
                 } catch (InterruptedException e) {
-                    // TODO 自动生成的 catch 块
                     e.printStackTrace();
                 }
 
@@ -78,9 +91,47 @@ public class StartActivity extends AppCompatActivity {
                     handler.sendEmptyMessage(0x221);
                 }
             }
-
         }).start();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        StartActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
 
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showRationaleForExternalStorage(PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.permission_external_storage_rationale)
+                .setPositiveButton(R.string.permission_button_allow, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent myAppSettings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
+                        myAppSettings.addCategory(Intent.CATEGORY_DEFAULT);
+                        myAppSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivityForResult(myAppSettings, 1);
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.permission_button_deny, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showDeniedForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showNeverAskForExternalStorage() {
+        Toast.makeText(this, R.string.permission_external_storage_neverask, Toast.LENGTH_SHORT).show();
+        finish();
+    }
 }

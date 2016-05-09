@@ -38,6 +38,7 @@ public class GeneralSettingFragment extends PreferenceFragment implements Shared
         addPreferencesFromResource(R.xml.general_preferences);
         preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         week_num = (MaterialListPreference) getPreferenceScreen().findPreference("week_num");
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     //    init MaterialListPreference
@@ -45,12 +46,13 @@ public class GeneralSettingFragment extends PreferenceFragment implements Shared
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(WEEK_NUM)) {
             setWeekStart(Integer.parseInt(week_num.getValue()));
+            BasicDate.writeLog("changed!\r\n");
             InitListSummary();
         }
     }
 
     private void InitListSummary() {
-       if (week_num.getValue().equals("")) {
+       if (week_num.getValue().isEmpty()) {
             week_num.setSummary("第1周");
         } else {
             week_num.setSummary(week_num.getEntry());
@@ -62,16 +64,12 @@ public class GeneralSettingFragment extends PreferenceFragment implements Shared
         super.onResume();
         long week_start_days = preferences.getLong(WEEK_START, 0);
         week_num.setValue(BasicDate.getWeekNum(week_start_days) + "");
-
         InitListSummary();
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
-
-
 
     private void setWeekStart(int week_num) {
         Calendar calendar = Calendar.getInstance();
-        long to_days = System.currentTimeMillis() / ONE_DAY;
+        long to_days = calendar.getTimeInMillis() / ONE_DAY;
         int day_of_week = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7;// calendar.get(Calendar.DAY_OF_WEEK)-1-1+7)%7
         preferences.edit().putLong(WEEK_START, to_days - day_of_week - week_num * 7).apply();
     }

@@ -1,9 +1,10 @@
 package com.holo.sdcard;
 
+import android.os.Environment;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +12,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-
-import android.os.Environment;
 
 public class SdCardPro {
 
@@ -60,8 +59,7 @@ public class SdCardPro {
         try {
             String SDPath = getSDPath();
             File targetFile = new File(SDPath + file_name);
-            RandomAccessFile raf = new RandomAccessFile(
-                    targetFile, "rw");
+            RandomAccessFile raf = new RandomAccessFile(targetFile, "rw");
             raf.seek(targetFile.length());
             raf.write(content.getBytes());
             raf.close();
