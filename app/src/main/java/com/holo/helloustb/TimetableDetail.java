@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.holo.dataBase.DeleteData;
-import com.holo.dataBase.QueryData;
+import com.holo.database.DeleteData;
+import com.holo.database.QueryData;
 
 import java.util.HashMap;
 

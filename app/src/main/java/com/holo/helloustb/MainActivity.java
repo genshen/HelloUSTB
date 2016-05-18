@@ -21,8 +21,8 @@ import android.widget.Toast;
 import com.holo.account.LoginDialog;
 import com.holo.base.BasicDate;
 import com.holo.base.StrPro;
-import com.holo.dataBase.CourseDbHelper;
-import com.holo.dataBase.StoreData;
+import com.holo.database.CourseDbHelper;
+import com.holo.database.StoreData;
 import com.holo.fragment.CampusNetworkFragment;
 import com.holo.fragment.ErrorFragment;
 import com.holo.fragment.HomeFragment;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         if (state == 7) {
 //			WifiCheck.mNotifyManager.cancel(WifiCheck.mNotificationId);
             toolbar.setTitle(R.string.left_side_campus_network);
-            Login(new LoginDialog(LoginDialog.LoginNet), "Net", 0x107);
+            Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x107);
         } else {
             toolbar.setTitle(R.string.left_side_home);
             get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", true);
@@ -352,9 +352,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
                     get(getString(R.string.ele_score), "ELE", 0x103, 3, "UTF-8", false);
                     break;
-                //因为网站问题，暂时无法获取个人信息
-                // 是否需要得到 得到个人信息？
-//				get(getString(R.string.information_url),0x103,14,"GB2312");
                 case 0x103:    //get all score ,get
                     cancelProcessDialog();
                     if (str_msg.size() % 8 == 2) {
@@ -369,22 +366,28 @@ public class MainActivity extends AppCompatActivity {
                     LoginDialog time_table = new LoginDialog(LoginDialog.Timetable);
                     time_table.setAccount(username, BasicDate.getTimetableYear());
                     MainActivity.this.post(getString(R.string.school_timetable_addresss), "ELE",
-                            0x105, 5, "utf-8", time_table.post_params, false);
+                            0x105, 5, "UTF-8", time_table.post_params, false);
                     break;
                 case 0x105:    //post get timetable
                     ImportCourseData(str_msg);
                     break;
-                case 0x106:    //自服务登录   post	(不需要保存密码，在登录校园网已经保存了)
-                    get(getString(R.string.zifuwu_userinfo), "ZFW", 0x007, 7, "GB2312", false);
-                    break;
+//                case 0x106: // get ipv6 address for login
+//                    if (str_msg.size() == 1) {
+//                        Login(new LoginDialog(LoginDialog.LoginNet, str_msg.get(0)), false, "NET", 0x107);
+//                    } else {
+//                        Toast.makeText(MainActivity.this, R.string.error_obtain_ip, Toast.LENGTH_LONG).show();
+//                    }
+//                    break;
                 case 0x107://login to 202.204.48.66 success feedback;  post
                     savePass();
                     Toast.makeText(MainActivity.this, "校园网登录成功", Toast.LENGTH_SHORT).show();
                     LoginDialog zfw_login = new LoginDialog(LoginDialog.LoginZFW);
                     zfw_login.setAccount(username, password);
-                    MainActivity.this.post(getString(R.string.zifuwu_login), "ZFW", 0x106, 71, "GB2312", zfw_login.post_params, false);
+                    MainActivity.this.post(getString(R.string.zifuwu_login), "ZFW", 0x108, 71, "GB2312", zfw_login.post_params, false);
                     break;
-                case 0x007://show self_help information get
+                case 0x108:    //自服务登录   post	(不需要保存密码，在登录校园网已经保存了)
+                    // show self_help information get
+//                    get(getString(R.string.zifuwu_userinfo), "ZFW", 0x007, 7, "GB2312", false);
                     cancelProcessDialog();
                     Bundle argument = new Bundle();
                     argument.putStringArrayList("Campus_network_information", str_msg);
@@ -494,16 +497,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     GoogleProgressBar main_google_progress_bar;
+
     private void setProcessDialog() {
-        if(main_google_progress_bar == null){
-            main_google_progress_bar = (GoogleProgressBar)findViewById(R.id.main_google_progress_bar);
+        if (main_google_progress_bar == null) {
+            main_google_progress_bar = (GoogleProgressBar) findViewById(R.id.main_google_progress_bar);
         }
         main_google_progress_bar.setVisibility(View.VISIBLE);
     }
 
     private void cancelProcessDialog() {
-        if(main_google_progress_bar == null){
-            main_google_progress_bar = (GoogleProgressBar)findViewById(R.id.main_google_progress_bar);
+        if (main_google_progress_bar == null) {
+            main_google_progress_bar = (GoogleProgressBar) findViewById(R.id.main_google_progress_bar);
         }
         main_google_progress_bar.setVisibility(View.INVISIBLE);
     }

@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.holo.base.TimeTableList;
-import com.holo.dataBase.CourseDbHelper;
-import com.holo.dataBase.QueryData;
+import com.holo.database.CourseDbHelper;
+import com.holo.database.QueryData;
 import com.holo.helloustb.R;
 import com.holo.helloustb.TimetableDetail;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;

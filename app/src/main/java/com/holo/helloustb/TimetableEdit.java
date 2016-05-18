@@ -14,8 +14,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.holo.dataBase.CourseDbHelper;
-import com.holo.dataBase.UpdateData;
+import com.holo.database.CourseDbHelper;
+import com.holo.database.UpdateData;
 import com.holo.view.MultiSelectView;
 import com.holo.view.SelectWheel;
 

@@ -29,14 +29,8 @@ public class GetProcess {
                 return getEleScore(br_html);
             case 4:
                 return getTimeTable(br_html);
-            case 5:
-                break;
             case 6:
-                break;
-            case 7:   //校园网用户信息
-                return getFlowInfo(br_html);
-            case 8:
-                break;
+                return resolveIp6Address(br_html);
             case 9:
                 return getWifiState(br_html);
             case 10:
@@ -46,7 +40,7 @@ public class GetProcess {
             case 13:
                 return getCampuscardConsumption(br_html);
             case 14:
-                return get_my_info(br_html);
+                return getMyInfo(br_html);
             case 15:
                 return volunteer_home(br_html);
             case 16:
@@ -64,8 +58,8 @@ public class GetProcess {
             default:
                 return null;
         }
-        return null;
     }
+
 
     private static ArrayList<String> getHomeContent(BufferedReader br_html) {
         String line;
@@ -151,7 +145,7 @@ public class GetProcess {
      **/
     private static ArrayList<String> getTimeTable(BufferedReader br_html) {
         String line = null;
-        ArrayList<String> process_result = new ArrayList<String>();
+        ArrayList<String> process_result = new ArrayList<>();
         try {
 //				while ((line = br_html.readLine()) != null)
 //				{
@@ -172,35 +166,9 @@ public class GetProcess {
         }
     }
 
-    private static ArrayList<String> getFlowInfo(BufferedReader br_html) {
-        String line;
-        ArrayList<String> process_result = new ArrayList<>();
-        try {
-            String regex = ".+<font.+</font>.+";
-            while ((line = br_html.readLine()) != null) {
-                //<td width="35%" align="left" valign="center"><font color="blue"> 计费组:&nbsp </font>互联网学生</td>
-                //String regex="\\w+valign=\"center\">\\s+<font\\s+color=\"blue\">\\s+\\w+&nbsp\\s+</font>\\w+";
-                if (line.matches(regex)) {
-//				    response=response.replaceFirst("<B>",'1');
-                    line = line.replaceAll("<B>", "");
-                    String split_str[] = line.split("<|>|&");
-                    process_result.add(split_str[4] + split_str[7] + '\n');
-                }
-            }
-            br_html.close();
-            return process_result;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     /**
      * 查询创新学分
-     *
-     * @param br_html
-     * @return
-     */
+     * */
     private static ArrayList<String> getInnovationCredits(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
@@ -243,7 +211,7 @@ public class GetProcess {
         }
     }
 
-    private static ArrayList<String> get_my_info(BufferedReader br_html) {
+    private static ArrayList<String> getMyInfo(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
@@ -262,7 +230,6 @@ public class GetProcess {
         }
     }
 
-
     private static ArrayList<String> getWifiState(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
@@ -275,6 +242,22 @@ public class GetProcess {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static ArrayList<String> resolveIp6Address(BufferedReader br_html) {
+        String line = "";
+        ArrayList<String> process_result = new ArrayList<>();
+        try {
+            String[] arr =br_html.readLine().split("'");
+            if(arr.length == 3){
+                line = arr[1];
+            }
+            br_html.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        process_result.add(line);
+        return process_result;
     }
 
     private static ArrayList<String> joinVolunteerActivity(BufferedReader br_html) {

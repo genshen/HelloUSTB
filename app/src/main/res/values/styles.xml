@@ -37,6 +37,12 @@
 
 
     <!--my style-->
+    <!--button-->
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#2196f3</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="left_menu_item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

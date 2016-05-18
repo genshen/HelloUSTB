@@ -14,8 +14,8 @@ import android.widget.SimpleAdapter;
 
 import com.holo.base.BasicDate;
 import com.holo.base.StrPro;
-import com.holo.dataBase.CourseDbHelper;
-import com.holo.dataBase.QueryData;
+import com.holo.database.CourseDbHelper;
+import com.holo.database.QueryData;
 import com.holo.helloustb.MainActivity;
 import com.holo.helloustb.R;
 import com.holo.helloustb.TimetableDetail;

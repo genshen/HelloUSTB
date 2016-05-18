@@ -143,7 +143,7 @@
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
     <string name="version_base">Hello USTB  v%s </string>
-    <string name="build_time">built Mon, 2 May 2016 </string>
+    <string name="build_time">built Thur, 12 May 2016 </string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>
@@ -171,6 +171,7 @@
     <string name="sch_net">http://202.204.48.66</string>
     <string name="tea_login">http://seam.ustb.edu.cn:8080/jwgl/Login</string>
     <!-- 相关链接   校园网 -->
+    <string name="cippv6">http://cippv6.ustb.edu.cn/get_ip.php</string>
     <string name="zifuwu_login">http://zifuwu.ustb.edu.cn:8080/logintemp.jsp</string>
     <string name="zifuwu_userinfo">http://zifuwu.ustb.edu.cn:8080/userinfo.jsp</string>
     <!-- 相关链接   /校园网  -->
@@ -375,6 +376,7 @@
     <!--志愿服务-->
 
     <!--校园网-->
+    <string name="error_obtain_ip">获取IPV6地址错误</string>
     <string name="campus_network_account">账号</string>
     <string name="campus_network_account_value">%1$s(%2$s)</string>
     <string name="campus_network_money_left">余额</string>

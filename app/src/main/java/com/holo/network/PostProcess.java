@@ -18,7 +18,6 @@ public class PostProcess {
     //验证用户名和密码是否错误，错误返回-1，否则返回一个正整数；
     public static DataInfo MainProcess(BufferedReader br, int id) {
         DataInfo dataInfo = new DataInfo();
-
         switch (id) {
             case 2:
                 dataInfo.code = validateEduPass(br);
@@ -32,7 +31,7 @@ public class PostProcess {
             case 6:
                 dataInfo.data = getExamList(br);    //考试时间地点
                 break;
-            case 7:        //校园网验证
+            case 7:            //校园网验证
                 dataInfo.code = validateNetPass(br);
                 break;
             case 11:
@@ -42,7 +41,7 @@ public class PostProcess {
                 dataInfo.code = validateE(br);
                 break;
             case 71:    //自服务验证
-                dataInfo.code = validateZifuwuPass(br);
+                validateZifuwuPass(br, dataInfo);
                 break;
         }
         return dataInfo;
@@ -135,27 +134,51 @@ public class PostProcess {
         return DataInfo.ERROR_PASSWORD;
     }
 
-    private static int validateZifuwuPass(BufferedReader br) {
+    //自服务登录验证
+    private static void validateZifuwuPass(BufferedReader br, DataInfo dataInfo) {
         String line;
         try {
             line = br.readLine();
-            br.close();
             if (line.contains("html")) {  //包含“html”，登录成功
-                return DataInfo.OK;
+                dataInfo.data = getFlowInfo(br);
+                return;
             }
+            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return DataInfo.ERROR_PASSWORD;
+        dataInfo.code = DataInfo.ERROR_PASSWORD;
+    }
+
+    private static ArrayList<String> getFlowInfo(BufferedReader br_html) {
+        String line;
+        ArrayList<String> process_result = new ArrayList<>();
+        try {
+            String regex = ".+<font.+</font>.+";
+            while ((line = br_html.readLine()) != null) {
+                //<td width="35%" align="left" valign="center"><font color="blue"> 计费组:&nbsp </font>互联网学生</td>
+                //String regex="\\w+valign=\"center\">\\s+<font\\s+color=\"blue\">\\s+\\w+&nbsp\\s+</font>\\w+";
+                if (line.matches(regex)) {
+//				    response=response.replaceFirst("<B>",'1');
+                    line = line.replaceAll("<B>", "");
+                    String split_str[] = line.split("<|>|&");
+                    process_result.add(split_str[4] + split_str[7] + '\n');
+                }
+            }
+            br_html.close();
+            return process_result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private static int validateVolPass(BufferedReader br) {
-
         try {
             String line = br.readLine();
             if (line.contains("errDiv")) {
-                    br.close();
-                    return DataInfo.ERROR_PASSWORD;
+                br.close();
+                return DataInfo.ERROR_PASSWORD;
             }
             br.close();
             return DataInfo.OK;

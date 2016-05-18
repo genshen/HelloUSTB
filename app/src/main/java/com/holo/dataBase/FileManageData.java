@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.holo.dataBase;
+package com.holo.database;
 
 /**
  * @author cgs

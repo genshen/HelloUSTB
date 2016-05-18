@@ -2,7 +2,7 @@ package com.holo.base;
 
 import android.database.Cursor;
 
-import com.holo.dataBase.CourseDbHelper;
+import com.holo.database.CourseDbHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
