@@ -119,10 +119,10 @@ public class ExamQuery extends AppCompatActivity {
 
     public String getYear() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH);
-        if (month <= 10 && month > 4) {
+        int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+        if (month <= 7 && month > 3) {
             return (year - 1) + "-" + year + "-2";
-        } else if (month > 10) {
+        } else if (month > 7) {
             return (year) + "-" + (year + 1) + "-1";
         } else {
             return (year - 1) + "-" + year + "-1";

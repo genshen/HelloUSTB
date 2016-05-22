@@ -33,6 +33,7 @@ public class TimeTableList {
 
         HashMap<String, Object> course_detail = new HashMap<>();
         course_detail.put(CourseDbHelper.CourseInfoTable._ID, cursor.getInt(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable._ID)));
+        course_detail.put(CourseDbHelper.CourseInfoTable.WEEK_ID, cursor.getInt(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.WEEK_ID)));
        // course_detail.put("course_id", cursor.getString(cursor.getColumnIndex("course_id")));
         course_detail.put(CourseDbHelper.CourseInfoTable.COURSE_NAME, cursor.getString(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.COURSE_NAME)));
         course_detail.put(CourseDbHelper.CourseInfoTable.PLACE, cursor.getString(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.PLACE)));

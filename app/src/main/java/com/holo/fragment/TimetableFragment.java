@@ -2,10 +2,13 @@ package com.holo.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.holo.base.BasicDate;
 import com.holo.base.TimeTableList;
 import com.holo.database.CourseDbHelper;
 import com.holo.database.QueryData;
@@ -31,9 +35,17 @@ import java.util.Map;
 public class TimetableFragment extends Fragment {
     final int databaseVersion = 1;
     boolean hasImported = false;
-    int position;
+    int position, week_num;
     TimeTableList ttl;
     TimeTableAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        long week_start_days = pre.getLong(GeneralSettingFragment.WEEK_START, 0);
+        week_num = BasicDate.getWeekNum(week_start_days);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -57,7 +69,7 @@ public class TimetableFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(hasImported){
+        if (hasImported) {
             QueryData qd = new QueryData(getActivity());
             Cursor cursor = qd.getSomedayCourse(position);
             adapter.ttl = new TimeTableList(cursor);
@@ -108,21 +120,24 @@ public class TimetableFragment extends Fragment {
             LinearLayout lesson_summary = (LinearLayout) root_view.findViewById(R.id.timetable_lesson_summary);
             lesson_id.setText(getContext().getString(R.string.lesson_id, position + 1));
 
-            if(ttl == null) return root_view;
+            if (ttl == null) return root_view;
 
             ArrayList<Map<String, Object>> c = ttl.getCourseList(position);
             int size = c.size();
             for (int i = 0; i < size; i++) {
                 TextView tv = new TextView(mContext);
                 Map<String, Object> lesson = c.get(i);
-                final int _id = (int) lesson.get("_id");
-                String content = lesson.get("course_name") + "\n" +
-                        lesson.get("teachers") + "\n" +
-                        lesson.get("place") + "\n" +
-                        "第" + lesson.get("weeks");
+                final int _id = (int) lesson.get(CourseDbHelper.CourseInfoTable._ID);
+                String content = lesson.get(CourseDbHelper.CourseInfoTable.COURSE_NAME) + "\n" +
+                        lesson.get(CourseDbHelper.CourseInfoTable.TEACHERS) + "\n" +
+                        lesson.get(CourseDbHelper.CourseInfoTable.PLACE) + "\n" +
+                        "第" + lesson.get(CourseDbHelper.CourseInfoTable.WEEKS);
 
                 tv.setText(content);
                 tv.setPadding(0, 5, 0, 5);
+                if ((((int) lesson.get(CourseDbHelper.CourseInfoTable.WEEK_ID)) >> week_num & 1) == 1) {
+                    tv.setTextColor(ContextCompat.getColor(mContext, R.color.green));
+                }
                 tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -17,7 +17,7 @@ public class CourseDbHelper extends SQLiteOpenHelper {
             "student_num integer," +        //学生数目
             "learn_time integer," +        //学时
             "credit integer," +            //学分
-            "week_id integer," +           //哪些几周,某一为为1表示该周有课
+            "week_id integer," +           //哪些周有课,为1表示该周有课
             "week_day integer," +         //周几
             "lesson_no integer," +        //第几节课
             "course_id integer," +        //课程ID
