@@ -92,8 +92,9 @@ public class HttpClients {
 
     /**
      * change post data form(Map) to name-value-pair
-     * @param post_params  post data
-     * @return  name-value-pair
+     *
+     * @param post_params post data
+     * @return name-value-pair
      */
     private static List<NameValuePair> getNameValuePairs(Map<String, String> post_params) {
         List<NameValuePair> name_valuepair = new ArrayList<>();
@@ -104,7 +105,8 @@ public class HttpClients {
     }
 
     /**
-     *close httpclient connect
+     * close httpclient connect
+     *
      * @return never use this function!
      */
     public static boolean close() {

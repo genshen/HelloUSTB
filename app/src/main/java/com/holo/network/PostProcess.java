@@ -31,7 +31,7 @@ public class PostProcess {
             case 6:
                 dataInfo.data = getExamList(br);    //考试时间地点
                 break;
-            case 7:            //校园网验证
+            case 7:   //校园网验证
                 dataInfo.code = validateNetPass(br);
                 break;
             case 11:
@@ -39,9 +39,6 @@ public class PostProcess {
                 break;
             case 12:    //e.ustb.edu.cn
                 dataInfo.code = validateE(br);
-                break;
-            case 71:    //自服务验证
-                validateZifuwuPass(br, dataInfo);
                 break;
         }
         return dataInfo;
@@ -120,27 +117,29 @@ public class PostProcess {
 
     private static int validateNetPass(BufferedReader br) {
         String line;
-        try {
-            while ((line = br.readLine()) != null) {
-                if (line.contains("successfully")) {
+        try{
+            while ((line = br.readLine()) != null){
+                if(line.contains("successfully")){
                     br.close();
                     return DataInfo.OK;
                 }
             }
             br.close();
-        } catch (IOException e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;
     }
 
-    //自服务登录验证
+    //自服务登录验证  目前的校园网登录进不去自服务了
+    @Deprecated
     private static void validateZifuwuPass(BufferedReader br, DataInfo dataInfo) {
         String line;
         try {
             line = br.readLine();
             if (line.contains("html")) {  //包含“html”，登录成功
                 dataInfo.data = getFlowInfo(br);
+                br.close();
                 return;
             }
             br.close();
@@ -150,6 +149,7 @@ public class PostProcess {
         dataInfo.code = DataInfo.ERROR_PASSWORD;
     }
 
+    @Deprecated
     private static ArrayList<String> getFlowInfo(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();

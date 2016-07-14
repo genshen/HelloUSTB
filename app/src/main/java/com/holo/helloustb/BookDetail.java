@@ -2,11 +2,6 @@ package com.holo.helloustb;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,12 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.holo.network.DataInfo;
-import com.holo.network.GetPostHandler;
+import com.holo.base.NetWorkActivity;
 
 import java.util.ArrayList;
 
-public class BookDetail extends AppCompatActivity {
+public class BookDetail extends NetWorkActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +26,7 @@ public class BookDetail extends AppCompatActivity {
 
         Intent intent = getIntent();
         String link = intent.getStringExtra("link");
-        get(getString(R.string.lib_main) + link, "LIB",0x100, 20, "utf-8");
+        get(getString(R.string.lib_main) + link, "LIB", 0x100, 20, "utf-8", false);
     }
 
     @Override
@@ -45,57 +39,7 @@ public class BookDetail extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    Handler handler = new Handler()
-    {
-        @SuppressWarnings("unchecked")
-        @Override
-        public void handleMessage(Message msg)
-        {
-            DataInfo data_info = (DataInfo) msg.obj;
-            if (data_info.code == DataInfo.TimeOut) {
-//                cancelProcessDialog();
-                Toast.makeText(BookDetail.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            ArrayList<String> str_msg = data_info.data;
-            switch(msg.what)
-            {
-                case 0x100:
-                    setView(str_msg);
-                    break;
-                case 0x101:
-                    final String url = str_msg.get(0);
-                    TextView douban = (TextView) findViewById(R.id.to_douban);
-                    douban.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // TODO Auto-generated method stub
-                            if(url.isEmpty())
-                            {
-                                Toast.makeText(BookDetail.this,R.string.no_book_in_douban, Toast.LENGTH_LONG).show();
-                            }else{
-                                Intent douban_intent =  new Intent(BookDetail.this,Browser.class);
-                                douban_intent.putExtra("url", url);
-                                startActivity(douban_intent);
-                            }
-                        }
-                    });
-                    break;
-            }
-        }
-    };
-
-    private void get(String url, String tag, int feedback, int id, String code) {
-        if (((MyApplication) this.getApplication()).CheckNetwork()) {
-            GetPostHandler.handlerGet(handler,url, tag, feedback, id, code);
-        } else {
-            Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
-        }
-    }
-
     protected void setView(ArrayList<String> data) {
-        // TODO Auto-generated method stub
         int i = 0;
         final String isbn = data.get(data.size() - 1);
         LayoutInflater inflater = getLayoutInflater();
@@ -115,7 +59,6 @@ public class BookDetail extends AppCompatActivity {
             book_info.addView(ly);
             i += 2;
         }
-
         i++;
 
         while (i + 5 < data.size()) {
@@ -135,6 +78,41 @@ public class BookDetail extends AppCompatActivity {
             book_where.addView(ly);
             i += 5;
         }
-        get(getString(R.string.lib_main) + isbn, "LIB", 0x101, 21, "utf-8");
+        get(getString(R.string.lib_main) + isbn, "LIB", 0x101, 21, "utf-8", false);
+    }
+
+    @Override
+    public void RequestResultHandler(int what, ArrayList<String> data) {
+        switch (what) {
+            case 0x100:
+                setView(data);
+                break;
+            case 0x101:
+                final String url = data.get(0);
+                TextView douban = (TextView) findViewById(R.id.to_douban);
+                douban.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (url.isEmpty()) {
+                            Toast.makeText(BookDetail.this, R.string.no_book_in_douban, Toast.LENGTH_LONG).show();
+                        } else {
+                            Intent douban_intent = new Intent(BookDetail.this, Browser.class);
+                            douban_intent.putExtra("url", url);
+                            startActivity(douban_intent);
+                        }
+                    }
+                });
+                break;
+        }
+    }
+
+    @Override
+    public void setProcessDialog() {
+
+    }
+
+    @Override
+    public void onNetworkDisabled() {
+        Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
     }
 }

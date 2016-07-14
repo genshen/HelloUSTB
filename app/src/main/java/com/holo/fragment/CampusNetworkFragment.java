@@ -29,6 +29,7 @@ public class CampusNetworkFragment extends Fragment {
     static final String filepath = SdCardPro.getSDPath() + "/MyUstb/Data/flow.b";
     static final int DATA_LENGTH = 8; // >=2
     float today_flow = 0f;
+    DecimalFormat decimalFormat = new DecimalFormat("0.00");
     AppCompatTextView flow_chat_value;
 
     @Override
@@ -36,17 +37,20 @@ public class CampusNetworkFragment extends Fragment {
         // Inflate the layout for this fragment
         ArrayList<String> args = getArguments().getStringArrayList("Campus_network_information");
         View rootView = inflater.inflate(R.layout.fragment_campus_network, container, false);
-        if (args != null && args.size() == 11) {
-            today_flow = Float.parseFloat(getStringValue(args.get(9)));
+        if (args != null && args.size() == 5) {
+            try {
+                today_flow = Float.parseFloat(args.get(1)) / 1024;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             ((AppCompatTextView) rootView.findViewById(R.id.campus_network_account_value)).setText(
-                    getActivity().getString(R.string.campus_network_account_value,
-                            getStringValue(args.get(1)), getStringValue(args.get(0))));
+                    getActivity().getString(R.string.campus_network_account_value, getStringValue(args.get(4), 1)));
             ((AppCompatTextView) rootView.findViewById(R.id.campus_network_money_value)).setText(
-                    getActivity().getString(R.string.campus_network_money_value, getStringValue(args.get(7))));
+                    getActivity().getString(R.string.campus_network_money_value, getStringValue(args.get(2), 10000)));
             ((AppCompatTextView) rootView.findViewById(R.id.campus_network_flow_v4)).setText(
-                    getActivity().getString(R.string.campus_network_flow_value_v4, getStringValue(args.get(9))));
+                    getActivity().getString(R.string.campus_network_flow_value_v4, getStringValue(args.get(1), 1024)));
             ((AppCompatTextView) rootView.findViewById(R.id.campus_network_flow_v6)).setText(
-                    getActivity().getString(R.string.campus_network_flow_value_v6, getStringValue(args.get(10))));
+                    getActivity().getString(R.string.campus_network_flow_value_v6, getStringValue(args.get(3), 4096)));
         }
 
         LineChartView mChart = (LineChartView) rootView.findViewById(R.id.campus_network_chart);
@@ -84,15 +88,20 @@ public class CampusNetworkFragment extends Fragment {
         return rootView;
     }
 
-    private String getStringValue(String str) {
-        String[] s = str.split(":");
-        if (s.length == 2) {
-            return s[1];
+    private String getStringValue(String str, int mod) {
+        if (str == null) {
+            return "";
+        } else if (str.startsWith("\'") && str.endsWith("\'") && str.length() >= 2) {  // such as :  '41355000'
+            return str.substring(1, str.length() - 1);
+        } else {
+            if (str.matches("[0-9]+")) {
+//                DecimalFormat decimalFormat = new DecimalFormat(".00");
+                return decimalFormat.format(Float.parseFloat(str) / mod);
+            }
         }
         return "";
     }
 
-    DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
     private void setFlowChatValue(float value, String tag) {
         String v = decimalFormat.format(value);
@@ -119,7 +128,7 @@ public class CampusNetworkFragment extends Fragment {
             if (day_counter != 0) {
                 variance[i] = data[i + 1] - data[i];
             } else {
-                variance[i] = data[i+1];
+                variance[i] = data[i + 1];
             }
             day_counter--;
         }

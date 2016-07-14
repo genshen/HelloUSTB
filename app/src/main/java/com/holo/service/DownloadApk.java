@@ -1,4 +1,4 @@
-package com.holo.helloustb;
+package com.holo.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,8 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DecimalFormat;
 
+import com.holo.helloustb.R;
 import com.holo.sdcard.SdCardPro;
 
 import android.app.NotificationManager;

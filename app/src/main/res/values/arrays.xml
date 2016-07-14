@@ -70,4 +70,15 @@
         <item>第5节</item>
         <item>第6节</item>
     </string-array>
+
+    <string-array name="setting_net_sign_in_mode_title">
+        <item>普通模式</item>
+        <item>浏览器模式</item>
+        <item>静默模式</item>
+    </string-array>
+    <string-array name="setting_net_sign_in_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

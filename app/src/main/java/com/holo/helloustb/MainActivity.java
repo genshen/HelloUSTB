@@ -8,18 +8,17 @@ import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.holo.account.LoginDialog;
 import com.holo.base.BasicDate;
+import com.holo.base.LoginNetworkActivity;
 import com.holo.base.StrPro;
 import com.holo.database.CourseDbHelper;
 import com.holo.database.StoreData;
@@ -28,19 +27,17 @@ import com.holo.fragment.ErrorFragment;
 import com.holo.fragment.HomeFragment;
 import com.holo.fragment.RecordFragment;
 import com.holo.fragment.TodayCourseFragment;
-import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.holo.network.VersionChecker;
-import com.holo.sdcard.SdCardPro;
+import com.holo.service.DownloadApk;
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
 
 import static com.holo.network.VersionChecker.Update;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LoginNetworkActivity {
     //        implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private View navigation_drawer;
@@ -82,24 +79,32 @@ public class MainActivity extends AppCompatActivity {
 
 //      ((LinearLayout) findViewById(R.id.main_container)).removeAllViews();
         state = getIntent().getIntExtra("open_id", 1);    //如果不是通知栏打开的，则为1，否则是7;
-        if (state == 7) {
-//			WifiCheck.mNotifyManager.cancel(WifiCheck.mNotificationId);
-            toolbar.setTitle(R.string.left_side_campus_network);
-            Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x107);
-        } else {
-            toolbar.setTitle(R.string.left_side_home);
-            get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", true);
-            checker = new VersionChecker(getString(R.string.UpdateAddress), this);
-            checker.setOnUpdate(new Update() {
-                @Override
-                public void onUpdate(boolean latestVersion) {
-                    if (latestVersion) {
-                        updateUI.sendEmptyMessage(0x003);
-                    }
+
+        toolbar.setTitle(R.string.left_side_home);
+        get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", true);
+        checker = new VersionChecker(getString(R.string.UpdateAddress), this);
+        checker.setOnUpdate(new Update() {
+            @Override
+            public void onUpdate(boolean latestVersion) {
+                if (latestVersion) {
+                    updateUI.sendEmptyMessage(0x003);
                 }
-            });
-            checker.check(((MyApplication) getApplication()).CheckNetwork());
-        }
+            }
+        });
+        checker.check(((MyApplication) getApplication()).CheckNetwork());
+
+        setErrorHandler(new ErrorHandler() {
+            @Override
+            public void onPasswordError() {
+                cancelProcessDialog();
+                Toast.makeText(MainActivity.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onTimeoutError() {
+                cancelProcessDialog();
+                Toast.makeText(MainActivity.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 
@@ -178,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
             toolbar.setTitle(R.string.home_title);
         }
     }
-
 
     class ClickHand implements View.OnClickListener {
         @Override
@@ -281,96 +285,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void Login(final LoginDialog ld, final String tag, final int feedback) {
-        passFileName = ld.passFileName;
-//        final int feedback = 0x100 + feedback;
-        if (!SdCardPro.fileIsExists(ld.passFileName)) {
-            canWrite = true;
-            final View enter = getLayoutInflater().inflate(R.layout.dialog_enter, null);
-
-            new AlertDialog.Builder(this)
-                    .setTitle(ld.dialog_title)
-                    .setView(enter)
-                    .setNegativeButton(R.string.alert_cancel, null)
-                    .setPositiveButton(R.string.alert_login, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            username = ((TextView) enter.findViewById(R.id.account)).getText().toString();
-                            password = ((TextView) enter.findViewById(R.id.pass)).getText().toString();
-//                            TextInputLayout text_input_layout_account = (TextInputLayout) enter.findViewById(R.id.text_input_layout_account);
-//                            TextInputLayout text_input_layout_pass = (TextInputLayout) enter.findViewById(R.id.text_input_layout_pass);
-//                            text_input_layout_account.setError(getString(R.string.errorEmptyUsername));
-                            if (!username.isEmpty() && !password.isEmpty()) {
-                                ld.setAccount(username, password);
-                                post(MainActivity.this.getString(ld.post_address), tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
-                                dialog.dismiss();
-                            }
-                        }
-                    })
-                    .show();
-        } else {
-            canWrite = false;
-            String myaccount[] = StrPro.ReadWithEncryption(passFileName).split("@");
-            username = myaccount[0];
-            password = myaccount[1];
-            ld.setAccount(username, password);
-            post(MainActivity.this.getString(ld.post_address), tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
-        }
-    }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            DataInfo data_info = (DataInfo) msg.obj;
-
-            //error password and timeout process
-            if (data_info.code == DataInfo.ERROR_PASSWORD) {
+    @Override
+    public void RequestResultHandler(int what, ArrayList<String> str_msg) {
+        //switch to every part to update UI
+        switch (what) {
+            case 0x101://本科教学网首页 	get
                 cancelProcessDialog();
-                Toast.makeText(MainActivity.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
-                return;
-            } else if (data_info.code == DataInfo.TimeOut) {
+                if (str_msg != null) {
+                    Bundle argument = new Bundle();
+                    argument.putStringArrayList("home", str_msg);
+                    HomeFragment fragment = new HomeFragment();
+                    fragment.setArguments(argument);
+                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+                }
+                break;
+            case 0x102:    //login elearning.ustb.edu.cn，post
+                savePass();
+                Toast.makeText(this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
+                get(getString(R.string.ele_score), "ELE", 0x103, 3, "UTF-8", false);
+                break;
+            case 0x103:    //get all score ,get
                 cancelProcessDialog();
-                Toast.makeText(MainActivity.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            //switch to every part to update UI
-            ArrayList<String> str_msg = data_info.data;
-            switch (msg.what) {
-                case 0x101://本科教学网首页 	get
-                    cancelProcessDialog();
-                    if (str_msg != null) {
-                        Bundle argument = new Bundle();
-                        argument.putStringArrayList("home", str_msg);
-                        HomeFragment fragment = new HomeFragment();
-                        fragment.setArguments(argument);
-                        getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
-                    }
-                    break;
-                case 0x102:    //login elearning.ustb.edu.cn，post
-                    savePass();
-                    Toast.makeText(MainActivity.this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
-                    get(getString(R.string.ele_score), "ELE", 0x103, 3, "UTF-8", false);
-                    break;
-                case 0x103:    //get all score ,get
-                    cancelProcessDialog();
-                    if (str_msg.size() % 8 == 2) {
-                        RecordFragment fragment = RecordFragment.newInstance(str_msg);
-                        getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
-                    } else {
-                        Toast.makeText(MainActivity.this, R.string.request_error, Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case 0x104:    //verify elearning.ustb.edu.cn  password; post
-                    savePass();
-                    LoginDialog time_table = new LoginDialog(LoginDialog.Timetable);
-                    time_table.setAccount(username, BasicDate.getTimetableYear());
-                    MainActivity.this.post(getString(R.string.school_timetable_addresss), "ELE",
-                            0x105, 5, "UTF-8", time_table.post_params, false);
-                    break;
-                case 0x105:    //post get timetable
-                    ImportCourseData(str_msg);
-                    break;
+                if (str_msg.size() % 8 == 2) {
+                    RecordFragment fragment = RecordFragment.newInstance(str_msg);
+                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+                } else {
+                    Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
+                }
+                break;
+            case 0x104:    //verify elearning.ustb.edu.cn  password; post
+                savePass();
+                LoginDialog time_table = new LoginDialog(LoginDialog.Timetable);
+                time_table.setAccount(username, BasicDate.getTimetableYear());
+                post(getString(R.string.school_timetable_addresss), "ELE",
+                        0x105, 5, "UTF-8", time_table.post_params, false);
+                break;
+            case 0x105:    //post get timetable
+                ImportCourseData(str_msg);
+                break;
 //                case 0x106: // get ipv6 address for login
 //                    if (str_msg.size() == 1) {
 //                        Login(new LoginDialog(LoginDialog.LoginNet, str_msg.get(0)), false, "NET", 0x107);
@@ -378,26 +330,21 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this, R.string.error_obtain_ip, Toast.LENGTH_LONG).show();
 //                    }
 //                    break;
-                case 0x107://login to 202.204.48.66 success feedback;  post
-                    savePass();
-                    Toast.makeText(MainActivity.this, "校园网登录成功", Toast.LENGTH_SHORT).show();
-                    LoginDialog zfw_login = new LoginDialog(LoginDialog.LoginZFW);
-                    zfw_login.setAccount(username, password);
-                    MainActivity.this.post(getString(R.string.zifuwu_login), "ZFW", 0x108, 71, "GB2312", zfw_login.post_params, false);
-                    break;
-                case 0x108:    //自服务登录   post	(不需要保存密码，在登录校园网已经保存了)
-                    // show self_help information get
-//                    get(getString(R.string.zifuwu_userinfo), "ZFW", 0x007, 7, "GB2312", false);
-                    cancelProcessDialog();
-                    Bundle argument = new Bundle();
-                    argument.putStringArrayList("Campus_network_information", str_msg);
-                    CampusNetworkFragment fragment = new CampusNetworkFragment();
-                    fragment.setArguments(argument);
-                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
-                    break;
-            }
+            case 0x107://login to 202.204.48.66 success feedback;  post
+                savePass();
+                Toast.makeText(MainActivity.this, R.string.net_sign_in_success, Toast.LENGTH_SHORT).show();
+                get(getString(R.string.sch_net), "NET", 0x108, 8, "GB2312", false);
+                break;
+            case 0x108:
+                cancelProcessDialog();
+                Bundle argument = new Bundle();
+                argument.putStringArrayList("Campus_network_information", str_msg);
+                CampusNetworkFragment fragment = new CampusNetworkFragment();
+                fragment.setArguments(argument);
+                getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+                break;
         }
-    };
+    }
 
     Handler updateUI = new Handler() {
         @Override
@@ -458,28 +405,8 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void get(String url, String tag, int feedback, int id, String code, boolean setdialog) {
-        if (((MyApplication) getApplication()).CheckNetwork()) {
-            if (setdialog) {
-                setProcessDialog();
-            }
-            GetPostHandler.handlerGet(handler, url, tag, feedback, id, code);
-        } else {
-            setNetworkUnable();
-        }
-    }
 
-    private void post(String url, String tag, int feedback, int id, String code,
-                      Map<String, String> post_params, boolean setdialog) {
-        if (((MyApplication) getApplication()).CheckNetwork()) {
-            if (setdialog) setProcessDialog();
-            GetPostHandler.handlerPost(handler, url, tag, feedback, id, code, post_params);
-        } else {
-            setNetworkUnable();
-        }
-    }
-
-    private void setNetworkUnable() {
+    public void onNetworkDisabled() {
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.main_container);
         if (rl.getChildCount() == 0) {
             ErrorFragment fragment = ErrorFragment.newInstance("ERROR_NO_Connection");
@@ -489,16 +416,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void savePass() {
-        if (canWrite) {
-            SdCardPro.checkDirExit();
-            StrPro.WriteWithEncryption(username + "@" + password, passFileName);
-        }
-    }
 
     GoogleProgressBar main_google_progress_bar;
 
-    private void setProcessDialog() {
+    public void setProcessDialog() {
         if (main_google_progress_bar == null) {
             main_google_progress_bar = (GoogleProgressBar) findViewById(R.id.main_google_progress_bar);
         }

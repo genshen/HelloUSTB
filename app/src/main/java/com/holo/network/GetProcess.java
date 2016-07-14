@@ -31,6 +31,8 @@ public class GetProcess {
                 return getTimeTable(br_html);
             case 6:
                 return resolveIp6Address(br_html);
+            case 8:    //获得校园网信息
+                return getCampusNetworkInfo(br_html);
             case 9:
                 return getWifiState(br_html);
             case 10:
@@ -230,6 +232,7 @@ public class GetProcess {
         }
     }
 
+    @Deprecated
     private static ArrayList<String> getWifiState(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
@@ -260,6 +263,37 @@ public class GetProcess {
         return process_result;
     }
 
+    private static ArrayList<String> getCampusNetworkInfo(BufferedReader br) {
+        String line;
+        ArrayList<String> data = new ArrayList<>();
+        try {
+            while ((line = br.readLine()) != null) {
+//                time='7837      ';flow='4432040   ';fsele = 1;fee='49300     ';xsele=0;xip='000.000.000.000.';
+//                pwm=1;v6af=54478848;v6df=51228484;uid='41355059';pwd='';v46m=4;v4ip='10.24.27.93';v6ip='2001:da8:208:10bf:1576:3a59:9f47:3b33';
+                if (line.startsWith("time=")) {
+                    String[] values = line.split("\'");
+                    if(values.length >=6){
+                        data.add(values[1].trim());  //time
+                        data.add(values[3].trim());  //flow
+                        data.add(values[5].trim());  //fee
+                    }
+                    line = br.readLine();
+                    values = line.split("=|;");
+                    if(values.length >=8){
+                        data.add(values[3].trim()); //v6
+                        data.add(values[7].trim()); //user id
+                    }
+                    break;
+                }
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+
     private static ArrayList<String> joinVolunteerActivity(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
@@ -278,7 +312,6 @@ public class GetProcess {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
-
             while ((line = br_html.readLine()) != null) {
                 String regex = ".+ul.+jj.+";
                 String regex2 = ".+326,.+";
@@ -482,6 +515,7 @@ public class GetProcess {
             String line = br_html.readLine();
             line = line.split("\"")[15].replace("\\", "");
             process_result.add(line);
+            br_html.close();
             return process_result;
         } catch (IOException e) {
             e.printStackTrace();

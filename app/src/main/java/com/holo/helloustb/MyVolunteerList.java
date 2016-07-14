@@ -29,7 +29,6 @@ public class MyVolunteerList extends AppCompatActivity {
         final ArrayList<String> vol_list = intent.getStringArrayListExtra("list");
 
         int length = vol_list.size() / 10;
-        // todo not to use  vol_list.size
         for (int i = 0; i < length; i++) {
             HashMap<String, Object> listitem = new HashMap<>();
             listitem.put("name", vol_list.get(10 * i));

@@ -64,6 +64,8 @@ public class LoginDialog {
                 break;
             case LoginVol:
                 passFileName = "/MyUstb/Pass_store/sch_vol_pass.ustb";
+                dialog_title = R.string.alert_title_volunteer;
+                post_address = R.string.vol_login;
                 post_params.put("lastUrl", "");
                 verify_id = 11;
                 break;

@@ -7,6 +7,7 @@
     <string name="title_activity_guide">GUIDE</string>
     <string name="title_activity_browser">浏览器</string>
     <string name="title_activity_timetable">课程表</string>
+    <string name="title_activity_net_work_sign_in">校园网</string>
     <string name="title_activity_file_manager">下载</string>
     <string name="title_activity_record_query">成绩查询</string>
     <string name="title_activity_innovation_credit">创新学分</string>
@@ -376,16 +377,22 @@
     <!--志愿服务-->
 
     <!--校园网-->
+    <string name="net_sign_in_success">校园网登录成功</string>
+    <string name="error_net_sign_in_connection_timeout">连接超时,请轻触重试</string>
+    <string name="error_net_sign_in_password">用户名或密码错误,请轻触重试</string>
     <string name="error_obtain_ip">获取IPV6地址错误</string>
-    <string name="campus_network_account">账号</string>
-    <string name="campus_network_account_value">%1$s(%2$s)</string>
-    <string name="campus_network_money_left">余额</string>
+    <string name="campus_network_account">账号:</string>
+    <string name="campus_network_account_value">%1s</string>
+    <string name="campus_network_money_left">余额:</string>
     <string name="campus_network_money_value">%s元</string>
-    <string name="campus_network_flow">流量</string>
+    <string name="campus_network_flow">流量:</string>
     <string name="chart_view_flow">IPV4流量</string>
     <string name="chart_view_flow_value">%1$s:%2$sMB</string>
     <string name="campus_network_flow_value_v4">IPV4:%sMB</string>
     <string name="campus_network_flow_value_v6">IPV6:%sMB</string>
+    <string name="network_notify_title">登录校园网</string>
+    <string name="network_notify_content">点击登陆%s</string>
+    <string name="network_notify_ticker">登录校园网</string>
     <!--校园网-->
     <!--个人中心-->
     <string name="account_ac">账号管理</string>
@@ -407,5 +414,63 @@
     <string name="logout_e">注销信息门户账号</string>
     <string name="ensure_logout_e">你确定注销信息门户账号吗?</string>
     <string name="logout_e_success">校园信息门户账号注销成功</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
     <!--/个人中心-->
 </resources>

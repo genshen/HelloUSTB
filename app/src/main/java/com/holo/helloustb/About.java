@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.holo.network.VersionChecker;
+import com.holo.service.DownloadApk;
 
 public class About extends AppCompatActivity {
     private VersionChecker checker;

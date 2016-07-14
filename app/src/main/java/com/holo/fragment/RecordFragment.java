@@ -13,7 +13,7 @@ import android.widget.SimpleAdapter;
 import com.holo.base.BasicDate;
 import com.holo.base.SerializableList;
 import com.holo.helloustb.R;
-import com.holo.helloustb.Record_query;
+import com.holo.helloustb.RecordQuery;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class RecordFragment extends Fragment {
                 Bundle data = new Bundle();
                 data.putSerializable("score_data", scoreList);
                 data.putString("GPA", GPA);
-                Intent record_query = new Intent(getActivity(), Record_query.class);
+                Intent record_query = new Intent(getActivity(), RecordQuery.class);
                 record_query.putExtras(data);
                 startActivity(record_query);
             }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3399FF</color>
+    <color name="colorPrimary">#3399F0</color>
     <color name="colorPrimaryDark">#3399BB</color>
     <color name="colorAccent">#607D8B</color>
     <color name="tab_header">#58A2F0</color>

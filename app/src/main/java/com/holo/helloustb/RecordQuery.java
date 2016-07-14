@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
-public class Record_query extends AppCompatActivity {
+public class RecordQuery extends AppCompatActivity {
     int scoreSum_elective[] = {0, 0};
     int scoreSum[] = {0, 0};//学分相关
     StringBuilder shareScore = new StringBuilder("【晒晒成绩单】这是我这学期的成绩：\n");
