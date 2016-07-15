@@ -231,7 +231,7 @@ public class MainActivity extends LoginNetworkActivity {
                     startActivity(setting);
                     break;
                 case R.id.menu_playground:
-//                    Intent playground=new Intent(MainActivity.this,FullscreenActivity.class);
+//                    Intent playground=new Intent(MainActivity.this, TestActivity.class);
 //                    startActivity(playground);
                     break;
             }

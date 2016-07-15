@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.holo.base.BasicDate;
+import com.holo.base.Const;
 import com.holo.base.TimeTableList;
 import com.holo.database.CourseDbHelper;
 import com.holo.database.QueryData;
@@ -43,7 +44,7 @@ public class TimetableFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        long week_start_days = pre.getLong(GeneralSettingFragment.WEEK_START, 0);
+        long week_start_days = pre.getLong(Const.Settings.KEY_WEEK_START, 0);
         week_num = BasicDate.getWeekNum(week_start_days);
     }
 

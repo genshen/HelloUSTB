@@ -4,8 +4,13 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="windowTranslucentStatus">true</item>-->
+    </style>
+
+    <style name="AppTheme.TransparentStatusBar" parent="AppTheme.NoActionBar">
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">

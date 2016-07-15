@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.holo.base.BasicDate;
+import com.holo.base.Const;
 import com.holo.base.StrPro;
 import com.holo.database.CourseDbHelper;
 import com.holo.database.QueryData;
@@ -36,7 +37,7 @@ public class TodayCourseFragment extends Fragment {
         CourseDbHelper course = new CourseDbHelper(getActivity(), 1);
         if (!course.isTableEmpty()) {
             SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            long week_start_days = pre.getLong(GeneralSettingFragment.WEEK_START, 0);
+            long week_start_days = pre.getLong(Const.Settings.KEY_WEEK_START, 0);
             QueryData qd = new QueryData(getActivity());
             final List<HashMap<String, Object>> mapList = qd.getTodayCourse(BasicDate.getWeekNum(week_start_days));
             MainActivity.shareCourse = StrPro.getCourseShareStr(mapList);

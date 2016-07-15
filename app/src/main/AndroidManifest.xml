@@ -54,7 +54,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.TransparentStatusBar"/>
         <activity
             android:name=".Browser"
             android:label="@string/title_activity_browser"
@@ -86,7 +86,7 @@
         <activity
             android:name=".TimetableDetail"
             android:label="@string/title_activity_timetable_detail"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.TransparentStatusBar"/>
         <activity
             android:name=".TimetableEdit"
             android:label="@string/title_activity_timetable_edit"
@@ -122,7 +122,7 @@
         <activity
             android:name=".Account"
             android:label="@string/title_activity_account"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.TransparentStatusBar"/>
         <activity
             android:name=".Feedback"
             android:label="@string/title_activity_feedback"
@@ -147,10 +147,6 @@
             android:name=".NetWorkSignIn"
             android:label="@string/title_activity_net_work_sign_in"
             android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name="com.holo.service.SettingsActivity"
-            android:label="@string/title_activity_settings">
         </activity>
     </application>
 

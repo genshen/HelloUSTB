@@ -72,6 +72,7 @@ public class GetProcess {
                 //<A href=bencandy.php?fid=80&id=4124 target=_blank>2014-2015-1本科生必生必修课学校统一补考安排</A></TD>
                 if (line.contains("width=6>")) {
 //						response.replaceAll("><", "@");
+                    line = HtmlEscape.unescapeHtml(line);
                     String[] split_str = line.split(">");
 //						String[] sec_Split = split_str[2].split(">|<");
                     process_result.add(split_str[2].substring(9, split_str[2].length() - 14));
@@ -537,4 +538,3 @@ public class GetProcess {
         return null;
     }
 }
-

@@ -26,7 +26,7 @@
         android:layout="@layout/preference_category_widget"
         android:title="校园网登录">
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="net_auto_sign_in_enable"
             android:layout="@layout/preference_item"
             android:summaryOff="自动登录关闭"
@@ -34,13 +34,11 @@
             android:title="自动登录"/>
 
         <com.holo.view.MaterialListPreference
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:dependency="net_auto_sign_in_enable"
             android:entries="@array/setting_net_sign_in_mode_title"
             android:entryValues="@array/setting_net_sign_in_mode_value"
             android:key="net_auto_sign_in_mode"
-            android:layout="@layout/preference_item"
-            android:persistent="true"
             android:title="登录模式"/>
         <!--连接wifi网络后的等待时间-->
         <!--静默模式的尝试次数-->
