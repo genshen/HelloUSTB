@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.holo.base.SerializableList;
+import com.holo.utils.SerializableList;
 
 import java.text.DecimalFormat;
 import java.util.List;

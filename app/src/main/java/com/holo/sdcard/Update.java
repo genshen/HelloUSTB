@@ -1,6 +1,6 @@
 package com.holo.sdcard;
 
-import com.holo.base.BasicDate;
+import com.holo.utils.BasicDate;
 
 public class Update {
     public static boolean Renew(int versionCode, String versionName) {

@@ -1,11 +1,10 @@
-package com.holo.base;
+package com.holo.utils;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
-import com.holo.account.LoginDialog;
 import com.holo.helloustb.R;
 import com.holo.sdcard.SdCardPro;
 
@@ -40,7 +39,7 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
                     .show();
         } else {
             canWrite = false;
-            String myaccount[] = StrPro.ReadWithEncryption(passFileName).split("@");
+            String myaccount[] = StrUtils.ReadWithEncryption(passFileName).split("@");
             username = myaccount[0];
             password = myaccount[1];
             ld.setAccount(username, password);
@@ -51,7 +50,7 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
     public void savePass() {
         if (canWrite) {
             SdCardPro.checkDirExit();
-            StrPro.WriteWithEncryption(username + "@" + password, passFileName);
+            StrUtils.WriteWithEncryption(username + "@" + password, passFileName);
         }
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.holo.base.BasicDate;
+import com.holo.utils.BasicDate;
 
 import java.util.ArrayList;
 import java.util.HashMap;

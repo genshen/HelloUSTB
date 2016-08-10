@@ -18,9 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.holo.base.BasicDate;
-import com.holo.base.Const;
-import com.holo.base.TimeTableList;
+import com.holo.utils.BasicDate;
+import com.holo.utils.Const;
+import com.holo.utils.TimeTableList;
 import com.holo.database.CourseDbHelper;
 import com.holo.database.QueryData;
 import com.holo.helloustb.R;

@@ -12,9 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.holo.base.BasicDate;
-import com.holo.base.Const;
-import com.holo.base.StrPro;
+import com.holo.utils.BasicDate;
+import com.holo.utils.Const;
+import com.holo.utils.StrUtils;
 import com.holo.database.CourseDbHelper;
 import com.holo.database.QueryData;
 import com.holo.helloustb.MainActivity;
@@ -40,7 +40,7 @@ public class TodayCourseFragment extends Fragment {
             long week_start_days = pre.getLong(Const.Settings.KEY_WEEK_START, 0);
             QueryData qd = new QueryData(getActivity());
             final List<HashMap<String, Object>> mapList = qd.getTodayCourse(BasicDate.getWeekNum(week_start_days));
-            MainActivity.shareCourse = StrPro.getCourseShareStr(mapList);
+            MainActivity.shareCourse = StrUtils.getCourseShareStr(mapList);
 
             SimpleAdapter adapter = new SimpleAdapter(getActivity(), mapList, R.layout.listview_today_course,
                     new String[]{"lesson_no", "times", "course_name", "place", "teachers"},

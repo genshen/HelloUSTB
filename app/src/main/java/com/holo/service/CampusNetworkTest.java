@@ -13,8 +13,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.holo.base.Const;
-import com.holo.base.StrPro;
+import com.holo.utils.Const;
+import com.holo.utils.StrUtils;
 import com.holo.helloustb.Browser;
 import com.holo.helloustb.MyApplication;
 import com.holo.helloustb.NetWorkSignIn;
@@ -194,7 +194,7 @@ public class CampusNetworkTest extends IntentService {
 
     void autoSignInNetwork() {
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            String myaccount[] = StrPro.ReadWithEncryption("/MyUstb/Pass_store/sch_net_pass.ustb").split("@");//todo move out
+            String myaccount[] = StrUtils.ReadWithEncryption("/MyUstb/Pass_store/sch_net_pass.ustb").split("@");//todo move out
             Map<String, String> post_params = new LinkedHashMap<>();
             post_params.put("v6ip", "");
             post_params.put("0MKKey", "123456789");

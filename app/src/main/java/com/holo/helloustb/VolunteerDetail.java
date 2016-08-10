@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.holo.base.StrPro;
+import com.holo.utils.StrUtils;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.holo.sdcard.SdCardPro;
@@ -327,7 +327,7 @@ public class VolunteerDetail extends AppCompatActivity {
             return stuNum;
         }
         if (SdCardPro.fileIsExists(VolPassFileName)) {
-            String account[] = StrPro.ReadWithEncryption(VolPassFileName).split("@");
+            String account[] = StrUtils.ReadWithEncryption(VolPassFileName).split("@");
             if (account.length == 2) {
                 stuNum = account[0];
                 return stuNum;

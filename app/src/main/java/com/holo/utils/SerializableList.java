@@ -1,4 +1,4 @@
-package com.holo.base;
+package com.holo.utils;
 
 import java.io.Serializable;
 import java.util.List;

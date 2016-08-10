@@ -10,8 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.holo.base.BasicDate;
-import com.holo.base.SerializableList;
+import com.holo.utils.BasicDate;
+import com.holo.utils.SerializableList;
 import com.holo.helloustb.R;
 import com.holo.helloustb.RecordQuery;
 

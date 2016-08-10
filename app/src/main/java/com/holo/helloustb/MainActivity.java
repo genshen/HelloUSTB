@@ -16,10 +16,10 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.holo.account.LoginDialog;
-import com.holo.base.BasicDate;
-import com.holo.base.LoginNetworkActivity;
-import com.holo.base.StrPro;
+import com.holo.utils.LoginDialog;
+import com.holo.utils.BasicDate;
+import com.holo.utils.LoginNetworkActivity;
+import com.holo.utils.StrUtils;
 import com.holo.database.CourseDbHelper;
 import com.holo.database.StoreData;
 import com.holo.fragment.CampusNetworkFragment;
@@ -177,7 +177,7 @@ public class MainActivity extends LoginNetworkActivity {
     private void drawerToggle() {
         if (mDrawerLayout.isDrawerOpen(navigation_drawer)) {
             mDrawerLayout.closeDrawer(navigation_drawer);
-            toolbar.setTitle(StrPro.getActionBarTitle(state));
+            toolbar.setTitle(StrUtils.getActionBarTitle(state));
         } else {
             mDrawerLayout.openDrawer(navigation_drawer);
             toolbar.setTitle(R.string.home_title);

@@ -3,7 +3,7 @@ package com.holo.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.holo.base.BasicDate;
+import com.holo.utils.BasicDate;
 
 import org.json.JSONArray;
 import org.json.JSONException;

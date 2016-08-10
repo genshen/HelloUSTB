@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.holo.base.NetWorkActivity;
+import com.holo.utils.NetWorkActivity;
 
 import java.util.ArrayList;
 

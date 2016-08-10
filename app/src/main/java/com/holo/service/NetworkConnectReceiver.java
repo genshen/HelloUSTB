@@ -10,7 +10,7 @@ import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.holo.base.Const;
+import com.holo.utils.Const;
 
 public class NetworkConnectReceiver extends BroadcastReceiver {
     static long lastReceiveTime = 0;

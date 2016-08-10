@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
-import com.holo.base.BasicDate;
-import com.holo.base.Const;
+import com.holo.utils.BasicDate;
+import com.holo.utils.Const;
 import com.holo.helloustb.R;
 import com.holo.view.MaterialListPreference;
 
@@ -19,11 +19,11 @@ public class GeneralSettingFragment extends PreferenceFragment implements Shared
     MaterialListPreference mPreferenceWeekNum, mPreferenceNetSignInMode;
     SharedPreferences preferences;
     /**
-     * @see com.holo.base.BasicDate#MAX_WEEK_NUM
+     * @see com.holo.utils.BasicDate#MAX_WEEK_NUM
      */
     final static int MAX_WEEK_NUM = 24;
     /**
-     * @see com.holo.base.BasicDate#ONE_DAY
+     * @see com.holo.utils.BasicDate#ONE_DAY
      */
     final static int ONE_DAY = 1000 * 3600 * 24;
 

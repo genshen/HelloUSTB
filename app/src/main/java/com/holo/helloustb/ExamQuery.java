@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.holo.base.StrPro;
+import com.holo.utils.StrUtils;
 import com.holo.network.DataInfo;
 import com.holo.network.GetPostHandler;
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
@@ -36,7 +36,7 @@ public class ExamQuery extends AppCompatActivity {
 
         progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            String myaccount[] = StrPro.ReadWithEncryption(passFileName).split("@");
+            String myaccount[] = StrUtils.ReadWithEncryption(passFileName).split("@");
             GetPostHandler.handlerPost(handler, getString(R.string.ele_exam_time_place_query),
                     "ELE", 0x001, 6, "UTF-8", getPostData(myaccount[0]));
         } else {

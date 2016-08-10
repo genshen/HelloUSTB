@@ -11,9 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.holo.account.LoginDialog;
-import com.holo.base.LoginNetworkActivity;
-import com.holo.base.NetWorkActivity;
+import com.holo.utils.LoginDialog;
+import com.holo.utils.LoginNetworkActivity;
+import com.holo.utils.NetWorkActivity;
 import com.holo.fragment.VolunteerHomeFragment;
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 

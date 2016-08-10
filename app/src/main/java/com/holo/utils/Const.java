@@ -1,4 +1,4 @@
-package com.holo.base;
+package com.holo.utils;
 
 /**
  * Created by 根深 on 2016/7/14.

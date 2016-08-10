@@ -1,17 +1,13 @@
-package com.holo.base;
+package com.holo.utils;
 
 import com.holo.encrypt.Des;
 import com.holo.helloustb.R;
 import com.holo.sdcard.SdCardPro;
 
-import android.database.Cursor;
-
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
-public class StrPro {
+public class StrUtils {
 	static String path;
 
 	public static void WriteWithEncryption(String desStr, String filePath) {
