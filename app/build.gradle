@@ -10,8 +10,8 @@ android {
         applicationId "com.holo.helloustb"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 105
-        versionName "1.4.0" // modify built time!
+        versionCode 106
+        versionName "1.4.1" // modify built time!
 //        installLocaltion="internalOnly"
         ndk {
             moduleName "Key"

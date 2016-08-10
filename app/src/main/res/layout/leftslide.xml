@@ -61,7 +61,7 @@
 
             <LinearLayout
                 style="@style/left_menu_item"
-                android:id="@+id/TodayCourse">
+                android:id="@+id/today_course">
 
                 <ImageView
                     android:layout_width="0dp"

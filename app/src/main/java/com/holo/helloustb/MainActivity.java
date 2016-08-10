@@ -68,7 +68,7 @@ public class MainActivity extends LoginNetworkActivity {
         (findViewById(R.id.home)).setOnClickListener(new ClickHand());
         (findViewById(R.id.record_query)).setOnClickListener(new ClickHand());
 //		( findViewById(R.id.elective_system)).setOnClickListener(new ClickHand());
-        (findViewById(R.id.TodayCourse)).setOnClickListener(new ClickHand());
+        (findViewById(R.id.today_course)).setOnClickListener(new ClickHand());
         (findViewById(R.id.volunteer)).setOnClickListener(new ClickHand());
         (findViewById(R.id.library)).setOnClickListener(new ClickHand());
         (findViewById(R.id.campus_network)).setOnClickListener(new ClickHand());
@@ -205,7 +205,7 @@ public class MainActivity extends LoginNetworkActivity {
                     ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
                     Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x102);
                     break;
-                case R.id.TodayCourse:
+                case R.id.today_course:
                     state = 4;
                     drawerToggle();
                     ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();

@@ -1,13 +1,14 @@
 package com.holo.utils;
 
+import android.util.Log;
+
 import com.holo.helloustb.R;
 
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Collections;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LoginDialog {
@@ -47,7 +48,7 @@ public class LoginDialog {
                 post_address = R.string.sch_net;
                 verify_id = 7;
 
-                post_params.put("v6ip", "");
+                post_params.put("v6ip", getLocalIpv6Address());
                 post_params.put("0MKKey", "123456789");
                 break;
             case LoginZFW:
@@ -122,37 +123,34 @@ public class LoginDialog {
         }
     }
 
-    @Deprecated
+
     public static String getLocalIpv6Address() {
         try {
-            String ipv6 = "";
-            List nilist = Collections.list(NetworkInterface.getNetworkInterfaces());
-            NetworkInterface ni;
-            InetAddress address = null;
-            for (int i=0; i < nilist.size();i++)
-            {
-                ni=(NetworkInterface) nilist.get(i);
-                List  ialist = Collections.list(ni.getInetAddresses());
-                for (int j=0; j < ialist.size();j++)
-                {
-                    address = (InetAddress) ialist.get(j);
-                    if (!address.isLoopbackAddress())
-                    {
-                        ipv6 = address.getHostAddress() ;
-                        if(ipv6.length() >= 20)
-                        {
-                            System.out.println("ipv6 address:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ipv6);
-                            return ipv6.split("%")[0];
-                        }
+            Process process = Runtime.getRuntime().exec("ip -6 addr show");
+            InputStream input = process.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+            String line, ip6OutputLine = null;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith("inet6") && line.endsWith("dynamic")) {
+                    ip6OutputLine = line;
+                    if (line.contains("temporary")) {
+                        break;
                     }
                 }
-
             }
-            return "";
-        } catch (SocketException ex) {
-            return "";
+            if (ip6OutputLine != null) {
+                String[] ips = ip6OutputLine.split(" |/", 3);
+                if(ips.length>=2){
+                    Log.v("ipv6",ips[1]);
+                    return ips[1];
+                }
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
+        return "";
     }
 
 

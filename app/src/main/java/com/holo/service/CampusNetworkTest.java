@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.holo.utils.Const;
+import com.holo.utils.LoginDialog;
 import com.holo.utils.StrUtils;
 import com.holo.helloustb.Browser;
 import com.holo.helloustb.MyApplication;
@@ -119,9 +120,8 @@ public class CampusNetworkTest extends IntentService {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
-            if(msg.what == 0x100){
-                int leftTime = (int) msg.obj -1;
+            if (msg.what == 0x100) {
+                int leftTime = (int) msg.obj - 1;
                 if (leftTime <= 0) {  //todo try again. //notice 正在重试
                     errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_retry_title))
                             .setContentText(context.getString(R.string.auto_sign_in_retry_content));
@@ -133,7 +133,7 @@ public class CampusNetworkTest extends IntentService {
                     Message message = new Message();
                     message.what = 0x100;
                     message.obj = leftTime;
-                    Log.v("v","ssssss");
+                    Log.v("v", "ssssss");
                     handler.sendMessageDelayed(message, 1000);
                 }
                 return;
@@ -153,9 +153,16 @@ public class CampusNetworkTest extends IntentService {
                             context.getString(R.string.auto_sign_in_error_content_try_again, 3));// todo
                 } else {  //后续超时,次数限制
                     if (errorTryTimes > 4) {//todo
+                        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
                         errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title))
                                 .setContentText(context.getString(R.string.auto_sign_in_error_content_try_limit, 4));//todo
-                        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+
+                        Intent notifyIntent = new Intent(context, NetWorkSignIn.class);
+                        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        errorNotification.setContentIntent(contentIntent);
+
                         mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
                         return;
                     } else {
@@ -196,7 +203,7 @@ public class CampusNetworkTest extends IntentService {
         if (((MyApplication) getApplication()).CheckNetwork()) {
             String myaccount[] = StrUtils.ReadWithEncryption("/MyUstb/Pass_store/sch_net_pass.ustb").split("@");//todo move out
             Map<String, String> post_params = new LinkedHashMap<>();
-            post_params.put("v6ip", "");
+            post_params.put("v6ip", LoginDialog.getLocalIpv6Address());
             post_params.put("0MKKey", "123456789");
             post_params.put("DDDDD", myaccount[0]);
             post_params.put("upass", myaccount[1]);
