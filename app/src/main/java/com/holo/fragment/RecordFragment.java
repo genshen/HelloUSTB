@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RecordFragment extends Fragment {
+    public ArrayList<BasicDate.RecordTerm> termList = new ArrayList<>();
 
     public static RecordFragment newInstance(ArrayList<String> scored) {
         RecordFragment fragment = new RecordFragment();
@@ -36,13 +37,14 @@ public class RecordFragment extends Fragment {
         Bundle args = getArguments();
         final ArrayList<String> record = args.getStringArrayList("record");
         final String GPA = record == null ? "0.00" : record.get(0);
-        final List<List<Map<String, Object>>> scored_split = BasicDate.getScoredSplit(record);
-        int year = BasicDate.getStartYear(record);
-        int term_length = scored_split == null ? 2013 : 2013 + scored_split.size();
+        final List<List<Map<String, Object>>> scored_split = BasicDate.getScoredSplit(record, termList);
+//        int year = BasicDate.getStartYear(record);
+//        int term_length = scored_split == null ? 2013 : year + scored_split.size();
 
         List<Map<String, Object>> listitems = new ArrayList<>();
-        for (int i = year; i < term_length; i++)
-            listitems.add(getScoreText(i - year, year));
+        int term_length = termList.size();
+        for (int i = 0; i < term_length; i++)
+            listitems.add(getScoreText(termList.get(i)));
 
         SimpleAdapter home_adapter = new SimpleAdapter(getActivity(), listitems, R.layout.listview_score,
                 new String[]{"score_text_year", "score_text_term"},
@@ -50,7 +52,7 @@ public class RecordFragment extends Fragment {
 
         ListView score_list = (ListView) score_view.findViewById(R.id.score_list);
         score_list.setAdapter(home_adapter);
-//
+
         score_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,12 +69,12 @@ public class RecordFragment extends Fragment {
         return score_view;
     }
 
-    private Map<String, Object> getScoreText(int term, int year_start) {
-        year_start = term / 3 + year_start;
-        term = term % 3 + 1;    //学期;
+    private Map<String, Object> getScoreText(BasicDate.RecordTerm term) {
+//        year_start = term / 3 + year_start;
+//        term = term % 3 + 1;    //学期;
         Map<String, Object> listitem = new HashMap<>();
-        listitem.put("score_text_year", year_start + "-" + (year_start + 1) + "学年");
-        listitem.put("score_text_term", "第" + term + "学期");
+        listitem.put("score_text_year", term.year + "-" + (term.year + 1) + "学年");
+        listitem.put("score_text_term", "第" + term.termIndex + "学期");
         return listitem;
     }
 }

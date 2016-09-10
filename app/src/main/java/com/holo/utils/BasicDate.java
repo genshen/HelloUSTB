@@ -93,6 +93,18 @@ public class BasicDate {
         }
     }
 
+    public static class RecordTerm {
+        public int year, termIndex;
+
+        public RecordTerm(String term) {
+            String[] y = term.split("-");   //2013-2014-1
+            if (y.length == 3) {
+                year = Integer.parseInt(y[0].trim());
+                termIndex = Integer.parseInt(y[2].trim());
+            }
+        }
+    }
+
     public static int getStartYear(ArrayList<String> score) {
         if (score.size() >= 3) {
             String y = score.get(2);    //2013-2014-1
@@ -101,7 +113,8 @@ public class BasicDate {
         return 2013;
     }
 
-    public static List<List<Map<String, Object>>> getScoredSplit(ArrayList<String> record) {
+    //yearList:学期列表
+    public static List<List<Map<String, Object>>> getScoredSplit(ArrayList<String> record, ArrayList<RecordTerm> termList) {
         int length = record.size() / 8;
         String year = "";
         List<List<Map<String, Object>>> score_list = new ArrayList<>();
@@ -120,6 +133,8 @@ public class BasicDate {
                 if (i != 0) score_list.add(score_li); // don't add when the first time
                 score_li = new ArrayList<>();
                 year = record.get(2 + 8 * i);
+                RecordTerm  t = new RecordTerm(year);
+                termList.add(t);  //add a new term
             }
         }
         if (length != 0) score_list.add(score_li);

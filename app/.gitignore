@@ -1,3 +1,4 @@
 /build
 #ingonre mail.c
 /src/main/jni/mail.c
+*.apk

@@ -1,14 +1,12 @@
 package com.holo.helloustb;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -75,7 +73,6 @@ public class Feedback extends AppCompatActivity {
     }
 
     private String getServiceInformation() {
-        // TODO 自动生成的方法存根
         return "\n设备型号：" + android.os.Build.MODEL +
                 "\nAndroid版本：" + android.os.Build.VERSION.RELEASE;
     }
@@ -110,11 +107,9 @@ public class Feedback extends AppCompatActivity {
         }
 
         public void run() {
-            // TODO Auto-generated method stub
             try {
                 sender.sendMail(subject, body, user, receiver, attachment);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

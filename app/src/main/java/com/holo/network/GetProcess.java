@@ -121,18 +121,23 @@ public class GetProcess {
         ArrayList<String> process_result = new ArrayList<>();
         try {
             while ((line = br_html.readLine()) != null) {
-                String split_str[] = line.split(">|<");
                 if (line.contains("td>")) {
-                    process_result.add(split_str[2]);
-                    process_result.add(split_str[6]);
-                    process_result.add(split_str[10]);
-                    process_result.add(split_str[14]);
-                    process_result.add(split_str[18]);
-                    process_result.add(split_str[22]);
-                    process_result.add(split_str[26]);
-                    process_result.add(split_str[30]);
+                    String split_str[] = line.split(">|<");
+                    if (split_str.length > 30) {
+                        process_result.add(split_str[2]);
+                        process_result.add(split_str[6]);
+                        process_result.add(split_str[10]);
+                        process_result.add(split_str[14]);
+                        process_result.add(split_str[18]);
+                        process_result.add(split_str[22]);
+                        process_result.add(split_str[26]);
+                        process_result.add(split_str[30]);
+                    }
                 } else if (line.contains("red")) {
-                    process_result.add(split_str[6].substring(2));
+                    String split_str[] = line.split(">|<");
+                    if (split_str.length > 6) {
+                        process_result.add(split_str[6].substring(2));
+                    }
                 }
             }
             br_html.close();
@@ -171,7 +176,7 @@ public class GetProcess {
 
     /**
      * 查询创新学分
-     * */
+     */
     private static ArrayList<String> getInnovationCredits(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
@@ -252,8 +257,8 @@ public class GetProcess {
         String line = "";
         ArrayList<String> process_result = new ArrayList<>();
         try {
-            String[] arr =br_html.readLine().split("'");
-            if(arr.length == 3){
+            String[] arr = br_html.readLine().split("'");
+            if (arr.length == 3) {
                 line = arr[1];
             }
             br_html.close();
@@ -273,14 +278,14 @@ public class GetProcess {
 //                pwm=1;v6af=54478848;v6df=51228484;uid='41355059';pwd='';v46m=4;v4ip='10.24.27.93';v6ip='2001:da8:208:10bf:1576:3a59:9f47:3b33';
                 if (line.startsWith("time=")) {
                     String[] values = line.split("\'");
-                    if(values.length >=6){
+                    if (values.length >= 6) {
                         data.add(values[1].trim());  //time
                         data.add(values[3].trim());  //flow
                         data.add(values[5].trim());  //fee
                     }
                     line = br.readLine();
                     values = line.split("=|;");
-                    if(values.length >=8){
+                    if (values.length >= 8) {
                         data.add(values[3].trim()); //v6
                         data.add(values[7].trim()); //user id
                     }
