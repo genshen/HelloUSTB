@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.holo.helloustb.NetWorkSignIn"
+    tools:context=".NetWorkSignIn"
     tools:showIn="@layout/activity_net_work_sign_in">
 
     <RelativeLayout

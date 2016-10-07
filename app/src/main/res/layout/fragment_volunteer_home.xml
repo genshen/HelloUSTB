@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:orientation="vertical"
-    tools:context="com.holo.fragment.volunteer_Home">
+    tools:context="me.gensh.fragment.VolunteerHomeFragment">
 
         <RelativeLayout
             android:id="@+id/for_detail"

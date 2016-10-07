@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.holo.helloustb.VolunteerDetail"
+    tools:context=".VolunteerDetail"
     tools:showIn="@layout/activity_volunteer_detail">
 
     <LinearLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.holo.helloustb"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.gensh.helloustb">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name="com.holo.service.NetworkConnectReceiver"
+            android:name="me.gensh.service.NetworkConnectReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -29,9 +29,9 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.holo.service.DownloadApk"/>
+        <service android:name="me.gensh.service.DownloadApk"/>
         <service
-            android:name="com.holo.service.CampusNetworkTest"
+            android:name="me.gensh.service.CampusNetworkTest"
             android:exported="false">
         </service>
 

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/default_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.holo.helloustb.About"
+    tools:context=".About"
     tools:showIn="@layout/activity_about">
 
     <Space

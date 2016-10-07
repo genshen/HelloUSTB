@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.holo.helloustb.VolunteerSearch">
+    tools:context=".VolunteerSearch">
 
     <item
         android:id="@+id/vol_search_view"

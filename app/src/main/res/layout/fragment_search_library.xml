@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:showIn="@layout/activity_library"
-    tools:context="com.holo.fragment.LibraryFragment">
+    tools:context="me.gensh.fragment.LibrarySearchFragment">
 
     <LinearLayout
         android:id="@+id/lib_search_box"

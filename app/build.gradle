@@ -3,18 +3,20 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "24.0.2"
     useLibrary "org.apache.http.legacy"
 
     defaultConfig {
-        applicationId "com.holo.helloustb"
-        minSdkVersion 15
+        applicationId "me.gensh.helloustb"
+        minSdkVersion 16
         targetSdkVersion 24
-        versionCode 106
-        versionName "1.4.1" // modify built time!
-//        installLocaltion="internalOnly"
-        ndk {
-            moduleName "Key"
+        versionCode 107
+        versionName "2.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
         }
     }
     buildTypes {
@@ -23,22 +25,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
 }
 
-repositories {
-    maven { url "https://jitpack.io" }
-}
+//repositories {
+//    maven { url "https://jitpack.io" }
+//}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     testCompile 'junit:junit:4.12'
-    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.2'
+    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.2.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
 
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
     compile files('libs/mail.jar')
-    compile 'com.github.hotchemi:permissionsdispatcher:2.1.2'
+
+    compile 'com.github.hotchemi:permissionsdispatcher:2.2.0'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:cardview-v7:24.0.0'
     compile 'com.android.support:support-v4:24.0.0'

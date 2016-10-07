@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.holo.helloustb.GeneralSetting">
+    tools:context=".GeneralSetting">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
     <!--<include layout="@layout/content_general_setting" />-->
     <fragment
         android:id="@+id/general_setting_fragment"
-        android:name="com.holo.fragment.GeneralSettingFragment"
+        android:name="me.gensh.fragment.GeneralSettingFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

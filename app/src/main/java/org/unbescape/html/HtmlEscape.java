@@ -376,7 +376,7 @@ public final class HtmlEscape {
      *   character reference (e.g. <tt>'&amp;#8345;'</tt>) when there there is no NCR for the replaced character.
      * </p>
      * <p>
-     *   This method calls {@link #escapeHtml(char[], int, int, java.io.Writer, HtmlEscapeType, HtmlEscapeLevel)}
+     *   This method calls {@link #escapeHtml(char[], int, int, Writer, HtmlEscapeType, HtmlEscapeLevel)}
      *   with the following preconfigured values:
      * </p>
      * <ul>
@@ -415,12 +415,12 @@ public final class HtmlEscape {
      * </p>
      * <p>
      *  Note this method may <strong>not</strong> produce the same results as
-     *  {@link #escapeHtml4Xml(char[], int, int, java.io.Writer)} because
+     *  {@link #escapeHtml4Xml(char[], int, int, Writer)} because
      *  it will escape the apostrophe as <tt>&amp;apos;</tt>, whereas in HTML 4 such NCR does not exist
      *  (the decimal numeric reference <tt>&amp;#39;</tt> is used instead).
      * </p>
      * <p>
-     *   This method calls {@link #escapeHtml(char[], int, int, java.io.Writer, HtmlEscapeType, HtmlEscapeLevel)}
+     *   This method calls {@link #escapeHtml(char[], int, int, Writer, HtmlEscapeType, HtmlEscapeLevel)}
      *   with the following preconfigured values:
      * </p>
      * <ul>
@@ -465,7 +465,7 @@ public final class HtmlEscape {
      *   character reference (e.g. <tt>'&amp;#8345;'</tt>) when there there is no NCR for the replaced character.
      * </p>
      * <p>
-     *   This method calls {@link #escapeHtml(char[], int, int, java.io.Writer, HtmlEscapeType, HtmlEscapeLevel)}
+     *   This method calls {@link #escapeHtml(char[], int, int, Writer, HtmlEscapeType, HtmlEscapeLevel)}
      *   with the following preconfigured values:
      * </p>
      * <ul>
@@ -504,11 +504,11 @@ public final class HtmlEscape {
      * </p>
      * <p>
      *  Note this method may <strong>not</strong> produce the same results as
-     *  {@link #escapeHtml5Xml(char[], int, int, java.io.Writer)}  because it will escape the apostrophe as
+     *  {@link #escapeHtml5Xml(char[], int, int, Writer)}  because it will escape the apostrophe as
      *  <tt>&amp;#39;</tt>, whereas in HTML5 there is a specific NCR for such character (<tt>&amp;apos;</tt>).
      * </p>
      * <p>
-     *   This method calls {@link #escapeHtml(char[], int, int, java.io.Writer, HtmlEscapeType, HtmlEscapeLevel)}
+     *   This method calls {@link #escapeHtml(char[], int, int, Writer, HtmlEscapeType, HtmlEscapeLevel)}
      *   with the following preconfigured values:
      * </p>
      * <ul>

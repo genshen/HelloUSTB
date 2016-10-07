@@ -1,4 +1,3 @@
 /build
-#ingonre mail.c
-/src/main/jni/mail.c
+/src/main/cpp/native-lib.cpp
 *.apk

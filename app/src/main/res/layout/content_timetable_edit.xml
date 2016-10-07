@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="false"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.holo.helloustb.TimetableEdit"
+    tools:context=".TimetableEdit"
     tools:showIn="@layout/activity_timetable_edit">
 
     <LinearLayout

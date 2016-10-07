@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/library_fragment"
-    android:name="com.holo.fragment.LibrarySearchFragment"
+    android:name="me.gensh.fragment.LibrarySearchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
