@@ -136,7 +136,7 @@
     <string name="setting">设置</string>
     <string name="mycenter">个人中心</string>
     <string name="general">通用</string>
-    <string name="about">关于作者</string>
+    <string name="about_author">关于作者</string>
     <string name="feedback">意见反馈</string>
     <string name="setting_about">关于</string>
     <string name="check_update">检查更新</string>

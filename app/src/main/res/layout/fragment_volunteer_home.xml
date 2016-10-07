@@ -33,7 +33,7 @@
                     android:textColor="@color/white"
                     android:textSize="22sp" />
 
-                <com.holo.view.RiseNumberTextView
+                <me.gensh.view.RiseNumberTextView
                     android:id="@+id/vol_my_work"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

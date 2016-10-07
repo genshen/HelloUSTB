@@ -1,89 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/default_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".About"
     tools:showIn="@layout/activity_about">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20sp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:contentDescription="@string/image"
-            android:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/this_version"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/logo"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/this_version"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal"
-            android:textSize="16sp"
-            android:text="@string/build_time"/>
-    </RelativeLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/check_update"
-            style="@style/setting_text_no_arrow"
-            android:clickable="true"
-            android:onClick="clickHandle"
-            android:text="@string/check_update" />
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20sp" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="@color/gray2" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/feedback"
-            style="@style/setting_text"
-            android:clickable="true"
-            android:onClick="clickHandle"
-            android:text="@string/feedback" />
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/image"
+                android:src="@mipmap/ic_launcher" />
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="@color/gray2" />
+            <TextView
+                android:id="@+id/this_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/logo"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/app_web"
-            style="@style/setting_text"
-            android:clickable="true"
-            android:onClick="clickHandle"
-            android:text="@string/app_web" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/this_version"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:textSize="16sp"
+                android:text="@string/build_time"/>
+        </RelativeLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/check_update"
+                style="@style/setting_text_no_arrow"
+                android:clickable="true"
+                android:onClick="clickHandle"
+                android:text="@string/check_update" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/gray2" />
+
+            <TextView
+                android:id="@+id/app_web"
+                style="@style/setting_text"
+                android:clickable="true"
+                android:onClick="clickHandle"
+                android:text="@string/app_web" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/gray2" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

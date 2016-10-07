@@ -68,10 +68,10 @@ public class About extends AppCompatActivity {
             case R.id.check_update:
                 CheckUpdate();
                 break;
-            case R.id.feedback:
-                Intent feedback = new Intent(this, Feedback.class);
-                startActivity(feedback);
-                break;
+//            case R.id.feedback:
+//                Intent feedback = new Intent(this, Feedback.class);
+//                startActivity(feedback);
+//                break;
             case R.id.app_web:
                 Bundle data = new Bundle();
                 data.putSerializable("url", getString(R.string.app_website));

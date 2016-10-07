@@ -56,7 +56,6 @@ public class Feedback extends AppCompatActivity {
     }
 
     private void sendMail(String body) {
-
         String contactWay = FeedbackContact.getText().toString();
         String service = getServiceInformation();
         if (!contactWay.equals("")) {
