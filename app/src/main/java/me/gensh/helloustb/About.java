@@ -68,16 +68,12 @@ public class About extends AppCompatActivity {
             case R.id.check_update:
                 CheckUpdate();
                 break;
-//            case R.id.feedback:
-//                Intent feedback = new Intent(this, Feedback.class);
-//                startActivity(feedback);
-//                break;
+            case R.id.open_source:
+                Intent open_source = new Intent(this, OpenSource.class);
+                this.startActivity(open_source);
+                break;
             case R.id.app_web:
-                Bundle data = new Bundle();
-                data.putSerializable("url", getString(R.string.app_website));
-                Intent browser = new Intent(this, Browser.class);
-                browser.putExtras(data);
-                startActivity(browser);
+                Browser.openBrowserWithUrl(this,getString(R.string.app_website));
                 break;
         }
     }

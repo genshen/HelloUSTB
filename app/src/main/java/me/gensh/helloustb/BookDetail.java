@@ -96,9 +96,7 @@ public class BookDetail extends NetWorkActivity {
                         if (url.isEmpty()) {
                             Toast.makeText(BookDetail.this, R.string.no_book_in_douban, Toast.LENGTH_LONG).show();
                         } else {
-                            Intent douban_intent = new Intent(BookDetail.this, Browser.class);
-                            douban_intent.putExtra("url", url);
-                            startActivity(douban_intent);
+                            Browser.openBrowserWithUrl(BookDetail.this, url);
                         }
                     }
                 });

@@ -19,6 +19,7 @@
     <string name="title_activity_settings">设置</string>
     <string name="title_activity_general_setting">通用</string>
     <string name="title_activity_about">关于</string>
+    <string name="title_activity_open_source">开源许可</string>
     <string name="title_activity_information">个人信息</string>
     <string name="title_activity_account">个人中心</string>
     <string name="title_activity_account_manager">账号管理</string>
@@ -137,10 +138,12 @@
     <string name="mycenter">个人中心</string>
     <string name="general">通用</string>
     <string name="about_author">关于作者</string>
+    <string name="share_app">分享应用</string>
     <string name="feedback">意见反馈</string>
     <string name="setting_about">关于</string>
     <string name="check_update">检查更新</string>
-    <string name="share_app">分享应用</string>
+    <string name="open_source">开源许可</string>
+    <string name="open_source_file_location">file:///android_asset/open_source.html</string>
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
     <string name="version_base">Hello USTB  v%s </string>

@@ -46,8 +46,8 @@
                 android:layout_below="@+id/this_version"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
-                android:textSize="16sp"
-                android:text="@string/build_time"/>
+                android:text="@string/build_time"
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <Space
@@ -65,6 +65,18 @@
                 android:clickable="true"
                 android:onClick="clickHandle"
                 android:text="@string/check_update" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/gray2" />
+
+            <TextView
+                android:id="@+id/open_source"
+                style="@style/setting_text"
+                android:clickable="true"
+                android:onClick="clickHandle"
+                android:text="@string/open_source" />
 
             <View
                 android:layout_width="fill_parent"

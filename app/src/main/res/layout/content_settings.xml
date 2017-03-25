@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -53,17 +53,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/about"
-                style="@style/setting_text"
-                android:clickable="true"
-                android:onClick="click_Hander"
-                android:text="@string/about" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:background="@color/gray2" />
+            <!--<TextView-->
+            <!--android:id="@+id/about_author"-->
+            <!--style="@style/setting_text"-->
+            <!--android:clickable="true"-->
+            <!--android:onClick="click_Hander"-->
+            <!--android:text="@string/about_author" />-->
 
             <TextView
                 android:id="@+id/share_app"
@@ -78,8 +73,20 @@
                 android:background="@color/gray2" />
 
             <TextView
+                android:id="@+id/feedback"
+                style="@style/setting_text"
+                android:clickable="true"
+                android:onClick="click_Hander"
+                android:text="@string/feedback" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/gray2" />
+
+            <TextView
                 android:id="@+id/setting_about"
-                style="@style/setting_text_no_arrow"
+                style="@style/setting_text"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:clickable="true"
@@ -88,4 +95,4 @@
             <!--style="@style/NoRightText"-->
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

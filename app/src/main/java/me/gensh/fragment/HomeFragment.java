@@ -48,11 +48,7 @@ public class HomeFragment extends Fragment {
         home_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle data = new Bundle();
-                data.putSerializable("url", "http://teach.ustb.edu.cn/" + home_info.get(3 * position));
-                Intent browser = new Intent(getActivity(), Browser.class);
-                browser.putExtras(data);
-                startActivity(browser);
+                Browser.openBrowserWithUrl(getActivity(),"http://teach.ustb.edu.cn/" + home_info.get(3 * position));
             }
         });
         return notice;

@@ -37,7 +37,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-            <com.holo.view.RiseNumberTextView
+            <me.gensh.view.RiseNumberTextView
                 android:id="@+id/credit_sum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -32,7 +32,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Browser extends AppCompatActivity {
+
+    public static void openBrowserWithUrl(Context context, String url) {
+        Bundle b_data = new Bundle();
+        b_data.putString("url", url);
+        Intent browser = new Intent(context, Browser.class);
+        browser.putExtras(b_data);
+        context.startActivity(browser);
+    }
+
     View container;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        requestWindowFeature(Window.FEATURE_PROGRESS);//这句话只能写在这里，写在下面会出错....郁闷，，，
