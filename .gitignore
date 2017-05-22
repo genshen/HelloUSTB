@@ -1,6 +1,7 @@
-#.idea
+.idea
 *.iml
 /captures
+
 ### Android template
 # Built application files
 *.apk
@@ -39,10 +40,10 @@ captures/
 # Intellij
 *.iml
 #.idea/workspace.xml
-#.idea/tasks.xml
-#.idea/gradle.xml
-#.idea/dictionaries
-#.idea/libraries
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/dictionaries
+.idea/libraries
 
 # Keystore files
 *.jks
