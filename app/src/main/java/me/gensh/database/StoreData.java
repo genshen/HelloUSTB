@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Created by gensh on 2015/11/20.
+ */
 
 public class StoreData {
     SQLiteDatabase course_db;

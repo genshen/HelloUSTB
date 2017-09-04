@@ -53,7 +53,7 @@ public class TimetableFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         position = FragmentPagerItem.getPosition(getArguments());
         CourseDbHelper courseDb = new CourseDbHelper(getActivity(), databaseVersion);
-        if (!courseDb.isTableEmpty()) {
+        if (!courseDb.haveCoursesImported()) {
             hasImported = true;
             adapter = new TimeTableAdapter(ttl, getActivity(), position);
             View rootView = inflater.inflate(R.layout.fragment_timetable, container, false);

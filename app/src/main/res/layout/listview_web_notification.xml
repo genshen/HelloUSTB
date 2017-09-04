@@ -19,7 +19,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/home_card_left"
+                android:id="@+id/web_notification_card_left"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:src="@color/black" />
@@ -35,14 +35,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/home_title"
+                    android:id="@+id/web_notification_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/home_date"
+                    android:id="@+id/web_notification_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
@@ -51,7 +51,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/home_card_right"
+                android:id="@+id/web_notification_card_right"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:src="@color/black" />

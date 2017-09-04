@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3399F0</color>
     <color name="colorPrimaryDark">#3399F0</color>
-    <color name="colorAccent">#607D8B</color>
+    <color name="colorAccent">#4caf50</color>
     <color name="tab_header">#58A2F0</color>
 
     <color name="black_overlay">#66000000</color>
@@ -35,6 +35,7 @@
     <color name="red_light">#FF0000</color>
     <color name="purple">#6633CC</color>
     <color name="bright_yellow">#FFFF00</color>
+    <color name="fab_color_ripple">#4caf6f</color>
 
     <!--general settings color-->
     <color name="preference_list_item_press">#E7E7E7</color>

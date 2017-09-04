@@ -35,7 +35,7 @@ public class InnovationCredit extends AppCompatActivity {
 
         progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
         if (((MyApplication) getApplication()).CheckNetwork()) {
-//           setProcessDialog();
+//           showProgressDialog();
             progress_bar.setVisibility(View.VISIBLE);
             GetPostHandler.handlerGet(handler, getString(R.string.ele_innovation_credit), "ELE", 0x001, 11, "UTF-8");
         } else {

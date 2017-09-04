@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *  Created by gensh on 2016/10/7.
+ */
 public class VolunteerSearch extends AppCompatActivity {
     SearchView sv;
     ListView tip_list;

@@ -18,7 +18,6 @@ public class VolunteerHomeFragment extends Fragment {
     private static final int VolunteerDataLength = 4;
     private ArrayList<String> volunteer_meg;
 
-
     public static VolunteerHomeFragment newInstance(ArrayList<String> vol_result) {
         VolunteerHomeFragment fragment = new VolunteerHomeFragment();
         Bundle args = new Bundle();

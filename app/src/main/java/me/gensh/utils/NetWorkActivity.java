@@ -19,7 +19,9 @@ import java.util.Map;
 public abstract class NetWorkActivity extends AppCompatActivity {
     public abstract void RequestResultHandler(int what, ArrayList<String> data);
 
-    public abstract void setProcessDialog();
+    public abstract void showProgressDialog();
+
+    public abstract void dismissProgressDialog();
 
     public abstract void onNetworkDisabled();
 
@@ -55,10 +57,10 @@ public abstract class NetWorkActivity extends AppCompatActivity {
         }
     };
 
-    public void get(String url, String tag, int feedback, int id, String code, boolean setdialog) {
+    public void get(String url, String tag, int feedback, int id, String code, boolean showProgress) {
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            if (setdialog) {
-                setProcessDialog();
+            if (showProgress) {
+                showProgressDialog();
             }
             GetPostHandler.handlerGet(handler, url, tag, feedback, id, code);
         } else {
@@ -66,11 +68,10 @@ public abstract class NetWorkActivity extends AppCompatActivity {
         }
     }
 
-    public void post(String url, String tag, int feedback, int id, String code,
-                     Map<String, String> post_params, boolean setdialog) {
+    public void post(String url, String tag, int feedback, int id, String code, Map<String, String> post_params, boolean showProgress) {
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            if (setdialog) {
-                setProcessDialog();
+            if (showProgress) {
+                showProgressDialog();
             }
             GetPostHandler.handlerPost(handler, url, tag, feedback, id, code, post_params);
         } else {
@@ -80,6 +81,12 @@ public abstract class NetWorkActivity extends AppCompatActivity {
 
     public void setErrorHandler(ErrorHandler callback) {
         errorHandler = callback;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GetPostHandler.setTagEmpty();
     }
 
 }

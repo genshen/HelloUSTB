@@ -32,13 +32,13 @@ public class StartActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0x220://不是新程序，但是一天的第一次打开
-                    Intent newactivity = new Intent(StartActivity.this, MainActivity.class);
-                    startActivity(newactivity);
+                    Intent newIntent = new Intent(StartActivity.this, MainActivity.class);
+                    startActivity(newIntent);
                     finish();
                     break;
                 case 0x221://新程序
-                    Intent guidActivity = new Intent(StartActivity.this, GuideActivity.class);
-                    startActivity(guidActivity);
+                    Intent guideActivity = new Intent(StartActivity.this, GuideActivity.class);
+                    startActivity(guideActivity);
                     finish();
                     break;
             }

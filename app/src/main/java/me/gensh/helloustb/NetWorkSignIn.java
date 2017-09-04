@@ -13,6 +13,7 @@ import me.gensh.fragment.CampusNetworkFragment;
 import me.gensh.fragment.ErrorFragment;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
+
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
@@ -30,14 +31,14 @@ public class NetWorkSignIn extends LoginNetworkActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        progressBar = (GoogleProgressBar) findViewById(R.id.progress_bar);
-        reload = (AppCompatImageView) findViewById(R.id.reload);
-        errorMessage = (AppCompatTextView) findViewById(R.id.error_message);
-        errorContainer = (RelativeLayout) findViewById(R.id.error_container);
+        progressBar = findViewById(R.id.progress_bar);
+        reload = findViewById(R.id.reload);
+        errorMessage = findViewById(R.id.error_message);
+        errorContainer = findViewById(R.id.error_container);
         reload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+                showProgressDialog();
                 errorContainer.setVisibility(View.INVISIBLE);
                 Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x101);
             }
@@ -47,7 +48,7 @@ public class NetWorkSignIn extends LoginNetworkActivity {
         setErrorHandler(new ErrorHandler() {
             @Override
             public void onPasswordError() {
-                progressBar.setVisibility(View.INVISIBLE);
+                dismissProgressDialog();
                 errorContainer.setVisibility(View.VISIBLE);
                 errorMessage.setText(R.string.error_net_sign_in_password);
                 Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
@@ -55,7 +56,7 @@ public class NetWorkSignIn extends LoginNetworkActivity {
 
             @Override
             public void onTimeoutError() {
-                progressBar.setVisibility(View.INVISIBLE);
+                dismissProgressDialog();
                 errorContainer.setVisibility(View.VISIBLE);
                 errorMessage.setText(R.string.error_net_sign_in_connection_timeout);
                 Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
@@ -77,12 +78,12 @@ public class NetWorkSignIn extends LoginNetworkActivity {
     public void RequestResultHandler(int what, ArrayList<String> data) {
         switch (what) {
             case 0x101:
-                savePass();
+                savePasswordToLocal();
                 Toast.makeText(getBaseContext(), R.string.net_sign_in_success, Toast.LENGTH_LONG).show();
                 get(getString(R.string.sch_net), "NET", 0x102, 8, "GB2312", false);
                 break;
             case 0x102:
-                progressBar.setVisibility(View.GONE);
+                dismissProgressDialog();
                 errorContainer.setVisibility(View.GONE);
                 Bundle argument = new Bundle();
                 argument.putStringArrayList("Campus_network_information", data);
@@ -94,8 +95,13 @@ public class NetWorkSignIn extends LoginNetworkActivity {
     }
 
     @Override
-    public void setProcessDialog() {
+    public void showProgressDialog() {
         progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

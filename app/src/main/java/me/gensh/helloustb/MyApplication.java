@@ -15,11 +15,21 @@ import android.os.Parcelable;
  */
 public class MyApplication extends Application {
 
+    private static MyApplication instance;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
     }
 
+    public static Context getMyApplication() {
+        return instance;
+    }
+
+    /**
+     * @return return true if has network
+     */
     public boolean CheckNetwork() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = connMgr.getActiveNetworkInfo();
@@ -27,9 +37,9 @@ public class MyApplication extends Application {
     }
 
     public void setUpShortCut() {
-        String title="WIFI";
-        Intent addIntent=new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-        Parcelable icon=Intent.ShortcutIconResource.fromContext(this, R.drawable.guide_wifi); //获取快捷键的图标
+        String title = "WIFI";
+        Intent addIntent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+        Parcelable icon = Intent.ShortcutIconResource.fromContext(this, R.drawable.guide_wifi); //获取快捷键的图标
 //
         Intent launcherIntent = new Intent(Intent.ACTION_MAIN);
         launcherIntent.setClass(getApplicationContext(), MainActivity.class);

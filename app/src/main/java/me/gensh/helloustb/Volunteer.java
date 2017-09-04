@@ -24,7 +24,7 @@ public class Volunteer extends LoginNetworkActivity {
 //    String passFileName, account, password;
 //    Boolean canWrite = false;
 
-    GoogleProgressBar progress_bar;
+    GoogleProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +34,21 @@ public class Volunteer extends LoginNetworkActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        progressBar = findViewById(R.id.progress_bar);
         setErrorHandler(new NetWorkActivity.ErrorHandler() {
             @Override
             public void onPasswordError() {
-                progress_bar.setVisibility(View.INVISIBLE);
+                dismissProgressDialog();
                 setVolunteerMessage(R.string.errorPassword, R.string.login_vol_button_again);
             }
 
             @Override
             public void onTimeoutError() {
-                progress_bar.setVisibility(View.INVISIBLE);
+                dismissProgressDialog();
                 setVolunteerMessage(R.string.connectionTimeout, R.string.login_vol_button_again);
             }
         });
 
-        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
         final LoginDialog vol_login = new LoginDialog(LoginDialog.LoginVol);
         Login(vol_login, "VOL", 0x401);
     }
@@ -89,8 +89,8 @@ public class Volunteer extends LoginNetworkActivity {
     }
 
     private void setVolunteerMessage(int msg_text, int msg_btn) {
-        Button btn = (Button) findViewById(R.id.vol_login_button);
-        TextView text = (TextView) findViewById(R.id.volunteer_message);
+        Button btn = findViewById(R.id.vol_login_button);
+        TextView text = findViewById(R.id.volunteer_message);
         if (btn != null && text != null) {
             btn.setText(msg_btn);
             text.setText(msg_text);
@@ -105,18 +105,18 @@ public class Volunteer extends LoginNetworkActivity {
             case 0x401:    //志愿者服务网登录成功
 //						Toast.makeText(Volunteer.this, str_msg, Toast.LENGTH_SHORT).show();
                 isLogin = true;
-                savePass();
+                savePasswordToLocal();
                 get(getString(R.string.volunteer_home), "VOL", 0x402, 15, "utf-8", false);
                 break;
             case 0x402://home of volunteer home Page;
-                progress_bar.setVisibility(View.INVISIBLE);
+                dismissProgressDialog();
                 ((RelativeLayout) findViewById(R.id.volunteer_container)).removeAllViews();
 
                 VolunteerHomeFragment fragment_volunteer_home = VolunteerHomeFragment.newInstance(data);
                 getFragmentManager().beginTransaction().replace(R.id.volunteer_container, fragment_volunteer_home).commit();
                 break;
             case 0x403:
-                progress_bar.setVisibility(View.INVISIBLE);
+                dismissProgressDialog();
                 Bundle vol_list = new Bundle();
                 vol_list.putStringArrayList("list", data);
                 Intent list = new Intent(Volunteer.this, MyVolunteerList.class);
@@ -127,8 +127,13 @@ public class Volunteer extends LoginNetworkActivity {
     }
 
     @Override
-    public void setProcessDialog() {
-        progress_bar.setVisibility(View.VISIBLE);
+    public void showProgressDialog() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

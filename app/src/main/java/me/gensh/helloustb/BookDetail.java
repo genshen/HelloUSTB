@@ -20,7 +20,7 @@ public class BookDetail extends NetWorkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.library_detail_toolbar);
+        Toolbar toolbar = findViewById(R.id.library_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -105,7 +105,12 @@ public class BookDetail extends NetWorkActivity {
     }
 
     @Override
-    public void setProcessDialog() {
+    public void showProgressDialog() {
+
+    }
+
+    @Override
+    public void dismissProgressDialog() {
 
     }
 

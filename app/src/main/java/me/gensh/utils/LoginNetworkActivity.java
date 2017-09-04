@@ -12,8 +12,9 @@ import me.gensh.sdcard.SdCardPro;
  * Created by 根深 on 2016/7/13.
  */
 public abstract class LoginNetworkActivity extends NetWorkActivity {
-    static String username, password, passFileName;    //发送post请求之前传给变量,如果密码正确,则保存至本地
-    Boolean canWrite = false;
+    protected static String username, password;
+    static String passFileName;    //发送post请求之前传给变量,如果密码正确,则保存至本地
+    boolean canWrite = false;
 
     public void Login(final LoginDialog ld, final String tag, final int feedback) {
         passFileName = ld.passFileName;
@@ -47,7 +48,7 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
         }
     }
 
-    public void savePass() {
+    public void savePasswordToLocal() {
         if (canWrite) {
             SdCardPro.checkDirExit();
             StrUtils.WriteWithEncryption(username + "@" + password, passFileName);

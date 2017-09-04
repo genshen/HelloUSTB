@@ -32,8 +32,9 @@
     <string name="title_activity_volunteer_detail">活动详情</string>
     <string name="title_activity_volunteer_search_result">搜索结果</string>
     <string name="title_activity_playground">操场</string>
-    <string name="NotExit">请再按一次退出本程序</string>
+    <string name="pressAgainToExit">请再按一次退出本程序</string>
     <string name="action_settings">设置</string>
+    <string name="action_search">搜索</string>
     <!--/Activity 标题-->
 
     <!-- 开始界面 -->
@@ -107,16 +108,14 @@
     <string name="image">image</string>
     <string name="nav_header_title">个人中心</string>
     <string name="nav_header_subtitle">个人资料待完善</string>
-    <string name="left_side_home">首页</string>
-    <string name="left_side_record_query">成绩查询</string>
-    <string name="left_side_elective_system">选课系统</string>
-    <string name="left_side_my_schedule">我的课表</string>
-    <string name="left_side_volunteer">志愿服务</string>
-    <string name="left_side_quality_development">素质拓展</string>
-    <string name="left_side_library">图书馆</string>
-    <string name="left_side_campus_network">校园网</string>
-    <string name="left_side_setting">设置</string>
-    <string name="left_side_playground">操场</string>
+    <string name="drawer_menu_category_about_and_feedback">关于与反馈</string>
+    <string name="drawer_menu_home">首页</string>
+    <string name="drawer_menu_account_manager">账号</string>
+    <string name="drawer_menu_download">下载</string>
+    <string name="drawer_menu_share">分享</string>
+    <string name="drawer_menu_feedback">反馈</string>
+    <string name="drawer_menu_github">Github issues</string>
+    <string name="drawer_menu_about">关于</string>
     <!-- /侧滑栏 -->
     <!-- 主界面 -->
     <string name="navigation_drawer_open">drawer_open</string>
@@ -171,6 +170,7 @@
     <!-- /分享应用 -->
 
     <!-- 相关链接 -->
+    <string name="app_github_url">https://github.com/genshen/HelloUSTB</string>
     <string name="teach">http://teach.ustb.edu.cn</string>
     <string name="sch_net">http://202.204.48.66</string>
     <string name="tea_login">http://seam.ustb.edu.cn:8080/jwgl/Login</string>
@@ -267,10 +267,7 @@
 
     <!-- 课程表主界面 -->
     <string name="import_table">导入课表</string>
-    <string name="through_out">查看课表</string>
     <string name="share_table">分享课表</string>
-    <string name="sch_timetable_title">今日课表</string>
-    <string name="Course_No">编号</string>
     <string name="Course_Time">上课时间</string>
     <string name="Course_Name">课程名称</string>
     <string name="Course_Room">上课教室</string>
@@ -288,6 +285,11 @@
     <!-- 课程表主界面 -->
     <!--今日课表-->
     <string name="no_lesson_today">你今天没有课哟~</string>
+    <string name="today_course_card_title">今日课表</string>
+    <string name="today_course_card_import">开始导入课表</string>
+    <string name="today_course_card_see_all">查看完整课表</string>
+    <string name="today_course_card_hint_no_courses">今日无课</string>
+    <string name="today_course_card_hint_not_imported">尚未导入课表,导入后即可查看</string>
     <!--/今日课表-->
     <!-- 课程详情 -->
     <string name="timetable_detail_title">%s</string>
@@ -428,5 +430,15 @@
     <string name="logout_e_success">校园信息门户账号注销成功</string>
     <string name="title_activity_test">TestActivity</string>
 
+    <string name="main_navigation_title_home">首页</string>
+    <string name="main_navigation_title_dashboard">工具</string>
+    <string name="main_navigation_title_settings">设置</string>
     <!--/个人中心-->
+    <!--首页-->
+    <string name="notification_card_title">通知</string>
+    <string name="notification_card_see_more">查看更多</string>
+    <string name="notification_card_hint_no_notifications">暂无通知</string>
+    <!--/本科教学网通知-->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

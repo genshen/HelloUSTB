@@ -90,27 +90,27 @@ public class StrUtils {
 //	}
 
 	//MainActivity title setting
-	public static int getActionBarTitle(int number) {
-		// TODO
-		switch (number) {
-			case 1:
-				return R.string.left_side_home;
-			case 2:
-				return R.string.left_side_record_query;
-			case 3:
-				return R.string.left_side_elective_system;
-			case 4:
-				return R.string.left_side_my_schedule;
-			case 5:
-				return R.string.left_side_volunteer;
-			case 6:
-				return R.string.left_side_library;
-			case 7:
-				return R.string.left_side_campus_network;
-			case 8:
-				return R.string.setting;
-		}
-		return R.string.left_side_home;
-	}
+//	public static int getActionBarTitle(int number) {
+//		// TODO
+//		switch (number) {
+//			case 1:
+//				return R.string.left_side_home;
+//			case 2:
+//				return R.string.left_side_record_query;
+//			case 3:
+//				return R.string.left_side_elective_system;
+//			case 4:
+//				return R.string.left_side_my_schedule;
+//			case 5:
+//				return R.string.left_side_volunteer;
+//			case 6:
+//				return R.string.left_side_library;
+//			case 7:
+//				return R.string.left_side_campus_network;
+//			case 8:
+//				return R.string.setting;
+//		}
+//		return R.string.left_side_home;
+//	}
 
 }

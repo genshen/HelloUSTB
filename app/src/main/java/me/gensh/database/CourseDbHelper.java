@@ -11,8 +11,8 @@ import me.gensh.sdcard.SdCardPro;
  * Created by gensh on 2015/11/20.
  */
 public class CourseDbHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = SdCardPro.getSDPath() + "/MyUstb/Data/Course/Course_v101.db";
-    String SQL_CREATE_COURSE = "create table " + CourseInfoTable.TableName +
+    public static final String DATABASE_NAME = SdCardPro.getSDPath() + "/MyUstb/Data/Course/Course_v107.db";
+    private String SQL_CREATE_COURSE = "create table " + CourseInfoTable.TableName +
             "(_id integer primary key," +   //id
             "student_num integer," +        //学生数目
             "learn_time integer," +        //学时
@@ -43,7 +43,7 @@ public class CourseDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean isTableEmpty() {
+    public boolean haveCoursesImported() { //todo maybe we have a better implementation  for this method.
         //  SELECT COUNT(*) FROM table_name
         String sql = "SELECT * FROM " + CourseInfoTable.TableName;
         SQLiteDatabase db = this.getReadableDatabase();

@@ -30,11 +30,11 @@ public class ExamQuery extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_query);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
+        progress_bar = findViewById(R.id.progress_bar);
         if (((MyApplication) getApplication()).CheckNetwork()) {
             String myaccount[] = StrUtils.ReadWithEncryption(passFileName).split("@");
             GetPostHandler.handlerPost(handler, getString(R.string.ele_exam_time_place_query),
