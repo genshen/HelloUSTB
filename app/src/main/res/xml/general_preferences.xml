@@ -12,7 +12,7 @@
             android:summaryOn="CheckBox(开)"
             android:title="测试CheckBox" />
 
-        <me.gensh.view.MaterialListPreference
+        <me.gensh.views.MaterialListPreference
             android:defaultValue="1"
             android:entries="@array/week_titles"
             android:entryValues="@array/week_values"
@@ -33,7 +33,7 @@
             android:summaryOn="当检测到未登录校园网时,进行自动登录"
             android:title="自动登录" />
 
-        <me.gensh.view.MaterialListPreference
+        <me.gensh.views.MaterialListPreference
             android:defaultValue="0"
             android:dependency="net_auto_sign_in_enable"
             android:entries="@array/setting_net_sign_in_mode_title"

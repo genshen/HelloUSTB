@@ -1,12 +1,14 @@
 package me.gensh.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
@@ -17,23 +19,23 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.gensh.helloustb.ELearningCategory;
 import me.gensh.helloustb.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DashboardFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * created by gensh on 2027/08/28
  */
 public class DashboardFragment extends Fragment {
-    @BindView(R.id.grid_view_score)
-    GridView gridViewScore;
+    @BindView(R.id.grid_view_dashboard)
+    GridView gridViewDashboard;
+
+    final static String GRID_VIEW_ITEM_ICON = "icon", GRID_VIEW_ITEM_TITLE = "title";
 
     ArrayList<Map<String, Object>> dataList = new ArrayList<>();
-    int[] resIcons = {R.drawable.account_sina};
-    String[] resTitles = {"Sina"};
+    int[] resIcons = {R.drawable.guide_score, R.drawable.guide_more, R.drawable.guide_score, R.drawable.guide_score, R.drawable.guide_wifi,
+            R.drawable.guide_score, R.drawable.guide_score, R.drawable.guide_score, R.drawable.guide_score,};
+    String[] resTitles = {"成绩查询", "创新学分", "本科教学网通知", "课程表", "校园网",
+            "校园卡消费", "图书馆", "志愿服务", "考试查询"};
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,17 +84,24 @@ public class DashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         ButterKnife.bind(this, view);
 
-        SimpleAdapter adapter = new SimpleAdapter(getContext(), getData(), R.layout.grid_dashboard_socre,
-                new String[]{"icon", "title"}, new int[]{R.id.grid_dashboard_score_icon, R.id.grid_dashboard_score_title});
-        gridViewScore.setAdapter(adapter);
+        SimpleAdapter adapter = new SimpleAdapter(getContext(), getData(), R.layout.grid_view_dashboard,
+                new String[]{GRID_VIEW_ITEM_ICON, GRID_VIEW_ITEM_TITLE}, new int[]{R.id.grid_view_dashboard_icon, R.id.grid_view_dashboard_title});
+        gridViewDashboard.setAdapter(adapter);
+        gridViewDashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), ELearningCategory.class); //todo
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
     private List<Map<String, Object>> getData() {
         for (int i = 0; i < resIcons.length; i++) {
             Map<String, Object> map = new HashMap<>();
-            map.put("icon", resIcons[i]);
-            map.put("title", resTitles[i]);
+            map.put(GRID_VIEW_ITEM_ICON, resIcons[i]);
+            map.put(GRID_VIEW_ITEM_TITLE, resTitles[i]);
             dataList.add(map);
         }
         return dataList;

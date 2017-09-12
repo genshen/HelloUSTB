@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <me.gensh.view.MultiSelectView
+    <me.gensh.views.MultiSelectView
         android:id="@+id/week_id_selector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

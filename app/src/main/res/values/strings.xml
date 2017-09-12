@@ -5,6 +5,7 @@
     <!--Activity 标题-->
     <string name="title_activity_main">Hello USTB</string>
     <string name="title_activity_guide">GUIDE</string>
+    <string name="title_activity_elearning">ELearningActivity</string>
     <string name="title_activity_browser">浏览器</string>
     <string name="title_activity_timetable">课程表</string>
     <string name="title_activity_net_work_sign_in">校园网</string>
@@ -181,7 +182,7 @@
     <!-- 相关链接   /校园网  -->
     <!-- 相关链接   选课系统 -->
     <string name="ele_login">http://elearning.ustb.edu.cn/choose_courses/j_spring_security_check</string>
-    <string name="ele_score">http://elearning.ustb.edu.cn/choose_courses/information/singleStuInfo_singleStuInfo_loadSingleStuScorePage.action</string>
+    <string name="ele_score_query">http://elearning.ustb.edu.cn/choose_courses/information/singleStuInfo_singleStuInfo_loadSingleStuScorePage.action</string>
     <string name="ele_innovation_credit">http://elearning.ustb.edu.cn/choose_courses/information/singleStuInfo_singleStuInfo_loadSingleStuCxxfPage.action</string>
     <string name="ele_exam_time_place_query">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_examList_loadExamListPage.action</string>
     <string name="school_timetable_addresss">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_courseList_loadTermCourses.action</string>
@@ -248,8 +249,10 @@
     <string name="share">分享</string>
     <!-- /浏览器 -->
     <!---成绩查询-->
-    <string name="pleaseChoose">选择学期 查询成绩</string>
-    <string name="innovation_credit">创新学分</string>
+    <string name="fan_menu_innovation_credit">创新学分</string>
+    <string name="fan_menu_exam_time_place_query">考试查询</string>
+    <string name="fan_menu_record_query">成绩查询</string>
+    <string name="please_choose">选择学期 查询成绩</string>
     <string name="course_name">课程名称</string>
     <string name="score">成绩</string>
     <string name="credit">学分</string>
@@ -263,6 +266,7 @@
     <!--/创新学分-->
     <!--考试时间地点查询-->
     <string name="exam_time_place_query">考试查询</string>
+    <string name="exam_time_place_query_no_result">暂无相关考试时间地点信息</string>
     <!--/考试时间地点查询-->
 
     <!-- 课程表主界面 -->

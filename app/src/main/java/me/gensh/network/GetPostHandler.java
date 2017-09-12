@@ -13,7 +13,7 @@ import java.util.Map;
 public class GetPostHandler {
 
     private final static int TIMEOUT = 8000;
-    public static String tag_now = "";
+    public static String tagNow = "";
 
     public static void HtmlOut(BufferedReader br) {
         try {
@@ -27,7 +27,7 @@ public class GetPostHandler {
     }
 
     public static void setTagEmpty(){
-        tag_now = "";
+        tagNow = "";
     }
 
     /**
@@ -43,11 +43,11 @@ public class GetPostHandler {
         new Thread() {
             @Override
             public void run() {
-                tag_now = tag;  // tag_now can be changed by other thread!
+                tagNow = tag;  // tagNow can be changed by other thread!
                 Message msg = new Message();
                 msg.what = feedback;
                 msg.obj = getData(url, tag, code, id);
-                if (tag_now.equals(tag)) {
+                if (tagNow.equals(tag)) {
                     handler.sendMessage(msg);
                 }
             }
@@ -61,18 +61,18 @@ public class GetPostHandler {
      * @param feedback    message.what
      * @param id          process id
      * @param code        witch decides how to encode return stream
-     * @param post_params post data
+     * @param postParams post data
      */
     public static void handlerPost(final Handler handler, final String url, final String tag, final int feedback,
-                                   final int id, final String code, final Map<String, String> post_params) {
+                                   final int id, final String code, final Map<String, String> postParams) {
         new Thread() {
             @Override
             public void run() {
-                tag_now = tag;  // tag_now can be changed by other thread!
+                tagNow = tag;  // tagNow can be changed by other thread!
                 Message msg = new Message();
                 msg.what = feedback;
-                msg.obj = postData(url, post_params, tag, code, id);
-                if (tag_now.equals(tag)) {
+                msg.obj = postData(url, postParams, tag, code, id);
+                if (tagNow.equals(tag)) {
                     handler.sendMessage(msg);
                 }
             }

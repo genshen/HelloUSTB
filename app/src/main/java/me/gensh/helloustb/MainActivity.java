@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    startActivity(volunteer);
 //                    break;
 //                case R.id.library:
-//                    Intent library = new Intent(MainActivity.this, Library.class);
+//                    Intent library = new Intent(MainActivity.this, LibraryActivity.class);
 //                    startActivity(library);
 //                    break;
 //                case R.id.campus_network:

@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import me.gensh.helloustb.R;
 import me.gensh.utils.BasicDate;
 import me.gensh.utils.Const;
-import me.gensh.view.MaterialListPreference;
+import me.gensh.views.MaterialListPreference;
 
 import java.util.Calendar;
 

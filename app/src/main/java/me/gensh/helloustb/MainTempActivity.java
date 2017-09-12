@@ -1,9 +1,6 @@
 package me.gensh.helloustb;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -11,17 +8,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import me.gensh.database.StoreData;
 import me.gensh.fragment.CampusNetworkFragment;
 import me.gensh.fragment.ErrorFragment;
 import me.gensh.fragment.WebNotificationFragment;
-import me.gensh.fragment.RecordFragment;
-import me.gensh.fragment.TodayCourseFragment;
-import me.gensh.network.GetPostHandler;
-import me.gensh.network.VersionCheckerTask;
-import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
-import me.gensh.utils.StrUtils;
+
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
@@ -31,11 +22,11 @@ public class MainTempActivity extends LoginNetworkActivity {
     private DrawerLayout mDrawerLayout;
     private View navigation_drawer;
     private Toolbar toolbar;
-    private VersionCheckerTask checker;
+//    private VersionCheckerTask checker;
 
     public int state;
-    private long lastDown = 0;
-    public static String shareCourse = "";
+//    private long lastDown = 0;
+//    public static String shareCourse = "";
 
 //    static String username, password, passFileName;    //发送post请求之前传给变量,如果密码正确,则保存至本地
 //    Boolean canWrite = false;
@@ -53,8 +44,8 @@ public class MainTempActivity extends LoginNetworkActivity {
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
-        (findViewById(R.id.account)).setOnClickListener(new ClickHand());
-        (findViewById(R.id.home)).setOnClickListener(new ClickHand());
+//        (findViewById(R.id.account)).setOnClickListener(new ClickHand());
+//        (findViewById(R.id.home)).setOnClickListener(new ClickHand());
 //        (findViewById(R.id.record_query)).setOnClickListener(new ClickHand());
 //		( findViewById(R.id.elective_system)).setOnClickListener(new ClickHand());
 //        (findViewById(R.id.today_course)).setOnClickListener(new ClickHand());
@@ -155,12 +146,12 @@ public class MainTempActivity extends LoginNetworkActivity {
 //    public void onPause() {
 //        super.onPause();
 //    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        GetPostHandler.setTagEmpty();
-    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        GetPostHandler.setTagEmpty();
+//    }
 
     private void drawerToggle() {
         if (mDrawerLayout.isDrawerOpen(navigation_drawer)) {
@@ -177,36 +168,37 @@ public class MainTempActivity extends LoginNetworkActivity {
         public void onClick(View view) {
             int id = view.getId();
             switch (id) {
-                case R.id.account:
-                    Intent my_center = new Intent(MainTempActivity.this, Account.class);
-                    startActivity(my_center);
-                    break;
+//                case R.id.account:
+//                    Intent my_center = new Intent(MainTempActivity.this, Account.class);
+//                    startActivity(my_center);
+//                    break;
                 case R.id.home:
                     state = 1;
                     drawerToggle();
                     ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
                     get("http://teach.ustb.edu.cn/", "TEACH", 0x101, 1, "gb2312", true);
                     break;
+
+//                case R.id.record_query:
+//                    state = 2;
+//                    drawerToggle();
+//                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
+//                    Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x102);
+//                    break;
+//                case R.id.today_course:
+//                    state = 4;
+//                    drawerToggle();
+//                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
+//                    TodayCourseFragment fragment = new TodayCourseFragment();
+//                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+//                    break;
                 /** todo uncomment
-                case R.id.record_query:
-                    state = 2;
-                    drawerToggle();
-                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
-                    Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x102);
-                    break;
-                case R.id.today_course:
-                    state = 4;
-                    drawerToggle();
-                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
-                    TodayCourseFragment fragment = new TodayCourseFragment();
-                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
-                    break;
                 case R.id.volunteer:
                     Intent volunteer = new Intent(MainTempActivity.this, Volunteer.class);
                     startActivity(volunteer);
                     break;
                 case R.id.library:
-                    Intent library = new Intent(MainTempActivity.this, Library.class);
+                    Intent library = new Intent(MainTempActivity.this, LibraryActivity.class);
                     startActivity(library);
                     break;
                 case R.id.campus_network:
@@ -228,17 +220,17 @@ public class MainTempActivity extends LoginNetworkActivity {
         }
     }
 
-    public void FabClick(View view) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.innovation_credit:
-                Intent innovation = new Intent(MainTempActivity.this, InnovationCredit.class);
-                startActivity(innovation);
-                break;
-            case R.id.exam_query:
-                Intent exam_query = new Intent(MainTempActivity.this, ExamQuery.class);
-                startActivity(exam_query);
-                break;
+//    public void FabClick(View view) {
+//        int id = view.getId();
+//        switch (id) {
+//            case R.id.innovation_credit:
+//                Intent innovation = new Intent(MainTempActivity.this, InnovationCredit.class);
+//                startActivity(innovation);
+//                break;
+//            case R.id.exam_query:
+//                Intent exam_query = new Intent(MainTempActivity.this, ExamQuery.class);
+//                startActivity(exam_query);
+//                break;
 //            case R.id.import_me:
 //                CourseDbHelper course = new CourseDbHelper(MainTempActivity.this, 1);
 //                if (course.haveCoursesImported()) {
@@ -272,8 +264,8 @@ public class MainTempActivity extends LoginNetworkActivity {
 //                sendIntent.setType("text/plain");
 //                startActivity(sendIntent);
 //                break;
-        }
-    }
+//        }
+//    }
 
     @Override
     public void RequestResultHandler(int what, ArrayList<String> str_msg) {
@@ -289,20 +281,20 @@ public class MainTempActivity extends LoginNetworkActivity {
                     getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
                 }
                 break;
-            case 0x102:    //login elearning.ustb.edu.cn，post
-                savePasswordToLocal();
-                Toast.makeText(this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
-                get(getString(R.string.ele_score), "ELE", 0x103, 3, "UTF-8", false);
-                break;
-            case 0x103:    //get all score ,get
-                cancelProcessDialog();
-                if (str_msg.size() % 8 == 2) {
-                    RecordFragment fragment = RecordFragment.newInstance(str_msg);
-                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
-                } else {
-                    Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
-                }
-                break;
+//            case 0x102:    //login elearning.ustb.edu.cn，post
+//                savePasswordToLocal();
+//                Toast.makeText(this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
+//                get(getString(R.string.ele_score), "ELE", 0x103, 3, "UTF-8", false);
+//                break;
+//            case 0x103:    //get all score ,get
+//                cancelProcessDialog();
+//                if (str_msg.size() % 8 == 2) {
+//                    ELearningRecordQueryFragment fragment = ELearningRecordQueryFragment.newInstance(str_msg);
+//                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
+//                } else {
+//                    Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
+//                }
+//                break;
 //            case 0x104:    //verify elearning.ustb.edu.cn  password; post
 //                savePasswordToLocal();
 //                LoginDialog time_table = new LoginDialog(LoginDialog.Timetable);

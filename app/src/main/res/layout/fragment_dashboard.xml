@@ -1,26 +1,18 @@
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="me.gensh.fragment.DashboardFragment">
 
-    <LinearLayout
+    <!-- todo NestedScrollView -->
+
+    <GridView
+        android:id="@+id/grid_view_dashboard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:paddingTop="20dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="3" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="成绩与学分" />
-
-        <GridView
-            android:id="@+id/grid_view_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:horizontalSpacing="10dp"
-            android:numColumns="4" />
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.github.clans.fab.FloatingActionMenu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fab_menu_record"
+    android:id="@+id/fab_menu_e_learning"
+    fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+    fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/exam_query"
+        android:id="@+id/fab_menu_innovation_credit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:onClick="FabClick"
         android:src="@drawable/fab_add"
-        fab:fab_label="@string/exam_time_place_query"
+        fab:fab_label="@string/fan_menu_innovation_credit"
         fab:fab_size="mini" />
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/innovation_credit"
+        android:id="@+id/fab_menu_exam_query"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:onClick="FabClick"
         android:src="@drawable/fab_add"
-        fab:fab_label="@string/innovation_credit"
+        fab:fab_label="@string/fan_menu_exam_time_place_query"
+        fab:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_menu_record_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/fab_add"
+        fab:fab_label="@string/fan_menu_record_query"
         fab:fab_size="mini" />
 
 </com.github.clans.fab.FloatingActionMenu>

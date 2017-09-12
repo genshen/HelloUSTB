@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import me.gensh.network.DataInfo;
 import me.gensh.network.GetPostHandler;
-import me.gensh.view.RiseNumberTextView;
+import me.gensh.views.RiseNumberTextView;
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;

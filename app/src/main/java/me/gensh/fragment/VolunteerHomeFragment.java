@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import me.gensh.helloustb.R;
-import me.gensh.view.RiseNumberTextView;
+import me.gensh.views.RiseNumberTextView;
 
 import java.util.ArrayList;
 

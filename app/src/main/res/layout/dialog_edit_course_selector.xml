@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <me.gensh.view.SelectWheel
+    <me.gensh.views.SelectWheel
         android:id="@+id/wheel_view_week_days"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:lwvHighlightColor="@color/colorPrimary"
         app:lwvMarkTextColor="#919191"  />
 
-    <me.gensh.view.SelectWheel
+    <me.gensh.views.SelectWheel
         android:id="@+id/wheel_view_lesson_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package me.gensh.view;
+package me.gensh.views;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;

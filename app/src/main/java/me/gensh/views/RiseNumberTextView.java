@@ -1,4 +1,4 @@
-package me.gensh.view;
+package me.gensh.views;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;

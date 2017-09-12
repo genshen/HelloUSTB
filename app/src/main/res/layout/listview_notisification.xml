@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingEnd="@dimen/activity_horizontal_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -13,8 +13,9 @@
         android:id="@+id/listview_notification_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minLines="2"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/listview_notification_date"
@@ -22,5 +23,5 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:textColor="@color/gray_d"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 </LinearLayout>

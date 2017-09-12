@@ -16,8 +16,8 @@ import android.widget.EditText;
 
 import me.gensh.database.CourseDbHelper;
 import me.gensh.database.UpdateData;
-import me.gensh.view.MultiSelectView;
-import me.gensh.view.SelectWheel;
+import me.gensh.views.MultiSelectView;
+import me.gensh.views.SelectWheel;
 
 import java.util.HashMap;
 
