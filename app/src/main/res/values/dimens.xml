@@ -22,6 +22,8 @@
 
     <dimen name="list_vertical_margin_small">8dp</dimen>
 
+    <!--<dimen name="dashboard_item_icon_length">272dp</dimen>-->
+
     <!--card-->
     <dimen name="color_card_corner_radius">2dp</dimen>
     <dimen name="color_card_padding_vertical">15dp</dimen>

@@ -29,6 +29,9 @@ public class ELearningExamQueryFragment extends Fragment {
     public ELearningExamQueryFragment() {
     }
 
+    /**
+     * @param exam data from http response in its parent activity
+     */
     public static ELearningExamQueryFragment newInstance(ArrayList<String> exam) {
         ELearningExamQueryFragment fragment = new ELearningExamQueryFragment();
         Bundle args = new Bundle();
@@ -66,7 +69,7 @@ public class ELearningExamQueryFragment extends Fragment {
 //                m.put("time", listdata.get(i * 5 + 2));
 //                m.put("place", listdata.get(i * 5 + 3));
 //                m.put("remark", listdata.get(i * 5 + 4));
-//                listitems.add(m);
+//                listItems.add(m);
 //            }
 //        }
         }

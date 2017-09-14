@@ -2,7 +2,7 @@ package me.gensh.utils;
 
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import me.gensh.network.GetPostHandler;
 public abstract class NetWorkFragment extends Fragment {
     public abstract void RequestResultHandler(int what, ArrayList<String> data);
 
-    public abstract void showProcessDialog();
+    public abstract void showProgressDialog();
 
     public abstract void dismissProgressDialog();
 
@@ -45,14 +45,14 @@ public abstract class NetWorkFragment extends Fragment {
                 if (errorHandler != null) {
                     errorHandler.onTimeoutError();
                 } else {
-                    Toast.makeText(getContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
                 }
                 return;
             } else if (data_info.code == DataInfo.ERROR_PASSWORD) {
                 if (errorHandler != null) {
                     errorHandler.onPasswordError();
                 } else {
-                    Toast.makeText(getContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.errorPassword, Toast.LENGTH_LONG).show();
                 }
                 return;
             }
@@ -64,7 +64,7 @@ public abstract class NetWorkFragment extends Fragment {
     public void get(String url, String tag, int feedback, int id, String code, boolean showProgress) {
         if (((MyApplication) getActivity().getApplication()).CheckNetwork()) {
             if (showProgress) {
-                showProcessDialog();
+                showProgressDialog();
             }
             GetPostHandler.handlerGet(handler, url, tag, feedback, id, code);
         } else {
@@ -75,7 +75,7 @@ public abstract class NetWorkFragment extends Fragment {
     public void post(String url, String tag, int feedback, int id, String code, Map<String, String> post_params, boolean showProgress) {
         if (((MyApplication) getActivity().getApplication()).CheckNetwork()) {
             if (showProgress) {
-                showProcessDialog();
+                showProgressDialog();
             }
             GetPostHandler.handlerPost(handler, url, tag, feedback, id, code, post_params);
         } else {

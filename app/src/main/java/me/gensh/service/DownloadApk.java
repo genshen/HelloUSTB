@@ -36,7 +36,7 @@ public class DownloadApk extends Service {
     @Override
     public void onCreate() {
         mBuilder = new NotificationCompat.Builder(DownloadApk.this)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(getString(R.string.update_download))
                 .setTicker(getString(R.string.startDownload))
                 .setProgress(0, 0, true)

@@ -9,8 +9,8 @@ android {
         applicationId "me.gensh.helloustb"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 107
-        versionName "2.1.0"
+        versionCode 108
+        versionName "2.1.0-alpha1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {

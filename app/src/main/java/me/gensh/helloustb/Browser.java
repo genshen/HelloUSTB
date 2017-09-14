@@ -135,7 +135,7 @@ public class Browser extends AppCompatActivity {
         PendingIntent pi = PendingIntent.getActivity(this, 0, main_intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("点击打开文件")
                 .setTicker("下载成功")
                 .setContentText("文件" + FileName + "下载成功")

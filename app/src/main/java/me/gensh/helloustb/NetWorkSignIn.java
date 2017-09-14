@@ -28,7 +28,7 @@ public class NetWorkSignIn extends LoginNetworkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_net_work_sign_in);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         progressBar = findViewById(R.id.progress_bar);
@@ -38,9 +38,8 @@ public class NetWorkSignIn extends LoginNetworkActivity {
         reload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProgressDialog();
                 errorContainer.setVisibility(View.INVISIBLE);
-                Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x101);
+                Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x101);  //todo something goes wrong after canceling Login,showing a blank page.
             }
         });
 
@@ -77,7 +76,7 @@ public class NetWorkSignIn extends LoginNetworkActivity {
     @Override
     public void RequestResultHandler(int what, ArrayList<String> data) {
         switch (what) {
-            case 0x101:
+            case 0x101:  //login to 202.204.48.66 success feedback;  post
                 savePasswordToLocal();
                 Toast.makeText(getBaseContext(), R.string.net_sign_in_success, Toast.LENGTH_LONG).show();
                 get(getString(R.string.sch_net), "NET", 0x102, 8, "GB2312", false);
@@ -87,7 +86,7 @@ public class NetWorkSignIn extends LoginNetworkActivity {
                 errorContainer.setVisibility(View.GONE);
                 Bundle argument = new Bundle();
                 argument.putStringArrayList("Campus_network_information", data);
-                CampusNetworkFragment fragment = new CampusNetworkFragment();
+                CampusNetworkFragment fragment = CampusNetworkFragment.newInstance(data);
                 fragment.setArguments(argument);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                 break;

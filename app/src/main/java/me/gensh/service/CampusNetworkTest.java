@@ -103,7 +103,7 @@ public class CampusNetworkTest extends IntentService {
                             .setContentText(getBaseContext().getString(R.string.network_notify_content, ssid))
                             .setTicker(getBaseContext().getString(R.string.network_notify_ticker))
                             .setAutoCancel(true)
-                            .setSmallIcon(R.drawable.ic_launcher);
+                            .setSmallIcon(R.mipmap.ic_launcher);
 
                     Intent notifyIntent = new Intent(this, NetWorkSignIn.class);
                     notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
@@ -197,7 +197,7 @@ public class CampusNetworkTest extends IntentService {
                 .setContentText(content)
                 .setTicker(context.getString(R.string.auto_sign_in_error_ticker))
                 .setAutoCancel(true)
-                .setSmallIcon(R.drawable.ic_launcher);
+                .setSmallIcon(R.mipmap.ic_launcher);
         mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, mBuilder.build());
         return mBuilder;
     }

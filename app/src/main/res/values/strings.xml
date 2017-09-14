@@ -10,10 +10,9 @@
     <string name="title_activity_timetable">课程表</string>
     <string name="title_activity_net_work_sign_in">校园网</string>
     <string name="title_activity_file_manager">下载</string>
-    <string name="title_activity_record_query">成绩查询</string>
-    <string name="title_activity_innovation_credit">创新学分</string>
-    <string name="title_activity_exam_query">考试查询</string>
     <string name="title_activity_share_app">分享应用</string>
+    <string name="title_activity_web_notifications">最新通知</string>
+    <string name="title_activity_record_query_detail">成绩详情</string>
     <string name="title_activity_timetable_detail">课程详情</string>
     <string name="title_activity_timetable_edit">编辑课程</string>
     <string name="title_activity_feedback">反馈</string>
@@ -147,7 +146,7 @@
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
     <string name="version_base">Hello USTB  v%s </string>
-    <string name="build_time">built Wed, 10 August 2016 </string>
+    <string name="build_time">built Thus, 14 September 2017 </string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>
@@ -252,6 +251,7 @@
     <string name="fan_menu_innovation_credit">创新学分</string>
     <string name="fan_menu_exam_time_place_query">考试查询</string>
     <string name="fan_menu_record_query">成绩查询</string>
+    <string name="score_query_toolbar_title">成绩查询</string>
     <string name="please_choose">选择学期 查询成绩</string>
     <string name="course_name">课程名称</string>
     <string name="score">成绩</string>
@@ -262,10 +262,14 @@
     <string name="weight_title">加权成绩</string>
     <!---/成绩查询-->
     <!--创新学分-->
+    <string name="innovation_credit_toolbar_title">创新学分</string>
     <string name="my_innovation_credit">我的创新学分:</string>
+    <string name="no_innovation_credit_now">暂无创新学分记录</string>
+    <string name="innovation_credit_toolbar_sub_title">共计%.1f学分</string>
     <!--/创新学分-->
     <!--考试时间地点查询-->
     <string name="exam_time_place_query">考试查询</string>
+    <string name="exam_query_toolbar_title">考试查询</string>
     <string name="exam_time_place_query_no_result">暂无相关考试时间地点信息</string>
     <!--/考试时间地点查询-->
 
@@ -442,7 +446,9 @@
     <string name="notification_card_title">通知</string>
     <string name="notification_card_see_more">查看更多</string>
     <string name="notification_card_hint_no_notifications">暂无通知</string>
+    <string name="transition_element_name_for_web_notifications">sharedTransition</string>
     <!--/本科教学网通知-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="developing">under development</string>
 </resources>

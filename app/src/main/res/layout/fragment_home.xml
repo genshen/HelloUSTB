@@ -58,6 +58,7 @@
                         android:layout_below="@+id/notification_card_title_container" />
 
                     <Button
+                        android:id="@+id/notification_card_btn_see_more"
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

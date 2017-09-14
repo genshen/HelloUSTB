@@ -1,14 +1,15 @@
 package me.gensh.fragment;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -23,18 +24,20 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.gensh.helloustb.Browser;
 import me.gensh.helloustb.R;
+import me.gensh.helloustb.WebNotificationsActivity;
 import me.gensh.utils.NetWorkFragment;
 
 /**
- ** Created by gensh on 2017/9/1.
+ * * Created by gensh on 2017/9/1.
  */
 public class HomeFragment extends NetWorkFragment {
-    private OnFragmentInteractionListener mListener;
+    //    private OnHomeFragmentInteractionListener mListener;
     SimpleAdapter listAdapter;
     List<Map<String, String>> notificationCardListData = new ArrayList<>();
-    final static String KEY_POSITION = "position", KEY_TITLE = "title", KEY_DATE = "date";
+    final static String KEY_URL = "url", KEY_TITLE = "title", KEY_DATE = "date";
     @BindView(R.id.progress_bar)
     GoogleProgressBar progressBar;
     @BindView(R.id.notification_card_list)
@@ -51,10 +54,9 @@ public class HomeFragment extends NetWorkFragment {
      * this fragment using the provided parameters.
      **/
     public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        //        Bundle args = new Bundle();
+//        fragment.setArguments(args);
+        return new HomeFragment();
     }
 
     @Override
@@ -70,13 +72,13 @@ public class HomeFragment extends NetWorkFragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
 
-        listAdapter = new SimpleAdapter(getContext(), notificationCardListData, R.layout.listview_notisification,
+        listAdapter = new SimpleAdapter(getActivity(), notificationCardListData, R.layout.listview_notisification,
                 new String[]{KEY_TITLE, KEY_DATE}, new int[]{R.id.listview_notification_title, R.id.listview_notification_date});
         notificationCardListView.setAdapter(listAdapter);
         notificationCardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Browser.openBrowserWithUrl(getActivity(), "http://teach.ustb.edu.cn/" + notificationCardListData.get(position).get(KEY_POSITION));
+                Browser.openBrowserWithUrl(getActivity(), "http://teach.ustb.edu.cn/" + notificationCardListData.get(position).get(KEY_URL));
             }
         });
 
@@ -86,65 +88,48 @@ public class HomeFragment extends NetWorkFragment {
             @Override
             public void onPasswordError() {
                 dismissProgressDialog();
-                Toast.makeText(getContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.errorPassword, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onTimeoutError() {
                 dismissProgressDialog();
-                Toast.makeText(getContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
             }
         });
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @OnClick(R.id.notification_card_btn_see_more)
+    public void seeMoreNotification(Button button) {
+        if (originResponseData.size() != 0) {
+            //// TODO: 2017/9/14
+            Intent intent = new Intent(getActivity(), WebNotificationsActivity.class);
+            intent.putExtra(WebNotificationsActivity.EXTRA_WEB_NOTIFICATIONS, originResponseData);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(),
+                        notificationCardListView, getString(R.string.transition_element_name_for_web_notifications)).toBundle());
+            } else {
+                startActivity(intent);
+            }
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else { //todo
-//            throw new RuntimeException(context.toString()+ " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * deliver origin http response data to {@link me.gensh.helloustb.WebNotificationsActivity}
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+    ArrayList<String> originResponseData = new ArrayList<>();
 
     @Override
     public void RequestResultHandler(int what, ArrayList<String> data) {
         dismissProgressDialog();
         if (what == 0x101) {
             if (data != null) {
+                originResponseData = data;
                 int size = data.size();
                 for (int i = 0; i < size / 3 && i < 3; i++) { //3 message at most!
                     Map<String, String> listitem = new HashMap<>();
-                    listitem.put(KEY_POSITION, data.get(3 * i));
+                    listitem.put(KEY_URL, data.get(3 * i));
                     listitem.put(KEY_TITLE, data.get(3 * i + 1));
                     listitem.put(KEY_DATE, data.get(3 * i + 2));
                     notificationCardListData.add(listitem);
@@ -159,7 +144,7 @@ public class HomeFragment extends NetWorkFragment {
     }
 
     @Override
-    public void showProcessDialog() {
+    public void showProgressDialog() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -170,7 +155,7 @@ public class HomeFragment extends NetWorkFragment {
 
     @Override
     public void onNetworkDisabled() {
-        Toast.makeText(getContext(), R.string.NoNetwork, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.NoNetwork, Toast.LENGTH_LONG).show();
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {

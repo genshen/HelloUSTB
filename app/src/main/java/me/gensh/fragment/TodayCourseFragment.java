@@ -19,7 +19,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.gensh.database.CourseDbHelper;
 import me.gensh.database.QueryData;
-import me.gensh.helloustb.MainTempActivity;
 import me.gensh.helloustb.R;
 import me.gensh.helloustb.Timetable;
 import me.gensh.helloustb.TimetableDetail;
@@ -31,7 +30,7 @@ import java.util.List;
 
 /**
  * Created by gensh on 2015/11/13.
- *  uodated by gensh on 2017/9/2.
+ * uodated by gensh on 2017/9/2.
  */
 public class TodayCourseFragment extends Fragment {
 
@@ -39,13 +38,20 @@ public class TodayCourseFragment extends Fragment {
     AppCompatTextView todayCourseCardHint;
     @BindView(R.id.today_course_import_or_see_all)
     Button todayCourseImportOrSeeAll;
+    @BindView(R.id.today_course_list)
+    ListView todayCourseList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View sch_timetable = inflater.inflate(R.layout.fragment_today_course, container, false);
         ButterKnife.bind(this, sch_timetable);
-        showCourse(sch_timetable);
         return sch_timetable;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showCourse();
     }
 
     @OnClick(R.id.today_course_import_or_see_all)
@@ -54,7 +60,7 @@ public class TodayCourseFragment extends Fragment {
         startActivity(through_out);
     }
 
-    private void showCourse(View sch_timetable) {
+    private void showCourse() {
         CourseDbHelper course = new CourseDbHelper(getActivity(), 1);
         if (!course.haveCoursesImported()) {
             SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -68,16 +74,14 @@ public class TodayCourseFragment extends Fragment {
             }
             todayCourseImportOrSeeAll.setText(R.string.today_course_card_see_all);
 
-//          MainTempActivity.shareCourse = StrUtils.getCourseShareStr(mapList); //todo share courses.
+//          MainActivity.shareCourse = StrUtils.getCourseShareStr(mapList); //todo share courses.
 
             SimpleAdapter adapter = new SimpleAdapter(getActivity(), mapList, R.layout.listview_today_course,
                     new String[]{"lesson_no", "times", "course_name", "place", "teachers"},
                     new int[]{R.id.Course_No, R.id.Course_Time, R.id.Course_Name, R.id.Course_Room, R.id.Course_Teacher});
+            todayCourseList.setAdapter(adapter);
 
-            ListView mylist = sch_timetable.findViewById(R.id.today_course_list);
-            mylist.setAdapter(adapter);
-
-            mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            todayCourseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position >= mapList.size()) return;

@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/share_score"
-        android:icon="@drawable/toolbar_share"
+        android:icon="@drawable/ic_share"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:title="@string/share_score"/>

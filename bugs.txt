@@ -1,4 +1,6 @@
-Í¼Êé¹İÔÚÍøÂçÎŞÁ¬½ÓĞ´ÏÂ²éÕÒÊé¼®µÄÏà¹Øbugs
-¿Î±íµÄÄÚÈİ¿ÉÒÔ±»Ê×Ò³µÄÄÚÈİ¸²¸Ç¡¾ÍøÂçÑÓ³Ù¡¿
+å›¾ä¹¦é¦†åœ¨ç½‘ç»œæ— è¿æ¥å†™ä¸‹æŸ¥æ‰¾ä¹¦ç±çš„ç›¸å…³bugs
+è¯¾è¡¨çš„å†…å®¹å¯ä»¥è¢«é¦–é¡µçš„å†…å®¹è¦†ç›–ã€ç½‘ç»œå»¶è¿Ÿã€‘
 
-//todo ä¯ÀÀÆ÷ºÍÏÂÔØActivityµÄÁ½¸önoticefication  ic_launcherÍ¼±ê»»ÏÂ
+//todo æµè§ˆå™¨å’Œä¸‹è½½Activityçš„ä¸¤ä¸ªnoticefication  ic_launcherå›¾æ ‡æ¢ä¸‹
+//todo support fragment is still used in LibrarySearchFragment and NetWorkSignInFragment TimetableFragment
+// file first added to repository: https://stackoverflow.com/questions/11533199/find-commit-where-file-was-added

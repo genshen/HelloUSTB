@@ -1,6 +1,8 @@
 package me.gensh.helloustb;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.gensh.fragment.ELearningExamQueryFragment;
 import me.gensh.fragment.ELearningRecordQueryFragment;
+import me.gensh.fragment.InnovationCreditFragment;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
 import me.gensh.utils.StrUtils;
@@ -24,13 +27,15 @@ import me.gensh.utils.StrUtils;
 /**
  * created by gensh on 2017/09/10
  */
-public class ELearningCategory extends LoginNetworkActivity {
-    private final static int INTENT_TYPE_SCORE_QUERY = 1, INTENT_TYPE_EXAM_QUERY = 2, INTENT_TYPE_INNOVATION_CREDIT = 3;
+public class ELearningCategory extends LoginNetworkActivity implements InnovationCreditFragment.OnInnovationCreditLoadListener {
+    public final static int INTENT_TYPE_SCORE_QUERY = 1, INTENT_TYPE_EXAM_QUERY = 2, INTENT_TYPE_INNOVATION_CREDIT = 3;
     private final static int LOGIN_FEEDBACK_TYPE_SCORE_QUERY = 0x101, LOGIN_FEEDBACK_TYPE_EXAM_QUERY = 0x102, LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x103;
     private final static int DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY = 0x201, DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY = 0x202, DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x203;
+    public final static String E_LEARNING_EXTRA_TYPE = "e_learning";
 
     boolean loginStatus = false; //to show if the user have signed in the <a>http://elearning.ustb.edu.cn</a>
 
+    Toolbar toolbar;
     @BindView(R.id.progress_bar)
     GoogleProgressBar progressBar;
     @BindView(R.id.fab_menu_e_learning)
@@ -46,7 +51,7 @@ public class ELearningCategory extends LoginNetworkActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e_learning_category);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -65,7 +70,10 @@ public class ELearningCategory extends LoginNetworkActivity {
             }
         });
 
-        goToSignInOrFetchData(INTENT_TYPE_SCORE_QUERY); //todo type; make a error fragment; set title
+        int type = getIntent().getIntExtra(E_LEARNING_EXTRA_TYPE, INTENT_TYPE_SCORE_QUERY);
+        goToSignInOrFetchData(type); //todo:make a error fragment;
+        getSupportActionBar().setTitle(getTitleByType(type));
+        /*@link{https://stackoverflow.com/questions/26486730/in-android-app-toolbar-settitle-method-has-no-effect-application-name-is-shown}*/
     }
 
     @Override
@@ -105,7 +113,13 @@ public class ELearningCategory extends LoginNetworkActivity {
                     Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
                 }
             } else if (what == DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT) {
-// TODO: 2017/9/12
+                dismissProgressDialog();
+                if (data != null) {
+                    InnovationCreditFragment innovationCreditFragment = InnovationCreditFragment.newInstance(data);
+                    getFragmentManager().beginTransaction().replace(R.id.e_learning_container, innovationCreditFragment).commit();
+                } else {
+                    Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
+                }
             } else if (what == DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY) {
                 dismissProgressDialog();
                 if (data.size() % 8 == 2) {
@@ -146,12 +160,18 @@ public class ELearningCategory extends LoginNetworkActivity {
         switch (view.getId()) {
             case R.id.fab_menu_exam_query:
                 goToSignInOrFetchData(INTENT_TYPE_EXAM_QUERY);
+                toolbar.setTitle(getTitleByType(INTENT_TYPE_EXAM_QUERY));
+                changeSubtitle(null);
                 break;
             case R.id.fab_menu_innovation_credit:
                 goToSignInOrFetchData(INTENT_TYPE_INNOVATION_CREDIT);
+                toolbar.setTitle(getTitleByType(INTENT_TYPE_INNOVATION_CREDIT));
+                changeSubtitle(null);
                 break;
             case R.id.fab_menu_record_query:
                 goToSignInOrFetchData(INTENT_TYPE_SCORE_QUERY);
+                toolbar.setTitle(getTitleByType(INTENT_TYPE_SCORE_QUERY));
+                changeSubtitle(null);
                 break;
         }
     }
@@ -178,6 +198,18 @@ public class ELearningCategory extends LoginNetworkActivity {
         }
     }
 
+    private int getTitleByType(int type) {
+        switch (type) {
+            case INTENT_TYPE_EXAM_QUERY:
+                return R.string.exam_query_toolbar_title;
+            case INTENT_TYPE_INNOVATION_CREDIT:
+                return R.string.innovation_credit_toolbar_title;
+            case INTENT_TYPE_SCORE_QUERY:
+                return R.string.score_query_toolbar_title;
+        }
+        return R.string.score_query_toolbar_title;
+    }
+
     private void fetchELearningData(int type, boolean showProgress) {
         switch (type) {
             case INTENT_TYPE_EXAM_QUERY:
@@ -187,7 +219,7 @@ public class ELearningCategory extends LoginNetworkActivity {
                         6, "UTF-8", ELearningExamQueryFragment.loadExamPlaceQueryRequestParams(account[0]), showProgress);
                 break;
             case INTENT_TYPE_INNOVATION_CREDIT:
-//                Login(new LoginDialog(LoginDialog.LoginEle), "ELE", LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT); // TODO: 2017/9/12
+                get(getString(R.string.ele_innovation_credit), "ELE", DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT, 11, "UTF-8", showProgress);
                 break;
             case INTENT_TYPE_SCORE_QUERY:
                 get(getString(R.string.ele_score_query), "ELE", DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY, 3, "UTF-8", showProgress);
@@ -195,4 +227,18 @@ public class ELearningCategory extends LoginNetworkActivity {
         }
     }
 
+    @Override
+    public void onInnovationCreditCalculated(float creditSum) {
+        changeSubtitle(getString(R.string.innovation_credit_toolbar_sub_title, creditSum));
+    }
+
+    public void changeSubtitle(@Nullable String subtitle) {
+        if (subtitle == null) {
+            toolbar.setLayoutTransition(null);
+            toolbar.setSubtitle(null);
+        } else {
+            toolbar.setLayoutTransition(new LayoutTransition()); //animation
+            toolbar.setSubtitle(subtitle);
+        }
+    }
 }

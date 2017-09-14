@@ -1,7 +1,7 @@
 package me.gensh.helloustb;
 
-import android.app.DownloadManager;
-import android.content.DialogInterface;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,12 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -37,7 +34,6 @@ import me.gensh.fragment.HomeFragment;
 import me.gensh.fragment.SettingsFragment;
 import me.gensh.network.GetPostHandler;
 import me.gensh.network.VersionCheckerTask;
-import me.gensh.utils.NetWorkActivity;
 
 /**
  * Created by gensh on 2017/09/01
@@ -50,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     View navigationHeader;
     Fragment homeFragment, dashboardFragment, settingFragment;
     private long lastDown = 0;
-    final static String HOME_FRAGMENT_TAG = "WebNotificationFragment", DASHBOARD_BLANK_FRAGMENT_TAG = "DashboardBlankFragment",
-            DASHBOARD_EDIT_FRAGMENT_TAG = "DashboardEditFragment", SETTINGS_FRAGMENT = "SettingsFragment";
+    final static String HOME_FRAGMENT_TAG = "HomeFragment", DASHBOARD_FRAGMENT_TAG = "DashboardBlankFragment",
+            SETTINGS_FRAGMENT = "SettingsFragment";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -60,13 +56,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    getSupportFragmentManager().beginTransaction().show(homeFragment).hide(dashboardFragment).hide(settingFragment).commit();
+                    getFragmentManager().beginTransaction().show(homeFragment).hide(dashboardFragment).hide(settingFragment).commit();
                     return true;
                 case R.id.navigation_dashboard:
-                    getSupportFragmentManager().beginTransaction().hide(homeFragment).show(dashboardFragment).hide(settingFragment).commit();
+                    getFragmentManager().beginTransaction().hide(homeFragment).show(dashboardFragment).hide(settingFragment).commit();
                     return true;
                 case R.id.navigation_notifications:
-                    getSupportFragmentManager().beginTransaction().hide(homeFragment).hide(dashboardFragment).show(settingFragment).commit();
+                    getFragmentManager().beginTransaction().hide(homeFragment).hide(dashboardFragment).show(settingFragment).commit();
                     return true;
             }
             return false;
@@ -94,13 +90,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationHeader = navigationView.getHeaderView(0);
 
         // bottom navigation
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
         if (savedInstanceState != null) {
-            homeFragment = getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_TAG); //it may be null
-            if ((dashboardFragment = getSupportFragmentManager().findFragmentByTag(DASHBOARD_EDIT_FRAGMENT_TAG)) == null) { //todo
-                dashboardFragment = getSupportFragmentManager().findFragmentByTag(DASHBOARD_BLANK_FRAGMENT_TAG);
-            }
-            settingFragment = getSupportFragmentManager().findFragmentByTag(SETTINGS_FRAGMENT);
+            homeFragment = getFragmentManager().findFragmentByTag(HOME_FRAGMENT_TAG); //it may be null
+            dashboardFragment = getFragmentManager().findFragmentByTag(DASHBOARD_FRAGMENT_TAG);
+            settingFragment = getFragmentManager().findFragmentByTag(SETTINGS_FRAGMENT);
         }
 
         if (homeFragment == null) {
@@ -108,10 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.add(R.id.fragment_container, homeFragment, HOME_FRAGMENT_TAG);
         }
         if (dashboardFragment == null) {
-            dashboardFragment = DashboardFragment.newInstance("", "");
-            ft.add(R.id.fragment_container, dashboardFragment, DASHBOARD_BLANK_FRAGMENT_TAG);
+            dashboardFragment = DashboardFragment.newInstance();
+            ft.add(R.id.fragment_container, dashboardFragment, DASHBOARD_FRAGMENT_TAG);
         }
-
         if (settingFragment == null) {
             settingFragment = SettingsFragment.newInstance("", "");
             ft.add(R.id.fragment_container, settingFragment, SETTINGS_FRAGMENT);
@@ -205,9 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         switch (id) {
@@ -225,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {  //check drawer
             drawer.closeDrawer(GravityCompat.START);
         } else {
             long nowDown = System.currentTimeMillis();
@@ -281,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
     private class ClickHand implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -291,45 +280,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent my_center = new Intent(MainActivity.this, Account.class);
                     startActivity(my_center);
                     break;
-//                case R.id.home:
-//                    state = 1;
-//                    drawerToggle();
-//                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
-//                    get("http://teach.ustb.edu.cn/", "TEACH", 0x101, 1, "gb2312", true);
-//                    break;
-//                case R.id.menu_record_query:
-//                    state = 2;
-//                    drawerToggle();
-//                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
-//                    Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x102);
-//                    break;
-//                case R.id.today_course:
-//                    state = 4;
-//                    drawerToggle();
-//                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
-//                    TodayCourseFragment fragment = new TodayCourseFragment();
-//                    getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
-//                    break;
-//                case R.id.volunteer:
-//                    Intent volunteer = new Intent(MainActivity.this, Volunteer.class);
-//                    startActivity(volunteer);
-//                    break;
-//                case R.id.library:
-//                    Intent library = new Intent(MainActivity.this, LibraryActivity.class);
-//                    startActivity(library);
-//                    break;
-//                case R.id.campus_network:
-//                    state = 7;
-//                    drawerToggle();
-//                    ((RelativeLayout) findViewById(R.id.main_container)).removeAllViews();
-//                    Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x107);
-//                    break;
+
 //                case R.id.menu_setting:
 //                    Intent setting = new Intent(MainActivity.this, Settings.class);
 //                    startActivity(setting);
 //                    break;
 //                case R.id.menu_playground:
-//                    Intent playground=new Intent(MainTempActivity.this, TestActivity.class);
+//                    Intent playground=new Intent(MainActivity.this, TestActivity.class);
 //                    startActivity(playground);
 //                    break;
             }

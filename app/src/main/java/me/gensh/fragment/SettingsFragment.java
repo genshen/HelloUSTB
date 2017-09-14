@@ -1,29 +1,35 @@
 package me.gensh.fragment;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+
+import java.util.Calendar;
 
 import me.gensh.helloustb.R;
+import me.gensh.utils.BasicDate;
+import me.gensh.utils.Const;
+import me.gensh.views.MaterialListPreference;
 
 /**
- * * Created by gensh on 2027/08/28..
+ * A placeholder fragment containing a simple view.
+ *
+ * * Updated by gensh on 2027/09/14
+ * *.Created by gensh on  2016/10/7
  */
-public class SettingsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    MaterialListPreference mPreferenceWeekNum, mPreferenceNetSignInMode;
+    SharedPreferences preferences;
+    /**
+     * @see me.gensh.utils.BasicDate#MAX_WEEK_NUM
+     */
+    final static int MAX_WEEK_NUM = 24;
+    /**
+     * @see me.gensh.utils.BasicDate#ONE_DAY
+     */
+    final static int ONE_DAY = 1000 * 3600 * 24;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -41,8 +47,6 @@ public class SettingsFragment extends Fragment {
     public static SettingsFragment newInstance(String param1, String param2) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,55 +54,57 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        addPreferencesFromResource(R.xml.general_preferences);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mPreferenceWeekNum = (MaterialListPreference) getPreferenceScreen().findPreference(Const.Settings.KEY_WEEK_NUM);
+        mPreferenceNetSignInMode = (MaterialListPreference) getPreferenceScreen().findPreference(Const.Settings.KEY_NET_SIGN_IN_MODE);
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
-    }
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        setListSummary(mPreferenceNetSignInMode, "普通模式");
+
+        long week_start_days = preferences.getLong(Const.Settings.KEY_WEEK_START, 0);
+        mPreferenceWeekNum.setValue(BasicDate.getWeekNum(week_start_days) + "");
+        setListSummary(mPreferenceWeekNum, "第一周");
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+    public void onPause() {
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+
+
+    //    init MaterialListPreference
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (Const.Settings.KEY_WEEK_NUM.equals(key)) {
+            setWeekStart(Integer.parseInt(mPreferenceWeekNum.getValue()));
+            BasicDate.writeLog("changed!\r\n");
+            setListSummary(mPreferenceWeekNum, "第一周");
+        } else if (Const.Settings.KEY_NET_SIGN_IN_MODE.equals(key)) {
+            setListSummary(mPreferenceNetSignInMode, "普通模式");
+        }
+    }
+
+    private void setListSummary(MaterialListPreference listPreference, String defaultValue) {
+        if (listPreference.getValue().isEmpty()) {
+            listPreference.setSummary(defaultValue);
         } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
+            listPreference.setSummary(listPreference.getEntry());
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private void setWeekStart(int week_num) {
+        Calendar calendar = Calendar.getInstance();
+        long to_days = calendar.getTimeInMillis() / ONE_DAY;
+        int day_of_week = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7;// calendar.get(Calendar.DAY_OF_WEEK)-1-1+7)%7
+        preferences.edit().putLong(Const.Settings.KEY_WEEK_START, to_days - day_of_week - week_num * 7).apply();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

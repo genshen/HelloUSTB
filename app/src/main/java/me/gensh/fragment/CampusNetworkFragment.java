@@ -26,16 +26,40 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CampusNetworkFragment extends Fragment {
+    private static final String ARG_PARAM_CAMPUS_NETWORK= "ARG_PARAM_CAMPUS_NETWORK";
     static final String filepath = SdCardPro.getSDPath() + "/MyUstb/Data/flow.b";
     static final int DATA_LENGTH = 8; // >=2
     float today_flow = 0f;
+    ArrayList<String> args;
     DecimalFormat decimalFormat = new DecimalFormat("0.00");
     AppCompatTextView flow_chat_value;
 
+    public CampusNetworkFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     **/
+    public static CampusNetworkFragment newInstance(ArrayList<String> params) {
+        CampusNetworkFragment fragment = new CampusNetworkFragment();
+        Bundle args = new Bundle();
+        args.putStringArrayList(ARG_PARAM_CAMPUS_NETWORK, params);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+          args = getArguments().getStringArrayList("Campus_network_information"); //init here.
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        ArrayList<String> args = getArguments().getStringArrayList("Campus_network_information");
         View rootView = inflater.inflate(R.layout.fragment_campus_network, container, false);
         if (args != null && args.size() == 5) {
             try {
@@ -53,12 +77,12 @@ public class CampusNetworkFragment extends Fragment {
                     getActivity().getString(R.string.campus_network_flow_value_v6, getStringValue(args.get(3), 4096)));
         }
 
-        LineChartView mChart = (LineChartView) rootView.findViewById(R.id.campus_network_chart);
+        LineChartView mChart = rootView.findViewById(R.id.campus_network_chart);
         Calendar calendar_now = Calendar.getInstance();
         final String[] mLabels = getWeekAxis(calendar_now);
         final float[] mValues = calcVariance(calendar_now, today_flow);
 
-        flow_chat_value = (AppCompatTextView) rootView.findViewById(R.id.chart_view_flow_value);
+        flow_chat_value = rootView.findViewById(R.id.chart_view_flow_value);
         setFlowChatValue(mValues[6], mLabels[6]);
 
         LineSet dataset = new LineSet(mLabels, mValues);
@@ -101,7 +125,6 @@ public class CampusNetworkFragment extends Fragment {
         }
         return "";
     }
-
 
     private void setFlowChatValue(float value, String tag) {
         String v = decimalFormat.format(value);

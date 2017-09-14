@@ -198,8 +198,6 @@ public class Timetable extends LoginNetworkActivity {
 
                 Toast.makeText(context, R.string.importsuccess, Toast.LENGTH_SHORT).show();
                 //todo
-//                TodayCourseFragment fragment = new TodayCourseFragment(); //show new timetable after imported
-//                getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
 
             } else if (result == IMPORT_TIMETABLE_TASK_RESULT_FAILED) {
                 Toast.makeText(context, R.string.importfail, Toast.LENGTH_SHORT).show();
