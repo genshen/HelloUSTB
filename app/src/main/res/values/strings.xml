@@ -90,6 +90,7 @@
     <!-- enter.xml -->
     <string name="schnum">学号</string>
     <string name="pass">密码</string>
+    <string name="dialog_stu_no_filter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="pleaseinput">请输入登录账号</string>
     <!-- enter.xml -->
 
@@ -290,6 +291,7 @@
     <string name="importfail">课程表导入失败</string>
     <string name="startimport">正在导入课程表，请稍后&#8230;</string>
     <string name="shareMe">分享课表</string>
+    <string name="timetable_week_num">当前第%d周</string>
     <!-- 课程表主界面 -->
     <!--今日课表-->
     <string name="no_lesson_today">你今天没有课哟~</string>

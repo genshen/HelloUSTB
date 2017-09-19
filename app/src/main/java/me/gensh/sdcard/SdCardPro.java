@@ -28,11 +28,11 @@ public class SdCardPro {
     }
 
     //
-    public static void createSDCardDir(String dirName) {
+    private static void createSDCardDir(String dirName) {
         String path = getSDPath() + dirName;
-        File Newdir = new File(path);
-        if (!Newdir.exists()) {
-            Newdir.mkdirs();
+        File newDir = new File(path);
+        if (!newDir.exists()) {
+            newDir.mkdirs();
         }
     }
 

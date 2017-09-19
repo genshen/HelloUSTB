@@ -3,8 +3,10 @@ package me.gensh.helloustb;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import me.gensh.database.CourseDbHelper;
 import me.gensh.database.StoreData;
 import me.gensh.fragment.TimetableFragment;
 import me.gensh.utils.BasicDate;
+import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
 
@@ -56,6 +59,7 @@ public class Timetable extends LoginNetworkActivity {
         Toolbar toolbar = findViewById(R.id.timetable_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setSubtitle(getString(R.string.timetable_week_num, getWeekNum() + 1));
         ButterKnife.bind(this);
 
         ViewGroup tab = findViewById(R.id.timetable_tab);
@@ -73,6 +77,7 @@ public class Timetable extends LoginNetworkActivity {
         viewPager.setAdapter(adapter);
         viewPagerTab.setViewPager(viewPager);
 
+        //set http response error handle.
         setErrorHandler(new ErrorHandler() {
             @Override
             public void onPasswordError() {
@@ -135,6 +140,12 @@ public class Timetable extends LoginNetworkActivity {
         } else {
 
         }
+    }
+
+    private int getWeekNum() {
+        SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
+        long week_start_days = pre.getLong(Const.Settings.KEY_WEEK_START, 0);
+        return BasicDate.getWeekNum(week_start_days);
     }
 
     @Override

@@ -5,6 +5,7 @@ package me.gensh.utils;
  */
 final public class Const {
     public static final class Settings {
+        public final static String KEY_STU_NO_NUMBER_ONLY = "stu_no_number_only";
         public final static String KEY_WEEK_START = " week_start";
         public static final String KEY_WEEK_NUM = "week_num";
         public static final String KEY_NET_AUTO_SIGN_IN_ENABLE = "net_auto_sign_in_enable";

@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -35,12 +36,18 @@ public class DownloadApk extends Service {
 
     @Override
     public void onCreate() {
-        mBuilder = new NotificationCompat.Builder(DownloadApk.this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+        mBuilder = new NotificationCompat.Builder(DownloadApk.this, "CHANNEL_ID")
                 .setContentTitle(getString(R.string.update_download))
                 .setTicker(getString(R.string.startDownload))
                 .setProgress(0, 0, true)
                 .setContentText(getString(R.string.update_downloading));
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
+            mBuilder.setColor(getResources().getColor(R.color.colorPrimary));  // TODO: 2017/9/17
+        } else {
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        }
 
         mNotifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         super.onCreate();
@@ -81,7 +88,7 @@ public class DownloadApk extends Service {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setAction(Intent.ACTION_VIEW);
                             String type = "application/vnd.android.package-archive";
-                            intent.setDataAndType(Uri.fromFile(file), type);
+                            intent.setDataAndType(Uri.fromFile(file), type); //// TODO: 2017/9/17
                             startActivity(intent);
                             downloading = false;
                             size = 0;
@@ -99,7 +106,6 @@ public class DownloadApk extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO Auto-generated catch block
         return null;
     }
 
@@ -122,6 +128,7 @@ public class DownloadApk extends Service {
         }
     };
 
+    // TODO: 2017/9/17
     public File writeToSDfromInput(String path, String fileName, InputStream inputStream) {
         File file = SdCardPro.createSDFile(path + fileName);
         OutputStream outStream;
@@ -131,7 +138,7 @@ public class DownloadApk extends Service {
             int count;
             while ((count = inputStream.read(buffer)) != -1) {
                 outStream.write(buffer, 0, count);
-                upeadataNotification(count);
+                updateNotification(count);
             }
             outStream.flush();
             outStream.close();
@@ -147,7 +154,7 @@ public class DownloadApk extends Service {
         return file;
     }
 
-    private void upeadataNotification(int count) {
+    private void updateNotification(int count) {
         download_size += count;
         int percent = (int) (download_size / (size / 100));
         if (download_percent != percent) {

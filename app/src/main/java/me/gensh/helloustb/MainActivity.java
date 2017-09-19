@@ -40,8 +40,8 @@ import me.gensh.network.VersionCheckerTask;
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     VersionCheckerTask checker;
-    SearchView mSearchView;
-    AppBarLayout appBarLayout;
+//    SearchView mSearchView;
+//    AppBarLayout appBarLayout;
     DrawerLayout drawer;
     View navigationHeader;
     Fragment homeFragment, dashboardFragment, settingFragment;
@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        appBarLayout = findViewById(R.id.app_bar_layout);
+//        appBarLayout = findViewById(R.id.app_bar_layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        StatusBarUtil.setTransparent(this); //actually,it can be removed,but it will cause a bug for drawer item selection
+//        StatusBarUtil.setTransparent(this); //actually,it can be removed,but it will cause a bug for drawer item selection;todo bugs,so removed.
 
         // drawLayout
         drawer = findViewById(R.id.drawer_layout);
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // searchView
+        /* //todo have bugs
         mSearchView = findViewById(R.id.searchView);
         mSearchView.setVersionMargins(SearchView.VersionMargins.TOOLBAR_SMALL);
         mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         mSearchView.setAdapter(searchAdapter);
-
+*/
         //event
         checker = new VersionCheckerTask(getString(R.string.UpdateAddress), this, true);
         checker.execute();
@@ -191,7 +192,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -199,13 +199,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_search:
-                StatusBarUtil.setColor(MainActivity.this, getResources().getColor(R.color.white));//todo
-                appBarLayout.setVisibility(View.INVISIBLE);
-                mSearchView.setVisibility(View.VISIBLE);
-                mSearchView.open(false); // enable or disable animation
+                //todo have bugs
+//                StatusBarUtil.setColor(MainActivity.this, getResources().getColor(R.color.white));//todo
+//                appBarLayout.setVisibility(View.INVISIBLE);
+//                mSearchView.setVisibility(View.VISIBLE);
+//                mSearchView.open(false); // enable or disable animation
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -280,15 +280,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent my_center = new Intent(MainActivity.this, Account.class);
                     startActivity(my_center);
                     break;
-
-//                case R.id.menu_setting:
-//                    Intent setting = new Intent(MainActivity.this, Settings.class);
-//                    startActivity(setting);
-//                    break;
-//                case R.id.menu_playground:
-//                    Intent playground=new Intent(MainActivity.this, TestActivity.class);
-//                    startActivity(playground);
-//                    break;
             }
         }
     }

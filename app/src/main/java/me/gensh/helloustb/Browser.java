@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -120,7 +121,7 @@ public class Browser extends AppCompatActivity {
             switch (msg.what) {
                 case 0x100://下载
 //					Toast.makeText(Browser.this,"文件"+str_msg+"下载完成", Toast.LENGTH_SHORT).show();
-                    showNoptify(str_msg);
+                    showNotify(str_msg);
                     break;
             }
         }
@@ -128,19 +129,25 @@ public class Browser extends AppCompatActivity {
 
 
     // 为发送通知的按钮的点击事件定义事件处理方法
-    public void showNoptify(String FileName) {
+    public void showNotify(String FileName) {
 
         Intent main_intent = new Intent(this, FileManager.class);
 //		 	main_intent.putExtra("open_id",1);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main_intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("点击打开文件")
                 .setTicker("下载成功")
                 .setContentText("文件" + FileName + "下载成功")
                 .setContentIntent(pi)
                 .setAutoCancel(true);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
+            mBuilder.setColor(getResources().getColor(R.color.colorPrimary));  // TODO: 2017/9/17
+        } else {
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        }
 
         nm.notify(NOTIFICATION_ID, mBuilder.build());
     }

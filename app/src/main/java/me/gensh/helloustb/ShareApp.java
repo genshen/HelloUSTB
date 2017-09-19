@@ -18,7 +18,7 @@ public class ShareApp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_app);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_share_app);
+        Toolbar toolbar = findViewById(R.id.toolbar_share_app);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -48,12 +48,11 @@ public class ShareApp extends AppCompatActivity {
     }
 
     private void shareMe() {
-        // TODO Auto-generated method stub
         String appDir;
         try {
             appDir = getPackageManager().getApplicationInfo(this.getPackageName(), 0).sourceDir;
             appDir = "file://" + appDir;
-            Uri uri = Uri.parse(appDir);
+            Uri uri = Uri.parse(appDir);  // TODO: 2017/9/17
             // 发送
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_STREAM, uri);

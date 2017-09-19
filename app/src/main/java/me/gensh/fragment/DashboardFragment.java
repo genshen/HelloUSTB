@@ -107,7 +107,7 @@ public class DashboardFragment extends Fragment {
                         startActivity(network);
                         break;
                     case GRID_VIEW_ITEM_TAG_CAMPUS_CARD:
-                        Snackbar.make(gridViewDashboard, R.string.developing, Snackbar.LENGTH_INDEFINITE).show(); //// TODO: 2017/9/14
+                        Snackbar.make(gridViewDashboard, R.string.developing, Snackbar.LENGTH_LONG).show(); //// TODO: 2017/9/14
                         break;
                     case GRID_VIEW_ITEM_TAG_LIBRARY:
                         Intent library = new Intent(getActivity(), Library.class);

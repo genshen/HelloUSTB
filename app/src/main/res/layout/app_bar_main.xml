@@ -27,14 +27,15 @@
 
     <include layout="@layout/content_main" />
 
-    <com.lapism.searchview.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.lapism.searchview.SearchBehavior"
-        app:search_animation_duration="300"
-        app:search_theme="light"
-        app:search_version="toolbar"
-        app:search_voice="true" />
+    <!--todo have bugs on pre-Lollipop -->
+     <!--<com.lapism.searchview.SearchView-->
+        <!--android:id="@+id/searchView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="com.lapism.searchview.SearchBehavior"-->
+        <!--app:search_animation_duration="300"-->
+        <!--app:search_theme="light"-->
+        <!--app:search_version="toolbar"-->
+        <!--app:search_voice="true" />-->
 
 </android.support.design.widget.CoordinatorLayout>

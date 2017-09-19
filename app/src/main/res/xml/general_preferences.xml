@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout="@layout/preference_item">
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="账号">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="stu_no_number_only"
+            android:layout="@layout/preference_item"
+            android:summaryOff="进行登录时,学号可包含非数字字符"
+            android:summaryOn="进行登录时,学号仅限为数字字符"
+            android:title="学号仅限数字" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="课程表设置">

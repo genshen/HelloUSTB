@@ -1,9 +1,12 @@
 package me.gensh.fragment;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import me.gensh.helloustb.R;
+
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,8 +82,11 @@ public class InnovationCreditFragment extends Fragment {
         if (listItems == null || listItems.size() == 0) {
             Toast.makeText(getActivity(), R.string.no_innovation_credit_now, Toast.LENGTH_LONG).show();
         }
+
         if (mListener != null) {
             mListener.onInnovationCreditCalculated(creditSum);
+        } else {
+            Log.e("subTitle", "listener is null");
         }
         return view;
     }
@@ -91,6 +99,29 @@ public class InnovationCreditFragment extends Fragment {
         } else {
             throw new RuntimeException(context.toString() + " must implement OnInnovationCreditLoadListener");
         }
+    }
+
+    /**
+     * for pre-lollipop version
+     * see <a>https://stackoverflow.com/questions/32604552/onattach-not-called-in-fragment</a>  for more details.
+     * @param activity container activity
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            if (activity instanceof OnInnovationCreditLoadListener) {
+                mListener = (OnInnovationCreditLoadListener) activity;
+            } else {
+                throw new RuntimeException(activity.toString() + " must implement OnInnovationCreditLoadListener");
+            }
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     /**

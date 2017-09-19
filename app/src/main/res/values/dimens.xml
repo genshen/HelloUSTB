@@ -8,7 +8,7 @@
 
     <!-- Height of the status bar -->
     <dimen name="status_bar_height">25dp</dimen>
-    <!--<dimen name="status_bar_height_minus">0dp</dimen>-->
+    <dimen name="status_bar_height_minus">0dp</dimen>
 
     <dimen name="md_preference_content_inset">20dp</dimen>
 

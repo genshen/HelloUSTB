@@ -65,7 +65,7 @@ public class FileManager extends AppCompatActivity {
             List.add(listitem);
         }
 
-        ListView li = (ListView)findViewById(R.id.file_list);
+        ListView li = findViewById(R.id.file_list);
         SimpleAdapter Adapter = new SimpleAdapter(this,List,
                 R.layout.listview_file_manager,
                 new String[]{"icon","name","time","size"},
@@ -91,7 +91,7 @@ public class FileManager extends AppCompatActivity {
             Intent intent = new Intent();
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(file), type);
+            intent.setDataAndType(Uri.fromFile(file), type);  // TODO: 2017/9/17
             startActivity(intent);
         }else {
             Toast.makeText(this, R.string.noApplicationToOpen, Toast.LENGTH_LONG).show();

@@ -1,7 +1,12 @@
 package me.gensh.utils;
 
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,7 +25,15 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
         passFileName = ld.passFileName;
         if (!SdCardPro.fileIsExists(ld.passFileName)) {
             canWrite = true;
-            final View enter = getLayoutInflater().inflate(R.layout.dialog_enter, null);
+            SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean numberOnly = pre.getBoolean(Const.Settings.KEY_STU_NO_NUMBER_ONLY, false);
+            final View enter = getLayoutInflater().inflate(R.layout.dialog_sign_in, null);
+            TextInputEditText account = enter.findViewById(R.id.account);
+            if (numberOnly) {  //default is text type.
+                //use different layout based on value of key KEY_STU_NO_NUMBER_ONLY
+                account.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
+
             new AlertDialog.Builder(this)
                     .setTitle(ld.dialog_title)
                     .setView(enter)

@@ -70,6 +70,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         long week_start_days = preferences.getLong(Const.Settings.KEY_WEEK_START, 0);
         mPreferenceWeekNum.setValue(BasicDate.getWeekNum(week_start_days) + "");
+        //have a think: setValue will cause a call of function onSharedPreferenceChanged. But it have no effect.todo think.
         setListSummary(mPreferenceWeekNum, "第一周");
     }
 
@@ -79,13 +80,12 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         super.onPause();
     }
 
-
     //    init MaterialListPreference
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Const.Settings.KEY_WEEK_NUM.equals(key)) {
             setWeekStart(Integer.parseInt(mPreferenceWeekNum.getValue()));
-            BasicDate.writeLog("changed!\r\n");
+//            BasicDate.writeLog("changed!\r\n");
             setListSummary(mPreferenceWeekNum, "第一周");
         } else if (Const.Settings.KEY_NET_SIGN_IN_MODE.equals(key)) {
             setListSummary(mPreferenceNetSignInMode, "普通模式");

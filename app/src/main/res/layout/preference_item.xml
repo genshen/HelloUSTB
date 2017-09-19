@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/preference_item_title_color"
             android:textSize="16sp" />
 

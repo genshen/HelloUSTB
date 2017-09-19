@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -102,8 +103,14 @@ public class CampusNetworkTest extends IntentService {
                     mBuilder.setContentTitle(getBaseContext().getString(R.string.network_notify_title))
                             .setContentText(getBaseContext().getString(R.string.network_notify_content, ssid))
                             .setTicker(getBaseContext().getString(R.string.network_notify_ticker))
-                            .setAutoCancel(true)
-                            .setSmallIcon(R.mipmap.ic_launcher);
+                            .setAutoCancel(true);
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
+                        mBuilder.setColor(getResources().getColor(R.color.colorPrimary));  // TODO: 2017/9/17
+                    } else {
+                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+                    }
 
                     Intent notifyIntent = new Intent(this, NetWorkSignIn.class);
                     notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
@@ -196,8 +203,15 @@ public class CampusNetworkTest extends IntentService {
         mBuilder.setContentTitle(context.getString(title))
                 .setContentText(content)
                 .setTicker(context.getString(R.string.auto_sign_in_error_ticker))
-                .setAutoCancel(true)
-                .setSmallIcon(R.mipmap.ic_launcher);
+                .setAutoCancel(true);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
+            mBuilder.setColor(getResources().getColor(R.color.colorPrimary));  // TODO: 2017/9/17
+        } else {
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        }
+
         mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, mBuilder.build());
         return mBuilder;
     }
