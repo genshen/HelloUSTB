@@ -1,8 +1,6 @@
 package me.gensh.database;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import me.gensh.utils.BasicDate;
 
@@ -11,43 +9,38 @@ import java.util.HashMap;
 import java.util.List;
 
 public class QueryData {
-    SQLiteDatabase course_db;
-    public CourseDbHelper course;
-    final String TableName = CourseDbHelper.CourseInfoTable.TableName;
 
-    public QueryData(Context context) {
-        course = new CourseDbHelper(context, 1);
-        course_db = course.getReadableDatabase();
+    //todo maybe we have a better implementation  for this method.
+    public static boolean haveCoursesImported(DaoSession session) {
+        return session.getDBTimetableDao().count() != 0;
     }
 
-    public void close() {
-        course.close();
-    }
-
-    public List<HashMap<String, Object>> getTodayCourse(int week_num) {
+    public static List<HashMap<String, Object>> getTodayCourse(DaoSession session, int week_num) {
         List<HashMap<String, Object>> mList = new ArrayList<>();
-        String[] key = {CourseDbHelper.CourseInfoTable._ID, CourseDbHelper.CourseInfoTable.WEEK_DAY,
-                CourseDbHelper.CourseInfoTable.LESSON_NO, CourseDbHelper.CourseInfoTable.COURSE_ID,
-                CourseDbHelper.CourseInfoTable.TIMES, CourseDbHelper.CourseInfoTable.COURSE_NAME,
-                CourseDbHelper.CourseInfoTable.PLACE, CourseDbHelper.CourseInfoTable.TEACHERS};
-        String sql = "select * from Course_info " + " where week_id >> " +
-                week_num + "&1 = 1 and week_day = " + BasicDate.getWeek() + " order by lesson_no";
-        Cursor cursor = course_db.rawQuery(sql, null);
+        String[] key = {DBTimetable.TimetableInfo._ID, DBTimetable.TimetableInfo.WEEK_DAY,
+                DBTimetable.TimetableInfo.LESSON_NO, DBTimetable.TimetableInfo.COURSE_ID,
+                DBTimetable.TimetableInfo.TIME, DBTimetable.TimetableInfo.COURSE_NAME,
+                DBTimetable.TimetableInfo.PLACE, DBTimetable.TimetableInfo.TEACHERS};
+        String sql = "select * from  " + DBTimetable.TimetableInfo.TABLE_NAME + " where " + DBTimetable.TimetableInfo.WEEK_ID + " >> " +
+                week_num + "&1 = 1 and " + DBTimetable.TimetableInfo.WEEK_DAY + " = " + BasicDate.getWeek() + " order by " + DBTimetable.TimetableInfo.LESSON_NO;
+        Cursor cursor = session.getDatabase().rawQuery(sql, null);
 
         cursor.moveToFirst();
         int length = key.length;
         while (!cursor.isAfterLast()) {
-            HashMap<String, Object> listitem = new HashMap<>();
+            HashMap<String, Object> listItem = new HashMap<>();
             for (int i = 0; i < length; i++) {
-                if (i == 2) {
-                    listitem.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])) + 1);
+                if (i == 0) {
+                    listItem.put(key[i], cursor.getLong(cursor.getColumnIndex(key[i])));
+                } else if (i == 2) {
+                    listItem.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])) + 1);
                 } else if (i < 4) {
-                    listitem.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])));
+                    listItem.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])));
                 } else {
-                    listitem.put(key[i], cursor.getString(cursor.getColumnIndex(key[i])));
+                    listItem.put(key[i], cursor.getString(cursor.getColumnIndex(key[i])));
                 }
             }
-            mList.add(listitem);
+            mList.add(listItem);
             cursor.moveToNext();
         }
         cursor.close();
@@ -55,34 +48,17 @@ public class QueryData {
     }
 
     //获得某一天的课表
-    public Cursor getSomedayCourse(int position) {
-        String sql;
-        sql = "select * from course_info  where week_day = " + position;
-        return course_db.rawQuery(sql, null);
+    public static List<DBTimetable> getSomedayCourse(DaoSession session, int position) {
+        //select * from course_info  where week_day = position{val}
+        return session.getDBTimetableDao().queryBuilder().where(DBTimetableDao.Properties.WeekDay.eq(position)).list();
     }
 
-    public HashMap<String, Object> getCourseById(int id) {
-        String sql = "select * from course_info  where _id = " + id;
-        Cursor cursor = course_db.rawQuery(sql, null);
-        HashMap<String, Object> course_detail = new HashMap<>();
-
-        if (cursor.getCount() == 1) {
-            cursor.moveToFirst();
-            String[] key = {"student_num", "learn_time", "credit", "week_id", "week_day", "lesson_no", "course_id",
-                    "course_name", "course_type", "teachers", "time_place", "place", "times", "weeks"};
-            for (int i = 0; i < key.length; i++) {
-                if (i < 7) {
-                    course_detail.put(key[i], cursor.getInt(cursor.getColumnIndex(key[i])));
-                } else {
-                    course_detail.put(key[i], cursor.getString(cursor.getColumnIndex(key[i])));
-                }
-            }
-            cursor.close();
-            course_db.close();
-            return course_detail;
+    public static DBTimetable getCourseById(DaoSession session, long id) {
+        //select * from course_info  where _id = id{val}
+        try {
+            return session.getDBTimetableDao().queryBuilder().where(DBTimetableDao.Properties.Id.eq(id)).uniqueOrThrow();
+        } catch (Exception e) {
+            return null;
         }
-        cursor.close();
-        course_db.close();
-        return null;
     }
 }

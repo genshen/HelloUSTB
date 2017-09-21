@@ -14,45 +14,55 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import me.gensh.database.CourseDbHelper;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import me.gensh.database.DBTimetable;
 import me.gensh.database.UpdateData;
 import me.gensh.views.MultiSelectView;
 import me.gensh.views.SelectWheel;
 
-import java.util.HashMap;
-
 public class TimetableEdit extends AppCompatActivity {
     // UI references.
-    public static String ADD_NEW_FLAG = "add_new";
-    public static String DATA_FLAG = "data";
-    public static String ID_FLAG = "_id";
+    final public static String ADD_NEW_FLAG = "add_new";
+    final public static String DATA_FLAG = "data";
+    final public static String ID_FLAG = "_id";
 
-    private EditText courseNameEdit, courseTeacherEdit, coursePlaceEdit;
-    AppCompatTextView courseWeekIdEdit, courseLessonNoEdit;
+    @BindView(R.id.edit_course_name)
+    public EditText courseNameEdit;
+    @BindView(R.id.edit_course_teacher)
+    public EditText courseTeacherEdit;
+    @BindView(R.id.edit_course_place)
+    public EditText coursePlaceEdit;
+    @BindView(R.id.edit_course_week_id_summary)
+    public AppCompatTextView courseWeekIdEdit;
+    @BindView(R.id.edit_course_lesson_no_summary)
+    public AppCompatTextView courseLessonNoEdit;
 
-    HashMap<String, Object> course_detail;
+    DBTimetable courseDetail;
     String orgTimePlace;   // todo when add lesson!
-    int _id;
-    boolean is_new = false;
+    long _id;
+    boolean isNew = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable_edit);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        initViews();
+        ButterKnife.bind(this);
+
         Bundle bundle = getIntent().getExtras();
-        is_new = bundle.getBoolean(ADD_NEW_FLAG);
-        if (!is_new) {
-            course_detail = (HashMap<String, Object>) bundle.getSerializable(DATA_FLAG);
-            _id = bundle.getInt(ID_FLAG);
+        isNew = bundle.getBoolean(ADD_NEW_FLAG);
+        if (!isNew) {
+            //make sure courseDetail from detail Activity is not nul!.
+            courseDetail = (DBTimetable) bundle.getSerializable(DATA_FLAG);
+            _id = bundle.getLong(ID_FLAG);
             setViewData();
         }
 
-        Button submitButton = (Button) findViewById(R.id.submit_button);
+        Button submitButton = findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,23 +72,14 @@ public class TimetableEdit extends AppCompatActivity {
     }
 
     private void setViewData() {
-        courseNameEdit.setText(course_detail.get(CourseDbHelper.CourseInfoTable.COURSE_NAME).toString());
-        courseTeacherEdit.setText(course_detail.get(CourseDbHelper.CourseInfoTable.TEACHERS).toString());
-        coursePlaceEdit.setText(course_detail.get(CourseDbHelper.CourseInfoTable.PLACE).toString());
+        courseNameEdit.setText(courseDetail.getCourseName());
+        courseTeacherEdit.setText(courseDetail.getTeachers());
+        coursePlaceEdit.setText(courseDetail.getPlace());
 
-        courseWeekIdEdit.setText(course_detail.get(CourseDbHelper.CourseInfoTable.WEEKS).toString()); // set week_id instead
+        courseWeekIdEdit.setText(courseDetail.getWeeks()); // set week_id instead
         courseLessonNoEdit.setText(getLessonValue());
 
         orgTimePlace = getAllTimePlace();// todo when add lesson!
-    }
-
-    private void initViews() {
-        courseNameEdit = (EditText) findViewById(R.id.edit_course_name);
-        courseTeacherEdit = (EditText) findViewById(R.id.edit_course_teacher);
-        coursePlaceEdit = (EditText) findViewById(R.id.edit_course_place);
-
-        courseWeekIdEdit = (AppCompatTextView) findViewById(R.id.edit_course_week_id_summary);
-        courseLessonNoEdit = (AppCompatTextView) findViewById(R.id.edit_course_lesson_no_summary);
     }
 
 //    @Override
@@ -98,14 +99,13 @@ public class TimetableEdit extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public void editHandle(View view) {
         switch (view.getId()) {
             case R.id.edit_course_week_id_container:
                 LayoutInflater factory_week_id = LayoutInflater.from(this);
                 final View dialogMultiSelect = factory_week_id.inflate(R.layout.dialog_edit_week_id_selecort, null);
-                final MultiSelectView multiSelectView = (MultiSelectView) dialogMultiSelect.findViewById(R.id.week_id_selector);
-                multiSelectView.setSelect((int) course_detail.get(CourseDbHelper.CourseInfoTable.WEEK_ID));
+                final MultiSelectView multiSelectView = dialogMultiSelect.findViewById(R.id.week_id_selector);
+                multiSelectView.setSelect(courseDetail.getWeekId());
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.edit_alert_week_id_title)
                         .setView(dialogMultiSelect)
@@ -115,8 +115,8 @@ public class TimetableEdit extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 int value = (int) multiSelectView.getSelected();
                                 String weeks = getWeeksValue(value);
-                                course_detail.put(CourseDbHelper.CourseInfoTable.WEEK_ID, value);
-                                course_detail.put(CourseDbHelper.CourseInfoTable.WEEKS, weeks);
+                                courseDetail.setWeekId(value);
+                                courseDetail.setWeeks(weeks);
 
                                 courseWeekIdEdit.setText(weeks);
                             }
@@ -126,10 +126,10 @@ public class TimetableEdit extends AppCompatActivity {
             case R.id.edit_course_lesson_no_container:
                 LayoutInflater factory = LayoutInflater.from(this);
                 final View dialogWheelView = factory.inflate(R.layout.dialog_edit_course_selector, null);
-                final SelectWheel wheel_view_week_days = (SelectWheel) dialogWheelView.findViewById(R.id.wheel_view_week_days);
-                final SelectWheel wheel_view_lesson_no = (SelectWheel) dialogWheelView.findViewById(R.id.wheel_view_lesson_no);
-                wheel_view_week_days.selectIndex((int) course_detail.get(CourseDbHelper.CourseInfoTable.WEEK_DAY));
-                wheel_view_lesson_no.selectIndex((int) course_detail.get(CourseDbHelper.CourseInfoTable.LESSON_NO));
+                final SelectWheel wheel_view_week_days = dialogWheelView.findViewById(R.id.wheel_view_week_days);
+                final SelectWheel wheel_view_lesson_no = dialogWheelView.findViewById(R.id.wheel_view_lesson_no);
+                wheel_view_week_days.selectIndex(courseDetail.getWeekDay());
+                wheel_view_lesson_no.selectIndex(courseDetail.getLessonNo());
 
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.edit_alert_lesson_no_title)
@@ -138,8 +138,8 @@ public class TimetableEdit extends AppCompatActivity {
                         .setPositiveButton(R.string.alert_sure, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                course_detail.put(CourseDbHelper.CourseInfoTable.WEEK_DAY, wheel_view_week_days.getSelectedPosition());
-                                course_detail.put(CourseDbHelper.CourseInfoTable.LESSON_NO, wheel_view_lesson_no.getSelectedPosition());
+                                courseDetail.setWeekDay(wheel_view_week_days.getSelectedPosition());
+                                courseDetail.setLessonNo(wheel_view_lesson_no.getSelectedPosition());
                                 courseLessonNoEdit.setText(getLessonValue());
                             }
                         })
@@ -153,7 +153,7 @@ public class TimetableEdit extends AppCompatActivity {
         String teachers = courseTeacherEdit.getText().toString();
         String place = coursePlaceEdit.getText().toString();
         String weeks = courseWeekIdEdit.getText().toString();
-        int week_id = (int) course_detail.get(CourseDbHelper.CourseInfoTable.WEEK_ID);
+        int week_id = courseDetail.getWeekId();
         if (name.isEmpty()) {
             Snackbar.make(courseNameEdit, R.string.error_empty_course_name, Snackbar.LENGTH_LONG).setAction("Action", null).show();
         } else if (teachers.isEmpty()) {
@@ -164,18 +164,15 @@ public class TimetableEdit extends AppCompatActivity {
             Snackbar.make(courseNameEdit, R.string.error_week_id_needed, Snackbar.LENGTH_LONG).setAction("Action", null).show();
         } else {
             // todo change AllTimePlace
-            UpdateData UDB = new UpdateData(this);
-            UDB.submitCourseInfoEdit(_id, name, teachers, place, weeks,week_id,
-                    (int)course_detail.get(CourseDbHelper.CourseInfoTable.WEEK_DAY),
-                    (int) course_detail.get(CourseDbHelper.CourseInfoTable.LESSON_NO));
-            UDB.close();
+            UpdateData.submitCourseInfoEdit(((MyApplication) getApplication()).getDaoSession(),
+                    _id, name, teachers, place, weeks, week_id, courseDetail.getWeekDay(), courseDetail.getLessonNo());
+
             finish();
         }
     }
 
     private String getLessonValue() {
-        return "周" + ((int) course_detail.get(CourseDbHelper.CourseInfoTable.WEEK_DAY) + 1) + " 第" +
-                ((int) course_detail.get(CourseDbHelper.CourseInfoTable.LESSON_NO) + 1) + "节";
+        return "周" + (courseDetail.getWeekDay() + 1) + " 第" + (courseDetail.getLessonNo() + 1) + "节";
     }
 
     final static int INT_LENGTH = 32;
@@ -219,10 +216,10 @@ public class TimetableEdit extends AppCompatActivity {
 
     // todo when add lesson!
     private String getAllTimePlace() {
-        return "周" + ((int) course_detail.get(CourseDbHelper.CourseInfoTable.WEEK_DAY) + 1) + ",第" +
-                ((int) course_detail.get(CourseDbHelper.CourseInfoTable.LESSON_NO) + 1) + "节," +
-                course_detail.get(CourseDbHelper.CourseInfoTable.WEEKS).toString() + " " +
-                course_detail.get(CourseDbHelper.CourseInfoTable.PLACE).toString();
+        return "周" + (courseDetail.getWeekDay() + 1) + ",第" +
+                (courseDetail.getLessonNo() + 1) + "节," +
+                courseDetail.getWeeks() + " " +
+                courseDetail.getPlace();
     }
 
 }

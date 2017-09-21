@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,21 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaeger.library.StatusBarUtil;
-import com.lapism.searchview.SearchAdapter;
-import com.lapism.searchview.SearchItem;
-import com.lapism.searchview.SearchView;
-
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import me.gensh.fragment.DashboardFragment;
-import me.gensh.fragment.HomeFragment;
-import me.gensh.fragment.SettingsFragment;
+import me.gensh.fragments.DashboardFragment;
+import me.gensh.fragments.HomeFragment;
+import me.gensh.fragments.SettingsFragment;
 import me.gensh.network.GetPostHandler;
 import me.gensh.network.VersionCheckerTask;
 

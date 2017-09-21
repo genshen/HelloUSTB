@@ -7,20 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
  * Created by gensh on 2016/3/26.
  */
 public class DeleteData {
-    SQLiteDatabase course_db;
-    public static CourseDbHelper course;
-    final String TableName = CourseDbHelper.CourseInfoTable.TableName;
 
-    public DeleteData(Context context) {
-        course = new CourseDbHelper(context, 1);
-        course_db = course.getReadableDatabase();
+    //todo delete by term
+    public static void clearAllTimetable(DaoSession session) {
+        session.getDBTimetableDao().deleteAll();
+        //queryBuilder().where(DBTimeTableDao.Properties.Id.eq(1)).buildDelete().executeDeleteWithoutDetachingEntities();
+        //  sql = "DELETE FROM " + TableName + " WHERE 1";
     }
 
-    public void close() {
-        course.close();
-    }
-
-    public void deleteCourseById(int id) {
-        course_db.delete(TableName, CourseDbHelper.CourseInfoTable._ID + "=" + id, null);
+    public static void deleteCourseById(DaoSession session, long id) {
+        session.getDBTimetableDao().deleteByKey(id);
+//        course_db.delete(TableName, CourseDbHelper.CourseInfoTable._ID + "=" + id, null);
     }
 }

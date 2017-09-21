@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import me.gensh.encrypt.MailAccount;
+import me.gensh.natives.MailAccount;
 import me.gensh.network.MailSender;
 
 public class Feedback extends AppCompatActivity {
@@ -20,12 +20,12 @@ public class Feedback extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        FeedbackContent = (EditText) findViewById(R.id.FeedbackContent);
-        FeedbackContact = (EditText) findViewById(R.id.FeedbackContact);
+        FeedbackContent = findViewById(R.id.FeedbackContent);
+        FeedbackContact = findViewById(R.id.FeedbackContact);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Feedback extends AppCompatActivity {
 
     private void sendMail(String body) {
         String contactWay = FeedbackContact.getText().toString();
-        String service = getServiceInformation();
+        String service = getDeviceInformation();
         if (!contactWay.equals("")) {
             body += "\n联系方式：" + contactWay;
         }
@@ -71,7 +71,7 @@ public class Feedback extends AppCompatActivity {
         FeedbackContact.setText("");
     }
 
-    private String getServiceInformation() {
+    private String getDeviceInformation() {
         return "\n设备型号：" + android.os.Build.MODEL +
                 "\nAndroid版本：" + android.os.Build.VERSION.RELEASE;
     }

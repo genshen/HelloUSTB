@@ -1,4 +1,4 @@
-package me.gensh.fragment;
+package me.gensh.fragments;
 
 import android.content.Context;
 import android.content.Intent;

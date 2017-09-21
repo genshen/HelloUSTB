@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -19,9 +20,10 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.gensh.database.CourseDbHelper;
+import me.gensh.database.DeleteData;
+import me.gensh.database.QueryData;
 import me.gensh.database.StoreData;
-import me.gensh.fragment.TimetableFragment;
+import me.gensh.fragments.TimetableFragment;
 import me.gensh.utils.BasicDate;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
@@ -37,6 +39,7 @@ import java.util.ArrayList;
 
 /**
  * Created by gensh on 2016.
+ * //todo timetable can use this https://github.com/zhouchaoyuan/excelPanel
  */
 public class Timetable extends LoginNetworkActivity {
     @BindView(R.id.progress_bar)
@@ -77,6 +80,11 @@ public class Timetable extends LoginNetworkActivity {
         viewPager.setAdapter(adapter);
         viewPagerTab.setViewPager(viewPager);
 
+        if (!QueryData.haveCoursesImported(((MyApplication) getApplication()).getDaoSession())) {
+            Snackbar.make(findViewById(R.id.fab_import_table), R.string.course_imported_guide, Snackbar.LENGTH_LONG).show();
+        }
+
+        //todo make a snackBar to show import.
         //set http response error handle.
         setErrorHandler(new ErrorHandler() {
             @Override
@@ -117,10 +125,7 @@ public class Timetable extends LoginNetworkActivity {
     public void floatingActionMenuClickListener(View menu) {
         int id = menu.getId();
         if (id == R.id.fab_import_table) {
-            CourseDbHelper course = new CourseDbHelper(this, 1);
-            if (course.haveCoursesImported()) { //maybe
-                Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x101);
-            } else {
+            if (QueryData.haveCoursesImported(((MyApplication) getApplication()).getDaoSession())) {
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.importCourse)
                         .setMessage(R.string.haveImported)
@@ -128,17 +133,14 @@ public class Timetable extends LoginNetworkActivity {
                         .setPositiveButton(R.string.reImport, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                StoreData sd = new StoreData(Timetable.this);
-                                sd.clearTable();
-                                sd.close();
+                                DeleteData.clearAllTimetable(((MyApplication) Timetable.this.getApplication()).getDaoSession());
                                 Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x101);
                             }
                         })
                         .show();
+            } else {
+                Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x101);
             }
-            course.close();
-        } else {
-
         }
     }
 
@@ -189,9 +191,8 @@ public class Timetable extends LoginNetworkActivity {
         @Override
         protected Integer doInBackground(Void... voids) {
             if (data.size() == 1) {
-                StoreData store_data = new StoreData(Timetable.this);
-                boolean success = store_data.SaveToDb(data.get(0)); //todo if you han an empty timetable,it will cause an failure.
-                store_data.close();
+                boolean success = StoreData.SaveTimetableToDb(((MyApplication) context.getApplicationContext()).getDaoSession(), data.get(0));
+                //todo if you han an empty timetable,it will cause an failure.
                 if (success) {
                     return IMPORT_TIMETABLE_TASK_RESULT_SUCCESSED;
                 } else {

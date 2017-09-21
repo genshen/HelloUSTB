@@ -1,10 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".StartActivity">
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/fullscreen_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,17 +22,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/fullscreen_content"
+        android:layout_alignEnd="@id/fullscreen_content"
         android:layout_alignLeft="@+id/fullscreen_content"
         android:layout_alignRight="@id/fullscreen_content"
+        android:layout_alignStart="@+id/fullscreen_content"
         android:src="@drawable/welcome" />
 
-    <TextView
-        android:id="@+id/bottomtext"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/bottom_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:text="@string/bottomtext"/>
+        android:gravity="center" />
 
 </RelativeLayout>

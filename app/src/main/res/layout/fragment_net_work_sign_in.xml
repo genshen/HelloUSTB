@@ -6,7 +6,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="me.gensh.fragment.NetWorkSignInFragment"
+                tools:context="me.gensh.fragments.NetWorkSignInFragment"
                 tools:showIn="@layout/activity_net_work_sign_in">
 
 </RelativeLayout>

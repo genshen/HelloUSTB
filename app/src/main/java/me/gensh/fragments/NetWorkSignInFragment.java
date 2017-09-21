@@ -1,4 +1,4 @@
-package me.gensh.fragment;
+package me.gensh.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

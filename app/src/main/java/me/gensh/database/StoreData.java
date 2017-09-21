@@ -1,9 +1,7 @@
 package me.gensh.database;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-
 import me.gensh.utils.BasicDate;
+import me.gensh.utils.StrUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,34 +16,15 @@ import java.util.Map;
  */
 
 public class StoreData {
-    SQLiteDatabase course_db;
-    public CourseDbHelper course;
-    final String TableName = "Course_info";
 
-    public StoreData(Context context) {
-        course = new CourseDbHelper(context, 1);
-        course_db = course.getReadableDatabase();
-    }
-
-    public void clearTable() {
-        String sql = "DELETE FROM " + TableName + " WHERE 1";
-        course_db.execSQL(sql);
-    }
-
-    public void close() {
-        course.close();
-    }
-
-    public static int key = 0;
-
-    public boolean SaveToDb(String msg) {
+    public static boolean SaveTimetableToDb(DaoSession session, String msg) {
         try {
             JSONObject dataJson = new JSONObject(msg);
             JSONArray data = dataJson.getJSONArray("selectedCourses");
             for (int i = data.length() - 1; i >= 0; i--) {
                 JSONObject course = data.getJSONObject(i);
                 if (course != null) {
-                    if (!InsertToDB(getValueByKey("SKRS", course, false),//上课人数
+                    if (!InsertToDB(session, getValueByKey("SKRS", course, false),//上课人数
                             getValueByKey("XS", course, false),//学时
                             getValueByKey("XF", course, false),//学分
                             getValueByKey("ID", course, false),//ID
@@ -57,7 +36,7 @@ public class StoreData {
                     )) {
                         return false;
                     }
-                    if (!addPTK(course.getJSONArray("PTK"))) {
+                    if (!addPTK(session, course.getJSONArray("PTK"))) {
                         return false;
                     }
                 }
@@ -67,16 +46,15 @@ public class StoreData {
             e.printStackTrace();
             return false;
         }
-
     }
 
     //配套课(如实验课)
-    private boolean addPTK(JSONArray ptks) {
+    private static boolean addPTK(DaoSession session, JSONArray ptks) {
         try {
             for (int i = ptks.length() - 1; i >= 0; i--) {
                 JSONObject ptk = ptks.getJSONObject(i);
                 if (ptk != null) {
-                    if (!InsertToDB(getValueByKey("SKRS", ptk, false),//上课人数
+                    if (!InsertToDB(session, getValueByKey("SKRS", ptk, false),//上课人数
                             getValueByKey("XS", ptk, false),//学时
                             getValueByKey("XF", ptk, false),//学分
                             getValueByKey("ID", ptk, false),//ID
@@ -97,7 +75,7 @@ public class StoreData {
         return false;
     }
 
-    private boolean InsertToDB(String student_num, String learn_time,
+    private static boolean InsertToDB(DaoSession session, String student_num, String learn_time,
                                String credit, String course_id,
                                String course_name, String course_type,
                                String teachers, String time_place,
@@ -108,16 +86,22 @@ public class StoreData {
             int week_id = entry.getValue();
             String time = BasicDate.getCourseTime(lesson.lesson_no);
 
-            String sql_sentence = "insert into Course_info values(" +
-                    (key++) + "," + student_num + "," + learn_time + "," + credit + "," +
-                    week_id + "," + lesson.week_day + "," + lesson.lesson_no + "," + course_id +
-                    ",\'" + course_name + "\',\'" + course_type + "\',\'" + teachers + "\',\'" + time_place +
-                    "\',\'" + lesson.class_place + "\',\'" + time + "\',\'" + lesson.weeks + "\')";
-            course_db.execSQL(sql_sentence);
+            DBTimetable dbTimetable = new DBTimetable(null,
+                    StrUtils.parseInt(student_num, 0), StrUtils.parseInt(learn_time, 0), StrUtils.parseInt(credit, 0),
+                    week_id, lesson.week_day, lesson.lesson_no,
+                    course_id, course_name, course_type, teachers,
+                    time_place, lesson.class_place, time, lesson.weeks);
+            session.getDBTimetableDao().insert(dbTimetable);
+
+//            String sql_sentence = "insert into Course_info values(" +
+//                    (key++) + "," + student_num + "," + learn_time + "," + credit + "," +
+//                    week_id + "," + lesson.week_day + "," + lesson.lesson_no + "," + course_id +
+//                    ",\'" + course_name + "\',\'" + course_type + "\',\'" + teachers + "\',\'" + time_place +
+//                    "\',\'" + lesson.class_place + "\',\'" + time + "\',\'" + lesson.weeks + "\')";
+//            course_db.execSQL(sql_sentence);
         }
         return true;
     }
-
 
     private static String getValueByKey(String key, JSONObject data, boolean return_str) {
         Object value;

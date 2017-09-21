@@ -40,7 +40,7 @@
     <!-- 开始界面 -->
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="title_activity_start">StartActivity</string>
-    <string name="bottomtext">&#169;2015&#8211;2016 genshen.hol.es \nAll Right Reserved</string>
+    <string name="bottom_text_format">&#169;2015&#8211;%d helloustb.gensh.me \nAll Right Reserved</string>
     <!-- 开始界面 -->
     <!-- 引导页 -->
     <string name="start">开始</string>
@@ -146,8 +146,8 @@
     <string name="open_source_file_location">file:///android_asset/open_source.html</string>
     <string name="app_web">应用网站</string>
     <string name="file_manager">下载</string>
-    <string name="version_base">Hello USTB  v%s </string>
-    <string name="build_time">built Thus, 14 September 2017 </string>
+    <string name="version_base">%1$s  v%2$s </string>
+    <string name="build_time_format">built at %s</string>
     <!-- 设置界面 -->
     <!--通用设置-->
     <string name="this_week_num">当前周数</string>
@@ -303,6 +303,7 @@
     <!--/今日课表-->
     <!-- 课程详情 -->
     <string name="timetable_detail_title">%s</string>
+    <string name="timetable_detail_integer_format">%d</string>
     <string name="detail_class_info">课堂信息</string>
     <string name="detail_course_info">课程信息</string>
     <string name="detail_course_name_key">课程名称</string>
@@ -322,6 +323,7 @@
     <string name="dialog_delete_course_ack_message">你确定删除课程"%s"?</string>
     <!-- /课程详情 -->
     <!--课程表 总-->
+    <string name="course_imported_guide">你尚未导入课表,请点击上方导入课表按钮导入.</string>
     <string name="no_course_imported">你尚未导入课表</string>
     <string name="lesson_id">%d</string>
     <string name="timetable_monday">周一</string>
@@ -450,7 +452,7 @@
     <string name="notification_card_hint_no_notifications">暂无通知</string>
     <string name="transition_element_name_for_web_notifications">sharedTransition</string>
     <!--/本科教学网通知-->
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="developing">under development</string>
 </resources>

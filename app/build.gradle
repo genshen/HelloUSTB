@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 26
@@ -20,15 +21,25 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "APP_BUILD_TIME", "\"Thus, 21 September 2017 \""
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "APP_BUILD_TIME", "\"Thus, 21 September 2017 \""
         }
     }
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
         }
+    }
+    greendao {
+//        see http://greenrobot.org/greendao/documentation/modelling-entities/
+//        schemaVersion 1
+//        daoPackage 'me.gensh.greendao.gen'
+//        targetGenDir 'src/main/java'
     }
 }
 
@@ -70,6 +81,8 @@ dependencies {
     compile 'com.google.android:flexbox:0.3.0'
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     compile 'com.jakewharton:butterknife:8.8.1'
+    compile 'org.greenrobot:greendao:3.2.2'
+
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'

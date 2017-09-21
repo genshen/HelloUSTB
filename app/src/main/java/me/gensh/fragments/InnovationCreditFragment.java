@@ -1,4 +1,4 @@
-package me.gensh.fragment;
+package me.gensh.fragments;
 
 
 import android.app.Activity;
@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import me.gensh.helloustb.R;
-
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -40,8 +40,6 @@ public class GuidePagerAdapter extends PagerAdapter
 	}
 	@Override
 	public boolean isViewFromObject(View arg0, Object arg1) {
-		// TODO �Զ����ɵķ������
-		
 		return (arg0==arg1);
 	}
 	

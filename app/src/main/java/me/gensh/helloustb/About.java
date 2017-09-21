@@ -1,22 +1,16 @@
 package me.gensh.helloustb;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import me.gensh.network.VersionCheckerTask;
-import me.gensh.service.DownloadApk;
 
 public class About extends AppCompatActivity {
     private VersionCheckerTask checker;
@@ -58,8 +52,10 @@ public class About extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        TextView version = findViewById(R.id.this_version);
-        version.setText(getString(R.string.version_base, versionName));
+        AppCompatTextView version = findViewById(R.id.this_version);
+        AppCompatTextView builtTime = findViewById(R.id.app_build_time);
+        builtTime.setText(getString(R.string.build_time_format, BuildConfig.APP_BUILD_TIME));
+        version.setText(getString(R.string.version_base, getString(R.string.app_name), versionName));
     }
 
     public void clickHandle(View view) {

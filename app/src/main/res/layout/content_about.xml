@@ -30,7 +30,7 @@
                 android:contentDescription="@string/image"
                 android:src="@mipmap/ic_launcher" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/this_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,13 +40,14 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/app_build_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/this_version"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="6dp"
                 android:gravity="center_horizontal"
-                android:text="@string/build_time"
+                android:text="@string/build_time_format"
                 android:textSize="16sp" />
         </RelativeLayout>
 

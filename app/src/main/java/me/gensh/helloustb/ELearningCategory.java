@@ -1,12 +1,9 @@
 package me.gensh.helloustb;
 
 import android.animation.LayoutTransition;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -20,9 +17,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.gensh.fragment.ELearningExamQueryFragment;
-import me.gensh.fragment.ELearningRecordQueryFragment;
-import me.gensh.fragment.InnovationCreditFragment;
+import me.gensh.fragments.ELearningExamQueryFragment;
+import me.gensh.fragments.ELearningRecordQueryFragment;
+import me.gensh.fragments.InnovationCreditFragment;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
 import me.gensh.utils.StrUtils;

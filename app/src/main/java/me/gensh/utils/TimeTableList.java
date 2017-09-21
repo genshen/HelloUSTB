@@ -1,51 +1,46 @@
 package me.gensh.utils;
 
-import android.database.Cursor;
-
-import me.gensh.database.CourseDbHelper;
+import me.gensh.database.DBTimetable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TimeTableList {
+    private ArrayList<ArrayList<Map<String, Object>>> course;
+    private static short MaxCourse = 6;
 
-    ArrayList<ArrayList<Map<String, Object>>> course;
-    private short MaxCourse = 6;
-
-    public TimeTableList(Cursor cursor) {
+    public TimeTableList(List<DBTimetable> listSrc) {
         course = new ArrayList<>();
         for (short i = 0; i < MaxCourse; i++) {
             ArrayList<Map<String, Object>> c = new ArrayList<>();
             course.add(c);
         }
 
-        if (cursor.moveToFirst()) {
-            addCourse(cursor);
-        }
-        while (cursor.moveToNext()) {
-            addCourse(cursor);
+        for (DBTimetable item : listSrc) {
+            addCourse(item);
         }
     }
 
-    private void addCourse(Cursor cursor) {
-        int position = cursor.getInt(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.LESSON_NO));
+    private void addCourse(DBTimetable item) {
+        int position = item.getLessonNo();
 
-        HashMap<String, Object> course_detail = new HashMap<>();
-        course_detail.put(CourseDbHelper.CourseInfoTable._ID, cursor.getInt(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable._ID)));
-        course_detail.put(CourseDbHelper.CourseInfoTable.WEEK_ID, cursor.getInt(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.WEEK_ID)));
-       // course_detail.put("course_id", cursor.getString(cursor.getColumnIndex("course_id")));
-        course_detail.put(CourseDbHelper.CourseInfoTable.COURSE_NAME, cursor.getString(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.COURSE_NAME)));
-        course_detail.put(CourseDbHelper.CourseInfoTable.PLACE, cursor.getString(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.PLACE)));
-        course_detail.put(CourseDbHelper.CourseInfoTable.TEACHERS, cursor.getString(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.TEACHERS)));
-        course_detail.put(CourseDbHelper.CourseInfoTable.WEEKS, cursor.getString(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.WEEKS)));
-        course_detail.put(CourseDbHelper.CourseInfoTable.COURSE_TYPE, cursor.getString(cursor.getColumnIndex(CourseDbHelper.CourseInfoTable.COURSE_TYPE)));
+        HashMap<String, Object> course = new HashMap<>();
+        course.put(DBTimetable.TimetableInfo._ID, item.getId());
+        course.put(DBTimetable.TimetableInfo.WEEK_ID, item.getWeekId());
+        // course.put("course_id", cursor.getString(cursor.getColumnIndex("course_id")));
+        course.put(DBTimetable.TimetableInfo.COURSE_NAME, item.getCourseName());
+        course.put(DBTimetable.TimetableInfo.PLACE, item.getPlace());
+        course.put(DBTimetable.TimetableInfo.TEACHERS, item.getTeachers());
+        course.put(DBTimetable.TimetableInfo.WEEKS, item.getWeeks());
+        course.put(DBTimetable.TimetableInfo.COURSE_TYPE, item.getCourseType());
 
-        (course.get(position)).add(course_detail);
+        (this.course.get(position)).add(course);
     }
 
-    public ArrayList<Map<String, Object>> getCourseList(int lesson_id) {
-        return course.get(lesson_id);
+    public ArrayList<Map<String, Object>> getCourseListByLessonNo(int lessonNo) {
+        return course.get(lessonNo);
     }
 
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="me.gensh.fragment.HomeFragment">
+    tools:context="me.gensh.fragments.HomeFragment">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
 
                 <fragment
                     android:id="@+id/today_course_fragment"
-                    android:name="me.gensh.fragment.TodayCourseFragment"
+                    android:name="me.gensh.fragments.TodayCourseFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.v7.widget.CardView>

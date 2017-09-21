@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="me.gensh.fragment.TodayCourseFragment"
+    tools:context="me.gensh.fragments.TodayCourseFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 

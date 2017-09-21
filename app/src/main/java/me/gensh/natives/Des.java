@@ -1,4 +1,4 @@
-package me.gensh.encrypt;
+package me.gensh.natives;
 
 /**
  * @author gensh

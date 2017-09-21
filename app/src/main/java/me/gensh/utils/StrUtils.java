@@ -1,64 +1,70 @@
 package me.gensh.utils;
 
-import me.gensh.encrypt.Des;
-import me.gensh.helloustb.R;
+import me.gensh.natives.Des;
 import me.gensh.sdcard.SdCardPro;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class StrUtils {
-	static String path;
+    static String path;
 
-	public static void WriteWithEncryption(String desStr, String filePath) {
-		// TODO
-		String key = "cgs@cmj";
-		String strEnc = Des.encode(desStr, key);//加密字符串,返回String的密文
-		SdCardPro.write(strEnc, filePath);
-	}
+    public static void WriteWithEncryption(String desStr, String filePath) {
+        String key = "cgs@cmj";
+        String strEnc = Des.encode(desStr, key);//加密字符串,返回String的密文
+        SdCardPro.write(strEnc, filePath);
+    }
 
-	public static String ReadWithEncryption(String filePath) {
-		// TODO
-		String desStr = SdCardPro.read(filePath);
-		String key = "cgs@cmj";
-		String strDes = Des.decode(desStr, key);//把String   类型的密文解密
-		System.out.print(strDes);
-		return strDes;
-	}
+    public static String ReadWithEncryption(String filePath) {
+        String desStr = SdCardPro.read(filePath);
+        String key = "cgs@cmj";
+        String strDes = Des.decode(desStr, key);//把String   类型的密文解密
+        System.out.print(strDes);
+        return strDes;
+    }
 
-	public static String[] split2(String str, char ch1, char ch2) {
-		char[] Arr = str.toCharArray();
-		for (int i = 0; i < Arr.length; i++)
-			if (Arr[i] == ch1 || Arr[i] == ch2)
-				Arr[i] = '@';
-		return String.valueOf(Arr).split("@");
-	}
+    //convert a String to a int value.
+    public static int parseInt(String str, int defaultValue) {
+        try {
+            int v;
+            v = Integer.parseInt(str);
+            return v;
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
 
-	//关于课程表的两个函数；
-	public static String getCourseShareStr(List<HashMap<String, Object>> mapList) {
-		String result = "【分享课表】今日的课程有：\n";
-		int length = mapList.size();
-		for (int i = 0; i < length; i++) {
-			HashMap<String, Object> map = mapList.get(i);
-			result += addCourse(map);
-		}
-		return result;
-	}
+    public static String[] split2(String str, char ch1, char ch2) {
+        char[] Arr = str.toCharArray();
+        for (int i = 0; i < Arr.length; i++)
+            if (Arr[i] == ch1 || Arr[i] == ch2)
+                Arr[i] = '@';
+        return String.valueOf(Arr).split("@");
+    }
 
-	private static String addCourse( HashMap<String, Object> map) {
-		// TODO 自动生成的方法存根
-		//lesson_no,times,course_name,place,teachers
-		String returnStr = "第" + map.get("lesson_no") + "节课\t";
-		returnStr +=  map.get("times") + "\t";
-		returnStr +=  map.get("course_name") + "\t";
-		returnStr +=  map.get("place") + "\t";
-		returnStr +=  map.get("teachers") + "\n";
-		return returnStr;
-	}
+    //关于课程表的两个函数；
+    public static String getCourseShareStr(List<HashMap<String, Object>> mapList) {
+        String result = "【分享课表】今日的课程有：\n";
+        int length = mapList.size();
+        for (int i = 0; i < length; i++) {
+            HashMap<String, Object> map = mapList.get(i);
+            result += addCourse(map);
+        }
+        return result;
+    }
 
-	//	Lesson.activity的处理课程表
+    private static String addCourse(HashMap<String, Object> map) {
+        //lesson_no,times,course_name,place,teachers
+        String returnStr = "第" + map.get("lesson_no") + "节课\t";
+        returnStr += map.get("times") + "\t";
+        returnStr += map.get("course_name") + "\t";
+        returnStr += map.get("place") + "\t";
+        returnStr += map.get("teachers") + "\n";
+        return returnStr;
+    }
+
+    //	Lesson.activity的处理课程表
 //	public static void getCourse(int[] id, Cursor cursor, String[] detail) {
-//		// TODO 自动生成的方法存根
 //		int k = -1;
 //		//int[] id_copy = {0,0,0,0,0,0};
 //		String[] detail_copy = {"","","","","","",};
@@ -89,7 +95,7 @@ public class StrUtils {
 //		detail_copy[k1] += LessonStr+"\n";
 //	}
 
-	//MainActivity title setting
+    //MainActivity title setting
 //	public static int getActionBarTitle(int number) {
 //		// TODO
 //		switch (number) {

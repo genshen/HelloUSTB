@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="me.gensh.fragment.DashboardFragment">
+    tools:context="me.gensh.fragments.DashboardFragment">
 
-    <!-- todo NestedScrollView -->
+    <!-- removed NestedScrollView -->
 
     <GridView
         android:id="@+id/grid_view_dashboard"

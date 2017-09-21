@@ -10,10 +10,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import me.gensh.sdcard.SdCardPro;
 import me.gensh.sdcard.Update;
@@ -53,6 +57,9 @@ public class StartActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        AppCompatTextView bottomText = findViewById(R.id.bottom_text);
+        bottomText.setText(getString(R.string.bottom_text_format, Calendar.getInstance().get(Calendar.YEAR)));
 //        View mContentView = findViewById(R.id.fullscreen_content);
 //        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         StartActivityPermissionsDispatcher.initWithCheck(this);

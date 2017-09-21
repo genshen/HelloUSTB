@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import me.gensh.fragment.CampusNetworkFragment;
-import me.gensh.fragment.ErrorFragment;
+import me.gensh.fragments.CampusNetworkFragment;
+import me.gensh.fragments.ErrorFragment;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
 
