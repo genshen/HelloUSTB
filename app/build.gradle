@@ -4,13 +4,13 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.1'
-    useLibrary "org.apache.http.legacy"
+//    useLibrary "org.apache.http.legacy"
 
     defaultConfig {
         applicationId "me.gensh.helloustb"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 110
+        versionCode 111
         versionName "2.1.0-alpha3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
