@@ -2,9 +2,8 @@ package me.gensh.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,14 @@ import android.widget.Toast;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.gensh.helloustb.BookDetail;
 import me.gensh.helloustb.MyApplication;
 import me.gensh.helloustb.R;
-import me.gensh.network.DataInfo;
-import me.gensh.network.GetPostHandler;
+import me.gensh.network.HttpRequestTask;
+
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.io.UnsupportedEncodingException;
@@ -34,13 +36,16 @@ import java.util.Map;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LibrarySearchFragment extends Fragment {
+public class LibrarySearchFragment extends Fragment implements HttpRequestTask.OnTaskFinished {
     private String search_key = "";
     private int page = 1;
-    private boolean is_init = false, is_loading = false;
+    private boolean is_init = false, isLoading = false;
     private SimpleAdapter search_adapter;
-    private ListView search_listview;
-    private GoogleProgressBar progress_bar;
+    @BindView(R.id.lib_search_list)
+    ListView searchListView;
+    @BindView(R.id.progress_bar)
+    GoogleProgressBar progressBar;
+    @BindView(R.id.lib_refresh)
     MaterialRefreshLayout materialRefreshLayout;
 
     public LibrarySearchFragment() {
@@ -48,13 +53,12 @@ public class LibrarySearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root_view = inflater.inflate(R.layout.fragment_search_library, container, false);
-
-        materialRefreshLayout = (MaterialRefreshLayout) root_view.findViewById(R.id.lib_refresh);
+        View rootView = inflater.inflate(R.layout.fragment_search_library, container, false);
+        ButterKnife.bind(this, rootView);
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(final MaterialRefreshLayout materialRefreshLayout) {
-                if (search_key.isEmpty() || is_loading) {
+                if (search_key.isEmpty() || isLoading) {
                     materialRefreshLayout.finishRefresh();
                     return;
                 }
@@ -65,7 +69,7 @@ public class LibrarySearchFragment extends Fragment {
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                if (!is_init || is_loading) {
+                if (!is_init || isLoading) {
                     materialRefreshLayout.finishRefreshLoadMore();
                     return;
                 }
@@ -73,71 +77,22 @@ public class LibrarySearchFragment extends Fragment {
             }
         });
 
-        progress_bar = (GoogleProgressBar) root_view.findViewById(R.id.progress_bar);
-        search_listview = (ListView) root_view.findViewById(R.id.lib_search_list);
         setListViewInit();
-        Button search_bt = (Button) root_view.findViewById(R.id.search_start);
+        Button search_bt = rootView.findViewById(R.id.search_start);
         search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!is_loading){
+                if (!isLoading) {
                     is_init = false;
                     search();
                 }
-
             }
         });
-        return root_view;
+        return rootView;
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            is_loading = false;
-            DataInfo data_info = (DataInfo) msg.obj;
-            if (data_info.code == DataInfo.TimeOut) {
-                progress_bar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            ArrayList<String> str_msg = data_info.data;
-            switch (msg.what) {
-                case 0x100: //response for click search
-                    progress_bar.setVisibility(View.INVISIBLE);
-                    if (str_msg.size() == 0) {
-                        Toast.makeText(getActivity(), R.string.no_search_result, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    page++;
-                    is_init = true;
-                    setSearchResult(str_msg, true);
-                    break;
-                case 0x101: // response for refresh
-                    materialRefreshLayout.finishRefresh();
-                    if (str_msg.size() == 0) {    //如果没找到书籍
-                        Toast.makeText(getActivity(), R.string.no_book_found, Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    page++;
-                    is_init = true;
-                    setSearchResult(str_msg, true);
-                    break;
-                case 0x102: //response for load more
-                    materialRefreshLayout.finishRefreshLoadMore();
-                    if (checkIndex(str_msg)) {    //看是否到达索引结尾
-                        Toast.makeText(getActivity(), R.string.no_book_found_more, Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                    page++;
-                    setSearchResult(str_msg, false);
-                    break;
-
-            }
-        }
-    };
-
     private List<Map<String, Object>> search_list = new ArrayList<>();
+
     private void setListViewInit() {
         search_adapter = new SimpleAdapter(getActivity(), search_list, R.layout.listview_lib_search_result,
                 new String[]{"lib_type", "lib_name", "lib_num", "lib_copy", "lib_borrow",
@@ -145,8 +100,8 @@ public class LibrarySearchFragment extends Fragment {
                 new int[]{R.id.lib_search_type, R.id.lib_search_name, R.id.lib_search_num,
                         R.id.lib_search_copy, R.id.lib_search_borrow, R.id.lib_search_author,
                         R.id.lib_search_press_name, R.id.lib_search_publish_time});
-        search_listview.setAdapter(search_adapter);
-        search_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchListView.setAdapter(search_adapter);
+        searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent detail = new Intent(getActivity(), BookDetail.class);
@@ -214,16 +169,68 @@ public class LibrarySearchFragment extends Fragment {
                 + "?strSearchType=title&strText=" + search_url + "&page=" + page;
     }
 
+    HttpRequestTask httpRequestTask;
+
     private void get(String url, String tag, int feedback, int id, String code) {
         if (((MyApplication) getActivity().getApplication()).CheckNetwork()) {
             if (feedback == 0x100) { // clicked search button
-                progress_bar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
-            is_loading = true;
-            GetPostHandler.handlerGet(handler, url, tag, feedback, id, code);
+            isLoading = true;
+            if (httpRequestTask != null) {   //cancel task if it is not null,to make sure there is one task running in a activity or fragment.
+                httpRequestTask.cancel(true);
+            }
+            httpRequestTask = new HttpRequestTask(getActivity(), HttpRequestTask.REQUEST_TYPE_GET, url, tag, feedback, id, code, null);
+            httpRequestTask.setOnTaskFinished(this);
+            httpRequestTask.execute();
         } else {
             Toast.makeText(getActivity(), R.string.NoNetwork, Toast.LENGTH_LONG).show();
         }
     }
 
+    @Override
+    public void onOk(int what, @NonNull ArrayList<String> data) {
+        isLoading = false;
+        switch (what) {
+            case 0x100: //response for click search
+                progressBar.setVisibility(View.INVISIBLE);
+                if (data.size() == 0) {
+                    Toast.makeText(getActivity(), R.string.no_search_result, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                page++;
+                is_init = true;
+                setSearchResult(data, true);
+                break;
+            case 0x101: // response for refresh
+                materialRefreshLayout.finishRefresh();
+                if (data.size() == 0) {    //如果没找到书籍
+                    Toast.makeText(getActivity(), R.string.no_book_found, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                page++;
+                is_init = true;
+                setSearchResult(data, true);
+                break;
+            case 0x102: //response for load more
+                materialRefreshLayout.finishRefreshLoadMore();
+                if (checkIndex(data)) {    //看是否到达索引结尾
+                    Toast.makeText(getActivity(), R.string.no_book_found_more, Toast.LENGTH_LONG).show();
+                    break;
+                }
+                page++;
+                setSearchResult(data, false);
+                break;
+        }
+    }
+
+    @Override
+    public void onPasswordError() {  //no password.
+
+    }
+
+    @Override
+    public void onTimeoutError() {
+        Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+    }
 }

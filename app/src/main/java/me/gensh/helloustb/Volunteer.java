@@ -2,6 +2,7 @@ package me.gensh.helloustb;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,14 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import me.gensh.fragments.VolunteerHomeFragment;
+import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
 import me.gensh.utils.NetWorkActivity;
+
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
 
-public class Volunteer extends LoginNetworkActivity {
+public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.OnTaskFinished {
     Boolean isLogin = false;
 //    String passFileName, account, password;
 //    Boolean canWrite = false;
@@ -35,19 +38,6 @@ public class Volunteer extends LoginNetworkActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         progressBar = findViewById(R.id.progress_bar);
-        setErrorHandler(new NetWorkActivity.ErrorHandler() {
-            @Override
-            public void onPasswordError() {
-                dismissProgressDialog();
-                setVolunteerMessage(R.string.errorPassword, R.string.login_vol_button_again);
-            }
-
-            @Override
-            public void onTimeoutError() {
-                dismissProgressDialog();
-                setVolunteerMessage(R.string.connectionTimeout, R.string.login_vol_button_again);
-            }
-        });
 
         final LoginDialog vol_login = new LoginDialog(LoginDialog.LoginVol);
         Login(vol_login, "VOL", 0x401);
@@ -79,7 +69,8 @@ public class Volunteer extends LoginNetworkActivity {
     public void volClick(View view) {
         switch (view.getId()) {
             case R.id.for_detail:
-                get(getString(R.string.my_volunteer_list), "VOL", 0x403, 16, "utf-8", true);
+                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.my_volunteer_list),
+                        "VOL", 0x403, 16, "utf-8", null, true);
                 break;
             case R.id.vol_login_button:
                 final LoginDialog vol_login = new LoginDialog(LoginDialog.LoginVol);
@@ -100,13 +91,14 @@ public class Volunteer extends LoginNetworkActivity {
     }
 
     @Override
-    public void RequestResultHandler(int what, ArrayList<String> data) {
+    public void onOk(int what, @NonNull ArrayList<String> data) {
         switch (what) {
             case 0x401:    //志愿者服务网登录成功
 //						Toast.makeText(Volunteer.this, str_msg, Toast.LENGTH_SHORT).show();
                 isLogin = true;
                 savePasswordToLocal();
-                get(getString(R.string.volunteer_home), "VOL", 0x402, 15, "utf-8", false);
+                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.volunteer_home),
+                        "VOL", 0x402, 15, "utf-8", null, false);
                 break;
             case 0x402://home of volunteer home Page;
                 dismissProgressDialog();
@@ -127,6 +119,18 @@ public class Volunteer extends LoginNetworkActivity {
     }
 
     @Override
+    public void onPasswordError() {
+        dismissProgressDialog();
+        setVolunteerMessage(R.string.errorPassword, R.string.login_vol_button_again);
+    }
+
+    @Override
+    public void onTimeoutError() {
+        dismissProgressDialog();
+        setVolunteerMessage(R.string.connectionTimeout, R.string.login_vol_button_again);
+    }
+
+    @Override
     public void showProgressDialog() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -140,4 +144,5 @@ public class Volunteer extends LoginNetworkActivity {
     public void onNetworkDisabled() {
         Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
     }
+
 }

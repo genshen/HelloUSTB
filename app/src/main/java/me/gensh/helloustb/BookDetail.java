@@ -2,6 +2,7 @@ package me.gensh.helloustb;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,11 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.NetWorkActivity;
 
 import java.util.ArrayList;
 
-public class BookDetail extends NetWorkActivity {
+public class BookDetail extends NetWorkActivity implements HttpRequestTask.OnTaskFinished {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,7 @@ public class BookDetail extends NetWorkActivity {
 
         Intent intent = getIntent();
         String link = intent.getStringExtra("link");
-        get(getString(R.string.lib_main) + link, "LIB", 0x100, 20, "utf-8", false);
+        attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.lib_main) + link, "LIB", 0x100, 20, "utf-8", null, false);
     }
 
     @Override
@@ -78,18 +80,18 @@ public class BookDetail extends NetWorkActivity {
             book_where.addView(ly);
             i += 5;
         }
-        get(getString(R.string.lib_main) + isbn, "LIB", 0x101, 21, "utf-8", false);
+        attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.lib_main) + isbn, "LIB", 0x101, 21, "utf-8", null, false);
     }
 
     @Override
-    public void RequestResultHandler(int what, ArrayList<String> data) {
+    public void onOk(int what, @NonNull ArrayList<String> data) {
         switch (what) {
             case 0x100:
                 setView(data);
                 break;
             case 0x101:
                 final String url = data.get(0);
-                TextView douban = (TextView) findViewById(R.id.to_douban);
+                TextView douban = findViewById(R.id.to_douban);
                 douban.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -102,6 +104,16 @@ public class BookDetail extends NetWorkActivity {
                 });
                 break;
         }
+    }
+
+    @Override
+    public void onPasswordError() {
+        Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTimeoutError() {
+        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -118,4 +130,5 @@ public class BookDetail extends NetWorkActivity {
     public void onNetworkDisabled() {
         Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
     }
+
 }

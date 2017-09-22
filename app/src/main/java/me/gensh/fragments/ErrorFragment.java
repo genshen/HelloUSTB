@@ -9,14 +9,9 @@ import android.view.ViewGroup;
 import me.gensh.helloustb.R;
 
 public class ErrorFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ERROR_TYPE = "ERROR_TYPE";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String error_type;
-    private String mParam2;
 
     public static ErrorFragment newInstance(String type) {
         ErrorFragment fragment = new ErrorFragment();

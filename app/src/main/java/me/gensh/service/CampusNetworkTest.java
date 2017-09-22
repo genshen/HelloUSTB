@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,18 +19,12 @@ import me.gensh.helloustb.Browser;
 import me.gensh.helloustb.MyApplication;
 import me.gensh.helloustb.NetWorkSignIn;
 import me.gensh.helloustb.R;
-import me.gensh.network.DataInfo;
-import me.gensh.network.GetPostHandler;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.network.HttpRequestTask;
 import me.gensh.sdcard.SdCardPro;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.StrUtils;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -40,7 +35,7 @@ import java.util.Map;
  * @author gensh
  */
 
-public class CampusNetworkTest extends IntentService {
+public class CampusNetworkTest extends IntentService implements HttpRequestTask.OnTaskFinished {
     final String TEST_URL = "http://www.sohu.com";
     final String TEST_TAG = "test connection";
     final int NETWORK_SING_IN_NOTIFY_ID = 10;
@@ -67,7 +62,7 @@ public class CampusNetworkTest extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    protected void onHandleIntent(Intent intent) {  //todo 似乎打开和关闭wifi都会调用service
         if (intent != null) {
             String ssid = intent.getStringExtra("ssid");
             handleActionNetworkCheck(ssid);
@@ -78,17 +73,12 @@ public class CampusNetworkTest extends IntentService {
         try {
             //HttpURLConnection  3s延迟
             Thread.sleep(300);//todo 150
-            HttpClient client = new DefaultHttpClient();
-            client.getParams().setParameter(ClientPNames.HANDLE_REDIRECTS, false);
-            HttpGet request = new HttpGet();
-            request.setURI(new URI(TEST_URL));
-            HttpResponse response = client.execute(request);
-            int status = response.getStatusLine().getStatusCode();
-            Log.v(TEST_TAG, "CONNECTION TEST returned code:" + status);
-            if (status == 302) { //todo and location url =="202.204.48.66"
+            int statusCode = HttpClients.testConnection(TEST_URL);
+            Log.v(TEST_TAG, "CONNECTION TEST returned code:" + statusCode);
+            if (statusCode == 302) { //todo and location url =="202.204.48.66"
                 SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
                 String mode = pre.getString(Const.Settings.KEY_NET_SIGN_IN_MODE, Const.Settings.NET_SIGN_IN_NORMAL_MODE);
-                if (Const.Settings.NET_SIGN_IN_SILENT_MODE.equals(mode) && SdCardPro.fileIsExists("/MyUstb/Pass_store/sch_net_pass.ustb")) {
+                if (Const.Settings.NET_SIGN_IN_SILENT_MODE.equals(mode) && SdCardPro.fileIsExists("/MyUstb/Pass_store/sch_net_pass.ustb")) {  //todo  file
                     //静默模式(有密码)
                     autoSignInNetwork();
                 } else if (Const.Settings.NET_SIGN_IN_BROWSER_MODE.equals(mode)) { //浏览器模式
@@ -133,7 +123,7 @@ public class CampusNetworkTest extends IntentService {
         public void handleMessage(Message msg) {
             if (msg.what == 0x100) {
                 int leftTime = (int) msg.obj - 1;
-                if (leftTime <= 0) {  //todo try again. //notice 正在重试
+                if (leftTime <= 0) {  // try again,notice 正在重试
                     errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_retry_title))
                             .setContentText(context.getString(R.string.auto_sign_in_retry_content));
                     mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
@@ -147,53 +137,6 @@ public class CampusNetworkTest extends IntentService {
                     Log.v("v", "ssssss");
                     handler.sendMessageDelayed(message, 1000);
                 }
-                return;
-            }
-
-            DataInfo data_info = (DataInfo) msg.obj;
-            //error password and timeout process
-            if (data_info.code == DataInfo.ERROR_PASSWORD) {
-                errorNotification = buildNotification(R.string.auto_sign_in_error_title, context.getString(R.string.auto_sign_in_error_content_password));
-                mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
-                Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
-                return;
-            } else if (data_info.code == DataInfo.TimeOut) {
-                errorTryTimes++;
-                if (errorNotification == null) { //第一次超时
-                    errorNotification = buildNotification(R.string.auto_sign_in_error_title,
-                            context.getString(R.string.auto_sign_in_error_content_try_again, 3));// todo
-                } else {  //后续超时,次数限制
-                    if (errorTryTimes > 4) {//todo
-                        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                        errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title))
-                                .setContentText(context.getString(R.string.auto_sign_in_error_content_try_limit, 4));//todo
-
-                        Intent notifyIntent = new Intent(context, NetWorkSignIn.class);
-                        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-                        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        errorNotification.setContentIntent(contentIntent);
-
-                        mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
-                        return;
-                    } else {
-                        errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title)).setContentText(context.getString(R.string.auto_sign_in_error_content_try_again, 3));//todo
-                    }
-                }
-                mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
-                Message message = new Message();
-                message.what = 0x100;
-                message.obj = 3; //seconds todo
-                handler.sendMessageDelayed(message, 1000);
-                Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            ArrayList<String> str_msg = data_info.data;
-            if (msg.what == 0x101) {
-                //todo store data. add notice
-                mNotificationManager.cancel(AUTO_SIGN_IN_ERROR_NOTIFY_ID);
-                Toast.makeText(getBaseContext(), R.string.auto_sign_in_success_toast, Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -225,7 +168,10 @@ public class CampusNetworkTest extends IntentService {
             post_params.put("0MKKey", "123456789");
             post_params.put("DDDDD", myaccount[0]);
             post_params.put("upass", myaccount[1]);
-            GetPostHandler.handlerPost(handler, getString(R.string.sch_net), "NET", 0x101, 7, "GB2312", post_params);
+            HttpRequestTask httpRequestTask = new HttpRequestTask(this, HttpRequestTask.REQUEST_TYPE_POST,
+                    getString(R.string.sch_net), "NET", 0x101, 7, "GB2312", post_params);
+            httpRequestTask.setOnTaskFinished(this);
+            httpRequestTask.execute();
         } else {
             if (errorNotification == null) {
                 errorNotification = buildNotification(R.string.auto_sign_in_error_title, context.getString(R.string.auto_sign_in_error_content_hand));//todo
@@ -237,4 +183,49 @@ public class CampusNetworkTest extends IntentService {
 
     }
 
+    @Override
+    public void onOk(int what, @NonNull ArrayList<String> data) {
+        //todo store data. add notice
+        mNotificationManager.cancel(AUTO_SIGN_IN_ERROR_NOTIFY_ID);
+        Toast.makeText(getBaseContext(), R.string.auto_sign_in_success_toast, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPasswordError() {
+        errorNotification = buildNotification(R.string.auto_sign_in_error_title, context.getString(R.string.auto_sign_in_error_content_password));
+        mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+        Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTimeoutError() {
+        errorTryTimes++;
+        if (errorNotification == null) { //第一次超时
+            errorNotification = buildNotification(R.string.auto_sign_in_error_title,
+                    context.getString(R.string.auto_sign_in_error_content_try_again, 3));// todo
+        } else {  //后续超时,次数限制
+            if (errorTryTimes > 4) {//todo
+                Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+                errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title))
+                        .setContentText(context.getString(R.string.auto_sign_in_error_content_try_limit, 4));//todo
+
+                Intent notifyIntent = new Intent(context, NetWorkSignIn.class);
+                notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                notifyIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                errorNotification.setContentIntent(contentIntent);
+
+                mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+                return;
+            } else {
+                errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title)).setContentText(context.getString(R.string.auto_sign_in_error_content_try_again, 3));//todo
+            }
+        }
+        mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+        Message message = new Message();
+        message.what = 0x100;
+        message.obj = 3; //seconds todo
+        handler.sendMessageDelayed(message, 1000);
+        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+    }
 }

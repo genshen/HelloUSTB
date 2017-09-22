@@ -1,4 +1,4 @@
-package me.gensh.network;
+package me.gensh.helloustb.http;
 
 import org.unbescape.html.HtmlEscape;
 
@@ -17,9 +17,11 @@ public class PostProcess {
         switch (id) {
             case 2:
                 dataInfo.code = validateEduPass(br);
+                dataInfo.data = new ArrayList<>();    //// TODO: 2017/9/22   better implement
                 break;
             case 4:
                 dataInfo.code = validateElePass(br);    //本科教学网验证
+                dataInfo.data = new ArrayList<>();   //// TODO: 2017/9/22
                 break;
             case 5:
                 dataInfo.data = getTimeTable(br);    //获得课程表
@@ -29,12 +31,15 @@ public class PostProcess {
                 break;
             case 7:   //校园网验证
                 dataInfo.code = validateNetPass(br);
+                dataInfo.data = new ArrayList<>();   //// TODO: 2017/9/22
                 break;
             case 11:
                 dataInfo.code = validateVolPass(br);
+                dataInfo.data = new ArrayList<>();  //// TODO: 2017/9/22
                 break;
             case 12:    //e.ustb.edu.cn
                 dataInfo.code = validateE(br);
+                dataInfo.data = new ArrayList<>();  //// TODO: 2017/9/22
                 break;
         }
         return dataInfo;
@@ -113,15 +118,15 @@ public class PostProcess {
 
     private static int validateNetPass(BufferedReader br) {
         String line;
-        try{
-            while ((line = br.readLine()) != null){
-                if(line.contains("successfully")){
+        try {
+            while ((line = br.readLine()) != null) {
+                if (line.contains("successfully")) {
                     br.close();
                     return DataInfo.OK;
                 }
             }
             br.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return DataInfo.ERROR_PASSWORD;

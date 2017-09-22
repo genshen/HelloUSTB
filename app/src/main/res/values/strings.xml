@@ -376,20 +376,20 @@
     <string name="dialog_join_activity_ack">你确定要参加该活动:"%s"?</string>
     <string name="volunteer_join_success">恭喜,你参加该活动申请成功!</string>
     <string name="error_volunteer_join_request">添加活动请求错误</string>
-    <string name="error_volunteer_join_result">参加活动错误:%1$s 错误码:%2$s</string>
+    <string name="error_volunteer_join_result">参加活动错误:%1$s 错误码:%2$d</string>
 
     <string name="dialog_exit_activity_title">退出活动</string>
     <string name="dialog_exit_activity_ack">你确定要退出该活动:"%s"?</string>
     <string name="volunteer_exit_success">你已成功退出该活动</string>
     <string name="error_volunteer_exit_request">退出活动请求错误</string>
-    <string name="error_volunteer_exit_result">退出活动错误:%1$s 错误码:%2$s</string>
+    <string name="error_volunteer_exit_result">退出活动错误:%1$s 错误码:%2$d</string>
 
     <string name="volunteer_collect_success">你已成功收藏该活动</string>
     <string name="error_volunteer_collect_request">收藏活动请求错误</string>
-    <string name="error_volunteer_collect_result">收藏活动错误:%1$s 错误码:%2$s</string>
+    <string name="error_volunteer_collect_result">收藏活动错误:%1$s 错误码:%2$d</string>
     <string name="volunteer_collect_cancel_success">你已将该活动取消收藏</string>
     <string name="error_volunteer_collect_cancel_request">取消收藏活动请求错误</string>
-    <string name="error_volunteer_collect_cancel_result">取消收藏活动错误:%1$s 错误码:%2$s</string>
+    <string name="error_volunteer_collect_cancel_result">取消收藏活动错误:%1$s 错误码:%2$d</string>
     <!--/志愿服务详情-->
     <!--志愿服务-->
 

@@ -1,4 +1,4 @@
-package me.gensh.network;
+package me.gensh.helloustb.http;
 
 /**
  * Created by gensh on 2015/11/13.
@@ -27,7 +27,7 @@ public class GetProcess {
                 return getTimeTable(br_html);
             case 6:
                 return resolveIp6Address(br_html);
-            case 8:    //获得校园网信息
+            case 8:    //get campus network information
                 return getCampusNetworkInfo(br_html);
             case 9:
                 return getWifiState(br_html);

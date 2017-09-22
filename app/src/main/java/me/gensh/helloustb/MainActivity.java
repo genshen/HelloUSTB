@@ -23,7 +23,6 @@ import java.util.Calendar;
 import me.gensh.fragments.DashboardFragment;
 import me.gensh.fragments.HomeFragment;
 import me.gensh.fragments.SettingsFragment;
-import me.gensh.network.GetPostHandler;
 import me.gensh.network.VersionCheckerTask;
 
 /**
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.add(R.id.fragment_container, dashboardFragment, DASHBOARD_FRAGMENT_TAG);
         }
         if (settingFragment == null) {
-            settingFragment = SettingsFragment.newInstance("", "");
+            settingFragment = SettingsFragment.newInstance();
             ft.add(R.id.fragment_container, settingFragment, SETTINGS_FRAGMENT);
         }
         ft.show(homeFragment).hide(dashboardFragment).hide(settingFragment).commit();
@@ -176,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        GetPostHandler.setTagEmpty();
         checker.cancel(true);
         checker = null;
     }

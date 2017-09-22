@@ -1,17 +1,11 @@
 package me.gensh.utils;
 
-import android.os.Handler;
-import android.os.Message;
 import android.app.Fragment;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import me.gensh.helloustb.MyApplication;
-import me.gensh.helloustb.R;
-import me.gensh.network.DataInfo;
-import me.gensh.network.GetPostHandler;
+import me.gensh.network.HttpRequestTask;
 
 /**
  * Created by gensh on 2017/8/31.
@@ -21,7 +15,6 @@ import me.gensh.network.GetPostHandler;
  */
 
 public abstract class NetWorkFragment extends Fragment {
-    public abstract void RequestResultHandler(int what, ArrayList<String> data);
 
     public abstract void showProgressDialog();
 
@@ -29,67 +22,33 @@ public abstract class NetWorkFragment extends Fragment {
 
     public abstract void onNetworkDisabled();
 
-    protected interface ErrorHandler {
-        void onPasswordError();
+    HttpRequestTask httpRequestTask;
 
-        void onTimeoutError();
-    }
-
-    ErrorHandler errorHandler = null;
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            DataInfo data_info = (DataInfo) msg.obj;
-            //error password and timeout process
-            if (data_info.code == DataInfo.TimeOut) {
-                if (errorHandler != null) {
-                    errorHandler.onTimeoutError();
-                } else {
-                    Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                }
-                return;
-            } else if (data_info.code == DataInfo.ERROR_PASSWORD) {
-                if (errorHandler != null) {
-                    errorHandler.onPasswordError();
-                } else {
-                    Toast.makeText(getActivity(), R.string.errorPassword, Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-            ArrayList<String> str_msg = data_info.data;
-            RequestResultHandler(msg.what, str_msg);
-        }
-    };
-
-    public void get(String url, String tag, int feedback, int id, String code, boolean showProgress) {
+    protected void attemptHttpRequest(int requestTypePost, String url, String tag, int feedback, int id, String code, Map<String, String> params, boolean showProgress) {
         if (((MyApplication) getActivity().getApplication()).CheckNetwork()) {
             if (showProgress) {
                 showProgressDialog();
             }
-            GetPostHandler.handlerGet(handler, url, tag, feedback, id, code);
-        } else {
-            onNetworkDisabled();
-        }
-    }
-
-    public void post(String url, String tag, int feedback, int id, String code, Map<String, String> post_params, boolean showProgress) {
-        if (((MyApplication) getActivity().getApplication()).CheckNetwork()) {
-            if (showProgress) {
-                showProgressDialog();
+            if (this instanceof HttpRequestTask.OnTaskFinished) {
+                if (httpRequestTask != null) {   //cancel task if it is not null,to make sure there is one task running in a activity or fragment.
+                    httpRequestTask.cancel(true);
+                }
+                httpRequestTask = new HttpRequestTask(getActivity(), requestTypePost, url, tag, feedback, id, code, params);
+                httpRequestTask.setOnTaskFinished((HttpRequestTask.OnTaskFinished) this);
+                httpRequestTask.execute();
+            } else {
+                throw new RuntimeException(this.toString() + " must implement HttpRequestTask.OnTaskFinished");
             }
-            GetPostHandler.handlerPost(handler, url, tag, feedback, id, code, post_params);
         } else {
             onNetworkDisabled();
         }
-    }
-
-    public void setErrorHandler(ErrorHandler callback) {
-        errorHandler = callback;
     }
 
     @Override
     public void onDestroy() {
+        if (httpRequestTask != null) {
+            httpRequestTask.cancel(true);
+        }
         super.onDestroy();
-        GetPostHandler.setTagEmpty();
     }
 }

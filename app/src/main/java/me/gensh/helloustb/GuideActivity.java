@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class GuideActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     private ViewPager view_pager;
-    private GuidePagerAdapter guide_pager;
+    private GuidePagerAdapter guidePager;
     private List<View> views;
 
     private ImageView[] dot_img;
@@ -49,9 +49,9 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
         views.add(inflater.inflate(R.layout.guide_two, null));
         views.add(inflater.inflate(R.layout.guide_three, null));
 
-        guide_pager = new GuidePagerAdapter(views,this);
+        guidePager = new GuidePagerAdapter(views,this);
         view_pager = (ViewPager) findViewById(R.id.guide_pager);
-        view_pager.setAdapter(guide_pager);
+        view_pager.setAdapter(guidePager);
         view_pager.setOnPageChangeListener(this);
     }
 
@@ -66,19 +66,16 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
 
     @Override
     public void onPageScrollStateChanged(int arg0) {
-        // TODO 自动生成的方法存根
 
     }
 
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
-        // TODO 自动生成的方法存根
 
     }
 
     @Override
     public void onPageSelected(int id) {
-        // TODO 自动生成的方法存根
         for(int i=0;i<img_id.length;i++)
         {
             if(id == i)
