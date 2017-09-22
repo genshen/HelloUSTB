@@ -21,9 +21,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.NetWorkActivity;
 
-public class WebNotificationsActivity extends NetWorkActivity {
+public class WebNotificationsActivity extends NetWorkActivity implements HttpRequestTask.OnTaskFinished {
     public static final String EXTRA_WEB_NOTIFICATIONS = "EXTRA_WEB_NOTIFICATIONS";
     List<Map<String, Object>> listItems = new ArrayList<>();
     SimpleAdapter webNotificationAdapter;
@@ -73,21 +74,8 @@ public class WebNotificationsActivity extends NetWorkActivity {
         if (notifications != null) {
             setNotificationsList(notifications);
         } else {
-            //set http request and error handle
-            get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", true); //todo
-            setErrorHandler(new ErrorHandler() {
-                @Override
-                public void onPasswordError() {
-                    dismissProgressDialog();
-                    Toast.makeText(WebNotificationsActivity.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onTimeoutError() {
-                    dismissProgressDialog();
-                    Toast.makeText(WebNotificationsActivity.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                }
-            });
+            //set http request
+            attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", null, true);
         }
     }
 
@@ -118,13 +106,25 @@ public class WebNotificationsActivity extends NetWorkActivity {
     }
 
     @Override
-    public void RequestResultHandler(int what, ArrayList<String> data) {
+    public void onOk(int what, @NonNull ArrayList<String> data) {
         dismissProgressDialog();
         if (what == 0x101) {
             if (data != null) {
                 setNotificationsList(data);
             }
         }
+    }
+
+    @Override
+    public void onPasswordError() {
+        dismissProgressDialog();
+        Toast.makeText(WebNotificationsActivity.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTimeoutError() {
+        dismissProgressDialog();
+        Toast.makeText(WebNotificationsActivity.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

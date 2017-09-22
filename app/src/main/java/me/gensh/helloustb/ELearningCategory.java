@@ -2,6 +2,7 @@ package me.gensh.helloustb;
 
 import android.animation.LayoutTransition;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import butterknife.OnClick;
 import me.gensh.fragments.ELearningExamQueryFragment;
 import me.gensh.fragments.ELearningRecordQueryFragment;
 import me.gensh.fragments.InnovationCreditFragment;
+import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
 import me.gensh.utils.StrUtils;
@@ -27,7 +29,7 @@ import me.gensh.utils.StrUtils;
 /**
  * created by gensh on 2017/09/10
  */
-public class ELearningCategory extends LoginNetworkActivity implements InnovationCreditFragment.OnInnovationCreditLoadListener {
+public class ELearningCategory extends LoginNetworkActivity implements InnovationCreditFragment.OnInnovationCreditLoadListener, HttpRequestTask.OnTaskFinished {
     public final static int INTENT_TYPE_SCORE_QUERY = 1, INTENT_TYPE_EXAM_QUERY = 2, INTENT_TYPE_INNOVATION_CREDIT = 3;
     private final static int LOGIN_FEEDBACK_TYPE_SCORE_QUERY = 0x101, LOGIN_FEEDBACK_TYPE_EXAM_QUERY = 0x102, LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x103;
     private final static int DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY = 0x201, DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY = 0x202, DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x203;
@@ -56,19 +58,6 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ButterKnife.bind(this);
-        setErrorHandler(new ErrorHandler() {
-            @Override
-            public void onPasswordError() {
-                dismissProgressDialog();
-                Toast.makeText(ELearningCategory.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onTimeoutError() {
-                dismissProgressDialog();
-                Toast.makeText(ELearningCategory.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-            }
-        });
 
         int type = getIntent().getIntExtra(E_LEARNING_EXTRA_TYPE, INTENT_TYPE_SCORE_QUERY);
         goToSignInOrFetchData(type); //todo:make a error fragment;
@@ -87,7 +76,7 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
     }
 
     @Override
-    public void RequestResultHandler(int what, ArrayList<String> data) {
+    public void onOk(int what, @NonNull ArrayList<String> data) {
         if (what == LOGIN_FEEDBACK_TYPE_EXAM_QUERY || what == LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT || what == LOGIN_FEEDBACK_TYPE_SCORE_QUERY) { //if it is login feedback
             loginStatus = true;
             savePasswordToLocal();
@@ -130,7 +119,18 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
                 }
             }
         }
+    }
 
+    @Override
+    public void onPasswordError() {
+        dismissProgressDialog();
+        Toast.makeText(ELearningCategory.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTimeoutError() {
+        dismissProgressDialog();
+        Toast.makeText(ELearningCategory.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
     }
 
     @OnClick({R.id.fab_menu_exam_query, R.id.fab_menu_innovation_credit, R.id.fab_menu_record_query})
-    public void floatingActionBarMenuClickHandle(View view) { //todo the user must have login.
+    public void floatingActionBarMenuClickHandle(View view) {
         switch (view.getId()) {
             case R.id.fab_menu_exam_query:
                 goToSignInOrFetchData(INTENT_TYPE_EXAM_QUERY);
@@ -215,14 +215,16 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
             case INTENT_TYPE_EXAM_QUERY:
                 final String passFileName = "/MyUstb/Pass_store/sch_ele_pass.ustb"; //todo READ DATA.
                 String account[] = StrUtils.ReadWithEncryption(passFileName).split("@"); //todo file permission
-                post(getString(R.string.ele_exam_time_place_query), "ELE", DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY,
+                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.ele_exam_time_place_query), "ELE", DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY,
                         6, "UTF-8", ELearningExamQueryFragment.loadExamPlaceQueryRequestParams(account[0]), showProgress);
                 break;
             case INTENT_TYPE_INNOVATION_CREDIT:
-                get(getString(R.string.ele_innovation_credit), "ELE", DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT, 11, "UTF-8", showProgress);
+                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.ele_innovation_credit),
+                        "ELE", DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT, 11, "UTF-8", null, showProgress);
                 break;
             case INTENT_TYPE_SCORE_QUERY:
-                get(getString(R.string.ele_score_query), "ELE", DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY, 3, "UTF-8", showProgress);
+                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.ele_score_query),
+                        "ELE", DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY, 3, "UTF-8", null, showProgress);
                 break;
         }
     }

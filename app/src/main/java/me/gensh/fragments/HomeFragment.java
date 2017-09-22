@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +29,13 @@ import butterknife.OnClick;
 import me.gensh.helloustb.Browser;
 import me.gensh.helloustb.R;
 import me.gensh.helloustb.WebNotificationsActivity;
+import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.NetWorkFragment;
 
 /**
  * * Created by gensh on 2017/9/1.
  */
-public class HomeFragment extends NetWorkFragment {
+public class HomeFragment extends NetWorkFragment implements HttpRequestTask.OnTaskFinished {
     //    private OnHomeFragmentInteractionListener mListener;
     SimpleAdapter listAdapter;
     List<Map<String, String>> notificationCardListData = new ArrayList<>();
@@ -83,27 +85,14 @@ public class HomeFragment extends NetWorkFragment {
         });
 
         //network
-        get(getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", true); //todo
-        setErrorHandler(new ErrorHandler() {
-            @Override
-            public void onPasswordError() {
-                dismissProgressDialog();
-                Toast.makeText(getActivity(), R.string.errorPassword, Toast.LENGTH_LONG).show();
-            }
+        attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", null, true);
 
-            @Override
-            public void onTimeoutError() {
-                dismissProgressDialog();
-                Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-            }
-        });
         return view;
     }
 
     @OnClick(R.id.notification_card_btn_see_more)
     public void seeMoreNotification(Button button) {
         if (originResponseData.size() != 0) {
-            //// TODO: 2017/9/14
             Intent intent = new Intent(getActivity(), WebNotificationsActivity.class);
             intent.putExtra(WebNotificationsActivity.EXTRA_WEB_NOTIFICATIONS, originResponseData);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -121,7 +110,7 @@ public class HomeFragment extends NetWorkFragment {
     ArrayList<String> originResponseData = new ArrayList<>();
 
     @Override
-    public void RequestResultHandler(int what, ArrayList<String> data) {
+    public void onOk(int what, @NonNull ArrayList<String> data) {
         dismissProgressDialog();
         if (what == 0x101) {
             if (data != null) {
@@ -141,6 +130,18 @@ public class HomeFragment extends NetWorkFragment {
                 setListViewHeightBasedOnChildren(notificationCardListView);
             }
         }
+    }
+
+    @Override
+    public void onPasswordError() {
+        dismissProgressDialog();
+        Toast.makeText(getActivity(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTimeoutError() {
+        dismissProgressDialog();
+        Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

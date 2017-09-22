@@ -24,157 +24,148 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-public class MailSender extends javax.mail.Authenticator { 
-	private String user;
-	private String password;
-	private Session session;
-	private String mailhost = "smtp.qq.com";//
-	private Multipart messageMultipart;
-	private Properties properties;
-	static {
-		Security.addProvider(new JSSEProvider());
-	}
+public class MailSender extends javax.mail.Authenticator {
+    private String user;
+    private String password;
+    private Session session;
+    private String mailhost = "smtp.qq.com";//
+    private Multipart messageMultipart;
+    private Properties properties;
 
-	public MailSender(String user, String password) {
-		this.user = user;
-		this.password = password;
+    static {
+        Security.addProvider(new JSSEProvider());
+    }
 
-		properties = new Properties();
-		properties.setProperty("mail.transport.protocol", "smtp");
-		properties.setProperty("mail.host", mailhost);
-		properties.put("mail.smtp.auth", "true");
-		properties.put("mail.smtp.port", "465");
-		properties.put("mail.smtp.socketFactory.port", "465");
-		properties.put("mail.smtp.socketFactory.class",
-				"javax.net.ssl.SSLSocketFactory");
-		properties.put("mail.smtp.socketFactory.fallback", "false");
-		properties.setProperty("mail.smtp.quitwait", "false");
+    public MailSender(String user, String password) {
+        this.user = user;
+        this.password = password;
 
-		session = Session.getDefaultInstance(properties, this);
-		messageMultipart=new MimeMultipart();
-	}
+        properties = new Properties();
+        properties.setProperty("mail.transport.protocol", "smtp");
+        properties.setProperty("mail.host", mailhost);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.socketFactory.port", "465");
+        properties.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.socketFactory.fallback", "false");
+        properties.setProperty("mail.smtp.quitwait", "false");
 
-	protected PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication(user, password);
-	}
+        session = Session.getDefaultInstance(properties, this);
+        messageMultipart = new MimeMultipart();
+    }
 
-	public synchronized void sendMail(String subject, String body,
-			String sender, String recipients,String attachment) throws Exception {
-		MimeMessage message = new MimeMessage(session);
-		message.setSender(new InternetAddress(sender));
-		message.setSubject(subject);
-		BodyPart bodyPart=new MimeBodyPart();
-		bodyPart.setText(body);
-		messageMultipart.addBodyPart(bodyPart);
+    protected PasswordAuthentication getPasswordAuthentication() {
+        return new PasswordAuthentication(user, password);
+    }
+
+    public synchronized void sendMail(String subject, String body,
+                                      String sender, String recipients, String attachment) throws Exception {
+        MimeMessage message = new MimeMessage(session);
+        message.setSender(new InternetAddress(sender));
+        message.setSubject(subject);
+        BodyPart bodyPart = new MimeBodyPart();
+        bodyPart.setText(body);
+        messageMultipart.addBodyPart(bodyPart);
 //		message.setDataHandler(handler);
-		
-		//
-		if(attachment!=null){
-			DataSource dataSource=new FileDataSource(attachment);
-			DataHandler dataHandler=new DataHandler(dataSource);
-			bodyPart.setDataHandler(dataHandler);
-			bodyPart.setFileName(attachment.substring(attachment.lastIndexOf("/")+1));
-		}
-		message.setContent(messageMultipart);
-		if (recipients.indexOf(',') > 0)
-			//
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(recipients));
-		else
-			//
-			message.setRecipient(Message.RecipientType.TO, new InternetAddress(
-					recipients));
-		Transport.send(message);
-	}
 
-	//
-	public class ByteArrayDataSource implements DataSource {
-		private byte[] data;
-		private String type;
+        //
+        if (attachment != null) {
+            DataSource dataSource = new FileDataSource(attachment);
+            DataHandler dataHandler = new DataHandler(dataSource);
+            bodyPart.setDataHandler(dataHandler);
+            bodyPart.setFileName(attachment.substring(attachment.lastIndexOf("/") + 1));
+        }
+        message.setContent(messageMultipart);
+        if (recipients.indexOf(',') > 0)
+            //
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(recipients));
+        else
+            //
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(
+                    recipients));
+        Transport.send(message);
+    }
 
-		public ByteArrayDataSource(byte[] data, String type) {
-			super();
-			this.data = data;
-			this.type = type;
-		}
+    //
+    public class ByteArrayDataSource implements DataSource {
+        private byte[] data;
+        private String type;
 
-		public ByteArrayDataSource(byte[] data) {
-			super();
-			this.data = data;
-		}
+        public ByteArrayDataSource(byte[] data, String type) {
+            super();
+            this.data = data;
+            this.type = type;
+        }
 
-		public void setType(String type) {
-			this.type = type;
-		}
+        public ByteArrayDataSource(byte[] data) {
+            super();
+            this.data = data;
+        }
 
-		public String getContentType() {
-			if (type == null)
-				return "application/octet-stream";
-			else
-				return type;
-		}
+        public void setType(String type) {
+            this.type = type;
+        }
 
-		public InputStream getInputStream() throws IOException {
-			return new ByteArrayInputStream(data);
-		}
+        public String getContentType() {
+            if (type == null)
+                return "application/octet-stream";
+            else
+                return type;
+        }
 
-		public String getName() {
-			return "ByteArrayDataSource";
-		}
+        public InputStream getInputStream() throws IOException {
+            return new ByteArrayInputStream(data);
+        }
 
-		public OutputStream getOutputStream() throws IOException {
-			throw new IOException("Not Supported");
-		}
+        public String getName() {
+            return "ByteArrayDataSource";
+        }
 
-		public PrintWriter getLogWriter() throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public OutputStream getOutputStream() throws IOException {
+            throw new IOException("Not Supported");
+        }
 
-		public int getLoginTimeout() throws SQLException {
-			// TODO Auto-generated method stub
-			return 0;
-		}
+        public PrintWriter getLogWriter() throws SQLException {
+            return null;
+        }
 
-		public void setLogWriter(PrintWriter out) throws SQLException {
-			// TODO Auto-generated method stub
+        public int getLoginTimeout() throws SQLException {
+            return 0;
+        }
 
-		}
+        public void setLogWriter(PrintWriter out) throws SQLException {
+        }
 
-		public void setLoginTimeout(int seconds) throws SQLException {
-			// TODO Auto-generated method stub
+        public void setLoginTimeout(int seconds) throws SQLException {
+        }
 
-		}
+        public boolean isWrapperFor(Class<?> arg0) throws SQLException {
+            return false;
+        }
 
-		public boolean isWrapperFor(Class<?> arg0) throws SQLException {
-			// TODO Auto-generated method stub
-			return false;
-		}
+        public <T> T unwrap(Class<T> arg0) throws SQLException {
+            return null;
+        }
 
-		public <T> T unwrap(Class<T> arg0) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public Connection getConnection() throws SQLException {
+            return null;
+        }
 
-		public Connection getConnection() throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        public Connection getConnection(String theUsername, String thePassword)
+                throws SQLException {
+            return null;
+        }
+    }
 
-		public Connection getConnection(String theUsername, String thePassword)
-				throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	}
+    public String getMailhost() {
+        return mailhost;
+    }
 
-	public String getMailhost() {
-		return mailhost;
-	}
+    public void setMailhost(String mailhost) {
+        this.mailhost = mailhost;
+        properties.setProperty("mail.host", this.mailhost);
+    }
 
-	public void setMailhost(String mailhost) {
-		this.mailhost = mailhost;
-		properties.setProperty("mail.host", this.mailhost);
-	}
-		 
 }

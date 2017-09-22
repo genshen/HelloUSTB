@@ -7,6 +7,8 @@
 #include <jni.h>
 #include <string>
 
+//if file native-lib.cpp can not be accessed, please implements  your own cpp file instead.
+
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_me_gensh_natives_MailAccount_getMailAccount(JNIEnv *env, jobject /* this */);

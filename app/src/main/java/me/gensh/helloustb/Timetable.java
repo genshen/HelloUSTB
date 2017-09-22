@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,7 @@ import me.gensh.database.DeleteData;
 import me.gensh.database.QueryData;
 import me.gensh.database.StoreData;
 import me.gensh.fragments.TimetableFragment;
+import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.BasicDate;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
@@ -41,7 +43,7 @@ import java.util.ArrayList;
  * Created by gensh on 2016.
  * //todo timetable can use this https://github.com/zhouchaoyuan/excelPanel
  */
-public class Timetable extends LoginNetworkActivity {
+public class Timetable extends LoginNetworkActivity implements HttpRequestTask.OnTaskFinished {
     @BindView(R.id.progress_bar)
     GoogleProgressBar progressBar;
 
@@ -83,22 +85,6 @@ public class Timetable extends LoginNetworkActivity {
         if (!QueryData.haveCoursesImported(((MyApplication) getApplication()).getDaoSession())) {
             Snackbar.make(findViewById(R.id.fab_import_table), R.string.course_imported_guide, Snackbar.LENGTH_LONG).show();
         }
-
-        //todo make a snackBar to show import.
-        //set http response error handle.
-        setErrorHandler(new ErrorHandler() {
-            @Override
-            public void onPasswordError() {
-                dismissProgressDialog();
-                Toast.makeText(Timetable.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onTimeoutError() {
-                dismissProgressDialog();
-                Toast.makeText(Timetable.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
@@ -151,16 +137,29 @@ public class Timetable extends LoginNetworkActivity {
     }
 
     @Override
-    public void RequestResultHandler(int what, ArrayList<String> data) {
+    public void onOk(int what, @NonNull ArrayList<String> data) {
         if (what == 0x101) { // from: verify elearning.ustb.edu.cn  password; post
             //which means:if username and password are set,and the 'Login' button is clicked.And if  login is succeed.the code below will execute
             savePasswordToLocal();
             LoginDialog time_table = new LoginDialog(LoginDialog.Timetable);
             time_table.setAccount(username, BasicDate.getTimetableYear());
-            post(getString(R.string.school_timetable_addresss), "ELE", 0x102, 5, "UTF-8", time_table.post_params, false);
+            attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.school_timetable_addresss),
+                    "ELE", 0x102, 5, "UTF-8", time_table.post_params, false);
         } else if (what == 0x102) { //from: post getTimetable
             (new ImportCourseDataTask(this, data)).execute();
         }
+    }
+
+    @Override
+    public void onPasswordError() {
+        dismissProgressDialog();
+        Toast.makeText(Timetable.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onTimeoutError() {
+        dismissProgressDialog();
+        Toast.makeText(Timetable.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -209,7 +208,7 @@ public class Timetable extends LoginNetworkActivity {
             if (result == IMPORT_TIMETABLE_TASK_RESULT_SUCCESSED) {
 
                 Toast.makeText(context, R.string.importsuccess, Toast.LENGTH_SHORT).show();
-                //todo
+                //todo update fragment course list.
 
             } else if (result == IMPORT_TIMETABLE_TASK_RESULT_FAILED) {
                 Toast.makeText(context, R.string.importfail, Toast.LENGTH_SHORT).show();

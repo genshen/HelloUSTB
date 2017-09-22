@@ -2,9 +2,7 @@ package me.gensh.helloustb;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +14,10 @@ import android.widget.Toast;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
-import me.gensh.network.DataInfo;
-import me.gensh.network.GetPostHandler;
+
+import me.gensh.network.HttpRequestTask;
+import me.gensh.utils.NetWorkActivity;
+
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
@@ -25,10 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VolunteerSearchResult extends AppCompatActivity {
+public class VolunteerSearchResult extends NetWorkActivity implements HttpRequestTask.OnTaskFinished {
     GoogleProgressBar progress_bar;
     MaterialRefreshLayout materialRefreshLayout;
     TextView search_message;
+    HttpRequestTask httpRequestTask;
+
     boolean has_init = false, is_loading = false;
     int page_count = 1, search_method;
     String key_word;
@@ -41,7 +43,7 @@ public class VolunteerSearchResult extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
+        progress_bar = findViewById(R.id.progress_bar);
         search_message = (TextView) findViewById(R.id.search_message);
         materialRefreshLayout = (MaterialRefreshLayout) findViewById(R.id.volunteer_refresh);
 
@@ -86,58 +88,11 @@ public class VolunteerSearchResult extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            DataInfo data_info = (DataInfo) msg.obj;
-            is_loading = false;
-            if (data_info.code == DataInfo.TimeOut) {
-                progress_bar.setVisibility(View.INVISIBLE);
-                Toast.makeText(VolunteerSearchResult.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                search_message.setError(getString(R.string.connectionTimeout));
-                search_message.setText(getString(R.string.connectionTimeout));
-                return;
-            }
 
-            ArrayList<String> str_msg = data_info.data;
-            switch (msg.what) {
-                case 0x100: // first load
-                    progress_bar.setVisibility(View.INVISIBLE);
-                    if (str_msg.size() == 0) {
-                        search_message.setText(getString(R.string.no_search_result));
-                        return;
-                    }
-                    has_init = true;
-                    page_count += 1;
-                    setData(str_msg, true);
-                    break;
-                case 0x101:  // refresh
-                    materialRefreshLayout.finishRefresh();
-                    if (str_msg.size() == 0) {
-                        Toast.makeText(VolunteerSearchResult.this, R.string.no_search_result, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    has_init = true;
-                    page_count += 1;
-                    setData(str_msg, true);
-                    break;
-                case 0x102:  // load more
-                    materialRefreshLayout.finishRefreshLoadMore();
-                    if (str_msg.size() == 0 || !checkHasMore(str_msg)) {
-                        Toast.makeText(VolunteerSearchResult.this, R.string.no_search_result_more, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    page_count += 1;
-                    setData(str_msg, false);
-                    break;
-            }
-        }
-    };
-
-    final static int LENGHT_PER_PAGE = 10;
+    final static int LENGTH_PER_PAGE = 10;
 
     private boolean checkHasMore(ArrayList<String> str_msg) {
-        int old_index = (listitems.size()-1) / LENGHT_PER_PAGE * LENGHT_PER_PAGE;
+        int old_index = (listitems.size() - 1) / LENGTH_PER_PAGE * LENGTH_PER_PAGE;
         if (str_msg.size() <= 2 || listitems.size() <= old_index) {
             return false;
         }
@@ -150,18 +105,83 @@ public class VolunteerSearchResult extends AppCompatActivity {
             int what = 0x102;
             if (first) {   // first load
                 what = 0x100;
-                progress_bar.setVisibility(View.VISIBLE);
+                showProgressDialog();
             } else if (init) {  // refresh
                 what = 0x101;
             }
-            is_loading = true;
-            GetPostHandler.handlerGet(handler, getSearchUrl(search_method, page_count, key_word), "VOL", what, 17, "utf-8");
+            is_loading = true; //@important: cancel task if it is not null,to make sure there is one task running in a activity or fragment.
+            httpRequestTask = new HttpRequestTask(this, HttpRequestTask.REQUEST_TYPE_GET,
+                    getSearchUrl(search_method, page_count, key_word), "VOL", what, 17, "utf-8", null);
+            httpRequestTask.setOnTaskFinished(this);
+            httpRequestTask.execute();
         } else {
-            Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
-            search_message.setText(getString(R.string.NoNetwork));
-            search_message.setError(getString(R.string.NoNetwork));
-            progress_bar.setVisibility(View.INVISIBLE);
+            onNetworkDisabled();
         }
+    }
+
+    @Override
+    public void onOk(int what, @NonNull ArrayList<String> data) {
+        is_loading = false;
+        switch (what) {
+            case 0x100: // first load
+                dismissProgressDialog();
+                if (data.size() == 0) {
+                    search_message.setText(getString(R.string.no_search_result));
+                    return;
+                }
+                has_init = true;
+                page_count += 1;
+                setData(data, true);
+                break;
+            case 0x101:  // refresh
+                materialRefreshLayout.finishRefresh();
+                if (data.size() == 0) {
+                    Toast.makeText(VolunteerSearchResult.this, R.string.no_search_result, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                has_init = true;
+                page_count += 1;
+                setData(data, true);
+                break;
+            case 0x102:  // load more
+                materialRefreshLayout.finishRefreshLoadMore();
+                if (data.size() == 0 || !checkHasMore(data)) {
+                    Toast.makeText(VolunteerSearchResult.this, R.string.no_search_result_more, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                page_count += 1;
+                setData(data, false);
+                break;
+        }
+    }
+
+    @Override
+    public void onPasswordError() {  // no password.
+
+    }
+
+    @Override
+    public void onTimeoutError() {
+        is_loading = false;
+        dismissProgressDialog();
+        onNetworkDisabled();
+    }
+
+    @Override
+    public void showProgressDialog() {
+        progress_bar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        progress_bar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onNetworkDisabled() {
+        Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
+        search_message.setText(getString(R.string.NoNetwork));
+        search_message.setError(getString(R.string.NoNetwork));
     }
 
     private String getSearchUrl(int search_method, int pageNum, String keyword) {
@@ -234,4 +254,5 @@ public class VolunteerSearchResult extends AppCompatActivity {
         }
         search_result_adapter.notifyDataSetChanged();
     }
+
 }

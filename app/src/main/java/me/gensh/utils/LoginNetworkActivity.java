@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import me.gensh.helloustb.R;
+import me.gensh.network.HttpRequestTask;
 import me.gensh.sdcard.SdCardPro;
 
 /**
@@ -45,7 +46,8 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
                             password = ((TextView) enter.findViewById(R.id.pass)).getText().toString();
                             if (!username.isEmpty() && !password.isEmpty()) {
                                 ld.setAccount(username, password);
-                                post(LoginNetworkActivity.this.getString(ld.post_address), tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
+                                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, LoginNetworkActivity.this.getString(ld.post_address),
+                                        tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
                                 dialog.dismiss();
                             }
                         }
@@ -57,7 +59,8 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
             username = myaccount[0];
             password = myaccount[1];
             ld.setAccount(username, password);
-            post(this.getString(ld.post_address), tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
+            attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, this.getString(ld.post_address),
+                    tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
         }
     }
 

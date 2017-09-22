@@ -53,16 +53,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
     compile files('libs/mail.jar')
-
-    compile("com.github.hotchemi:permissionsdispatcher:2.4.0") {
+    compile('com.github.hotchemi:permissionsdispatcher:2.4.0') {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
-
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support:design:26.0.1'
     compile 'com.android.support:cardview-v7:26.0.1'
@@ -82,8 +79,8 @@ dependencies {
     compile 'com.jaeger.statusbarutil:library:1.4.0'
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'org.greenrobot:greendao:3.2.2'
-
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
+    compile project(':http-ustb')
 }

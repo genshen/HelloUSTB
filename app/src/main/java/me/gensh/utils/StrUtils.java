@@ -19,7 +19,7 @@ public class StrUtils {
         String desStr = SdCardPro.read(filePath);
         String key = "cgs@cmj";
         String strDes = Des.decode(desStr, key);//把String   类型的密文解密
-        System.out.print(strDes);
+//        System.out.print(strDes);
         return strDes;
     }
 
@@ -97,7 +97,7 @@ public class StrUtils {
 
     //MainActivity title setting
 //	public static int getActionBarTitle(int number) {
-//		// TODO
+//
 //		switch (number) {
 //			case 1:
 //				return R.string.left_side_home;

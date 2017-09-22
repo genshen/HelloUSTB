@@ -2,6 +2,7 @@
 课表的内容可以被首页的内容覆盖【网络延迟】
 
 //[finished] 浏览器和下载Activity的两个noticefication  ic_launcher图标换下
+// todo httpRequestTask#onPostExecute
 //todo 成绩分享生成图片
 //todo support fragment is still used in LibrarySearchFragment and NetWorkSignInFragment TimetableFragment
 // file first added to repository: https://stackoverflow.com/questions/11533199/find-commit-where-file-was-added

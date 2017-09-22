@@ -60,8 +60,7 @@ public class ShareApp extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(Intent.createChooser(intent, "发送"));
         } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+//            e.printStackTrace();
             Toast.makeText(this, R.string.no_app_exist, Toast.LENGTH_LONG).show();
         }
     }

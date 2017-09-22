@@ -51,7 +51,7 @@ public class TodayCourseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        showCourse();  //if we have imported course,and then I deleted the database(or imported empty timetable),but, then the todat have no updated.todo: bug
+        showCourse();  //if we have imported course,and then I deleted the database(or imported empty timetable),but, then the today course have no updated.todo: bug
     }
 
     @OnClick(R.id.today_course_import_or_see_all)
