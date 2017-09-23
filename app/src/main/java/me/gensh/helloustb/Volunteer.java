@@ -16,7 +16,6 @@ import me.gensh.fragments.VolunteerHomeFragment;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
-import me.gensh.utils.NetWorkActivity;
 
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
@@ -96,7 +95,7 @@ public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.O
             case 0x401:    //志愿者服务网登录成功
 //						Toast.makeText(Volunteer.this, str_msg, Toast.LENGTH_SHORT).show();
                 isLogin = true;
-                savePasswordToLocal();
+                savePassword();
                 attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.volunteer_home),
                         "VOL", 0x402, 15, "utf-8", null, false);
                 break;

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.gensh.database.DBAccounts;
 import me.gensh.database.DeleteData;
 import me.gensh.database.QueryData;
 import me.gensh.database.StoreData;
@@ -38,6 +40,8 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by gensh on 2016.
@@ -140,13 +144,24 @@ public class Timetable extends LoginNetworkActivity implements HttpRequestTask.O
     public void onOk(int what, @NonNull ArrayList<String> data) {
         if (what == 0x101) { // from: verify elearning.ustb.edu.cn  password; post
             //which means:if username and password are set,and the 'Login' button is clicked.And if  login is succeed.the code below will execute
-            savePasswordToLocal();
-            LoginDialog time_table = new LoginDialog(LoginDialog.Timetable);
-            time_table.setAccount(username, BasicDate.getTimetableYear());
-            attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.school_timetable_addresss),
-                    "ELE", 0x102, 5, "UTF-8", time_table.post_params, false);
+            savePassword();
+            DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_ELE);  //todo save username while login
+            if (account != null) {  //query username from DB
+//			listXnxq=&uid=41355059
+                Map<String, String> params = new ArrayMap<>();
+                params.put("uid", account.getUsername());
+                params.put("listXnxq", BasicDate.getTimetableYear());
+                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.school_timetable_addresss),
+                        "ELE", 0x102, 5, "UTF-8", params, false);
+            } else {
+                onOk(0x404, new ArrayList<String>());  //error:no username found
+            }
+//            time_table.setAccount(username, BasicDate.getTimetableYear());
+
         } else if (what == 0x102) { //from: post getTimetable
             (new ImportCourseDataTask(this, data)).execute();
+        } else if (what == 0x404) {
+
         }
     }
 

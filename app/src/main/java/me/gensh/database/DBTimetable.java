@@ -17,6 +17,7 @@ public class DBTimetable implements Serializable {
     private static final long serialVersionUID = 0x1000L;
 
     @Id(autoincrement = true)
+    @Property(nameInDb = TimetableInfo._ID)
     private Long id; //id
 
     @Property(nameInDb = TimetableInfo.STUDENT_NUM)
@@ -62,9 +63,9 @@ public class DBTimetable implements Serializable {
 
     @Generated(hash = 103522139)
     public DBTimetable(Long id, int studentNum, int learnTime, int credit,
-            int weekId, int weekDay, int lessonNo, String courseID,
-            String courseName, String courseType, String teachers,
-            String timeAndPlace, String place, String time, String weeks) {
+                       int weekId, int weekDay, int lessonNo, String courseID,
+                       String courseName, String courseType, String teachers,
+                       String timeAndPlace, String place, String time, String weeks) {
         this.id = id;
         this.studentNum = studentNum;
         this.learnTime = learnTime;
@@ -206,22 +207,22 @@ public class DBTimetable implements Serializable {
         this.weeks = weeks;
     }
 
-    public class TimetableInfo {
-        public static final String TABLE_NAME = "time_table_dbs";
-        public static final String _ID = "_id";
-        public static final String STUDENT_NUM = "student_num";
-        public static final String LEARN_TIME = "learn_time";
-        public static final String CREDIT = "credit";
-        public static final String WEEK_ID = "week_id";
-        public static final String WEEK_DAY = "week_day";
-        public static final String LESSON_NO = "lesson_no";
-        public static final String COURSE_ID = "course_id";
-        public static final String COURSE_NAME = "course_name";
-        public static final String COURSE_TYPE = "course_type";
-        public static final String TEACHERS = "teachers";
-        public static final String TIME_PLACE = "time_place";
-        public static final String PLACE = "place";
-        public static final String TIME = "time";
-        public static final String WEEKS = "weeks";
+    final public static class TimetableInfo {
+        final public static String TABLE_NAME = "time_table_dbs";
+        final public static String _ID = "_id";
+        final public static String STUDENT_NUM = "student_num";
+        final public static String LEARN_TIME = "learn_time";
+        final public static String CREDIT = "credit";
+        final public static String WEEK_ID = "week_id";
+        final public static String WEEK_DAY = "week_day";
+        final public static String LESSON_NO = "lesson_no";
+        final public static String COURSE_ID = "course_id";
+        final public static String COURSE_NAME = "course_name";
+        final public static String COURSE_TYPE = "course_type";
+        final public static String TEACHERS = "teachers";
+        final public static String TIME_PLACE = "time_place";
+        final public static String PLACE = "place";
+        final public static String TIME = "time";
+        final public static String WEEKS = "weeks";
     }
 }

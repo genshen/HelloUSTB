@@ -9,35 +9,39 @@
     tools:context=".AccountManager"
     tools:showIn="@layout/activity_account_manager">
 
-    <Button
-        style="@style/AppTheme.Button"
-        android:id="@+id/logout_ele"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/account_manager_logout_ele"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout_ele"
-        android:onClick="LoginClick"/>
+        android:clickable="false"
+        android:enabled="false"
+        android:text="@string/logout_ele" />
 
-    <Button
-        style="@style/AppTheme.Button"
-        android:id="@+id/logout_network"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/account_manager_logout_network"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout_network"
-        android:onClick="LoginClick"/>
+        android:clickable="false"
+        android:enabled="false"
+        android:text="@string/logout_network" />
 
-    <Button
-        style="@style/AppTheme.Button"
-        android:id="@+id/logout_volunteer"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/account_manager_logout_volunteer"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout_volunteer"
-        android:onClick="LoginClick"/>
+        android:clickable="false"
+        android:enabled="false"
+        android:text="@string/logout_volunteer" />
 
-    <Button
-        style="@style/AppTheme.Button"
-        android:id="@+id/logout_e"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/account_manager_logout_e"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logout_e"
-        android:onClick="LoginClick"/>
+        android:clickable="false"
+        android:enabled="false"
+        android:text="@string/logout_e" />
 </LinearLayout>

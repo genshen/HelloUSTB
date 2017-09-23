@@ -6,26 +6,29 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.text.method.DigitsKeyListener;
+import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
 
+import me.gensh.database.DBAccounts;
+import me.gensh.database.QueryData;
+import me.gensh.database.StoreData;
+import me.gensh.helloustb.MyApplication;
 import me.gensh.helloustb.R;
 import me.gensh.network.HttpRequestTask;
-import me.gensh.sdcard.SdCardPro;
 
 /**
  * Created by 根深 on 2016/7/13.
  */
 public abstract class LoginNetworkActivity extends NetWorkActivity {
-    protected static String username, password;
-    static String passFileName;    //发送post请求之前传给变量,如果密码正确,则保存至本地
-    boolean canWrite = false;
+    protected String username, password;  // if one login does not finish, another new login can overwrite the username ,password and userTag
+    private int userTag;
+    boolean canSave = false;
 
     public void Login(final LoginDialog ld, final String tag, final int feedback) {
-        passFileName = ld.passFileName;
-        if (!SdCardPro.fileIsExists(ld.passFileName)) {
-            canWrite = true;
+        userTag = ld.userTag;
+        if (!QueryData.hasAccount(((MyApplication) getApplication()).getDaoSession(), userTag)) {
+            canSave = true;
             SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
             boolean numberOnly = pre.getBoolean(Const.Settings.KEY_STU_NO_NUMBER_ONLY, false);
             final View enter = getLayoutInflater().inflate(R.layout.dialog_sign_in, null);
@@ -54,20 +57,19 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
                     })
                     .show();
         } else {
-            canWrite = false;
-            String myaccount[] = StrUtils.ReadWithEncryption(passFileName).split("@");
-            username = myaccount[0];
-            password = myaccount[1];
-            ld.setAccount(username, password);
+            canSave = false;
+            DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), userTag);
+            assert account != null;  // account is not null
+            String password = StrUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
+            ld.setAccount(account.getUsername(), password);
             attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, this.getString(ld.post_address),
                     tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
         }
     }
 
-    public void savePasswordToLocal() {
-        if (canWrite) {
-            SdCardPro.checkDirExit();
-            StrUtils.WriteWithEncryption(username + "@" + password, passFileName);
+    public void savePassword() {
+        if (canSave) {
+            StoreData.storeAccount(((MyApplication) getApplication()).getDaoSession(), username, password, userTag); //// TODO: 2017/9/23
         }
     }
 }

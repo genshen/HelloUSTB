@@ -1,5 +1,8 @@
 package me.gensh.database;
 
+import android.support.annotation.NonNull;
+import android.util.Base64;
+
 import me.gensh.utils.BasicDate;
 import me.gensh.utils.StrUtils;
 
@@ -76,10 +79,10 @@ public class StoreData {
     }
 
     private static boolean InsertToDB(DaoSession session, String student_num, String learn_time,
-                               String credit, String course_id,
-                               String course_name, String course_type,
-                               String teachers, String time_place,
-                               HashMap<LessonPlaceTime, Integer> time_place_single) {
+                                      String credit, String course_id,
+                                      String course_name, String course_type,
+                                      String teachers, String time_place,
+                                      HashMap<LessonPlaceTime, Integer> time_place_single) {
         for (Map.Entry<LessonPlaceTime, Integer> entry : time_place_single.entrySet()) {
             System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
             LessonPlaceTime lesson = entry.getKey();
@@ -185,6 +188,26 @@ public class StoreData {
         @Override
         public int hashCode() {
             return class_place.hashCode() + 6 * week_day + lesson_no;
+        }
+    }
+
+    /*
+    * account
+     */
+    public static void storeAccount(DaoSession session, String username, String pass, int tag) {
+        DBAccounts oldAccount = QueryData.queryAccountByTag(session, tag);
+        byte iv[] = StrUtils.randomByteArray(StrUtils.IV_LENGTH);
+        String r = Base64.encodeToString(iv, Base64.DEFAULT);
+        String passEncrypt = StrUtils.encryptWithIv(pass, iv);  //change password to encrypt password.
+        if (oldAccount == null) {
+            DBAccounts account = new DBAccounts(null, tag, username, passEncrypt, r);
+            session.getDBAccountsDao().insert(account);
+        } else {
+            // same tag
+            oldAccount.setUsername(username);
+            oldAccount.setPasswordEncrypt(passEncrypt);
+            oldAccount.setR(r);
+            session.getDBAccountsDao().update(oldAccount);
         }
     }
 }	

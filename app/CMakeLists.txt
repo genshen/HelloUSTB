@@ -19,6 +19,8 @@ add_library( # Sets the name of the library.
              # Associated headers in the same location as their source
              # file are automatically included.
              src/main/cpp/native-lib.cpp
+             src/main/cpp/aes.hpp
+             src/main/cpp/encrypt.cpp
              src/main/cpp/db.cpp
              )
 

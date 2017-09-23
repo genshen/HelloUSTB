@@ -13,8 +13,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import me.gensh.database.DBAccounts;
+import me.gensh.database.QueryData;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.sdcard.SdCardPro;
+import me.gensh.utils.LoginDialog;
 import me.gensh.utils.NetWorkActivity;
 import me.gensh.utils.StrUtils;
 
@@ -87,8 +90,8 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
                         .show();
                 break;
             case R.id.action_exit:
-                final String stuNum = getVolunteerStuNumber();
-                if (stuNum != null) {
+                final DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_ELE);
+                if (account != null) {
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.dialog_exit_activity_title)
                             .setMessage(getString(R.string.dialog_exit_activity_ack, activityTitle))
@@ -97,12 +100,12 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET,
-                                            getString(R.string.volunteer_activity_exit, detail_id, stuNum), VOLUNTEER_TAG, 0x102, 10, VOLUNTEER_HTTP_CHARSET, null, true);
+                                            getString(R.string.volunteer_activity_exit, detail_id, account.getUsername()), VOLUNTEER_TAG, 0x102, 10, VOLUNTEER_HTTP_CHARSET, null, true);
                                 }
                             })
                             .show();
                 } else {
-                    showSnackbar(R.string.error_volunteer_no_login);
+                    showSnackbar(R.string.error_account_not_found);
                 }
                 break;
             case R.id.action_collect:
@@ -178,24 +181,6 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
 //        ((TextView) findViewById(R.id.detail_time)).setText(map.get("timer").toString());
 //        ((TextView) findViewById(R.id.detail_place)).setText(map.get("place").toString());
 //        ((TextView) findViewById(R.id.detail_type)).setText(map.get("type").toString());
-    }
-
-    // Todo not useful for Android 6.0
-    final static String VolPassFileName = "/MyUstb/Pass_store/sch_vol_pass.ustb";
-    String stuNum;
-
-    private String getVolunteerStuNumber() {
-        if (stuNum != null) {
-            return stuNum;
-        }
-        if (SdCardPro.fileIsExists(VolPassFileName)) {
-            String account[] = StrUtils.ReadWithEncryption(VolPassFileName).split("@");
-            if (account.length == 2) {
-                stuNum = account[0];
-                return stuNum;
-            }
-        }
-        return null;
     }
 
     private void showSnackbar(int message) {

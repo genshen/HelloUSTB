@@ -4,7 +4,7 @@ package me.gensh.utils;
  * Created by 根深 on 2016/7/14.
  */
 final public class Const {
-    public static final class Settings {
+    final public static class Settings {
         public final static String KEY_STU_NO_NUMBER_ONLY = "stu_no_number_only";
         public final static String KEY_WEEK_START = " week_start";
         public static final String KEY_WEEK_NUM = "week_num";
@@ -15,5 +15,4 @@ final public class Const {
         public final static String NET_SIGN_IN_BROWSER_MODE = "1";
         public final static String NET_SIGN_IN_SILENT_MODE = "2";
     }
-
 }

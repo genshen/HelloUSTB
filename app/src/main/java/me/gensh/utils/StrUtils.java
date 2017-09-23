@@ -1,26 +1,52 @@
 package me.gensh.utils;
 
-import me.gensh.natives.Des;
-import me.gensh.sdcard.SdCardPro;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Base64;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+
+import me.gensh.natives.Encrypt;
 
 public class StrUtils {
     static String path;
+    final public static int IV_LENGTH = 10;
 
-    public static void WriteWithEncryption(String desStr, String filePath) {
-        String key = "cgs@cmj";
-        String strEnc = Des.encode(desStr, key);//加密字符串,返回String的密文
-        SdCardPro.write(strEnc, filePath);
+    /**
+     * @param plainTextString the string needed to be encrypted.
+     * @param iv              A nonce N of 15-L octets(in CCMP,L=2).  Within the scope of any encryption key,the nonce value MUST be unique. from RFC 3610
+     * @return the string after encrypt with base64 encode.
+     */
+    public static String encryptWithIv(String plainTextString, byte[] iv) {
+        byte[] result = Encrypt.nativeEncrypt(plainTextString.getBytes(), iv);
+        return Base64.encodeToString(result, Base64.DEFAULT);
     }
 
-    public static String ReadWithEncryption(String filePath) {
-        String desStr = SdCardPro.read(filePath);
-        String key = "cgs@cmj";
-        String strDes = Des.decode(desStr, key);//把String   类型的密文解密
-//        System.out.print(strDes);
-        return strDes;
+    /**
+     * @param cipherTextBase64 the string(with base64 encoded) needed to be encrypted
+     * @param iv               A nonce N of 15-L octets(in CCMP,L=2).
+     * @return the string after decrypt
+     */
+    public static String decryptWithIv(String cipherTextBase64, byte[] iv) {
+        byte[] result = Encrypt.nativeDecrypt(Base64.decode(cipherTextBase64, Base64.DEFAULT), iv);
+        return new String(result);
+    }
+
+    /**
+     * generate a byte array with random content.
+     *
+     * @param len the array length
+     */
+    public static byte[] randomByteArray(int len) {
+        byte[] arr = new byte[len];
+        Random random = new Random();
+        random.nextBytes(arr);
+        return arr;
     }
 
     //convert a String to a int value.
@@ -62,6 +88,7 @@ public class StrUtils {
         returnStr += map.get("teachers") + "\n";
         return returnStr;
     }
+
 
     //	Lesson.activity的处理课程表
 //	public static void getCourse(int[] id, Cursor cursor, String[] detail) {

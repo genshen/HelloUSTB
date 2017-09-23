@@ -18,8 +18,6 @@ import me.gensh.utils.LoginNetworkActivity;
 
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
-import org.xml.sax.ErrorHandler;
-
 import java.util.ArrayList;
 
 public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTask.OnTaskFinished {
@@ -64,7 +62,7 @@ public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTa
     public void onOk(int what, @NonNull ArrayList<String> data) {
         switch (what) {
             case 0x101:  //login to 202.204.48.66 success feedback;  post
-                savePasswordToLocal();
+                savePassword();
                 Toast.makeText(getBaseContext(), R.string.net_sign_in_success, Toast.LENGTH_LONG).show();
                 attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.sch_net), "NET", 0x102, 8, "GB2312", null, false);
                 break;

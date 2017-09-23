@@ -74,7 +74,7 @@ public class VersionCheckerTask extends AsyncTask<Void, Integer, Integer> {
             br.close();
             connection.disconnect();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return UPDATE_TAG_REQUEST_ERROR;
     }

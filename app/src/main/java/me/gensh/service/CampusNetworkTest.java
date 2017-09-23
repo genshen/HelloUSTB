@@ -12,9 +12,12 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import me.gensh.database.DBAccounts;
+import me.gensh.database.QueryData;
 import me.gensh.helloustb.Browser;
 import me.gensh.helloustb.MyApplication;
 import me.gensh.helloustb.NetWorkSignIn;
@@ -78,7 +81,8 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
             if (statusCode == 302) { //todo and location url =="202.204.48.66"
                 SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
                 String mode = pre.getString(Const.Settings.KEY_NET_SIGN_IN_MODE, Const.Settings.NET_SIGN_IN_NORMAL_MODE);
-                if (Const.Settings.NET_SIGN_IN_SILENT_MODE.equals(mode) && SdCardPro.fileIsExists("/MyUstb/Pass_store/sch_net_pass.ustb")) {  //todo  file
+                if (Const.Settings.NET_SIGN_IN_SILENT_MODE.equals(mode) &&
+                        QueryData.hasAccount(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_NET)) {
                     //静默模式(有密码)
                     autoSignInNetwork();
                 } else if (Const.Settings.NET_SIGN_IN_BROWSER_MODE.equals(mode)) { //浏览器模式
@@ -162,12 +166,15 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
 
     void autoSignInNetwork() {
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            String myaccount[] = StrUtils.ReadWithEncryption("/MyUstb/Pass_store/sch_net_pass.ustb").split("@");//todo move out
+            DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_NET);
+            assert account != null;  // account is not null
+            String password = StrUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
+
             Map<String, String> post_params = new LinkedHashMap<>();
             post_params.put("v6ip", LoginDialog.getLocalIpv6Address());
             post_params.put("0MKKey", "123456789");
-            post_params.put("DDDDD", myaccount[0]);
-            post_params.put("upass", myaccount[1]);
+            post_params.put("DDDDD", account.getUsername());
+            post_params.put("upass", password);
             HttpRequestTask httpRequestTask = new HttpRequestTask(this, HttpRequestTask.REQUEST_TYPE_POST,
                     getString(R.string.sch_net), "NET", 0x101, 7, "GB2312", post_params);
             httpRequestTask.setOnTaskFinished(this);

@@ -24,13 +24,14 @@ import me.gensh.fragments.DashboardFragment;
 import me.gensh.fragments.HomeFragment;
 import me.gensh.fragments.SettingsFragment;
 import me.gensh.network.VersionCheckerTask;
+import me.gensh.utils.StrUtils;
 
 /**
  * Created by gensh on 2017/09/01
  */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     VersionCheckerTask checker;
-//    SearchView mSearchView;
+    //    SearchView mSearchView;
 //    AppBarLayout appBarLayout;
     DrawerLayout drawer;
     View navigationHeader;

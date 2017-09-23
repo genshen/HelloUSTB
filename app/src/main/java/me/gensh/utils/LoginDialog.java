@@ -12,15 +12,16 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LoginDialog {
-    final public static int LoginEdu = 1;
-    final public static int LoginNet = 2;
-    final public static int LoginZFW = 3;
-    final public static int LoginE = 4;
-    final public static int LoginEle = 5;
-    final public static int LoginVol = 6;
-    final public static int Timetable = 7;
+    final public static int LoginEdu = 0;
+    final public static int LoginNet = 1;
+    final public static int LoginZFW = 2;
+    final public static int LoginE = 3;
+    final public static int LoginEle = 4;
+    final public static int LoginVol = 5;
+    final public static int Timetable = 6;
 
-    public String passFileName = "";
+    //    public String passFileName = "";
+    public int userTag = 0;
     public Map<String, String> post_params = new LinkedHashMap<>();
     public int dialog_title = 0;
     public int post_address = 0;
@@ -32,7 +33,7 @@ public class LoginDialog {
         state = id;
         switch (id) {
             case LoginEdu:
-                passFileName = "/MyUstb/Pass_store/sch_edu_pass.ustb";
+                userTag = UserTag.TAG_EDU;
                 dialog_title = R.string.alert_title_deu;
                 post_address = R.string.tea_login;
                 verify_id = 2;
@@ -43,7 +44,7 @@ public class LoginDialog {
 //			"username"   "password"
                 break;
             case LoginNet:
-                passFileName = "/MyUstb/Pass_store/sch_net_pass.ustb";
+                userTag = UserTag.TAG_NET;
                 dialog_title = R.string.alert_title_net;
                 post_address = R.string.sch_net;
                 verify_id = 7;
@@ -56,7 +57,7 @@ public class LoginDialog {
                 verify_id = 71;
                 break;
             case LoginE:
-                passFileName = "/MyUstb/Pass_store/sch_e_pass.ustb";
+                userTag = UserTag.TAG_E;
 //			dialog_title = R.string.alert_title_e;
 //			post_address = R.string.e_login;
                 post_params.put("goto", "http://e.ustb.edu.cn/loginSuccess.portal");
@@ -64,14 +65,14 @@ public class LoginDialog {
                 verify_id = 12;
                 break;
             case LoginVol:
-                passFileName = "/MyUstb/Pass_store/sch_vol_pass.ustb";
+                userTag = UserTag.TAG_VOL;
                 dialog_title = R.string.alert_title_volunteer;
                 post_address = R.string.vol_login;
                 post_params.put("lastUrl", "");
                 verify_id = 11;
                 break;
             case LoginEle:
-                passFileName = "/MyUstb/Pass_store/sch_ele_pass.ustb";
+                userTag = UserTag.TAG_ELE;
                 dialog_title = R.string.alert_title_ele;
                 post_address = R.string.ele_login;
                 verify_id = 4;
@@ -86,7 +87,7 @@ public class LoginDialog {
     @Deprecated
     public LoginDialog(int id, String ip6) {
         state = id;
-        passFileName = "/MyUstb/Pass_store/sch_net_pass.ustb";
+        userTag = UserTag.TAG_NET;
         dialog_title = R.string.alert_title_net;
         post_address = R.string.sch_net;
         verify_id = 7;
@@ -116,10 +117,7 @@ public class LoginDialog {
                 post_params.put("j_username", username + ",undergraduate");
                 post_params.put("j_password", password);
                 break;
-            case Timetable:
-//			listXnxq=&uid=41355059
-                post_params.put("uid", username);
-                post_params.put("listXnxq", password);
+
         }
     }
 
@@ -141,8 +139,8 @@ public class LoginDialog {
             }
             if (ip6OutputLine != null) {
                 String[] ips = ip6OutputLine.split(" |/", 3);
-                if(ips.length>=2){
-                    Log.v("ipv6",ips[1]);
+                if (ips.length >= 2) {
+                    Log.v("ipv6", ips[1]);
                     return ips[1];
                 }
             }
@@ -151,6 +149,15 @@ public class LoginDialog {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public final static class UserTag {
+        final public static int TAG_EDU = 0;
+        final public static int TAG_NET = 1;  //the same as _ZFW
+        final public static int TAG_E = 3;
+        final public static int TAG_ELE = 4;
+        final public static int TAG_VOL = 5;
+        final public static int TAG_LIB = 6;
     }
 
 

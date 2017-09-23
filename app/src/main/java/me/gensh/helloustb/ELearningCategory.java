@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.gensh.database.DBAccounts;
+import me.gensh.database.QueryData;
 import me.gensh.fragments.ELearningExamQueryFragment;
 import me.gensh.fragments.ELearningRecordQueryFragment;
 import me.gensh.fragments.InnovationCreditFragment;
@@ -30,10 +32,11 @@ import me.gensh.utils.StrUtils;
  * created by gensh on 2017/09/10
  */
 public class ELearningCategory extends LoginNetworkActivity implements InnovationCreditFragment.OnInnovationCreditLoadListener, HttpRequestTask.OnTaskFinished {
-    public final static int INTENT_TYPE_SCORE_QUERY = 1, INTENT_TYPE_EXAM_QUERY = 2, INTENT_TYPE_INNOVATION_CREDIT = 3;
-    private final static int LOGIN_FEEDBACK_TYPE_SCORE_QUERY = 0x101, LOGIN_FEEDBACK_TYPE_EXAM_QUERY = 0x102, LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x103;
-    private final static int DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY = 0x201, DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY = 0x202, DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x203;
-    public final static String E_LEARNING_EXTRA_TYPE = "e_learning";
+    final public static int INTENT_TYPE_SCORE_QUERY = 1, INTENT_TYPE_EXAM_QUERY = 2, INTENT_TYPE_INNOVATION_CREDIT = 3;
+    final private static int LOGIN_FEEDBACK_TYPE_SCORE_QUERY = 0x101, LOGIN_FEEDBACK_TYPE_EXAM_QUERY = 0x102, LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x103;
+    final private static int DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY = 0x201, DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY = 0x202, DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT = 0x203;
+    final private static int USERNAME_ERROR_CALLBACK = 0x404;
+    final public static String E_LEARNING_EXTRA_TYPE = "e_learning";
 
     boolean loginStatus = false; //to show if the user have signed in the <a>http://elearning.ustb.edu.cn</a>
 
@@ -79,7 +82,7 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
     public void onOk(int what, @NonNull ArrayList<String> data) {
         if (what == LOGIN_FEEDBACK_TYPE_EXAM_QUERY || what == LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT || what == LOGIN_FEEDBACK_TYPE_SCORE_QUERY) { //if it is login feedback
             loginStatus = true;
-            savePasswordToLocal();
+            savePassword();
             Toast.makeText(this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
             switch (what) {
                 case LOGIN_FEEDBACK_TYPE_EXAM_QUERY:
@@ -117,6 +120,9 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
                 } else {
                     Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
                 }
+            } else if (what == USERNAME_ERROR_CALLBACK) {
+                dismissProgressDialog();  // if login show first,then send get request,progress dialog should be dismissed.
+                Toast.makeText(this, R.string.error_account_not_found, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -213,10 +219,13 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
     private void fetchELearningData(int type, boolean showProgress) {
         switch (type) {
             case INTENT_TYPE_EXAM_QUERY:
-                final String passFileName = "/MyUstb/Pass_store/sch_ele_pass.ustb"; //todo READ DATA.
-                String account[] = StrUtils.ReadWithEncryption(passFileName).split("@"); //todo file permission
-                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.ele_exam_time_place_query), "ELE", DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY,
-                        6, "UTF-8", ELearningExamQueryFragment.loadExamPlaceQueryRequestParams(account[0]), showProgress);
+                DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_ELE);  //todo save username while login
+                if (account != null) {  //query username from DB
+                    attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.ele_exam_time_place_query), "ELE", DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY,
+                            6, "UTF-8", ELearningExamQueryFragment.loadExamPlaceQueryRequestParams(account.getUsername()), showProgress);
+                } else {
+                    onOk(USERNAME_ERROR_CALLBACK, new ArrayList<String>());  //error:no username found
+                }
                 break;
             case INTENT_TYPE_INNOVATION_CREDIT:
                 attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.ele_innovation_credit),

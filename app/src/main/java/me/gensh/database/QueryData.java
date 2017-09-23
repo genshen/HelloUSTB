@@ -1,6 +1,7 @@
 package me.gensh.database;
 
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 import me.gensh.utils.BasicDate;
 
@@ -61,4 +62,21 @@ public class QueryData {
             return null;
         }
     }
+
+    public static DBAccounts queryAccountByTag(DaoSession session, int tag) {
+        try {
+            return session.getDBAccountsDao().queryBuilder().where(DBAccountsDao.Properties.Tag.eq(tag)).uniqueOrThrow();  //can also be null
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static List<DBAccounts> queryAllAccount(DaoSession session) {
+        return session.getDBAccountsDao().queryBuilder().list();
+    }
+
+    public static boolean hasAccount(DaoSession session, int tag) {
+        return queryAccountByTag(session, tag) != null;
+    }
+
 }
