@@ -54,7 +54,7 @@ public class NotificationUtils extends ContextWrapper {
         }
 
         builder.setContentTitle(title)
-                .setContgitentText(body)
+                .setContentText(body)
                 .setTicker(ticker)
                 .setAutoCancel(true);
         //set icon

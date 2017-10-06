@@ -67,7 +67,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
     @Override
     protected void onHandleIntent(Intent intent) {  //todo 似乎打开和关闭wifi都会调用service
         if (intent != null) {
-            String ssID = intent.getStringExtra("ssID");
+            String ssID = intent.getStringExtra("ssid");
             handleActionNetworkCheck(ssID);
         }
     }
