@@ -1,7 +1,9 @@
-package me.gensh.sdcard;
+package me.gensh.io;
 
 import android.os.Environment;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +16,8 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class SdCardPro {
+    final static String HELLO_USTB_DIRECTORY = "/HelloUSTB";
+    final static String HELLO_USTB_DIRECTORY_APK = "/HelloUSTB/apk";
 
     //     if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
     public static void checkDirExit() {
@@ -122,9 +126,8 @@ public class SdCardPro {
 
     public static File writeToSDfromInput(String path, String fileName, InputStream inputStream) {
         File file = createSDFile(path + fileName);
-        OutputStream outStream = null;
         try {
-            outStream = new FileOutputStream(file);
+            OutputStream outStream = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
             int count;
             while ((count = inputStream.read(buffer)) != -1) {
@@ -151,6 +154,32 @@ public class SdCardPro {
         return file.delete();
     }
 
+    //create file in directory: Downloads
+    public static File createFileInDownloadsDirectory(String filename) throws IOException {
+        return createFileInDownloadsDirectory(HELLO_USTB_DIRECTORY, filename);
+    }
 
+    public static File createFileInDownloadsDirectory(String parent, String filename) throws IOException {
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + parent);
+        if (!directory.exists()) {
+            boolean success = directory.mkdirs();
+            if (!success) {
+                throw new IOException("create directory failed");
+            }
+        }
+        return new File(directory, filename);
+    }
+
+    public static void copy(File src, File dst) throws IOException {
+        BufferedInputStream input = new BufferedInputStream(new FileInputStream(src));
+        BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(dst));
+        byte[] buf = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = input.read(buf)) > 0) {
+            output.write(buf, 0, bytesRead);
+        }
+        input.close();
+        output.close();
+    }
 }
 

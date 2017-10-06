@@ -14,11 +14,11 @@ public class Library extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.library_toolbar);
+        Toolbar toolbar = findViewById(R.id.library_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

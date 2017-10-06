@@ -184,7 +184,7 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
             httpRequestTask.setOnTaskFinished(this);
             httpRequestTask.execute();
         } else {
-            Toast.makeText(getActivity(), R.string.NoNetwork, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.no_network, Toast.LENGTH_LONG).show();
         }
     }
 

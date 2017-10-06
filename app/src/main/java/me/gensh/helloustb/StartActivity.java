@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +18,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import me.gensh.sdcard.SdCardPro;
-import me.gensh.sdcard.Update;
+import me.gensh.io.SdCardPro;
+import me.gensh.io.VersionUpdate;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -62,7 +61,7 @@ public class StartActivity extends AppCompatActivity {
         bottomText.setText(getString(R.string.bottom_text_format, Calendar.getInstance().get(Calendar.YEAR)));
 //        View mContentView = findViewById(R.id.fullscreen_content);
 //        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-        StartActivityPermissionsDispatcher.initWithCheck(this);
+        StartActivityPermissionsDispatcher.initWithPermissionCheck(this);
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -72,18 +71,19 @@ public class StartActivity extends AppCompatActivity {
         int versionCode = 0;
         String versionName = null;
         try {
-            PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+            PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), 0);
             versionCode = info.versionCode;
             versionName = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
-        final boolean versionSame = Update.Renew(versionCode, versionName);
-        final boolean todayFirst = Update.compareDate();
+        final boolean versionSame = VersionUpdate.Renew(versionCode, versionName);
+        final boolean todayFirst = VersionUpdate.compareDate();
 
         new Thread(new Runnable() {
-            public void run() {
+            @Override
+            public void run() {  //todo no thread
                 try {
                     if (!versionSame || !todayFirst) {    //如果版本不相同或者今天第一次打开
                         Thread.sleep(2000);

@@ -2,7 +2,6 @@ package me.gensh.network;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -18,13 +17,13 @@ import java.net.URL;
 
 import me.gensh.helloustb.MyApplication;
 import me.gensh.helloustb.R;
-import me.gensh.service.DownloadApk;
 
 /**
  * Created by gensh on 2016/3/11.
  * updated by gensh on 2017/9/1
  */
 public class VersionCheckerTask extends AsyncTask<Void, Integer, Integer> {
+    private OnNewVersionListener mListener;
     private Context context;
     private boolean showOnlyUpdate;
     private String updateUrl;
@@ -45,6 +44,13 @@ public class VersionCheckerTask extends AsyncTask<Void, Integer, Integer> {
 
     @Override
     protected void onPreExecute() {
+        super.onPreExecute();
+        if (context instanceof OnNewVersionListener) {
+            mListener = (OnNewVersionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnNewVersionListener");
+        }
+
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             currentVersionCode = info.versionCode;
@@ -90,11 +96,9 @@ public class VersionCheckerTask extends AsyncTask<Void, Integer, Integer> {
                         .setPositiveButton(R.string.updateNow, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(context, R.string.update_downloading, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(context, DownloadApk.class);
-                                intent.putExtra("latestVersion", newVersionName);
-                                intent.putExtra("size", packageSize);
-                                context.startService(intent);
+                                if (mListener != null) {
+                                    mListener.onAttemptToDownload(packageSize, newVersionCode, newVersionName);  //request android M permission,and attempt to download apk file.
+                                }
                             }
                         })
                         .show();
@@ -103,12 +107,23 @@ public class VersionCheckerTask extends AsyncTask<Void, Integer, Integer> {
                     if (updateTag == UPDATE_TAG_ALREADY_LATEST) {
                         Toast.makeText(context, R.string.haveUpdated, Toast.LENGTH_SHORT).show();
                     } else if (updateTag == UPDATE_TAG_ERROR_NO_NETWORK) {
-                        Toast.makeText(context, R.string.NoNetwork, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.no_network, Toast.LENGTH_SHORT).show();
                     } else if (updateTag == UPDATE_TAG_REQUEST_ERROR) {
                         Toast.makeText(context, R.string.request_error, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         }
+        super.onPostExecute(updateTag);
+    }
+
+    @Override
+    protected void onCancelled() {
+        mListener = null;
+        super.onCancelled();
+    }
+
+    public interface OnNewVersionListener {
+        void onAttemptToDownload(long packageSize, int newVersionCode, String newVersionName);
     }
 }

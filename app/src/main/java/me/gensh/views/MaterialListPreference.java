@@ -1,4 +1,5 @@
 package me.gensh.views;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,9 +20,9 @@ import java.lang.reflect.Method;
 
 /**
  * @author Marc Holder Kluver (marchold), Aidan Follestad (afollestad)
- *
- * by cgs 2015 12 1; it seems that the newest version has some bugs(the change don't act)
- * I use veision Commits on Sep 13, 2015
+ *         <p>
+ *         by cgs 2015 12 1; it seems that the newest version has some bugs(the change don't act)
+ *         I use veision Commits on Sep 13, 2015
  */
 public class MaterialListPreference extends ListPreference {
 

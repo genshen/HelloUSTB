@@ -46,7 +46,7 @@ public class Feedback extends AppCompatActivity {
                     Snackbar.make(FeedbackContact, R.string.submit_fail_empty, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     break;
                 } else if (!((MyApplication) getApplication()).CheckNetwork()) {
-                    Snackbar.make(FeedbackContact, R.string.NoNetwork, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(FeedbackContact, R.string.no_network, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     break;
                 }
                 sendMail(body);
@@ -98,7 +98,7 @@ public class Feedback extends AppCompatActivity {
             }
         }
 
-        public void setMail(String subject, String body, String receiver, String attachment) {
+        private void setMail(String subject, String body, String receiver, String attachment) {
             this.subject = subject;
             this.body = body;
             this.receiver = receiver;

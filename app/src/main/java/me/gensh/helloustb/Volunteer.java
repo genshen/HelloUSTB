@@ -141,7 +141,7 @@ public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.O
 
     @Override
     public void onNetworkDisabled() {
-        Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.no_network, Toast.LENGTH_LONG).show();
     }
 
 }

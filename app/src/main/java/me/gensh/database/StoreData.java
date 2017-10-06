@@ -1,6 +1,5 @@
 package me.gensh.database;
 
-import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import me.gensh.utils.BasicDate;

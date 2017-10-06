@@ -38,7 +38,7 @@ public class MyVolunteerList extends AppCompatActivity {
             listitem.put("work_hour", vol_list.get(10 * i + 5));
             List.add(listitem);
         }
-        ListView li = (ListView) findViewById(R.id.my_volunteer_list);
+        ListView li = findViewById(R.id.my_volunteer_list);
         SimpleAdapter Adapter = new SimpleAdapter(this, List,
                 R.layout.listview_volunteer_list,
                 new String[]{"name", "type", "timer", "place", "work_hour"},
@@ -51,7 +51,7 @@ public class MyVolunteerList extends AppCompatActivity {
                 Intent search_result_activity = new Intent(MyVolunteerList.this, VolunteerDetail.class);
                 search_result_activity.putExtra("detail", List.get(position));
                 search_result_activity.putExtra("id", vol_list.get(10 * position + 2));
-                startActivity(search_result_activity);
+                MyVolunteerList.this.startActivity(search_result_activity);
             }
         });
     }

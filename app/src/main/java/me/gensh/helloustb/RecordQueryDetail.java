@@ -116,12 +116,10 @@ public class RecordQueryDetail extends AppCompatActivity {
     }
 
     private void addWeigth(String credit, String myscore, String classes) {
-        if (isNumeric(credit) && isNumeric(myscore))    //有些成绩就是“通过”
-        {
+        if (isNumeric(credit) && isNumeric(myscore)) {  //有些成绩就是“通过”
             scoreSum_elective[0] += Integer.parseInt(credit);    //0是学分之和，1是分数累加和
             scoreSum_elective[1] += (Integer.parseInt(myscore) * Integer.parseInt(credit));
-            if (!classes.contains("选"))    //必修课
-            {
+            if (!classes.contains("选")) {   //必修课
                 scoreSum[0] += Integer.parseInt(credit);
                 scoreSum[1] += (Integer.parseInt(myscore) * Integer.parseInt(credit));
             }

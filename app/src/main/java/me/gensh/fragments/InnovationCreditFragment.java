@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,11 +80,7 @@ public class InnovationCreditFragment extends Fragment {
             Toast.makeText(getActivity(), R.string.no_innovation_credit_now, Toast.LENGTH_LONG).show();
         }
 
-        if (mListener != null) {
-            mListener.onInnovationCreditCalculated(creditSum);
-        } else {
-            Log.e("subTitle", "listener is null");
-        }
+        mListener.onInnovationCreditCalculated(creditSum); //mListener must not be null
         return view;
     }
 
@@ -102,6 +97,7 @@ public class InnovationCreditFragment extends Fragment {
     /**
      * for pre-lollipop version
      * see <a>https://stackoverflow.com/questions/32604552/onattach-not-called-in-fragment</a>  for more details.
+     *
      * @param activity container activity
      */
     @Override

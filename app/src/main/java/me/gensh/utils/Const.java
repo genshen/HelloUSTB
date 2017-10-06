@@ -1,7 +1,7 @@
 package me.gensh.utils;
 
 /**
- * Created by 根深 on 2016/7/14.
+ * Created by gensh on 2016/7/14.
  */
 final public class Const {
     final public static class Settings {

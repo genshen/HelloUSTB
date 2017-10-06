@@ -50,7 +50,7 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
         views.add(inflater.inflate(R.layout.guide_three, null));
 
         guidePager = new GuidePagerAdapter(views,this);
-        view_pager = (ViewPager) findViewById(R.id.guide_pager);
+        view_pager = findViewById(R.id.guide_pager);
         view_pager.setAdapter(guidePager);
         view_pager.setOnPageChangeListener(this);
     }
@@ -60,7 +60,7 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
         dot_img = new ImageView[views.size()];
         for(int i=0;i<views.size();i++)
         {
-            dot_img[i] = (ImageView) findViewById(img_id[i]);
+            dot_img[i] = findViewById(img_id[i]);
         }
     }
 

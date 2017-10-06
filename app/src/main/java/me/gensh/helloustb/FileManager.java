@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import me.gensh.sdcard.FileInfo;
-import me.gensh.sdcard.SdCardPro;
+import me.gensh.io.FileInfo;
+import me.gensh.io.SdCardPro;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -72,14 +72,11 @@ public class FileManager extends AppCompatActivity {
                 new int[]{R.id.file_icon,R.id.file_name,R.id.file_time,R.id.file_size});
         li.setAdapter(Adapter);
 
-        li.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        li.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int id,
-                                    long arg3) {
-                openFile( file_list.get(id));
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                FileManager.this.openFile(file_list.get(position));
             }
-
         });
     }
 

@@ -3,13 +3,13 @@ package me.gensh.views;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /**
  * Created by gensh on 2016/1/15.
  */
-public class RiseNumberTextView extends TextView implements Animator.AnimatorListener {
+public class RiseNumberTextView extends AppCompatTextView implements Animator.AnimatorListener {
     private RiseListener mRiseListener = null;
     private Boolean RUNNING = false, riseInt = true;
     private float startValue = 0, endValue = 0;

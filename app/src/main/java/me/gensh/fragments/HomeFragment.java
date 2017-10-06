@@ -156,7 +156,7 @@ public class HomeFragment extends NetWorkFragment implements HttpRequestTask.OnT
 
     @Override
     public void onNetworkDisabled() {
-        Toast.makeText(getActivity(), R.string.NoNetwork, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.no_network, Toast.LENGTH_LONG).show();
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {

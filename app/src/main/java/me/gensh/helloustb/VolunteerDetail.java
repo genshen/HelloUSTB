@@ -16,10 +16,8 @@ import android.widget.TextView;
 import me.gensh.database.DBAccounts;
 import me.gensh.database.QueryData;
 import me.gensh.network.HttpRequestTask;
-import me.gensh.sdcard.SdCardPro;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.NetWorkActivity;
-import me.gensh.utils.StrUtils;
 
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
@@ -339,7 +337,7 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
 
     @Override
     public void onNetworkDisabled() {
-        showSnackbar(R.string.NoNetwork);
+        showSnackbar(R.string.no_network);
     }
 
 }

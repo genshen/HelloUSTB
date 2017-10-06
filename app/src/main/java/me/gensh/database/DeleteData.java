@@ -1,8 +1,5 @@
 package me.gensh.database;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-
 /**
  * Created by gensh on 2016/3/26.
  */

@@ -99,7 +99,7 @@ public class AccountManager extends AppCompatActivity {
                 .setTitle(dialogTitleRes)
                 .setMessage(dialogMessageRes)
                 .setNegativeButton(R.string.alert_cancel, null)
-                .setPositiveButton(R.string.alert_sure, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.alert_confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (DeleteData.deleteAccountById(((MyApplication) getApplication()).getDaoSession(), idInDB)) {

@@ -110,7 +110,7 @@ public class TimetableEdit extends AppCompatActivity {
                         .setTitle(R.string.edit_alert_week_id_title)
                         .setView(dialogMultiSelect)
                         .setNeutralButton(R.string.alert_cancel, null)
-                        .setPositiveButton(R.string.alert_sure, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.alert_confirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 int value = (int) multiSelectView.getSelected();
@@ -135,7 +135,7 @@ public class TimetableEdit extends AppCompatActivity {
                         .setTitle(R.string.edit_alert_lesson_no_title)
                         .setView(dialogWheelView)
                         .setNeutralButton(R.string.alert_cancel, null)
-                        .setPositiveButton(R.string.alert_sure, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.alert_confirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 courseDetail.setWeekDay(wheel_view_week_days.getSelectedPosition());

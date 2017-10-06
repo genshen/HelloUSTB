@@ -40,7 +40,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -189,7 +188,7 @@ public class Timetable extends LoginNetworkActivity implements HttpRequestTask.O
 
     @Override
     public void onNetworkDisabled() {
-        Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.no_network, Toast.LENGTH_LONG).show();
     }
 
     private class ImportCourseDataTask extends AsyncTask<Void, Integer, Integer> {
@@ -228,6 +227,7 @@ public class Timetable extends LoginNetworkActivity implements HttpRequestTask.O
             } else if (result == IMPORT_TIMETABLE_TASK_RESULT_FAILED) {
                 Toast.makeText(context, R.string.importfail, Toast.LENGTH_SHORT).show();
             }
+            super.onPostExecute(result);
         }
     }
 }

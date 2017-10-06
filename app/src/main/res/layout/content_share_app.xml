@@ -12,79 +12,85 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            android:layout_height="20dp" />
+
         <RelativeLayout
-            android:id="@+id/send_to_friend"
-            android:paddingLeft="@dimen/share_app_horizontal_margin_small"
-            android:paddingRight="@dimen/share_app_horizontal_margin_small"
-            android:paddingTop="@dimen/share_app_vertical_margin_small"
-            android:paddingBottom="@dimen/share_app_vertical_margin_small"
+            android:id="@+id/share_to_friends_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:clickable="true"
-            android:onClick="clickHandle">
+            android:paddingBottom="@dimen/share_app_vertical_margin_small"
+            android:paddingLeft="@dimen/share_app_horizontal_margin_small"
+            android:paddingRight="@dimen/share_app_horizontal_margin_small"
+            android:paddingTop="@dimen/share_app_vertical_margin_small">
+
             <ImageView
                 android:id="@+id/send_image"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
-                android:src="@drawable/share_app_send"
-                android:contentDescription="@string/image" />
+                android:contentDescription="@string/image"
+                android:src="@drawable/share_app_send" />
+
             <TextView
+                android:id="@+id/share_app_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
-                android:layout_toRightOf="@+id/send_image"
                 android:layout_toEndOf="@+id/send_image"
-                android:layout_centerVertical="true"
-                android:textSize="18sp"
+                android:layout_toRightOf="@+id/send_image"
+                android:text="@string/share_to_friends"
                 android:textColor="@color/black"
-                android:text="@string/send_to_friend" />
+                android:textSize="18sp" />
         </RelativeLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            android:layout_height="20dp" />
 
         <RelativeLayout
-            android:id="@+id/er_wei_ma"
-            android:paddingLeft="@dimen/share_app_horizontal_margin_small"
-            android:paddingRight="@dimen/share_app_horizontal_margin_small"
-            android:paddingTop="@dimen/share_app_vertical_margin_small"
-            android:paddingBottom="@dimen/share_app_vertical_margin_small"
+            android:id="@+id/qr_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:clickable="true"
-            android:onClick="clickHandle">
+            android:paddingBottom="@dimen/share_app_vertical_margin_small"
+            android:paddingLeft="@dimen/share_app_horizontal_margin_small"
+            android:paddingRight="@dimen/share_app_horizontal_margin_small"
+            android:paddingTop="@dimen/share_app_vertical_margin_small">
+
             <ImageView
                 android:id="@+id/er_wei_ma_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/erweima_download"
-                android:contentDescription="@string/image" />
+                android:contentDescription="@string/image"
+                android:src="@drawable/erweima_download" />
+
             <TextView
                 android:id="@+id/download_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_below="@+id/er_wei_ma_img"
                 android:layout_centerHorizontal="true"
-                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:text="@string/qr_code_download"
                 android:textColor="@color/black"
-                android:text="@string/er_wei_ma_download" />
+                android:textSize="18sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_below="@+id/download_hint"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
                 android:text="@string/click_to_copy_link" />
         </RelativeLayout>
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView >
+</android.support.v4.widget.NestedScrollView>

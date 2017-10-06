@@ -26,7 +26,6 @@ import me.gensh.fragments.InnovationCreditFragment;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
-import me.gensh.utils.StrUtils;
 
 /**
  * created by gensh on 2017/09/10
@@ -158,7 +157,7 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
 
     @Override
     public void onNetworkDisabled() {
-        Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.no_network, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick({R.id.fab_menu_exam_query, R.id.fab_menu_innovation_credit, R.id.fab_menu_record_query})

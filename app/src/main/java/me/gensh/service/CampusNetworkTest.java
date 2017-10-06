@@ -12,6 +12,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,12 +25,10 @@ import me.gensh.helloustb.NetWorkSignIn;
 import me.gensh.helloustb.R;
 import me.gensh.helloustb.http.HttpClients;
 import me.gensh.network.HttpRequestTask;
-import me.gensh.sdcard.SdCardPro;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.StrUtils;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -93,7 +92,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
                     browser.putExtra("url", getString(R.string.sch_net));
                     startActivity(browser);
                 } else {   //普通模式或者静默模式(无密码)
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);  // TODO: 2017/10/3
                     mBuilder.setContentTitle(getBaseContext().getString(R.string.network_notify_title))
                             .setContentText(getBaseContext().getString(R.string.network_notify_content, ssid))
                             .setTicker(getBaseContext().getString(R.string.network_notify_ticker))
@@ -101,7 +100,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
 
                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
-                        mBuilder.setColor(getResources().getColor(R.color.colorPrimary));  // TODO: 2017/9/17
+                        mBuilder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
                     } else {
                         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
                     }
@@ -154,7 +153,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
-            mBuilder.setColor(getResources().getColor(R.color.colorPrimary));  // TODO: 2017/9/17
+            mBuilder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
         } else {
             mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         }

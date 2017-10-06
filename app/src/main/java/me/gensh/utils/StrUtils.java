@@ -1,12 +1,7 @@
 package me.gensh.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;

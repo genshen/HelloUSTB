@@ -1,11 +1,5 @@
 package me.gensh.database;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-
-import me.gensh.utils.BasicDate;
-
 /**
  * Created by gensh on 2016/3/26.
  */

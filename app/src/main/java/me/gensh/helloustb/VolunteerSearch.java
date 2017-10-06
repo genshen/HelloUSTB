@@ -2,7 +2,6 @@ package me.gensh.helloustb;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  Created by gensh on 2016/10/7.
+ * Created by gensh on 2016/10/7.
  */
 public class VolunteerSearch extends AppCompatActivity {
     SearchView sv;
@@ -31,19 +30,19 @@ public class VolunteerSearch extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        tip_list = (ListView) findViewById(R.id.search_tip_list);
-        tip_text = (TextView) findViewById(R.id.search_tip_text);
+        tip_list = findViewById(R.id.search_tip_list);
+        tip_text = findViewById(R.id.search_tip_text);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.volunteer_search, menu);
-        sv = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.vol_search_view));
+        sv = (SearchView) menu.findItem(R.id.vol_search_view).getActionView();
         sv.setQueryHint(getString(R.string.vol_search_hint));
 
 //        int id = sv.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);

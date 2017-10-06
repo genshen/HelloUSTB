@@ -15,8 +15,9 @@ import com.db.chart.model.LineSet;
 import com.db.chart.view.AxisController;
 import com.db.chart.view.LineChartView;
 import com.db.chart.view.animation.Animation;
+
 import me.gensh.helloustb.R;
-import me.gensh.sdcard.SdCardPro;
+import me.gensh.io.SdCardPro;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CampusNetworkFragment extends Fragment {
-    private static final String ARG_PARAM_CAMPUS_NETWORK= "ARG_PARAM_CAMPUS_NETWORK";
+    private static final String ARG_PARAM_CAMPUS_NETWORK = "ARG_PARAM_CAMPUS_NETWORK";
     static final String filepath = SdCardPro.getSDPath() + "/MyUstb/Data/flow.b";
     static final int DATA_LENGTH = 8; // >=2
     float today_flow = 0f;
@@ -54,7 +55,7 @@ public class CampusNetworkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-          args = getArguments().getStringArrayList("Campus_network_information"); //init here.
+            args = getArguments().getStringArrayList("Campus_network_information"); //init here.
         }
     }
 
@@ -176,6 +177,7 @@ public class CampusNetworkFragment extends Fragment {
                 random_f.writeInt(calendar_now.get(Calendar.YEAR));
                 random_f.writeByte(calendar_now.get(Calendar.MONTH));
                 random_f.writeByte(calendar_now.get(Calendar.DAY_OF_MONTH));
+                random_f.close();
                 return flowData;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -191,6 +193,7 @@ public class CampusNetworkFragment extends Fragment {
                     randomAccessFile.writeInt(calendar_now.get(Calendar.YEAR));
                     randomAccessFile.writeByte(calendar_now.get(Calendar.MONTH));
                     randomAccessFile.writeByte(calendar_now.get(Calendar.DAY_OF_MONTH));
+                    randomAccessFile.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

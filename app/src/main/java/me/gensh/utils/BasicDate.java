@@ -1,6 +1,6 @@
 package me.gensh.utils;
 
-import me.gensh.sdcard.SdCardPro;
+import me.gensh.io.SdCardPro;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,7 +21,7 @@ public class BasicDate {
     // pretend the first day of a week is monday!
     public static int getWeekNum(long week_start_days) {
         long to_days = System.currentTimeMillis() / ONE_DAY;
-        writeLog("start:" + week_start_days + ";to" + to_days + ";weeks:" + (to_days - week_start_days) / 7 % MAX_WEEK_NUM + "\r\n");
+//        Log.v("TAG","start:" + week_start_days + ";to" + to_days + ";weeks:" + (to_days - week_start_days) / 7 % MAX_WEEK_NUM + "\r\n");
         if (week_start_days > to_days || week_start_days == 0) {
             return 0;
         }

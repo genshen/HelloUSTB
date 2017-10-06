@@ -5,11 +5,8 @@ package me.gensh.helloustb;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Parcelable;
-
 import org.greenrobot.greendao.database.Database;
 
 import me.gensh.database.Config;

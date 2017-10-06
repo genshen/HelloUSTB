@@ -1,8 +1,8 @@
-package me.gensh.sdcard;
+package me.gensh.io;
 
 import me.gensh.utils.BasicDate;
 
-public class Update {
+public class VersionUpdate {
     public static boolean Renew(int versionCode, String versionName) {
         // TODO
         int OldVersionCode = 0;
@@ -41,7 +41,7 @@ public class Update {
                 return false;
             }
         } else {
-            SdCardPro.write(todayDate, "/MyUstb/openlog.log");
+            SdCardPro.write(todayDate, "/MyUstb/openlog.log");  // TODO: remove 2017/9/29
             return false;
         }
     }

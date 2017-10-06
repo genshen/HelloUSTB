@@ -1,7 +1,6 @@
 package me.gensh.database;
 
 import android.database.Cursor;
-import android.support.annotation.Nullable;
 
 import me.gensh.utils.BasicDate;
 

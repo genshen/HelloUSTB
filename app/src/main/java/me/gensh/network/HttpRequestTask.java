@@ -92,7 +92,7 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, DataInfo> {
     protected void onPostExecute(DataInfo datainfo) {
         if (responseHandler != null) {
             if (datainfo == null || datainfo.data == null || datainfo.code == DataInfo.TimeOut) {
-                System.out.println(">>>>>>timeout>>>>");
+//                System.out.println(">>>>>>timeout>>>>");
                 responseHandler.onTimeoutError();
             } else if (datainfo.code == DataInfo.ERROR_PASSWORD) {
                 responseHandler.onPasswordError();
@@ -101,6 +101,7 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, DataInfo> {
                 responseHandler.onOk(feedback, data);
             }
         }
+        super.onPostExecute(datainfo);
     }
 
     public void setOnTaskFinished(OnTaskFinished callback) {

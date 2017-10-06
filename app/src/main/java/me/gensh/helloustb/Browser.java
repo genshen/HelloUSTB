@@ -2,6 +2,8 @@ package me.gensh.helloustb;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,9 +13,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.ClipboardManager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +26,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import me.gensh.sdcard.SdCardPro;
+import me.gensh.io.SdCardPro;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Browser extends AppCompatActivity {
+    final static String LABEL_BROWSER_URL = "BROWSER_URL";
 
     public static void openBrowserWithUrl(Context context, String url) {
         Bundle b_data = new Bundle();
@@ -49,7 +52,7 @@ public class Browser extends AppCompatActivity {
 //        requestWindowFeature(Window.FEATURE_PROGRESS);//这句话只能写在这里，写在下面会出错....郁闷，，，
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.borwser_toolbar);
+        Toolbar toolbar = findViewById(R.id.borwser_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -59,7 +62,7 @@ public class Browser extends AppCompatActivity {
 
         Intent intent = getIntent();
         String MyUrl = (String) intent.getSerializableExtra("url");
-        web = (WebView) findViewById(R.id.web);
+        web = findViewById(R.id.web);
         web.setWebChromeClient(new chromeClient());
         web.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -67,6 +70,7 @@ public class Browser extends AppCompatActivity {
                 return true;
             }
         });
+
         WebSettings websetting = web.getSettings();
         websetting.setJavaScriptEnabled(true);
         websetting.setSupportZoom(true);//设置放大缩小
@@ -132,7 +136,6 @@ public class Browser extends AppCompatActivity {
     public void showNotify(String FileName) {
 
         Intent main_intent = new Intent(this, FileManager.class);
-//		 	main_intent.putExtra("open_id",1);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main_intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
@@ -144,7 +147,7 @@ public class Browser extends AppCompatActivity {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
-            mBuilder.setColor(getResources().getColor(R.color.colorPrimary));  // TODO: 2017/9/17
+            mBuilder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
         } else {
             mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         }
@@ -175,7 +178,6 @@ public class Browser extends AppCompatActivity {
         switch (id) {
             case R.id.collect:
                 Snackbar.make(container, R.string.noOperation, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-//                Toast.makeText(this, R.string.noOperation, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.openWithOtherBrowser:
                 Intent intent = new Intent();
@@ -185,10 +187,10 @@ public class Browser extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.copyUrl:
-                ClipboardManager clip = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                clip.setText(web.getUrl()); // 复制
-                Snackbar.make(container, R.string.haveCopied, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-//                Toast.makeText(this, R.string.haveCopied, Toast.LENGTH_SHORT).show();
+                ClipboardManager clipManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText(LABEL_BROWSER_URL, web.getUrl());
+                clipManager.setPrimaryClip(clip);
+                Snackbar.make(container, R.string.have_copied, Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 break;
             case R.id.share:
                 Intent sendIntent = new Intent();
@@ -209,11 +211,11 @@ public class Browser extends AppCompatActivity {
     }
 
     //chromeClient类
-    public class chromeClient extends WebChromeClient {
+    private class chromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             //动态在标题栏显示进度条
-            Browser.this.setProgress(newProgress * 100);
+            Browser.this.setProgress(newProgress * 100); // TODO: 2017/9/29
             super.onProgressChanged(view, newProgress);
         }
 

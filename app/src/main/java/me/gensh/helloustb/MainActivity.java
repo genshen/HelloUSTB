@@ -1,16 +1,22 @@
 package me.gensh.helloustb;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,18 +24,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Calendar;
 
 import me.gensh.fragments.DashboardFragment;
 import me.gensh.fragments.HomeFragment;
 import me.gensh.fragments.SettingsFragment;
 import me.gensh.network.VersionCheckerTask;
-import me.gensh.utils.StrUtils;
+import me.gensh.service.ApkDownloadIntentService;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by gensh on 2017/09/01
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+@RuntimePermissions
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VersionCheckerTask.OnNewVersionListener {
     VersionCheckerTask checker;
     //    SearchView mSearchView;
 //    AppBarLayout appBarLayout;
@@ -73,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -259,6 +273,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //methods for updating
+    @Override
+    public void onAttemptToDownload(long packageSize, int newVersionCode, String newVersionName) {
+        MainActivityPermissionsDispatcher.startDownloadWithPermissionCheck(this, packageSize, newVersionCode, newVersionName);
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    public void startDownload(long packageSize, int newVersionCode, String newVersionName) {
+        Toast.makeText(this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
+        ApkDownloadIntentService.startActionDownloadApk(this, packageSize, newVersionCode, newVersionName);
+    }
+
+    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showRationaleForApkDownload(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.permission_download_apk_rationale)
+                .setPositiveButton(R.string.alert_confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int button) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton(R.string.alert_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int button) {
+                        request.cancel();
+                    }
+                })
+                .show();
+    }
+
+    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showDeniedForApkDownload() {
+        Toast.makeText(this, R.string.permission_download_apk_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void showNeverAskForApkDownload() {
+        Toast.makeText(this, R.string.permission_download_apk_neverask, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     private class ClickHand implements View.OnClickListener {

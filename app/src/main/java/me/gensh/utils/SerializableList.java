@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class SerializableList implements Serializable {
 
+    final static long serialVersionUID = 0x1001L;
     private List<Map<String, Object>> list;
 
     public List<Map<String, Object>> getList() {

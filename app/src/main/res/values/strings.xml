@@ -53,11 +53,14 @@
     <!-- /引导页 -->
 
     <!-- Toast 提示-->
-    <string name="NoNetwork">当前网络连接不可用</string>
+    <string name="no_network">当前网络连接不可用</string>
     <string name="request_error">网络请求错误</string>
     <string name="connectionTimeout">网络连接超时,请稍后重试</string>
     <string name="errorPassword">用户名或密码错误</string>
     <!-- /Toast 提示-->
+    <!--notifications-->
+    <string name="notification_channel_default">默认</string>
+    <!--/notifications-->
 
     <!--error-->
     <string name="error_account_not_found">获取用户信息失败</string>
@@ -72,7 +75,7 @@
     <!--permissions 权限-->
     <!-- Dialog-->
     <string name="alert_login">登录</string>
-    <string name="alert_sure">确定</string>
+    <string name="alert_confirm">确定</string>
     <string name="alert_cancel">取消</string>
     <string name="alert_ok">确定</string>
     <string name="alert_delete">删除</string>
@@ -100,6 +103,7 @@
 
     <!-- 更新版本 -->
     <string name="update_downloading">正在后台下载更新包，下载完成后将会通知您安装</string>
+    <string name="update_download_error">更新错误,下载更新包失败</string>
     <string name="update_download">正在下载</string>
     <string name="startDownload">开始下载</string>
     <string name="updateNow">现在更新</string>
@@ -107,6 +111,9 @@
     <string name="updateRequest">检查到有新版本，是否立即更新？\nv%1$s\n%2$s</string>
     <string name="versionUpdate">版本更新</string>
     <string name="haveUpdated">当前版本已是最新版本！</string>
+    <string name="permission_download_apk_rationale">我们需要获取外部存储空间读写权限以下载最新版本安装包</string>
+    <string name="permission_download_apk_denied">我们需要获取外部存储空间读写权限以下载最新版本安装包</string>
+    <string name="permission_download_apk_neverask">我们需要获取外部存储空间读写权限以下载最新版本安装包</string>
     <!-- 更新版本 -->
 
     <!-- 侧滑栏 -->
@@ -168,10 +175,11 @@
     <string name="noApplicationToOpen">未找到相关应用打开该文件</string>
     <!--/下载文件管理-->
     <!-- 分享应用 -->
-    <string name="no_app_exist">发送失败,应用安装包不存在</string>
-    <string name="send_to_friend">发送给好友</string>
-    <string name="er_wei_ma_download">扫描二维码 下载Hello USTB</string>
+    <string name="app_send_error">发送失败</string>
+    <string name="share_to_friends">分享给好友</string>
+    <string name="qr_code_download">扫描二维码 下载Hello USTB</string>
     <string name="click_to_copy_link">点击二维码可复制下载链接</string>
+    <string name="preparing_share">正在准备分享&#8230;</string>
     <!-- /分享应用 -->
 
     <!-- 相关链接 -->
@@ -249,7 +257,7 @@
     <string name="openWithOtherBrowser">用浏览器打开</string>
     <string name="collect">收藏</string>
     <string name="noOperation">无效操作</string>
-    <string name="haveCopied">链接已复制到剪切板</string>
+    <string name="have_copied">链接已复制到剪切板</string>
     <string name="share">分享</string>
     <!-- /浏览器 -->
     <!---成绩查询-->

@@ -179,9 +179,9 @@ public class VolunteerSearchResult extends NetWorkActivity implements HttpReques
 
     @Override
     public void onNetworkDisabled() {
-        Toast.makeText(this, R.string.NoNetwork, Toast.LENGTH_LONG).show();
-        search_message.setText(getString(R.string.NoNetwork));
-        search_message.setError(getString(R.string.NoNetwork));
+        Toast.makeText(this, R.string.no_network, Toast.LENGTH_LONG).show();
+        search_message.setText(getString(R.string.no_network));
+        search_message.setError(getString(R.string.no_network));
     }
 
     private String getSearchUrl(int search_method, int pageNum, String keyword) {
