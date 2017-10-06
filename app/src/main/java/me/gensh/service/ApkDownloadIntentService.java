@@ -1,6 +1,7 @@
 package me.gensh.service;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.Context;
@@ -20,12 +21,12 @@ import java.net.URL;
 import me.gensh.helloustb.BuildConfig;
 import me.gensh.helloustb.R;
 import me.gensh.io.ApkDownloader;
+import me.gensh.utils.NotificationUtils;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
  * <p>
- * helper methods.
  */
 public class ApkDownloadIntentService extends IntentService {
     private static final String ACTION_DOWNLOAD_APK = "me.gensh.service.action.download_apk";
@@ -33,8 +34,6 @@ public class ApkDownloadIntentService extends IntentService {
     private static final String EXTRA_VERSION_NAME = "me.gensh.service.extra.VERSION_NAME";
     private static final String EXTRA_PACKAGE_SIZE = "me.gensh.service.extra.PACKAGE_SIZE";
 
-    NotificationManager mNotifyManager;
-    NotificationCompat.Builder mBuilder;
     final static int mNotificationId = 0x001;
 
     public ApkDownloadIntentService() {
@@ -58,24 +57,6 @@ public class ApkDownloadIntentService extends IntentService {
         context.startService(intent);
     }
 
-    @Override
-    public void onCreate() {
-        mBuilder = new NotificationCompat.Builder(this)  // TODO: 2017/9/29
-                .setContentTitle(getString(R.string.update_download))
-                .setTicker(getString(R.string.startDownload))
-                .setProgress(0, 0, true)
-                .setContentText(getString(R.string.update_downloading));
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
-            mBuilder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        } else {
-            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        }
-
-        mNotifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        super.onCreate();
-    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -100,21 +81,26 @@ public class ApkDownloadIntentService extends IntentService {
                     packageSize = Long.parseLong(urlConn.getHeaderField("Content-Length"));
                 }
                 InputStream inputStream = urlConn.getInputStream();
-                mNotifyManager.notify(mNotificationId, mBuilder.build());
+
+                final NotificationUtils notificationUtils = new NotificationUtils(this);
+                final Notification.Builder mBuilder = notificationUtils.getDefaultNotification(getString(R.string.update_download),
+                        getString(R.string.startDownload), getString(R.string.update_downloading));
+                mBuilder.setProgress(0, 0, true);
+                notificationUtils.notify(mNotificationId, mBuilder);
 
                 ApkDownloader downloader = new ApkDownloader(packageSize, versionName, getString(R.string.app_name));
                 downloader.setOnDownloadProgressChanged(new ApkDownloader.OnDownloadProgressChanged() {
                     @Override
                     public void onChanged(int percent) {
                         mBuilder.setProgress(100, percent, false).setContentText(percent + "%");
-                        mNotifyManager.notify(mNotificationId, mBuilder.build());
+                        notificationUtils.notify(mNotificationId, mBuilder);
                     }
                 });
                 File file = downloader.writeToSDFromInputStream(inputStream);
                 downloader.close();
 
                 if (file != null && file.exists()) {
-                    mNotifyManager.cancel(mNotificationId);
+                    notificationUtils.cancel(mNotificationId);
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

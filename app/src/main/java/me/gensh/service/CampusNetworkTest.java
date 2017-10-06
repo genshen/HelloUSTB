@@ -1,6 +1,7 @@
 package me.gensh.service;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -27,6 +28,7 @@ import me.gensh.helloustb.http.HttpClients;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
+import me.gensh.utils.NotificationUtils;
 import me.gensh.utils.StrUtils;
 
 import java.util.ArrayList;
@@ -42,9 +44,9 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
     final String TEST_TAG = "test connection";
     final int NETWORK_SING_IN_NOTIFY_ID = 10;
     final int AUTO_SIGN_IN_ERROR_NOTIFY_ID = 12;
-    Context context;
-    NotificationManager mNotificationManager;
-    NotificationCompat.Builder errorNotification;
+
+    NotificationUtils mNotificationUtils;
+    Notification.Builder errorNotifyBuilder;
 
     public CampusNetworkTest() {
         super("CampusNetworkTest");
@@ -57,21 +59,20 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        context = getBaseContext();
-        return super.onStartCommand(intent, flags, startId);
+    public void onCreate() {
+        super.onCreate();
+        mNotificationUtils = new NotificationUtils(this);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {  //todo 似乎打开和关闭wifi都会调用service
         if (intent != null) {
-            String ssid = intent.getStringExtra("ssid");
-            handleActionNetworkCheck(ssid);
+            String ssID = intent.getStringExtra("ssID");
+            handleActionNetworkCheck(ssID);
         }
     }
 
-    private void handleActionNetworkCheck(String ssid) {
+    private void handleActionNetworkCheck(String ssID) {
         try {
             //HttpURLConnection  3s延迟
             Thread.sleep(300);//todo 150
@@ -92,18 +93,9 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
                     browser.putExtra("url", getString(R.string.sch_net));
                     startActivity(browser);
                 } else {   //普通模式或者静默模式(无密码)
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);  // TODO: 2017/10/3
-                    mBuilder.setContentTitle(getBaseContext().getString(R.string.network_notify_title))
-                            .setContentText(getBaseContext().getString(R.string.network_notify_content, ssid))
-                            .setTicker(getBaseContext().getString(R.string.network_notify_ticker))
-                            .setAutoCancel(true);
-
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
-                        mBuilder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                    } else {
-                        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-                    }
+                    final NotificationUtils notificationUtils = new NotificationUtils(this);
+                    final Notification.Builder mBuilder = notificationUtils.getDefaultNotification(getString(R.string.network_notify_title),
+                            getString(R.string.network_notify_ticker), getString(R.string.network_notify_content, ssID));
 
                     Intent notifyIntent = new Intent(this, NetWorkSignIn.class);
                     notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
@@ -112,7 +104,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
                     // Creates the PendingIntent
                     PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     mBuilder.setContentIntent(contentIntent);
-                    mNotificationManager.notify(NETWORK_SING_IN_NOTIFY_ID, mBuilder.build());
+                    notificationUtils.notify(NETWORK_SING_IN_NOTIFY_ID, mBuilder);
                 }
             }
         } catch (Exception e) {
@@ -127,40 +119,21 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
             if (msg.what == 0x100) {
                 int leftTime = (int) msg.obj - 1;
                 if (leftTime <= 0) {  // try again,notice 正在重试
-                    errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_retry_title))
-                            .setContentText(context.getString(R.string.auto_sign_in_retry_content));
-                    mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+                    errorNotifyBuilder.setContentTitle(getString(R.string.auto_sign_in_retry_title))
+                            .setContentText(getString(R.string.auto_sign_in_retry_content));
+                    mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);
                     autoSignInNetwork();
                 } else {
-                    errorNotification.setContentText(context.getString(R.string.auto_sign_in_error_content_try_again, leftTime));
-                    mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+                    errorNotifyBuilder.setContentText(getString(R.string.auto_sign_in_error_content_try_again, leftTime));
+                    mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);
                     Message message = new Message();
                     message.what = 0x100;
                     message.obj = leftTime;
-                    Log.v("v", "ssssss");
                     handler.sendMessageDelayed(message, 1000);
                 }
             }
         }
     };
-
-    NotificationCompat.Builder buildNotification(int title, String content) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.setContentTitle(context.getString(title))
-                .setContentText(content)
-                .setTicker(context.getString(R.string.auto_sign_in_error_ticker))
-                .setAutoCancel(true);
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
-            mBuilder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        } else {
-            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        }
-
-        mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, mBuilder.build());
-        return mBuilder;
-    }
 
 
     void autoSignInNetwork() {
@@ -179,59 +152,60 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
             httpRequestTask.setOnTaskFinished(this);
             httpRequestTask.execute();
         } else {
-            if (errorNotification == null) {
-                errorNotification = buildNotification(R.string.auto_sign_in_error_title, context.getString(R.string.auto_sign_in_error_content_hand));//todo
+            if (errorNotifyBuilder == null) {
+                errorNotifyBuilder = mNotificationUtils.getDefaultNotification(getString(R.string.auto_sign_in_error_title),
+                        getString(R.string.auto_sign_in_error_ticker), getString(R.string.auto_sign_in_error_content_hand));
+                mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);  //todo
             } else {
-                errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title)).setContentText(context.getString(R.string.auto_sign_in_error_content_hand));
-                mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+                errorNotifyBuilder.setContentTitle(getString(R.string.auto_sign_in_error_title)).setContentText(getString(R.string.auto_sign_in_error_content_hand));
+                mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);
             }
         }
-
     }
 
     @Override
     public void onOk(int what, @NonNull ArrayList<String> data) {
         //todo store data. add notice
-        mNotificationManager.cancel(AUTO_SIGN_IN_ERROR_NOTIFY_ID);
-        Toast.makeText(getBaseContext(), R.string.auto_sign_in_success_toast, Toast.LENGTH_LONG).show();
+        mNotificationUtils.cancel(AUTO_SIGN_IN_ERROR_NOTIFY_ID);
+        Toast.makeText(this, R.string.auto_sign_in_success_toast, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onPasswordError() {
-        errorNotification = buildNotification(R.string.auto_sign_in_error_title, context.getString(R.string.auto_sign_in_error_content_password));
-        mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+        errorNotifyBuilder = mNotificationUtils.getDefaultNotification(getString(R.string.auto_sign_in_error_title),
+                getString(R.string.auto_sign_in_error_ticker), getString(R.string.auto_sign_in_error_content_hand));
+        mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);
         Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onTimeoutError() {
         errorTryTimes++;
-        if (errorNotification == null) { //第一次超时
-            errorNotification = buildNotification(R.string.auto_sign_in_error_title,
-                    context.getString(R.string.auto_sign_in_error_content_try_again, 3));// todo
+        if (errorNotifyBuilder == null) { //第一次超时
+            errorNotifyBuilder = mNotificationUtils.getDefaultNotification(getString(R.string.auto_sign_in_error_title),
+                    getString(R.string.auto_sign_in_error_ticker), getString(R.string.auto_sign_in_error_content_try_again, 3));// todo
         } else {  //后续超时,次数限制
             if (errorTryTimes > 4) {//todo
                 Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
-                errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title))
-                        .setContentText(context.getString(R.string.auto_sign_in_error_content_try_limit, 4));//todo
+                errorNotifyBuilder.setContentTitle(getString(R.string.auto_sign_in_error_title))
+                        .setContentText(getString(R.string.auto_sign_in_error_content_try_limit, 4));//todo
 
-                Intent notifyIntent = new Intent(context, NetWorkSignIn.class);
+                Intent notifyIntent = new Intent(this, NetWorkSignIn.class);
                 notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
                 notifyIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                errorNotification.setContentIntent(contentIntent);
-
-                mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                errorNotifyBuilder.setContentIntent(contentIntent);
+                mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);
                 return;
             } else {
-                errorNotification.setContentTitle(context.getString(R.string.auto_sign_in_error_title)).setContentText(context.getString(R.string.auto_sign_in_error_content_try_again, 3));//todo
+                errorNotifyBuilder.setContentTitle(getString(R.string.auto_sign_in_error_title)).setContentText(getString(R.string.auto_sign_in_error_content_try_again, 3)); //todo
             }
         }
-        mNotificationManager.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotification.build());
+        mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);
         Message message = new Message();
         message.what = 0x100;
         message.obj = 3; //seconds todo
         handler.sendMessageDelayed(message, 1000);
-        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
     }
 }

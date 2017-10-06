@@ -1,5 +1,6 @@
 package me.gensh.helloustb;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
@@ -27,6 +28,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import me.gensh.io.SdCardPro;
+import me.gensh.utils.NotificationUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,8 +59,6 @@ public class Browser extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         container = findViewById(R.id.browser_container);
-
-        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         Intent intent = getIntent();
         String MyUrl = (String) intent.getSerializableExtra("url");
@@ -116,7 +116,6 @@ public class Browser extends AppCompatActivity {
 
     WebView web;
     static final int NOTIFICATION_ID = 0x123;
-    NotificationManager nm;
 
     Handler handler = new Handler() {
         @Override
@@ -131,28 +130,15 @@ public class Browser extends AppCompatActivity {
         }
     };
 
-
     // 为发送通知的按钮的点击事件定义事件处理方法
     public void showNotify(String FileName) {
-
         Intent main_intent = new Intent(this, FileManager.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, main_intent, 0);
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("点击打开文件")
-                .setTicker("下载成功")
-                .setContentText("文件" + FileName + "下载成功")
-                .setContentIntent(pi)
-                .setAutoCancel(true);
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBuilder.setSmallIcon(R.drawable.ic_adjust_white_24dp);
-            mBuilder.setColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        } else {
-            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        }
-
-        nm.notify(NOTIFICATION_ID, mBuilder.build());
+        NotificationUtils mNotificationUtils = new NotificationUtils(this);
+        Notification.Builder mBuilder = mNotificationUtils.getDefaultNotification("点击打开文件", "下载成功", "文件" + FileName + "下载成功");
+        mBuilder.setContentIntent(pi);
+        mNotificationUtils.notify(NOTIFICATION_ID, mBuilder);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
