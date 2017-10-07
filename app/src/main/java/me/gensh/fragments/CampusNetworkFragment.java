@@ -16,9 +16,6 @@ import com.db.chart.view.AxisController;
 import com.db.chart.view.LineChartView;
 import com.db.chart.view.animation.Animation;
 
-import me.gensh.helloustb.R;
-import me.gensh.io.SdCardPro;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -26,9 +23,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import me.gensh.helloustb.R;
+
 public class CampusNetworkFragment extends Fragment {
     private static final String ARG_PARAM_CAMPUS_NETWORK = "ARG_PARAM_CAMPUS_NETWORK";
-    static final String filepath = SdCardPro.getSDPath() + "/MyUstb/Data/flow.b";
+    static final String FILE_PATH = "flow";
     static final int DATA_LENGTH = 8; // >=2
     float today_flow = 0f;
     ArrayList<String> args;
@@ -161,7 +160,7 @@ public class CampusNetworkFragment extends Fragment {
 
     public static float[] M(Calendar calendar_now, float todayFlow) {
         float[] flowData = new float[]{0, 0, 0, 0, 0, 0, 0, 0};
-        File file = new File(filepath);
+        File file = new File(FILE_PATH);
         if (file.exists() && file.length() == 38) {
             try {
                 RandomAccessFile random_f = new RandomAccessFile(file, "rw");

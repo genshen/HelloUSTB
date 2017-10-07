@@ -1,10 +1,13 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="nav_header_vertical_spacing">12dp</dimen>
+    <dimen name="nav_header_avatar_vertical_spacing">20dp</dimen>
+    <dimen name="nav_header_title_vertical_spacing">14dp</dimen>
+    <dimen name="nav_header_padding_top">18dp</dimen>
+    <dimen name="nav_header_padding_bottom">8dp</dimen>
     <!--change 16 to 12 due to setting title size to 18-->
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="navigation_drawer_width">260dp</dimen>
-    <dimen name="navigation_image_width">60dp</dimen>
+    <dimen name="navigation_image_width">54dp</dimen>
 
     <!-- Height of the status bar -->
     <dimen name="status_bar_height">25dp</dimen>

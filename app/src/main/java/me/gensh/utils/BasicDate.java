@@ -1,7 +1,5 @@
 package me.gensh.utils;
 
-import me.gensh.io.SdCardPro;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -28,15 +26,7 @@ public class BasicDate {
         return (int) (to_days - week_start_days) / 7 % MAX_WEEK_NUM; // mod 24
     }
 
-    public static void writeLog(String log) {
-        String filename = "/MyUstb/log.log";
-        if (SdCardPro.fileIsExists(filename)) {
-            SdCardPro.createSDFile(filename);
-        }
-        SdCardPro.write(log, filename);
-    }
-
-    public static String getMyday() {
+    public static String getMyDay() {
         Calendar cal = Calendar.getInstance();
         return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DATE);
     }
@@ -133,7 +123,7 @@ public class BasicDate {
                 if (i != 0) score_list.add(score_li); // don't add when the first time
                 score_li = new ArrayList<>();
                 year = record.get(2 + 8 * i);
-                RecordTerm  t = new RecordTerm(year);
+                RecordTerm t = new RecordTerm(year);
                 termList.add(t);  //add a new term
             }
         }

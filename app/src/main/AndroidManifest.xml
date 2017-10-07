@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!--https://android-developers.googleblog.com/2017/08/making-it-safer-to-get-apps-on-android-o.html -->
 
+    <!-- https://android-developers.googleblog.com/2017/08/making-it-safer-to-get-apps-on-android-o.html -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -42,6 +42,9 @@
         <service
             android:name="me.gensh.service.CampusNetworkTest"
             android:exported="false" />
+        <service
+            android:name="me.gensh.service.ApkDownloadIntentService"
+            android:exported="false" />
 
         <activity
             android:name=".StartActivity"
@@ -66,6 +69,10 @@
         <activity
             android:name=".NetWorkSignIn"
             android:label="@string/title_activity_net_work_sign_in"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WebNotificationsActivity"
+            android:label="@string/title_activity_web_notifications"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ELearningCategory"
@@ -147,14 +154,16 @@
             android:name=".OpenSource"
             android:label="@string/title_activity_open_source"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".WebNotificationsActivity"
-            android:label="@string/title_activity_web_notifications"
-            android:theme="@style/AppTheme.NoActionBar" />
 
-        <service
-            android:name="me.gensh.service.ApkDownloadIntentService"
-            android:exported="false"></service>
+        <!-- third part activity -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".CampusCardConsumption"
+            android:label="@string/title_activity_campus_card_consumption"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

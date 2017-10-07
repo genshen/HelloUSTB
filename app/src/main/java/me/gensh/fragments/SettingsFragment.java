@@ -81,7 +81,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Const.Settings.KEY_WEEK_NUM.equals(key)) {
             setWeekStart(Integer.parseInt(mPreferenceWeekNum.getValue()));
-//            BasicDate.writeLog("changed!\r\n");
+//            System.out.println("changed!\r\n");
             setListSummary(mPreferenceWeekNum, "第一周");
         } else if (Const.Settings.KEY_NET_SIGN_IN_MODE.equals(key)) {
             setListSummary(mPreferenceNetSignInMode, "普通模式");

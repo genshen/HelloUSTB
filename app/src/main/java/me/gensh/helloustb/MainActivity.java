@@ -5,14 +5,13 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,9 +26,11 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.Calendar;
 
+import me.gensh.views.CircularImageView;
 import me.gensh.fragments.DashboardFragment;
 import me.gensh.fragments.HomeFragment;
 import me.gensh.fragments.SettingsFragment;
+import me.gensh.io.IOUtils;
 import me.gensh.network.VersionCheckerTask;
 import me.gensh.service.ApkDownloadIntentService;
 import permissions.dispatcher.NeedsPermission;
@@ -45,6 +46,7 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, VersionCheckerTask.OnNewVersionListener {
     VersionCheckerTask checker;
+    Bitmap avatarBitmap;
     //    SearchView mSearchView;
 //    AppBarLayout appBarLayout;
     DrawerLayout drawer;
@@ -159,40 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationHeader.findViewById(R.id.avatar_background).setOnClickListener(new ClickHand());
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        Calendar cal = Calendar.getInstance();
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int drawable;
-        if (hour < 6) {
-            drawable = R.drawable.nav_night;
-        } else if (hour < 11) {
-            drawable = R.drawable.nav_morning;
-        } else if (hour < 18) {
-            drawable = R.drawable.nav_afternoon;
-        } else {
-            drawable = R.drawable.nav_night;
-        }
-        navigationHeader.findViewById(R.id.avatar_background).setBackgroundResource(drawable);
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        checker.cancel(true);
-        checker = null;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -217,6 +185,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        Calendar cal = Calendar.getInstance();
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int drawable;
+        if (hour < 6) {
+            drawable = R.drawable.nav_night;
+        } else if (hour < 11) {
+            drawable = R.drawable.nav_morning;
+        } else if (hour < 18) {
+            drawable = R.drawable.nav_afternoon;
+        } else {
+            drawable = R.drawable.nav_night;
+        }
+        navigationHeader.findViewById(R.id.avatar_background).setBackgroundResource(drawable);
+        setAvatar();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        checker.cancel(true);
+        checker = null;
+        if (avatarBitmap != null) {
+            avatarBitmap.recycle();
+            avatarBitmap = null;
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {  //check drawer
@@ -230,6 +238,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 super.onBackPressed();
             }
+        }
+    }
+
+    private void setAvatar() {
+        File avatarFile = new File(getFilesDir(), IOUtils.HELLO_USTB_AVATAR_NAME);
+        if (avatarFile.exists()) {
+            if (avatarBitmap != null) {
+                avatarBitmap.recycle();
+            }
+            System.out.println(avatarFile.length());
+            avatarBitmap = BitmapFactory.decodeFile(avatarFile.getPath());
+            CircularImageView avatarView = navigationHeader.findViewById(R.id.avatar);
+            avatarView.setImageBitmap(avatarBitmap);
         }
     }
 
@@ -281,37 +302,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MainActivityPermissionsDispatcher.startDownloadWithPermissionCheck(this, packageSize, newVersionCode, newVersionName);
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void startDownload(long packageSize, int newVersionCode, String newVersionName) {
         Toast.makeText(this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
         ApkDownloadIntentService.startActionDownloadApk(this, packageSize, newVersionCode, newVersionName);
     }
 
-    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showRationaleForApkDownload(final PermissionRequest request) {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.permission_download_apk_rationale)
-                .setPositiveButton(R.string.alert_confirm, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.permission_button_allow, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int button) {
+                    public void onClick(DialogInterface dialog, int which) {
                         request.proceed();
                     }
                 })
-                .setNegativeButton(R.string.alert_cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.permission_button_deny, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int button) {
+                    public void onClick(DialogInterface dialog, int which) {
                         request.cancel();
                     }
                 })
                 .show();
     }
 
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showDeniedForApkDownload() {
         Toast.makeText(this, R.string.permission_download_apk_denied, Toast.LENGTH_SHORT).show();
     }
 
-    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showNeverAskForApkDownload() {
         Toast.makeText(this, R.string.permission_download_apk_neverask, Toast.LENGTH_SHORT).show();
     }

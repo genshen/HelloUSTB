@@ -77,37 +77,37 @@ public class About extends AppCompatActivity implements VersionCheckerTask.OnNew
         AboutPermissionsDispatcher.startDownloadWithPermissionCheck(this, packageSize, newVersionCode, newVersionName);
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void startDownload(long packageSize, int newVersionCode, String newVersionName) {
         Toast.makeText(this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
         ApkDownloadIntentService.startActionDownloadApk(this, packageSize, newVersionCode,newVersionName);
     }
 
-    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showRationaleForApkDownload(final PermissionRequest request) {
         new AlertDialog.Builder(this)
                 .setMessage(R.string.permission_download_apk_rationale)
-                .setPositiveButton(R.string.alert_confirm, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.permission_button_allow, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int button) {
+                    public void onClick(DialogInterface dialog, int which) {
                         request.proceed();
                     }
                 })
-                .setNegativeButton(R.string.alert_cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.permission_button_deny, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int button) {
+                    public void onClick(DialogInterface dialog, int which) {
                         request.cancel();
                     }
                 })
                 .show();
     }
 
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @OnPermissionDenied({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showDeniedForApkDownload() {
         Toast.makeText(this, R.string.permission_download_apk_denied, Toast.LENGTH_SHORT).show();
     }
 
-    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    @OnNeverAskAgain({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showNeverAskForApkDownload() {
         Toast.makeText(this, R.string.permission_download_apk_neverask, Toast.LENGTH_SHORT).show();
     }

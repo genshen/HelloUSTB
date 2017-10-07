@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.gensh.helloustb.CampusCardConsumption;
 import me.gensh.helloustb.ELearningCategory;
 import me.gensh.helloustb.Library;
 import me.gensh.helloustb.NetWorkSignIn;
@@ -46,7 +46,7 @@ public class DashboardFragment extends Fragment {
             R.drawable.ic_dashboard_item_campus_card, R.drawable.ic_dashboard_item_libaray,
             R.drawable.ic_dashboard_item_volunteer, R.drawable.ic_dashboard_item_exam_query,};
     final static String[] resTitles = {"成绩查询", "创新学分", "本科教学网通知", "课程表", "校园网",
-            "校园卡消费", "图书馆", "志愿服务", "考试查询"};
+            "校园卡消费", "图书馆", "志愿服务", "考试查询"}; //todo multi-language
     ArrayList<Map<String, Object>> dataList = new ArrayList<>();
 
     public DashboardFragment() {
@@ -107,7 +107,8 @@ public class DashboardFragment extends Fragment {
                         startActivity(network);
                         break;
                     case GRID_VIEW_ITEM_TAG_CAMPUS_CARD:
-                        Snackbar.make(gridViewDashboard, R.string.developing, Snackbar.LENGTH_LONG).show(); //// TODO: 2017/9/14
+                        Intent card = new Intent(getActivity(), CampusCardConsumption.class);
+                        startActivity(card);
                         break;
                     case GRID_VIEW_ITEM_TAG_LIBRARY:
                         Intent library = new Intent(getActivity(), Library.class);

@@ -43,15 +43,19 @@
 
     <include layout="@layout/content_account" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_fab_login"
-        app:backgroundTint="#F9BF2D"
-        app:rippleColor="#F9BF4F"
+    <me.gensh.views.CircularImageView
+        android:id="@+id/avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_drawer_login"
+        app:civ_border="true"
+        app:civ_border_width="0dp"
+        app:civ_shadow="true"
+        app:civ_shadow_color="@color/material_gray"
+        app:civ_shadow_radius="12"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|right"
+        app:layout_behavior="me.gensh.views.AvatarBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

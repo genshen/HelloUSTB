@@ -4,20 +4,27 @@ import android.os.Environment;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
-public class SdCardPro {
+public class IOUtils {
     final static String HELLO_USTB_DIRECTORY = "/HelloUSTB";
     final static String HELLO_USTB_DIRECTORY_APK = "/HelloUSTB/apk";
+    final public static String HELLO_USTB_AVATAR_NAME = "avatar.png";
+    final public static String CACHE_APK_DIR = "/apk/";
+
+    /**
+     * note: those classes also use I/O:
+     * {@link me.gensh.fragments.CampusNetworkFragment#FILE_PATH }
+     * {@link me.gensh.fragments.CampusNetworkFragment#M }
+     * {@link me.gensh.helloustb.Account#setAvatar }
+     */
 
     //     if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
     public static void checkDirExit() {
@@ -40,25 +47,6 @@ public class SdCardPro {
         }
     }
 
-    public static String read(String path) {
-        //this.path=path;
-        try {
-            String SDPath = getSDPath();
-            FileInputStream fis = new FileInputStream(SDPath + path);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-            StringBuilder sb = new StringBuilder("");
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-            br.close();
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static void write(String content, String file_name) {
         try {
             String SDPath = getSDPath();
@@ -76,7 +64,6 @@ public class SdCardPro {
         try {
             return Environment.getExternalStorageDirectory().getCanonicalPath();
         } catch (IOException e) {
-            // TODO
             e.printStackTrace();
         }
         return null;
@@ -87,33 +74,18 @@ public class SdCardPro {
         File file = new File(SDPath + path);
         File[] tempList = file.listFiles();
 
-        ArrayList<File> file_temp = new ArrayList<File>();
+        ArrayList<File> file_temp = new ArrayList<>();
 
-        for (int i = 0; i < tempList.length; i++) {
-            if (tempList[i].isFile()) {
-                file_temp.add(tempList[i]);
+        for (File aTempList : tempList) {
+            if (aTempList.isFile()) {
+                file_temp.add(aTempList);
             }
         }
         return file_temp;
     }
 
-    public static boolean fileIsExists(String filename) {
-        try {
-            File sdCardDir = Environment.getExternalStorageDirectory();
-            File f = new File(sdCardDir.getCanonicalPath() + filename);
-            if (!f.exists()) {
-                return false;
-            }
-
-        } catch (Exception e) {
-            // TODO: handle exception
-            return false;
-        }
-        return true;
-    }
-
     //
-    public static File createSDFile(String fileName) {
+    private static File createSDFile(String fileName) {
         String SDPath = getSDPath();
         File file = new File(SDPath + fileName);
         try {
@@ -145,13 +117,6 @@ public class SdCardPro {
             }
         }
         return file;
-    }
-
-
-    public static boolean delFile(String fileName) {
-        String SDPath = getSDPath();
-        File file = new File(SDPath + fileName);
-        return file.delete();
     }
 
     //create file in directory: Downloads

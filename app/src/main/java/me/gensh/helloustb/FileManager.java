@@ -14,7 +14,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import me.gensh.io.FileInfo;
-import me.gensh.io.SdCardPro;
+import me.gensh.io.IOUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class FileManager extends AppCompatActivity {
     }
 
     private void inti() {
-        final ArrayList<File> file_list = SdCardPro.getFileList("/MyUstb/DownloadFile/");
+        final ArrayList<File> file_list = IOUtils.getFileList("/MyUstb/DownloadFile/");
         List<Map<String,Object>> List = new ArrayList<>();
         for(int i=0;i<file_list.size();i++){
             Map<String,Object> listitem = new HashMap<>();

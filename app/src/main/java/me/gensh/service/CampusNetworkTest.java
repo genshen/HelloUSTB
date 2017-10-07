@@ -77,7 +77,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
             //HttpURLConnection  3s延迟
             Thread.sleep(300);//todo 150
             int statusCode = HttpClients.testConnection(TEST_URL);
-            Log.v(TEST_TAG, "CONNECTION TEST returned code:" + statusCode);
+//            Log.v(TEST_TAG, "CONNECTION TEST returned code:" + statusCode);
             if (statusCode == 302) { //todo and location url =="202.204.48.66"
                 SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
                 String mode = pre.getString(Const.Settings.KEY_NET_SIGN_IN_MODE, Const.Settings.NET_SIGN_IN_NORMAL_MODE);

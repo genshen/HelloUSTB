@@ -1,20 +1,16 @@
 package me.gensh.helloustb;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -27,7 +23,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import me.gensh.io.SdCardPro;
+import me.gensh.io.IOUtils;
 import me.gensh.utils.NotificationUtils;
 
 import java.io.File;
@@ -93,8 +89,8 @@ public class Browser extends AppCompatActivity {
                             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
                             urlConn.setConnectTimeout(3000);
                             InputStream inputStream = urlConn.getInputStream();
-                            SdCardPro.checkDirExit();
-                            File resultFile = SdCardPro.writeToSDfromInput("/MyUstb/DownloadFile", "/" + FileName, inputStream);
+                            IOUtils.checkDirExit();
+                            File resultFile = IOUtils.writeToSDfromInput("/MyUstb/DownloadFile", "/" + FileName, inputStream); // TODO: 2017/10/6
                             if (resultFile == null) {
                                 System.out.print("error");
                             } else {

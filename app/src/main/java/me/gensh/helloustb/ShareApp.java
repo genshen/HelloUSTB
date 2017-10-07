@@ -24,13 +24,11 @@ import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.gensh.io.SdCardPro;
-
-import static android.os.Build.VERSION_CODES.M;
+import me.gensh.io.IOUtils;
 
 public class ShareApp extends AppCompatActivity {
     final static String LABEL_DOWNLOAD_URL = "DOWNLOAD_URL";
-    final static String CACHE_APK_DIR = "/apk/";
+
     ShareAppTask shareAppTask;
 
     @Override
@@ -84,7 +82,7 @@ public class ShareApp extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
                 intent.setType("*/*");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(Intent.createChooser(intent, "发送"));
+                startActivity(Intent.createChooser(intent, getString(R.string.share_app_intent_title)));
             }
         } catch (PackageManager.NameNotFoundException e) {
 //            e.printStackTrace();
@@ -95,7 +93,7 @@ public class ShareApp extends AppCompatActivity {
     private File getCacheApkFile() throws PackageManager.NameNotFoundException {
         PackageInfo packageInfo = getPackageManager().getPackageInfo(this.getPackageName(), 0);
         final String fileName = getString(R.string.app_name) + "-" + packageInfo.versionName + ".apk ";
-        return new File(getCacheDir(), CACHE_APK_DIR + fileName);
+        return new File(getCacheDir(), IOUtils.CACHE_APK_DIR + fileName);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -122,12 +120,11 @@ public class ShareApp extends AppCompatActivity {
             if (haveCopied) {
                 return false;
             }
-
             try {
                 File sourceApk = new File(getPackageManager().getApplicationInfo(getPackageName(), 0).sourceDir);
                 File cacheApk = getCacheApkFile();
                 cacheApk.getParentFile().mkdirs();
-                SdCardPro.copy(sourceApk, cacheApk);
+                IOUtils.copy(sourceApk, cacheApk);
                 return false;
             } catch (IOException | PackageManager.NameNotFoundException e) {
 //                e.printStackTrace();
