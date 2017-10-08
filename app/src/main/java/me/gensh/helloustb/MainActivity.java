@@ -26,13 +26,15 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.Calendar;
 
-import me.gensh.views.CircularImageView;
 import me.gensh.fragments.DashboardFragment;
 import me.gensh.fragments.HomeFragment;
 import me.gensh.fragments.SettingsFragment;
 import me.gensh.io.IOUtils;
+import me.gensh.natives.MailAccount;
 import me.gensh.network.VersionCheckerTask;
 import me.gensh.service.ApkDownloadIntentService;
+import me.gensh.utils.EasyFeedback;
+import me.gensh.views.CircularImageView;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -276,8 +278,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(share);
                 break;
             case R.id.nav_feedback:
-                Intent feedback = new Intent(this, Feedback.class);
-                startActivity(feedback);
+                new EasyFeedback.Builder(this)
+                        .withEmail(MailAccount.getMailAccount())
+                        .build()
+                        .start();
                 break;
             case R.id.nav_github:
                 Intent browser = new Intent();

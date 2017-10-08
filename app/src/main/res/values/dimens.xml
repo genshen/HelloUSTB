@@ -100,4 +100,12 @@
     <!--校园网-->
     <dimen name="net_login_reload_height">120dp</dimen>
     <!--校园网-->
+
+    <!---feedback-->
+    <dimen name="feedback_select_image_margin">32dp</dimen>
+    <dimen name="feedback_info_legal_margin">32dp</dimen>
+    <dimen name="margin_eight">8dp</dimen>
+    <dimen name="feedback_input_margin">30dp</dimen>
+    <dimen name="feedback_submit_button_margin">30dp</dimen>
+    <!---/feedback-->
 </resources>

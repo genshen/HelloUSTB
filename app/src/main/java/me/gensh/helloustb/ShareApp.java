@@ -52,7 +52,6 @@ public class ShareApp extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onDestroy() {
         if (shareAppTask != null) {
@@ -93,7 +92,7 @@ public class ShareApp extends AppCompatActivity {
     private File getCacheApkFile() throws PackageManager.NameNotFoundException {
         PackageInfo packageInfo = getPackageManager().getPackageInfo(this.getPackageName(), 0);
         final String fileName = getString(R.string.app_name) + "-" + packageInfo.versionName + ".apk ";
-        return new File(getCacheDir(), IOUtils.CACHE_APK_DIR + fileName);
+        return new File(new File(getCacheDir(), IOUtils.CACHE_APK_DIR), fileName);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -144,13 +143,12 @@ public class ShareApp extends AppCompatActivity {
                 try {
                     File cacheApk = getCacheApkFile();
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    Uri contentUri;
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    contentUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", cacheApk);
+                    Uri contentUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", cacheApk);
                     intent.putExtra(Intent.EXTRA_STREAM, contentUri);
                     intent.setType("*/*");
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(Intent.createChooser(intent, "发送"));
+                    startActivity(Intent.createChooser(intent, getString(R.string.share_app_intent_title)));
                 } catch (PackageManager.NameNotFoundException e) {
 //                e.printStackTrace();
                     Toast.makeText(ShareApp.this, R.string.app_send_error, Toast.LENGTH_LONG).show();

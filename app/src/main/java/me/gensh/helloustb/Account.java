@@ -110,7 +110,7 @@ public class Account extends AppCompatActivity {
                     options.setActiveWidgetColor(ContextCompat.getColor(this, R.color.colorPrimary)); // color of all active button
                     options.setDimmedLayerColor(ContextCompat.getColor(this, R.color.colorPrimary)); //background of crop frame
 //                    options.setCropFrameColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                    UCrop.of(sourceUri, Uri.fromFile(f))  //todo from file
+                    UCrop.of(sourceUri, Uri.fromFile(f))  //todo contentURi from file
                             .withOptions(options)
                             .withAspectRatio(1, 1)
                             .withMaxResultSize(300, 300)

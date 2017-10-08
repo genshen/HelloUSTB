@@ -1,61 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Feedback"
     tools:showIn="@layout/activity_feedback">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="24sp"
-        android:text="@string/FeedbackTitle" />
+    <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
+    <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-
-    <EditText
-        android:id="@+id/FeedbackContent"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp"
-        android:background="@drawable/edit"
-        android:gravity="top"
-        android:hint="@string/feedbackContent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:imeOptions="actionNext"
-        android:inputType="textMultiLine"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-    <EditText
-        android:id="@+id/FeedbackContact"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:lines="1"
-        android:background="@drawable/edit"
-        android:gravity="top"
-        android:hint="@string/contact_information"
-        android:singleLine="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:imeOptions="actionDone"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/feedback_input_margin"
+            android:layout_marginRight="@dimen/feedback_input_margin"
+            android:layout_marginTop="@dimen/feedback_input_margin"
+            android:gravity="top|start"
+            android:hint="@string/your_input"
+            android:minLines="1" />
+
+        <FrameLayout
+            android:id="@+id/selectImage"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="@dimen/feedback_select_image_margin"
+            android:layout_marginRight="@dimen/feedback_select_image_margin"
+            android:layout_marginTop="@dimen/feedback_select_image_margin"
+            android:background="@color/light_gray"
+            android:clickable="true">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/selectedImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:id="@+id/selectContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/select_image"
+                    android:textSize="20sp" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_insert_photo_black_48dp" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/feedback_info_legal_margin"
+            android:layout_marginRight="@dimen/feedback_info_legal_margin"
+            android:layout_marginTop="@dimen/feedback_info_legal_margin"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/upload_log_info_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/upload_log_and_info"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/info_legal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/submitSuggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/feedback_submit_button_margin"
+            android:text="@string/send_feedback" />
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

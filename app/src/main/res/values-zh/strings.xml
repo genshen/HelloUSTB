@@ -1,37 +1,36 @@
 <resources>
-    <string name="app_name" translatable="false">HelloUSTB</string>
 
     <!--Activity 标题-->
     <string name="title_activity_main">Hello USTB</string>
     <string name="title_activity_guide">GUIDE</string>
-    <string name="title_activity_elearning">Loading</string>
-    <string name="title_activity_browser">Browser</string>
-    <string name="title_activity_timetable">Timetable</string>
-    <string name="title_activity_net_work_sign_in">Network</string>
-    <string name="title_activity_file_manager">Download</string>
-    <string name="title_activity_share_app">Share App</string>
-    <string name="title_activity_web_notifications">Notifications</string>
-    <string name="title_activity_record_query_detail">Score Detail</string>
-    <string name="title_activity_timetable_detail">Course Detail</string>
-    <string name="title_activity_timetable_edit">Edit Course</string>
-    <string name="title_activity_feedback">Feedback</string>
-    <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_about">About</string>
-    <string name="title_activity_open_source">Open Source License</string>
-    <string name="title_activity_account">Account</string>
-    <string name="title_activity_account_manager">Accounts Manager</string>
-    <string name="title_activity_campus_card">Campus Card</string>
-    <string name="title_activity_volunteer">Volunteer</string>
-    <string name="title_activity_library">Libaray</string>
-    <string name="title_activity_book_detail">Book Detail</string>
-    <string name="title_activity_my_volunteer_list">My Activities</string>
-    <string name="title_activity_volunteer_search">Volunteer Activity Search</string>
-    <string name="title_activity_volunteer_detail">Activity Detail</string>
-    <string name="title_activity_volunteer_search_result">Search Results</string>
-    <string name="title_activity_playground">Playground</string>
-    <string name="pressAgainToExit">Press again to exit</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_search">Search</string>
+    <string name="title_activity_elearning">正在加载</string>
+    <string name="title_activity_browser">浏览器</string>
+    <string name="title_activity_timetable">课程表</string>
+    <string name="title_activity_net_work_sign_in">校园网</string>
+    <string name="title_activity_file_manager">下载</string>
+    <string name="title_activity_share_app">分享应用</string>
+    <string name="title_activity_web_notifications">最新通知</string>
+    <string name="title_activity_record_query_detail">成绩详情</string>
+    <string name="title_activity_timetable_detail">课程详情</string>
+    <string name="title_activity_timetable_edit">编辑课程</string>
+    <string name="title_activity_feedback">反馈</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="title_activity_about">关于</string>
+    <string name="title_activity_open_source">开源许可</string>
+    <string name="title_activity_account">个人中心</string>
+    <string name="title_activity_account_manager">账号管理</string>
+    <string name="title_activity_campus_card">校园卡</string>
+    <string name="title_activity_volunteer">志愿服务</string>
+    <string name="title_activity_library">图书馆</string>
+    <string name="title_activity_book_detail">图书详情</string>
+    <string name="title_activity_my_volunteer_list">我的工时列表</string>
+    <string name="title_activity_volunteer_search">搜索活动</string>
+    <string name="title_activity_volunteer_detail">活动详情</string>
+    <string name="title_activity_volunteer_search_result">搜索结果</string>
+    <string name="title_activity_playground">操场</string>
+    <string name="pressAgainToExit">请再按一次退出本程序</string>
+    <string name="action_settings">设置</string>
+    <string name="action_search">搜索</string>
     <!--/Activity 标题-->
 
     <!-- 开始界面 -->
@@ -40,7 +39,7 @@
     <string name="bottom_text_format">&#169;2015&#8211;%d helloustb.gensh.me \nAll Right Reserved</string>
     <!-- 开始界面 -->
     <!-- 引导页 -->
-    <string name="start">Start</string>
+    <string name="start">开始</string>
     <string name="guide_net_login">一键登录校园网</string>
     <string name="guide_score">期末考试查成绩</string>
     <string name="guide_more">更多功能等你体验</string>
@@ -50,10 +49,10 @@
     <!-- /引导页 -->
 
     <!-- Global Toast 提示-->
-    <string name="no_network">Network is not available now</string>
-    <string name="request_error">Network request error</string>
-    <string name="connectionTimeout">Request timeout,try again later</string>
-    <string name="errorPassword">Error username or password</string>
+    <string name="no_network">当前网络连接不可用</string>
+    <string name="request_error">网络请求错误</string>
+    <string name="connectionTimeout">网络连接超时,请稍后重试</string>
+    <string name="errorPassword">用户名或密码错误</string>
     <!-- /Global Toast 提示-->
 
     <!--notifications-->
@@ -61,22 +60,22 @@
     <!--/notifications-->
 
     <!--error-->
-    <string name="error_account_not_found">Error while acquiring user information</string>
+    <string name="error_account_not_found">获取用户信息失败</string>
     <!--/error-->
 
     <!--permissions 权限-->
     <string name="permission_external_storage_rationale">我们需要使用您的外部存储来存储一些数据</string>
     <string name="permission_external_storage_denied">我们需要使用您的外部存储来存储一些数据</string>
     <string name="permission_external_storage_neverask">我们需要使用您的外部存储来存储一些数据</string>
-    <string name="permission_button_allow">Allow</string>
-    <string name="permission_button_deny">Deny</string>
+    <string name="permission_button_allow">允许</string>
+    <string name="permission_button_deny">拒绝</string>
     <!--permissions 权限-->
     <!-- Dialog-->
-    <string name="alert_login">Login</string>
-    <string name="alert_confirm">OK</string>
-    <string name="alert_delete">Delete</string>
-    <string name="alert_cancel">Cancel</string>
-    <string name="alert_ok">OK</string>
+    <string name="alert_login">登录</string>
+    <string name="alert_confirm">确定</string>
+    <string name="alert_delete">删除</string>
+    <string name="alert_cancel">取消</string>
+    <string name="alert_ok">确定</string>
     <string name="alert_title_net">校园网用户登录</string>
     <string name="alert_title_deu">本科教学网用户登录</string>
     <string name="alert_title_e">电子信息门户用户登录</string>
@@ -93,22 +92,22 @@
     <string name="network_unavailable">当前网络连接不可用</string>
     <!--/error fragment-->
     <!-- enter.xml -->
-    <string name="schnum">Stu No.</string>
-    <string name="pass">Password</string>
+    <string name="schnum">学号</string>
+    <string name="pass">密码</string>
     <string name="dialog_stu_no_filter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
-    <string name="please_input_account">Please input account</string>
+    <string name="please_input_account">请输入登录账号</string>
     <!-- enter.xml -->
 
     <!-- 更新版本 -->
     <string name="update_downloading">正在后台下载更新包，下载完成后将会通知您安装</string>
-    <string name="update_download_error">Update error,failed to download update package.</string>
-    <string name="update_download">Downloading</string>
-    <string name="start_download">Start downloading</string>
-    <string name="updateNow">Update now</string>
-    <string name="sayLater">Later</string>
-    <string name="updateRequest">You have new version,update now?\nv%1$s\n%2$s</string>
-    <string name="versionUpdate">Version update</string>
-    <string name="haveUpdated">This is the latest version!</string>
+    <string name="update_download_error">更新错误,下载更新包失败</string>
+    <string name="update_download">正在下载</string>
+    <string name="start_download">开始下载</string>
+    <string name="updateNow">现在更新</string>
+    <string name="sayLater">稍后再说</string>
+    <string name="updateRequest">检查到有新版本，是否立即更新？\nv%1$s\n%2$s</string>
+    <string name="versionUpdate">版本更新</string>
+    <string name="haveUpdated">当前版本已是最新版本！</string>
     <string name="permission_download_apk_rationale">我们需要获取外部存储空间读写权限以下载最新版本安装包</string>
     <string name="permission_download_apk_denied">我们需要获取外部存储空间读写权限以下载最新版本安装包</string>
     <string name="permission_download_apk_neverask">我们需要获取外部存储空间读写权限以下载最新版本安装包</string>
@@ -118,15 +117,15 @@
     <string name="image">image</string>
     <string name="nav_header_title">个人中心</string>
     <string name="nav_header_subtitle">个人资料待完善</string>
-    <string name="drawer_menu_category_about_and_feedback">About&amp;Feedback</string>
-    <string name="drawer_menu_home">Home</string>
-    <string name="drawer_menu_account_manager">Accounts</string>
-    <string name="drawer_menu_download">Downloads</string>
-    <string name="drawer_menu_share">Share</string>
-    <string name="share_app_intent_title">Send</string>
-    <string name="drawer_menu_feedback">Feedback</string>
+    <string name="drawer_menu_category_about_and_feedback">关于与反馈</string>
+    <string name="drawer_menu_home">首页</string>
+    <string name="drawer_menu_account_manager">账号</string>
+    <string name="drawer_menu_download">下载</string>
+    <string name="drawer_menu_share">分享</string>
+    <string name="share_app_intent_title">发送</string>
+    <string name="drawer_menu_feedback">反馈</string>
     <string name="drawer_menu_github">Github issues</string>
-    <string name="drawer_menu_about">About</string>
+    <string name="drawer_menu_about">关于</string>
     <!-- /侧滑栏 -->
     <!-- 主界面 -->
     <string name="navigation_drawer_open">drawer_open</string>
@@ -152,7 +151,7 @@
     <string name="build_time_format">built at %s</string>
     <!-- 关于界面 -->
     <!--设置-->
-    <string name="setting">Settings</string>
+    <string name="setting">设置</string>
     <string name="this_week_num">当前周数</string>
     <!--/设置-->
     <!--意见反馈-->
@@ -165,27 +164,24 @@
     <string name="permission_feedback_external_storage_rationale">我们需要获取读取外部存储空间权限以选取截屏图片</string>
     <string name="permission_feedback_external_storage_denied">我们需要获取读取外部存储空间权限以选取截屏图片</string>
     <string name="permission_feedback_external_storage_neverask">我们需要获取读取外部存储空间权限以选取截屏图片</string>
-    <string name="file_name_device_info" translatable="false">deviceInf.txt</string>
-    <string name="file_name_device_log" translatable="false">deviceLog.txt</string>
-    <string name="feedback_mail_subject">feedback about %1$s</string>
-    <string name="Ok">OK</string>
-    <string name="your_input">Write your feedback</string>
-    <string name="send_feedback">Send</string>
-    <string name="from" translatable="false">From:</string>
-    <string name="please_write">Please write something.</string>
-    <string name="send_feedback_two">Send Feedback</string>
-    <string name="feedback">Feedback</string>
-    <string name="select_image">+ Add Screenshot</string>
-    <string name="click_again">Click again to change the image</string>
-    <string name="select_picture_title">Select Picture</string>
-    <string name="ok">OK</string>
-    <string name="upload_log_and_info">upload System info and Log data</string>
-    <string name="system_info">System Info</string>
-    <string name="info_fedback_legal_start">"Your "</string>
-    <string name="info_fedback_legal_system_info">"system info "</string>
-    <string name="info_fedback_legal_and">"and "</string>
-    <string name="info_fedback_legal_log_data">"log data "</string>
-    <string name="info_fedback_legal_will_be_sent">will be sent to %s</string>
+    <string name="feedback_mail_subject">%1$s反馈</string>
+    <string name="Ok">确定</string>
+    <string name="your_input">输入反馈/建议</string>
+    <string name="send_feedback">提交</string>
+    <string name="please_write">请填写反馈/建议.</string>
+    <string name="send_feedback_two">提交反馈</string>
+    <string name="feedback">反馈</string>
+    <string name="select_image">+添加截图</string>
+    <string name="click_again">再次点击以更换截图</string>
+    <string name="select_picture_title">选择截图</string>
+    <string name="ok">确定</string>
+    <string name="upload_log_and_info">上传设备信息与日志</string>
+    <string name="system_info">设备信息</string>
+    <string name="info_fedback_legal_start">"你的 "</string>
+    <string name="info_fedback_legal_system_info">"设备信息 "</string>
+    <string name="info_fedback_legal_and">"与 "</string>
+    <string name="info_fedback_legal_log_data">"日志 "</string>
+    <string name="info_fedback_legal_will_be_sent">将会被发送给 %s</string>
     <string name="space">" "</string>
     <!--/意见反馈-->
     <!--下载文件管理-->
@@ -199,59 +195,7 @@
     <string name="preparing_share">正在准备分享&#8230;</string>
     <!-- /分享应用 -->
 
-
-    <!-- 相关链接 -->
-    <string name="app_github_url" translatable="false">https://github.com/genshen/HelloUSTB</string>
-    <string name="teach" translatable="false">http://teach.ustb.edu.cn</string>
-    <string name="sch_net" translatable="false">http://202.204.48.66</string>
-    <string name="tea_login" translatable="false">http://seam.ustb.edu.cn:8080/jwgl/Login</string>
-    <!-- 相关链接   校园网 -->
-    <string name="cippv6" translatable="false">http://cippv6.ustb.edu.cn/get_ip.php</string>
-    <string name="zifuwu_login" translatable="false">http://zifuwu.ustb.edu.cn:8080/logintemp.jsp</string>
-    <string name="zifuwu_userinfo" translatable="false">http://zifuwu.ustb.edu.cn:8080/userinfo.jsp</string>
-    <!-- 相关链接   /校园网  -->
-    <!-- 相关链接   选课系统 -->
-    <string name="ele_login" translatable="false">http://elearning.ustb.edu.cn/choose_courses/j_spring_security_check</string>
-    <string name="ele_score_query" translatable="false">http://elearning.ustb.edu.cn/choose_courses/information/singleStuInfo_singleStuInfo_loadSingleStuScorePage.action</string>
-    <string name="ele_innovation_credit" translatable="false">http://elearning.ustb.edu.cn/choose_courses/information/singleStuInfo_singleStuInfo_loadSingleStuCxxfPage.action</string>
-    <string name="ele_exam_time_place_query" translatable="false">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_examList_loadExamListPage.action</string>
-    <string name="school_timetable_addresss" translatable="false">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_courseList_loadTermCourses.action</string>
-    <!-- 相关链接    选课系统 -->
-
-
-    <!-- 相关链接  志愿者 -->
-    <string name="vol_login" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=user&amp;a=login</string>
-    <string name="volunteer_home" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=index&amp;a=showIndex</string>
-    <string name="my_volunteer_list" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=attendActivity</string>
-    <string name="volunteer_search" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=recruitingActivity&amp;pageNum=%1$d&amp;activityName=%2$s&amp;activityAddr=%3$s&amp;zyznlyq=%4$s&amp;activityKeywords=%5$s&amp;stage=0&amp;type=0&amp;org=0&amp;state=1</string>
-    <string name="volunteer_detail_view" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=showDetail&amp;activityId=%s</string>
-    <string name="volunteer_activity_join" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=joinActivity&amp;activityId=%s</string>
-    <string name="volunteer_activity_exit" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=exitActivity&amp;activityId=%1$s&amp;Xh=%2$s</string>
-    <string name="volunteer_activity_collect" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=interest_detail&amp;activityId=%s</string>
-    <string name="volunteer_activity_collect_cancel" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=cancel_interest&amp;interestId=%d</string>
-    <!-- 相关链接 /志愿者 -->
-    <string name="tea_hp" translatable="false">http://seam.ustb.edu.cn:8080/jwgl/index.jsp</string>
-    <string name="information_url" translatable="false">http://seam.ustb.edu.cn:8080/jwgl/stuinfo.jsp</string>
-    <string name="e_login" translatable="false">http://e.ustb.edu.cn/userPasswordValidate.portal</string>
-    <string name="CampusCard_url" translatable="false">http://e.ustb.edu.cn/index.portal?.pn=p378_p381</string>
-    <!-- 相关链接 图书馆 -->
-    <string name="lib_search_address" translatable="false">http://lib.ustb.edu.cn:8080/opac/openlink.php</string>
-    <string name="lib_search_address_alternate" translatable="false">http://lib.ustb.edu.cn:8080/opac/openlink.php</string>
-    <string name="lib_main" translatable="false">http://lib.ustb.edu.cn:8080/opac/</string>
-    <string name="lib_main_alternate" translatable="false">http://lib.ustb.edu.cn:8080/opac/</string>
-    <!--/相关链接 图书馆-->
-    <!-- 个人网站链接 -->
-    <string name="downloadURL" translatable="false">http://genshen.hol.es/blog/frontend/web/file/helloustb.rar</string>
-    <string name="UpdateAddress" translatable="false">http://genshen.hol.es/blog/frontend/web/index.php?r=hello%2Fjson-apk</string>
-    <string name="wifi_check_url" translatable="false">http://genshen.hol.es/code/android/myustb/wifi.php</string>
-    <string name="myHomePage" translatable="false">http://genshen.hol.es</string>
-    <string name="app_website" translatable="false">http://genshen.hol.es/blog/frontend/web/index.php?r=hello</string>
-    <!-- 注意：更新下载链接时，要更新二维码 -->
-    <string name="download_link" translatable="false">http://genshen.hol.es/blog/frontend/web/index.php?r=hello%2Fdownload</string>
-    <!-- /个人网站链接 -->
-    <!-- /相关链接 -->
-
-
+    <!--图书馆-->
     <!--图书馆 搜索-->
     <string name="start_search">检索</string>
     <string name="lib_search_hint">请键入检索内容</string>
@@ -277,12 +221,12 @@
     <!-- /图书馆 -->
 
     <!-- 浏览器 -->
-    <string name="copyUrl">Copy Link</string>
-    <string name="openWithOtherBrowser">Open in Browser</string>
-    <string name="collect">Collect</string>
+    <string name="copyUrl">复制链接</string>
+    <string name="openWithOtherBrowser">用浏览器打开</string>
+    <string name="collect">收藏</string>
     <string name="noOperation">无效操作</string>
-    <string name="have_copied">linked copied</string>
-    <string name="share">Share</string>
+    <string name="have_copied">链接已复制到剪切板</string>
+    <string name="share">分享</string>
     <!-- /浏览器 -->
     <!---成绩查询-->
     <string name="fan_menu_innovation_credit">创新学分</string>
@@ -311,8 +255,8 @@
     <!--/考试时间地点查询-->
 
     <!-- 课程表主界面 -->
-    <string name="import_table">import Timetable</string>
-    <string name="share_table">Share Timetable</string>
+    <string name="import_table">导入课表</string>
+    <string name="share_table">分享课表</string>
     <string name="Course_Time">上课时间</string>
     <string name="Course_Name">课程名称</string>
     <string name="Course_Room">上课教室</string>
@@ -353,8 +297,8 @@
     <string name="detail_course_credit_key">课程学分</string>
     <string name="detail_course_type_key">课程分类</string>
     <string name="detail_course_time_place_key">所有课堂</string>
-    <string name="setting_course_edit">Edit</string>
-    <string name="setting_course_delete">Delete</string>
+    <string name="setting_course_edit">编辑</string>
+    <string name="setting_course_delete">删除</string>
     <string name="dialog_delete_course_ack_title">删除课程</string>
     <string name="dialog_delete_course_ack_message">你确定删除课程"%s"?</string>
     <!-- /课程详情 -->
@@ -362,13 +306,13 @@
     <string name="course_imported_guide">你尚未导入课表,请点击上方导入课表按钮导入.</string>
     <string name="no_course_imported">你尚未导入课表</string>
     <string name="lesson_id">%d</string>
-    <string name="timetable_monday">Mon</string>
-    <string name="timetable_tuesday">Tue</string>
-    <string name="timetable_wednesday">Wed</string>
-    <string name="timetable_thursday">Thur</string>
-    <string name="timetable_friday">Fri</string>
-    <string name="timetable_saturday">Sat</string>
-    <string name="timetable_sunday">Sun</string>
+    <string name="timetable_monday">周一</string>
+    <string name="timetable_tuesday">周二</string>
+    <string name="timetable_wednesday">周三</string>
+    <string name="timetable_thursday">周四</string>
+    <string name="timetable_friday">周五</string>
+    <string name="timetable_saturday">周六</string>
+    <string name="timetable_sunday">周日</string>
     <!--课程表 总-->
     <!-- 编辑课程 -->
     <string name="edit_course_name">课程名称</string>
@@ -401,9 +345,9 @@
     <string name="no_search_result">未找到符合条件的活动信息</string>
     <string name="no_search_result_more">没有更多活动信息啦~</string>
     <!--志愿服务详情-->
-    <string name="setting_volunteer_join">Join</string>
-    <string name="setting_volunteer_exit">Exit</string>
-    <string name="setting_volunteer_collect">Collect</string>
+    <string name="setting_volunteer_join">参加活动</string>
+    <string name="setting_volunteer_exit">退出活动</string>
+    <string name="setting_volunteer_collect">收藏活动</string>
     <string name="setting_volunteer_collect_cancel">取消收藏</string>
     <string name="error_obtain_detail_information">获取获得详细信息错误</string>
     <string name="error_volunteer_no_login">错误:你目前尚未登录或已下线</string>
@@ -414,7 +358,7 @@
     <string name="error_volunteer_join_request">添加活动请求错误</string>
     <string name="error_volunteer_join_result">参加活动错误:%1$s 错误码:%2$d</string>
 
-    <string name="dialog_exit_activity_title">Exit activity</string>
+    <string name="dialog_exit_activity_title">退出活动</string>
     <string name="dialog_exit_activity_ack">你确定要退出该活动:"%s"?</string>
     <string name="volunteer_exit_success">你已成功退出该活动</string>
     <string name="error_volunteer_exit_request">退出活动请求错误</string>
@@ -431,7 +375,7 @@
 
     <!--校园网-->
     <string name="auto_sign_in_error_title">校园网登录失败</string>
-    <string name="auto_sign_in_error_ticker">Login failed</string>
+    <string name="auto_sign_in_error_ticker">登录失败</string>
     <string name="auto_sign_in_error_content_hand">请尝试手动登录</string>
     <string name="auto_sign_in_error_content_password">用户名或密码错误</string>
     <string name="auto_sign_in_error_content_try_again">%ds后重试</string>
@@ -442,13 +386,13 @@
     <string name="net_sign_in_success">校园网登录成功</string>
     <string name="error_net_sign_in_connection_timeout">连接超时,请轻触重试</string>
     <string name="error_net_sign_in_password">用户名或密码错误,请轻触重试</string>
-    <string name="error_obtain_ip">error IPV6 address</string>
-    <string name="campus_network_account">Account:</string>
+    <string name="error_obtain_ip">获取IPV6地址错误</string>
+    <string name="campus_network_account">账号:</string>
     <string name="campus_network_account_value">%1s</string>
-    <string name="campus_network_money_left">Balance:</string>
-    <string name="campus_network_money_value">%s¥</string>
-    <string name="campus_network_flow">Flow:</string>
-    <string name="chart_view_flow">Flow of IPV4</string>
+    <string name="campus_network_money_left">余额:</string>
+    <string name="campus_network_money_value">%s元</string>
+    <string name="campus_network_flow">流量:</string>
+    <string name="chart_view_flow">IPV4流量</string>
     <string name="chart_view_flow_value">%1$s:%2$sMB</string>
     <string name="campus_network_flow_value_v4">IPV4:%sMB</string>
     <string name="campus_network_flow_value_v6">IPV6:%sMB</string>
@@ -457,9 +401,9 @@
     <string name="network_notify_ticker">登录校园网</string>
     <!--校园网-->
     <!--个人中心-->
-    <string name="account_ac">Accounts Manager</string>
-    <string name="account_msg">Messages</string>
-    <string name="account_collection">Collections</string>
+    <string name="account_ac">账号管理</string>
+    <string name="account_msg">消息中心</string>
+    <string name="account_collection">我的收藏</string>
 
     <!--个人中心 用户信息-->
     <string name="permission_account_read_write_external_storage_rationale">我们需要读取外部存储空间权限以选择图片</string>
@@ -468,7 +412,7 @@
     <string name="crop_error">剪裁用户头像错误</string>
     <!--/个人中心 用户信息-->
     <!--个人中心 账号管理-->
-    <string name="alert_sign_out">SignOut</string>
+    <string name="alert_sign_out">注销</string>
     <string name="logout_ele">注销选课系统网账号</string>
     <string name="logout_ele_confirm">你确定注销选课系统账号吗?</string>
     <string name="logout_ele_success">选课系统注销成功</string>
@@ -488,16 +432,15 @@
     <!--/个人中心-->
 
     <!--首页-->
-    <string name="main_navigation_title_home">Home</string>
-    <string name="main_navigation_title_dashboard">Tools</string>
-    <string name="main_navigation_title_settings">Settings</string>
-    <string name="notification_card_title">Notifications</string>
-    <string name="notification_card_see_more">More</string>
+    <string name="main_navigation_title_home">首页</string>
+    <string name="main_navigation_title_dashboard">工具</string>
+    <string name="main_navigation_title_settings">设置</string>
+    <string name="notification_card_title">通知</string>
+    <string name="notification_card_see_more">查看更多</string>
     <string name="notification_card_hint_no_notifications">暂无通知</string>
     <string name="transition_element_name_for_web_notifications">sharedTransition</string>
     <!--/本科教学网通知-->
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="developing" translatable="false">under development</string>
     <string name="title_activity_campus_card_consumption">CampusCardConsumption</string>
 </resources>

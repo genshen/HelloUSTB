@@ -2,13 +2,10 @@ package me.gensh.service;
 
 import android.app.IntentService;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
@@ -84,7 +81,7 @@ public class ApkDownloadIntentService extends IntentService {
 
                 final NotificationUtils notificationUtils = new NotificationUtils(this);
                 final Notification.Builder mBuilder = notificationUtils.getDefaultNotification(getString(R.string.update_download),
-                        getString(R.string.startDownload), getString(R.string.update_downloading));
+                        getString(R.string.start_download), getString(R.string.update_downloading));
                 mBuilder.setProgress(0, 0, true);
                 notificationUtils.notify(mNotificationId, mBuilder);
 

@@ -14,10 +14,11 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class IOUtils {
-    final static String HELLO_USTB_DIRECTORY = "/HelloUSTB";
-    final static String HELLO_USTB_DIRECTORY_APK = "/HelloUSTB/apk";
+    final static String HELLO_USTB_DIRECTORY = "HelloUSTB";
+    final static String HELLO_USTB_DIRECTORY_APK = "HelloUSTB/apk";
     final public static String HELLO_USTB_AVATAR_NAME = "avatar.png";
-    final public static String CACHE_APK_DIR = "/apk/";
+    final public static String CACHE_APK_DIR = "apk";
+    public static final String CACHE_LOGS = "logs";
 
     /**
      * note: those classes also use I/O:
@@ -125,7 +126,7 @@ public class IOUtils {
     }
 
     public static File createFileInDownloadsDirectory(String parent, String filename) throws IOException {
-        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + parent);
+        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), parent);
         if (!directory.exists()) {
             boolean success = directory.mkdirs();
             if (!success) {
