@@ -31,6 +31,7 @@ import me.gensh.helloustb.R;
 import me.gensh.helloustb.WebNotificationsActivity;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.NetWorkFragment;
+import me.gensh.views.ViewUtils;
 
 /**
  * * Created by gensh on 2017/9/1.
@@ -127,7 +128,7 @@ public class HomeFragment extends NetWorkFragment implements HttpRequestTask.OnT
                     notificationCardHint.setVisibility(View.GONE);
                 }
                 listAdapter.notifyDataSetChanged();
-                setListViewHeightBasedOnChildren(notificationCardListView);
+                ViewUtils.setListViewHeightBasedOnChildren(notificationCardListView);  //used in NestedScrollView for listView
             }
         }
     }
@@ -157,24 +158,6 @@ public class HomeFragment extends NetWorkFragment implements HttpRequestTask.OnT
     @Override
     public void onNetworkDisabled() {
         Toast.makeText(getActivity(), R.string.no_network, Toast.LENGTH_LONG).show();
-    }
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        if (listView == null) return;
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 
 }

@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import java.util.HashMap;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,9 +27,7 @@ import me.gensh.helloustb.Timetable;
 import me.gensh.helloustb.TimetableDetail;
 import me.gensh.utils.BasicDate;
 import me.gensh.utils.Const;
-
-import java.util.HashMap;
-import java.util.List;
+import me.gensh.views.ViewUtils;
 
 /**
  * Created by gensh on 2015/11/13.
@@ -55,7 +56,7 @@ public class TodayCourseFragment extends Fragment {
     }
 
     @OnClick(R.id.today_course_import_or_see_all)
-    public void seeAll(View view) {
+    public void seeAll() {
         Intent through_out = new Intent(getActivity(), Timetable.class);
         startActivity(through_out);
     }
@@ -92,6 +93,7 @@ public class TodayCourseFragment extends Fragment {
                     startActivity(intent);
                 }
             });
+            ViewUtils.setListViewHeightBasedOnChildren(todayCourseList);  //used in NestedScrollView for listView
         }
     }
 
