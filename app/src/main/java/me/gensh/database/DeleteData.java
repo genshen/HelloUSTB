@@ -19,7 +19,7 @@ public class DeleteData {
 
     //DBAccount
     public static boolean deleteAccountByTag(DaoSession session, int tag) {
-        session.getDBTimetableDao().queryBuilder().where(DBAccountsDao.Properties.Tag.eq(tag)).buildDelete().executeDeleteWithoutDetachingEntities();
+        session.getDBTimetableDao().queryBuilder().where(DBAccountsDao.Properties.Type.eq(tag)).buildDelete().executeDeleteWithoutDetachingEntities();
         return true;
     }
 

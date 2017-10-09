@@ -12,37 +12,37 @@ import java.util.ArrayList;
 public class PostProcess {
 
     //验证用户名和密码是否错误，错误返回-1，否则返回一个正整数；
-    public static DataInfo MainProcess(BufferedReader br, int id) {
-        DataInfo dataInfo = new DataInfo();
+    public static ResolvedData MainProcess(BufferedReader br, int id) {
+        ResolvedData resolvedData = new ResolvedData();
         switch (id) {
-            case 2:
-                dataInfo.code = validateEduPass(br);
-                dataInfo.data = new ArrayList<>();    //// TODO: 2017/9/22   better implement
+            case Tags.POST.ID_SEAM_LOGIN:
+                resolvedData.code = validateEduPass(br);
+                resolvedData.data = new ArrayList<>();    //// TODO: 2017/9/22   better implement
                 break;
-            case 4:
-                dataInfo.code = validateElePass(br);    //本科教学网验证
-                dataInfo.data = new ArrayList<>();   //// TODO: 2017/9/22
+            case Tags.POST.ID_E_LEARNING_LOGIN:
+                resolvedData.code = validateElePass(br);    //本科教学网验证
+                resolvedData.data = new ArrayList<>();   //// TODO: 2017/9/22
                 break;
-            case 5:
-                dataInfo.data = getTimeTable(br);    //获得课程表
+            case Tags.POST.ID_E_LEARNING_GET_TIMETABLE:
+                resolvedData.data = getTimeTable(br);    //获得课程表
                 break;
-            case 6:
-                dataInfo.data = getExamList(br);    //考试时间地点
+            case Tags.POST.ID_E_LEARNING_EXAM_LIST:
+                resolvedData.data = getExamList(br);    //考试时间地点
                 break;
-            case 7:   //校园网验证
-                dataInfo.code = validateNetPass(br);
-                dataInfo.data = new ArrayList<>();   //// TODO: 2017/9/22
+            case Tags.POST.ID_NETWORK_LOGIN:   //校园网验证
+                resolvedData.code = validateNetPass(br);
+                resolvedData.data = new ArrayList<>();   //// TODO: 2017/9/22
                 break;
-            case 11:
-                dataInfo.code = validateVolPass(br);
-                dataInfo.data = new ArrayList<>();  //// TODO: 2017/9/22
+            case Tags.POST.ID_VOLUNTEER_LOGIN:
+                resolvedData.code = validateVolPass(br);
+                resolvedData.data = new ArrayList<>();  //// TODO: 2017/9/22
                 break;
-            case 12:    //e.ustb.edu.cn
-                dataInfo.code = validateE(br);
-                dataInfo.data = new ArrayList<>();  //// TODO: 2017/9/22
+            case Tags.POST.ID_E_LOGIN:    //e.ustb.edu.cn
+                resolvedData.code = validateE(br);
+                resolvedData.data = new ArrayList<>();  //// TODO: 2017/9/22
                 break;
         }
-        return dataInfo;
+        return resolvedData;
     }
 
     private static ArrayList<String> getTimeTable(BufferedReader br) {
@@ -94,12 +94,12 @@ public class PostProcess {
             br.close();
 //			System.out.println("success message:"+line);
             if (line.contains("success")) {
-                return DataInfo.OK;
+                return ResolvedData.OK;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return DataInfo.ERROR_PASSWORD;
+        return ResolvedData.ERROR_PASSWORD;
     }
 
     private static int validateEduPass(BufferedReader br) {
@@ -108,12 +108,12 @@ public class PostProcess {
             line = br.readLine();    //读取第一行
             br.close();
             if (!line.contains("VBScript")) {
-                return DataInfo.OK;
+                return ResolvedData.OK;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return DataInfo.ERROR_PASSWORD;
+        return ResolvedData.ERROR_PASSWORD;
     }
 
     private static int validateNetPass(BufferedReader br) {
@@ -122,24 +122,24 @@ public class PostProcess {
             while ((line = br.readLine()) != null) {
                 if (line.contains("successfully")) {
                     br.close();
-                    return DataInfo.OK;
+                    return ResolvedData.OK;
                 }
             }
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return DataInfo.ERROR_PASSWORD;
+        return ResolvedData.ERROR_PASSWORD;
     }
 
     //自服务登录验证  目前的校园网登录进不去自服务了
     @Deprecated
-    private static void validateZifuwuPass(BufferedReader br, DataInfo dataInfo) {
+    private static void validateZifuwuPass(BufferedReader br, ResolvedData resolvedData) {
         String line;
         try {
             line = br.readLine();
             if (line.contains("html")) {  //包含“html”，登录成功
-                dataInfo.data = getFlowInfo(br);
+                resolvedData.data = getFlowInfo(br);
                 br.close();
                 return;
             }
@@ -147,7 +147,7 @@ public class PostProcess {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        dataInfo.code = DataInfo.ERROR_PASSWORD;
+        resolvedData.code = ResolvedData.ERROR_PASSWORD;
     }
 
     @Deprecated
@@ -179,14 +179,14 @@ public class PostProcess {
             String line = br.readLine();
             if (line.contains("errDiv")) {
                 br.close();
-                return DataInfo.ERROR_PASSWORD;
+                return ResolvedData.ERROR_PASSWORD;
             }
             br.close();
-            return DataInfo.OK;
+            return ResolvedData.OK;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return DataInfo.ERROR_PASSWORD;
+        return ResolvedData.ERROR_PASSWORD;
     }
 
     private static int validateE(BufferedReader br) {
@@ -195,12 +195,12 @@ public class PostProcess {
             line = br.readLine();
             br.close();
             if (line.contains("Successed")) {
-                return DataInfo.OK;
+                return ResolvedData.OK;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return DataInfo.ERROR_PASSWORD;
+        return ResolvedData.ERROR_PASSWORD;
     }
 
     // 本函数调试用

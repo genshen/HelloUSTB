@@ -62,9 +62,9 @@ public class QueryData {
         }
     }
 
-    public static DBAccounts queryAccountByTag(DaoSession session, int tag) {
+    public static DBAccounts queryAccountByType(DaoSession session, int type) {
         try {
-            return session.getDBAccountsDao().queryBuilder().where(DBAccountsDao.Properties.Tag.eq(tag)).uniqueOrThrow();  //can also be null
+            return session.getDBAccountsDao().queryBuilder().where(DBAccountsDao.Properties.Type.eq(type)).uniqueOrThrow();  //can also be null
         } catch (Exception e) {
             return null;
         }
@@ -74,8 +74,8 @@ public class QueryData {
         return session.getDBAccountsDao().queryBuilder().list();
     }
 
-    public static boolean hasAccount(DaoSession session, int tag) {
-        return queryAccountByTag(session, tag) != null;
+    public static boolean hasAccount(DaoSession session, int type) {
+        return queryAccountByType(session, type) != null;
     }
 
 }

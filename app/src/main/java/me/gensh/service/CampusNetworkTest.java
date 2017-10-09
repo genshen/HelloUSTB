@@ -2,21 +2,20 @@ package me.gensh.service;
 
 import android.app.IntentService;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import me.gensh.database.DBAccounts;
 import me.gensh.database.QueryData;
@@ -25,15 +24,12 @@ import me.gensh.helloustb.MyApplication;
 import me.gensh.helloustb.NetWorkSignIn;
 import me.gensh.helloustb.R;
 import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.NotificationUtils;
 import me.gensh.utils.StrUtils;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author gensh
@@ -82,7 +78,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
                 SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
                 String mode = pre.getString(Const.Settings.KEY_NET_SIGN_IN_MODE, Const.Settings.NET_SIGN_IN_NORMAL_MODE);
                 if (Const.Settings.NET_SIGN_IN_SILENT_MODE.equals(mode) &&
-                        QueryData.hasAccount(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_NET)) {
+                        QueryData.hasAccount(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.NET)) {
                     //静默模式(有密码)
                     autoSignInNetwork();
                 } else if (Const.Settings.NET_SIGN_IN_BROWSER_MODE.equals(mode)) { //浏览器模式
@@ -138,7 +134,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
 
     void autoSignInNetwork() {
         if (((MyApplication) getApplication()).CheckNetwork()) {
-            DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_NET);
+            DBAccounts account = QueryData.queryAccountByType(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.NET);
             assert account != null;  // account is not null
             String password = StrUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
 
@@ -147,8 +143,8 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
             post_params.put("0MKKey", "123456789");
             post_params.put("DDDDD", account.getUsername());
             post_params.put("upass", password);
-            HttpRequestTask httpRequestTask = new HttpRequestTask(this, HttpRequestTask.REQUEST_TYPE_POST,
-                    getString(R.string.sch_net), "NET", 0x101, 7, "GB2312", post_params);
+            HttpRequestTask httpRequestTask = new HttpRequestTask(this, HttpClients.HTTP_POST,
+                    getString(R.string.sch_net), Tags.NETWORK, 0x101, Tags.POST.ID_NETWORK_LOGIN, HttpClients.CHARSET_GB2312, post_params);
             httpRequestTask.setOnTaskFinished(this);
             httpRequestTask.execute();
         } else {

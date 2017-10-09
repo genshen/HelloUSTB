@@ -1,8 +1,7 @@
 package me.gensh.utils;
 
+import android.support.annotation.StringRes;
 import android.util.Log;
-
-import me.gensh.helloustb.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,113 +10,101 @@ import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LoginDialog {
-    final public static int LoginEdu = 0;
-    final public static int LoginNet = 1;
-    final public static int LoginZFW = 2;
-    final public static int LoginE = 3;
-    final public static int LoginEle = 4;
-    final public static int LoginVol = 5;
-    final public static int Timetable = 6;
+import me.gensh.helloustb.R;
+import me.gensh.helloustb.http.Tags;
 
-    //    public String passFileName = "";
-    public int userTag = 0;
-    public Map<String, String> post_params = new LinkedHashMap<>();
+public class LoginDialog {
+    public int userType;
+    public int loginSiteType;
     public int dialog_title = 0;
     public int post_address = 0;
     public int verify_id = 0;
+    public Map<String, String> post_params = new LinkedHashMap<>();
 
-    int state = 0;
+    public static LoginDialog newInstanceForSEAM() {
+        LoginDialog dialog = new LoginDialog(R.string.tea_login, R.string.alert_title_deu, LoginSiteType.EDU, UserType.EDU, Tags.POST.ID_SEAM_LOGIN);
+        dialog.post_params.put("usertype", "student");
+        dialog.post_params.put("btnlogon.x", "75");
+        dialog.post_params.put("btnlogon.y", "75");
+        //	"username"   "password"
+        return dialog;
+    }
 
-    public LoginDialog(int id) {
-        state = id;
-        switch (id) {
-            case LoginEdu:
-                userTag = UserTag.TAG_EDU;
-                dialog_title = R.string.alert_title_deu;
-                post_address = R.string.tea_login;
-                verify_id = 2;
-
-                post_params.put("usertype", "student");
-                post_params.put("btnlogon.x", "75");
-                post_params.put("btnlogon.y", "75");
-//			"username"   "password"
-                break;
-            case LoginNet:
-                userTag = UserTag.TAG_NET;
-                dialog_title = R.string.alert_title_net;
-                post_address = R.string.sch_net;
-                verify_id = 7;
-
-                post_params.put("v6ip", getLocalIpv6Address());
-                post_params.put("0MKKey", "123456789");
-                break;
-            case LoginZFW:
-                post_params.put("Submit", "%B5%C7%C2%BC+Login");
-                verify_id = 71;
-                break;
-            case LoginE:
-                userTag = UserTag.TAG_E;
-//			dialog_title = R.string.alert_title_e;
-//			post_address = R.string.e_login;
-                post_params.put("goto", "http://e.ustb.edu.cn/loginSuccess.portal");
-                post_params.put("gotoOnFail", "http://e.ustb.edu.cn/loginFailure.portal");
-                verify_id = 12;
-                break;
-            case LoginVol:
-                userTag = UserTag.TAG_VOL;
-                dialog_title = R.string.alert_title_volunteer;
-                post_address = R.string.vol_login;
-                post_params.put("lastUrl", "");
-                verify_id = 11;
-                break;
-            case LoginEle:
-                userTag = UserTag.TAG_ELE;
-                dialog_title = R.string.alert_title_ele;
-                post_address = R.string.ele_login;
-                verify_id = 4;
+    public static LoginDialog newInstanceForELearning() {
+        LoginDialog dialog = new LoginDialog(R.string.ele_login, R.string.alert_title_ele, LoginSiteType.ELE, UserType.ELE, Tags.POST.ID_E_LEARNING_LOGIN);
 //			j_username=41355059%2Cundergraduate&j_password=233333
-                break;
-            default:
-                ;
-        }
+        return dialog;
+    }
+
+    public static LoginDialog newInstanceForE() {
+        LoginDialog dialog = new LoginDialog(R.string.e_login, R.string.alert_title_e, LoginSiteType.E, UserType.E, Tags.POST.ID_E_LOGIN);
+        dialog.post_params.put("goto", "http://e.ustb.edu.cn/loginSuccess.portal");
+        dialog.post_params.put("gotoOnFail", "http://e.ustb.edu.cn/loginFailure.portal");
+        return dialog;
+    }
+
+    public static LoginDialog newInstanceForVolunteer() {
+        LoginDialog dialog = new LoginDialog(R.string.vol_login, R.string.alert_title_volunteer, LoginSiteType.VOL, UserType.VOL, Tags.POST.ID_VOLUNTEER_LOGIN);
+        dialog.post_params.put("lastUrl", "");
+        return dialog;
+    }
+
+    public static LoginDialog newInstanceForNetwork() {
+        LoginDialog dialog = new LoginDialog(R.string.sch_net, R.string.alert_title_net, LoginSiteType.NET, UserType.NET, Tags.POST.ID_NETWORK_LOGIN);
+        dialog.post_params.put("v6ip", getLocalIpv6Address());
+        dialog.post_params.put("0MKKey", "123456789");
+        return dialog;
+    }
+
+    @Deprecated
+    public static LoginDialog newInstanceForZFW() { //todo
+        LoginDialog dialog = new LoginDialog(0, 0, 0, 0, 0);
+        dialog.post_params.put("Submit", "%B5%C7%C2%BC+Login");
+        dialog.verify_id = 71;
+        return dialog;
+    }
+
+    private LoginDialog(@StringRes int postAddress, @StringRes int dialogTitle, int loginSiteType, int userType, int verifyId) {
+        this.post_address = postAddress;
+        this.loginSiteType = loginSiteType;
+        this.dialog_title = dialogTitle;
+        this.userType = userType;
+        this.verify_id = verifyId;
     }
 
     //special construct method for login network
     @Deprecated
-    public LoginDialog(int id, String ip6) {
-        state = id;
-        userTag = UserTag.TAG_NET;
+    public LoginDialog(String ip6) {
+        userType = UserType.NET;
         dialog_title = R.string.alert_title_net;
         post_address = R.string.sch_net;
-        verify_id = 7;
+        verify_id = Tags.POST.ID_NETWORK_LOGIN;
         post_params.put("v6ip", ip6);
         post_params.put("0MKKey", "123456789");
     }
 
     public void setAccount(String username, String password) {
-        switch (state) {
-            case LoginZFW:
+        switch (loginSiteType) {
+            case LoginSiteType.ZFW:
                 post_params.put("name", username);
                 post_params.put("password", password);
-            case LoginVol:
-            case LoginEdu:
+            case LoginSiteType.VOL:
+            case LoginSiteType.EDU:
                 post_params.put("username", username);
                 post_params.put("password", password);
                 break;
-            case LoginNet:
+            case LoginSiteType.NET:
                 post_params.put("DDDDD", username);
                 post_params.put("upass", password);
                 break;
-            case LoginE:
+            case LoginSiteType.E:
                 post_params.put("Login.Token1", username);
                 post_params.put("Login.Token2", password);
                 break;
-            case LoginEle:
+            case LoginSiteType.ELE:
                 post_params.put("j_username", username + ",undergraduate");
                 post_params.put("j_password", password);
                 break;
-
         }
     }
 
@@ -151,14 +138,23 @@ public class LoginDialog {
         return "";
     }
 
-    public final static class UserTag {
-        final public static int TAG_EDU = 0;
-        final public static int TAG_NET = 1;  //the same as _ZFW
-        final public static int TAG_E = 3;
-        final public static int TAG_ELE = 4;
-        final public static int TAG_VOL = 5;
-        final public static int TAG_LIB = 6;
+    public final static class LoginSiteType {
+        final public static int EDU = 0;
+        final public static int NET = 1; // different website compared to {ZFW}
+        final public static int ZFW = 2;
+        final public static int E = 3;
+        final public static int ELE = 4;
+        final public static int VOL = 5;
+        final public static int LIB = 6;
     }
 
+    public final static class UserType {
+        final public static int EDU = 0;
+        final public static int NET = 1;  //the same user as {ZFW}
+        final public static int E = 3;
+        final public static int ELE = 4;
+        final public static int VOL = 5;
+        final public static int LIB = 6;
+    }
 
 }

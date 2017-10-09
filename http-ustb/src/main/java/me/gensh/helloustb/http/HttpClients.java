@@ -24,6 +24,8 @@ import okhttp3.Response;
  */
 
 public class HttpClients {
+    final public static int HTTP_GET = 1, HTTP_POST = 2;
+    final public static String CHARSET_BTF8 = "utf-8", CHARSET_GB2312 = "gb2312", CHARSET_GBK = "gbk";
     private OkHttpClient client;
 
     /**
@@ -59,8 +61,60 @@ public class HttpClients {
     }
 
     /**
+     * @param url         request url
+     * @param requestType http request type,GET or POST
+     * @param id          it will process different http response data via this id.
+     * @param charset     charset decides how to encode http response stream
+     * @param params      http get params or post params
+     * @return resolved the http response,and return.
+     */
+    public ResolvedData request(String url, int requestType, int id, String charset, Map<String, String> params) {
+        if (requestType == HTTP_GET) {  //process get request
+            BufferedReader br = get(url, params, charset);
+            ResolvedData resolvedData = new ResolvedData();
+            if (br == null) {  // connection timeout error
+                resolvedData.code = ResolvedData.TimeOut;
+                return resolvedData;
+            }
+            resolvedData.data = GetProcess.MainProcess(br, id);
+            return resolvedData;
+        } else if (requestType == HTTP_POST) {  //process post request
+            BufferedReader br = post(url, params, charset);
+            if (br == null) {
+                ResolvedData data_info = new ResolvedData();
+                data_info.code = ResolvedData.TimeOut;
+                return data_info;
+            }
+            return PostProcess.MainProcess(br, id);
+        }
+        return null;
+    }
+
+    /**
      * @param url     request url
-     * @param charset witch decides how to encode return stream
+     * @param charset charset decides how to encode http response stream
+     * @param params  http get params
+     * @return bufferedReader returned from website the url pointed to
+     */
+    public BufferedReader get(String url, Map<String, String> params, String charset) {
+        if (params == null) {
+            return get(url, charset);
+        }
+        boolean hasParams = false;
+        StringBuilder paramsBuilder = new StringBuilder();
+        for (String key : params.keySet()) { //paramsBuilder.toString() is not ""
+            if (hasParams) {
+                paramsBuilder.append("&");
+            }
+            hasParams = true;
+            paramsBuilder.append(String.format("%s=%s", key, params.get(key)));
+        }
+        return get(url + "?" + paramsBuilder.toString(), charset);
+    }
+
+    /**
+     * @param url     request url
+     * @param charset charset decides how to encode http response stream
      * @return bufferedReader returned from website the url pointed to
      */
     public BufferedReader get(String url, String charset) {

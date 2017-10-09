@@ -23,7 +23,7 @@ import me.gensh.utils.LoginDialog;
 
 public class AccountManager extends AppCompatActivity {
     final static private int buttonsCount = 4;
-    final static private int[] USER_TAGS = {LoginDialog.UserTag.TAG_ELE, LoginDialog.UserTag.TAG_E, LoginDialog.UserTag.TAG_NET, LoginDialog.UserTag.TAG_VOL};
+    final static private int[] USER_TYPE = {LoginDialog.UserType.ELE, LoginDialog.UserType.E, LoginDialog.UserType.NET, LoginDialog.UserType.VOL};
     @BindViews({R.id.account_manager_logout_ele, R.id.account_manager_logout_e,
             R.id.account_manager_logout_network, R.id.account_manager_logout_volunteer})
     List<Button> LogoutButtons;
@@ -47,17 +47,17 @@ public class AccountManager extends AppCompatActivity {
         List<DBAccounts> accounts = QueryData.queryAllAccount(((MyApplication) getApplication()).getDaoSession());
         Long id;
         for (int i = 0; i < buttonsCount; i++) {
-            if ((id = getAccountIdByTag(accounts, USER_TAGS[i])) != null) {
+            if ((id = getAccountIdByUserType(accounts, USER_TYPE[i])) != null) {
                 LogoutButtons.get(i).setClickable(true);
                 LogoutButtons.get(i).setEnabled(true);
-                accountIdMap.put(USER_TAGS[i], id);
+                accountIdMap.put(USER_TYPE[i], id);
             }
         }
     }
 
-    Long getAccountIdByTag(List<DBAccounts> accounts, int tag) {
+    Long getAccountIdByUserType(List<DBAccounts> accounts, int type) {
         for (DBAccounts account : accounts) {
-            if (account.getTag() == tag) {
+            if (account.getType() == type) {
                 return account.getId();
             }
         }
@@ -80,16 +80,16 @@ public class AccountManager extends AppCompatActivity {
         int id = view.getId();
         switch (id) {
             case R.id.account_manager_logout_ele:
-                deleteConfirm(view, accountIdMap.get(LoginDialog.UserTag.TAG_ELE), R.string.logout_ele, R.string.logout_ele_confirm, R.string.logout_ele_success);
+                deleteConfirm(view, accountIdMap.get(LoginDialog.UserType.ELE), R.string.logout_ele, R.string.logout_ele_confirm, R.string.logout_ele_success);
                 break;
             case R.id.account_manager_logout_e:
-                deleteConfirm(view, accountIdMap.get(LoginDialog.UserTag.TAG_E), R.string.logout_e, R.string.logout_e_confirm, R.string.logout_e_success);
+                deleteConfirm(view, accountIdMap.get(LoginDialog.UserType.E), R.string.logout_e, R.string.logout_e_confirm, R.string.logout_e_success);
                 break;
             case R.id.account_manager_logout_network:
-                deleteConfirm(view, accountIdMap.get(LoginDialog.UserTag.TAG_NET), R.string.logout_network, R.string.logout_net_confirm, R.string.logout_net_success);
+                deleteConfirm(view, accountIdMap.get(LoginDialog.UserType.NET), R.string.logout_network, R.string.logout_net_confirm, R.string.logout_net_success);
                 break;
             case R.id.account_manager_logout_volunteer:
-                deleteConfirm(view, accountIdMap.get(LoginDialog.UserTag.TAG_VOL), R.string.logout_volunteer, R.string.logout_volunteer, R.string.logout_vol_success);
+                deleteConfirm(view, accountIdMap.get(LoginDialog.UserType.VOL), R.string.logout_volunteer, R.string.logout_volunteer, R.string.logout_vol_success);
                 break;
         }
     }

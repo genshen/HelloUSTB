@@ -4,6 +4,7 @@ package me.gensh.utils;
  * Created by gensh on 2016/7/14.
  */
 final public class Const {
+
     final static public class Settings {
         public final static String KEY_STU_NO_NUMBER_ONLY = "stu_no_number_only";
         public final static String KEY_WEEK_START = " week_start";
@@ -19,5 +20,6 @@ final public class Const {
     final static public class SharedPreferences {
         public final static String KEY_VERSION_CODE = "version_code";
         public final static String KEY_OPEN_DATE = "open_date";
+        public final static String KEY_USE_ALTERNATE = "use_alternate";
     }
 }

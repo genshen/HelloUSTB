@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -29,6 +28,8 @@ import butterknife.OnClick;
 import me.gensh.helloustb.Browser;
 import me.gensh.helloustb.R;
 import me.gensh.helloustb.WebNotificationsActivity;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.NetWorkFragment;
 import me.gensh.views.ViewUtils;
@@ -86,7 +87,7 @@ public class HomeFragment extends NetWorkFragment implements HttpRequestTask.OnT
         });
 
         //network
-        attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", null, true);
+        attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.teach), Tags.TEACH, 0x101, Tags.GET.ID_TEACH_NET_HOME, HttpClients.CHARSET_GB2312, null, true);
 
         return view;
     }

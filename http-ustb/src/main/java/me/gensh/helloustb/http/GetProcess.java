@@ -10,48 +10,48 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class GetProcess {
-    static String Error = "error";
 
     public static ArrayList<String> MainProcess(BufferedReader br_html, int id) {
         switch (id) {
-            case 0: //print  all html for test
+            case Tags.GET.ID_HTML_OUT: //print  all html for test
                 return printHtml(br_html);
-            case 1:
+            case Tags.GET.ID_TEACH_NET_HOME:
                 return getHomeContent(br_html);
-            case 2:
+            case Tags.GET.ID_SEAM_SCORE:
                 return getScore(br_html);
-            case 3:
+            case Tags.GET.ID_E_LEARNING_SCORE_QUERY:
                 return getEleScore(br_html);
-            case 4:
+            case Tags.GET.ID_E_LEARNING_TIMETABLE:
                 return getTimeTable(br_html);
-            case 6:
+            case Tags.GET.ID_IPV6_ADDRESS:
                 return resolveIp6Address(br_html);
-            case 8:    //get campus network information
+            case Tags.GET.ID_NETWORK_INFO:    //get campus network information
                 return getCampusNetworkInfo(br_html);
             case 9:
                 return getWifiState(br_html);
-            case 10:
+            case Tags.GET.ID_VOLUNTEER_JOIN_EXIT_COLLECT_ACTIVITY:
                 return joinVolunteerActivity(br_html);
-            case 11:
+            case Tags.GET.ID_E_LEARNING_INNOVATION_CREDIT:
                 return getInnovationCredits(br_html);
             case 13:
                 return getCampuscardConsumption(br_html);
             case 14:
                 return getMyInfo(br_html);
-            case 15:
+            case Tags.GET.ID_VOLUNTEER_USER_INFORMATION:
                 return volunteer_home(br_html);
-            case 16:
+            case Tags.GET.ID_VOLUNTEER_ACTIVITIES_LIST:
                 return get_volunteer_list(br_html);
-            case 17:
+            case Tags.GET.ID_VOLUNTEER_ACTIVITIES_SEARCH:
                 return get_volunteer_search_data(br_html);
-            case 18:
+            case Tags.GET.ID_VOLUNTEER_ACTIVITY_DETAIL:
                 return get_volunteer_detail(br_html);
-            case 19:
+            case Tags.GET.ID_LIB_SEARCH:
                 return get_libaray_search(br_html);
-            case 20:
+            case Tags.GET.ID_LIB_BOOK_DETAIL:
                 return get_library_book_detail(br_html);
-            case 21:
+            case Tags.GET.ID_LIB_BOOK_DOUBAN:
                 return get_book_douban(br_html);
             default:
                 return null;
@@ -512,7 +512,7 @@ public class GetProcess {
     }
 
     private static ArrayList<String> get_book_douban(BufferedReader br_html) {
-        ArrayList<String> process_result = new ArrayList<String>();
+        ArrayList<String> process_result = new ArrayList<>();
         try {
             String line = br_html.readLine();
             line = line.split("\"")[15].replace("\\", "");
@@ -526,7 +526,7 @@ public class GetProcess {
     }
 
     private static ArrayList<String> printHtml(BufferedReader br_html) {
-        String line = null;
+        String line;
         System.out.println(">>>>>>>>>>>>>>>>>>>>>Html here>>>>>>>>>>>>>>>>>>>>>>>>>");
         try {
             while ((line = br_html.readLine()) != null) {

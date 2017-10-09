@@ -17,8 +17,8 @@ public class DBAccounts {
     @Property(nameInDb = AccountsInfo.ID)
     private Long id; //id
 
-    @Property(nameInDb = AccountsInfo.TAG)
-    int tag;         //标记是哪个网站的密码
+    @Property(nameInDb = AccountsInfo.TYPE)
+    int type;         //标记是哪个网站的密码
 
     @Property(nameInDb = AccountsInfo.USERNAME)
     String username;   //用户名
@@ -30,11 +30,11 @@ public class DBAccounts {
     String r;
 
 
-    @Generated(hash = 1722719335)
-    public DBAccounts(Long id, int tag, String username, String passwordEncrypt,
-                      String r) {
+    @Generated(hash = 32811746)
+    public DBAccounts(Long id, int type, String username, String passwordEncrypt,
+            String r) {
         this.id = id;
-        this.tag = tag;
+        this.type = type;
         this.username = username;
         this.passwordEncrypt = passwordEncrypt;
         this.r = r;
@@ -50,14 +50,6 @@ public class DBAccounts {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getTag() {
-        return this.tag;
-    }
-
-    public void setTag(int tag) {
-        this.tag = tag;
     }
 
     public String getUsername() {
@@ -84,9 +76,17 @@ public class DBAccounts {
         this.r = r;
     }
 
+    public int getType() {
+        return this.type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     final public static class AccountsInfo {
         final public static String ID = "_id";
-        final public static String TAG = "tag";
+        final public static String TYPE = "type";
         final public static String USERNAME = "username";
         final public static String PASSWORD_ENCRYPT = "password_encrypt";
         final public static String R = "r";

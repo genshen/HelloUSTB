@@ -49,8 +49,8 @@ public class TimetableDetail extends AppCompatActivity {
     protected void onResume() {
         courseDetail = QueryData.getCourseById(((MyApplication) TimetableDetail.this.getApplicationContext()).getDaoSession(), _id);
         if (courseDetail != null) {
-            String positionText = "周" + (courseDetail.getWeekDay() + 1) + " 第" + (courseDetail.getLessonNo() + 1) + "节";
-            getSupportActionBar().setTitle(getString(R.string.timetable_detail_title, courseDetail.getCourseName()));
+            String positionText = "周" + (courseDetail.getWeekDay() + 1) + " 第" + (courseDetail.getLessonNo() + 1) + "节"; //todo text
+            getSupportActionBar().setTitle(getString(R.string.timetable_detail_title, courseDetail.getCourseName())); // todo  set title not work after some time
 
             //textView list as: "course_name", "teachers", "place", "times", "weeks", "position", "student_num","learn_time", "credit", "course_type", "time_place"
             listTextViews.get(0).setText(courseDetail.getCourseName());

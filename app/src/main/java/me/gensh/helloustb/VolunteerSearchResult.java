@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.NetWorkActivity;
 
@@ -110,8 +112,8 @@ public class VolunteerSearchResult extends NetWorkActivity implements HttpReques
                 what = 0x101;
             }
             is_loading = true; //@important: cancel task if it is not null,to make sure there is one task running in a activity or fragment.
-            httpRequestTask = new HttpRequestTask(this, HttpRequestTask.REQUEST_TYPE_GET,
-                    getSearchUrl(search_method, page_count, key_word), "VOL", what, 17, "utf-8", null);
+            httpRequestTask = new HttpRequestTask(this, HttpClients.HTTP_GET,
+                    getSearchUrl(search_method, page_count, key_word),  Tags.VOLUNTEER, what, Tags.GET.ID_VOLUNTEER_ACTIVITIES_SEARCH, HttpClients.CHARSET_BTF8, null);
             httpRequestTask.setOnTaskFinished(this);
             httpRequestTask.execute();
         } else {

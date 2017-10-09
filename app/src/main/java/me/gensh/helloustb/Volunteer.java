@@ -12,14 +12,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import me.gensh.fragments.VolunteerHomeFragment;
-import me.gensh.network.HttpRequestTask;
-import me.gensh.utils.LoginDialog;
-import me.gensh.utils.LoginNetworkActivity;
-
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
+
+import me.gensh.fragments.VolunteerHomeFragment;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
+import me.gensh.network.HttpRequestTask;
+import me.gensh.utils.LoginDialog;
+import me.gensh.utils.LoginNetworkActivity;
 
 public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.OnTaskFinished {
     Boolean isLogin = false;
@@ -34,12 +36,12 @@ public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.O
         setContentView(R.layout.activity_volunteer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         progressBar = findViewById(R.id.progress_bar);
 
-        final LoginDialog vol_login = new LoginDialog(LoginDialog.LoginVol);
-        Login(vol_login, "VOL", 0x401);
+        Login(LoginDialog.newInstanceForVolunteer(), Tags.VOLUNTEER, 0x401);
     }
 
     @Override
@@ -68,12 +70,11 @@ public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.O
     public void volClick(View view) {
         switch (view.getId()) {
             case R.id.for_detail:
-                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.my_volunteer_list),
-                        "VOL", 0x403, 16, "utf-8", null, true);
+                attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.my_volunteer_list), Tags.VOLUNTEER,
+                        0x403, Tags.GET.ID_VOLUNTEER_ACTIVITIES_LIST, HttpClients.CHARSET_BTF8, null, true);
                 break;
             case R.id.vol_login_button:
-                final LoginDialog vol_login = new LoginDialog(LoginDialog.LoginVol);
-                Login(vol_login, "VOL", 0x401);
+                Login(LoginDialog.newInstanceForVolunteer(), Tags.VOLUNTEER, 0x401);
                 break;
         }
     }
@@ -96,8 +97,8 @@ public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.O
 //						Toast.makeText(Volunteer.this, str_msg, Toast.LENGTH_SHORT).show();
                 isLogin = true;
                 savePassword();
-                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.volunteer_home),
-                        "VOL", 0x402, 15, "utf-8", null, false);
+                attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.volunteer_home), Tags.VOLUNTEER,
+                        0x402, Tags.GET.ID_VOLUNTEER_USER_INFORMATION, HttpClients.CHARSET_BTF8, null, false);
                 break;
             case 0x402://home of volunteer home Page;
                 dismissProgressDialog();

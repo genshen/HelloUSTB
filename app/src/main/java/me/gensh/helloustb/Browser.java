@@ -150,7 +150,7 @@ public class Browser extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.browser, menu);
+        getMenuInflater().inflate(R.menu.menu_browser, menu);
         return true;
     }
 

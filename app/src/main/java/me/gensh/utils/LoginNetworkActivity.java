@@ -15,18 +15,18 @@ import me.gensh.database.QueryData;
 import me.gensh.database.StoreData;
 import me.gensh.helloustb.MyApplication;
 import me.gensh.helloustb.R;
-import me.gensh.network.HttpRequestTask;
+import me.gensh.helloustb.http.HttpClients;
 
 /**
  * Created by 根深 on 2016/7/13.
  */
 public abstract class LoginNetworkActivity extends NetWorkActivity {
-    protected String username, password;  // if one login does not finish, another new login can overwrite the username ,password and userTag
+    protected String username, password;  // if one login does not finish, another new login can overwrite the username ,password and userType
     private int userTag;
     boolean canSave = false;
 
     public void Login(final LoginDialog ld, final String tag, final int feedback) {
-        userTag = ld.userTag;
+        userTag = ld.userType;
         if (!QueryData.hasAccount(((MyApplication) getApplication()).getDaoSession(), userTag)) {
             canSave = true;
             SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
@@ -49,8 +49,8 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
                             password = ((TextView) enter.findViewById(R.id.pass)).getText().toString();
                             if (!username.isEmpty() && !password.isEmpty()) {
                                 ld.setAccount(username, password);
-                                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, LoginNetworkActivity.this.getString(ld.post_address),
-                                        tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
+                                attemptHttpRequest(HttpClients.HTTP_POST, LoginNetworkActivity.this.getString(ld.post_address),
+                                        tag, feedback, ld.verify_id, HttpClients.CHARSET_GB2312, ld.post_params, true);//todo charset
                                 dialog.dismiss();
                             }
                         }
@@ -58,18 +58,19 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
                     .show();
         } else {
             canSave = false;
-            DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), userTag);
+            DBAccounts account = QueryData.queryAccountByType(((MyApplication) getApplication()).getDaoSession(), userTag);
             assert account != null;  // account is not null
             String password = StrUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
             ld.setAccount(account.getUsername(), password);
-            attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, this.getString(ld.post_address),
-                    tag, feedback, ld.verify_id, "GB2312", ld.post_params, true);
+            attemptHttpRequest(HttpClients.HTTP_POST, this.getString(ld.post_address),
+                    tag, feedback, ld.verify_id, HttpClients.CHARSET_GB2312, ld.post_params, true); //todo charset
         }
     }
 
     public void savePassword() {
         if (canSave) {
-            StoreData.storeAccount(((MyApplication) getApplication()).getDaoSession(), username, password, userTag); //// TODO: 2017/9/23
+            StoreData.storeAccount(((MyApplication) getApplication()).getDaoSession(), username, password, userTag);
+            // TODO: 2017/9/23 see{@link me.gensh.fragment.ELearningCategory}
         }
     }
 }

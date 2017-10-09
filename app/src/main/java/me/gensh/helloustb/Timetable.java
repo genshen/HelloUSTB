@@ -19,20 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import me.gensh.database.DBAccounts;
-import me.gensh.database.DeleteData;
-import me.gensh.database.QueryData;
-import me.gensh.database.StoreData;
-import me.gensh.fragments.TimetableFragment;
-import me.gensh.network.HttpRequestTask;
-import me.gensh.utils.BasicDate;
-import me.gensh.utils.Const;
-import me.gensh.utils.LoginDialog;
-import me.gensh.utils.LoginNetworkActivity;
-
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
@@ -41,6 +27,22 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import me.gensh.database.DBAccounts;
+import me.gensh.database.DeleteData;
+import me.gensh.database.QueryData;
+import me.gensh.database.StoreData;
+import me.gensh.fragments.TimetableFragment;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
+import me.gensh.network.HttpRequestTask;
+import me.gensh.utils.BasicDate;
+import me.gensh.utils.Const;
+import me.gensh.utils.LoginDialog;
+import me.gensh.utils.LoginNetworkActivity;
 
 /**
  * Created by gensh on 2016.
@@ -123,12 +125,12 @@ public class Timetable extends LoginNetworkActivity implements HttpRequestTask.O
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 DeleteData.clearAllTimetable(((MyApplication) Timetable.this.getApplication()).getDaoSession());
-                                Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x101);
+                                Login(LoginDialog.newInstanceForELearning(), Tags.E_LEARNING, 0x101);
                             }
                         })
                         .show();
             } else {
-                Login(new LoginDialog(LoginDialog.LoginEle), "ELE", 0x101);
+                Login(LoginDialog.newInstanceForELearning(), Tags.E_LEARNING, 0x101);
             }
         }
     }
@@ -142,16 +144,16 @@ public class Timetable extends LoginNetworkActivity implements HttpRequestTask.O
     @Override
     public void onOk(int what, @NonNull ArrayList<String> data) {
         if (what == 0x101) { // from: verify elearning.ustb.edu.cn  password; post
-            //which means:if username and password are set,and the 'Login' button is clicked.And if  login is succeed.the code below will execute
+            //which means:if username and password are set and the 'Login' button is clicked.Then if login is succeed.the code below will execute
             savePassword();
-            DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_ELE);  //todo save username while login
+            DBAccounts account = QueryData.queryAccountByType(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.ELE);  //todo save username while login
             if (account != null) {  //query username from DB
 //			listXnxq=&uid=41355059
                 Map<String, String> params = new ArrayMap<>();
                 params.put("uid", account.getUsername());
                 params.put("listXnxq", BasicDate.getTimetableYear());
-                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.school_timetable_addresss),
-                        "ELE", 0x102, 5, "UTF-8", params, false);
+                attemptHttpRequest(HttpClients.HTTP_POST, getString(R.string.school_timetable_addresss),
+                        Tags.E_LEARNING, 0x102, Tags.POST.ID_E_LEARNING_GET_TIMETABLE, HttpClients.CHARSET_BTF8, params, false);
             } else {
                 onOk(0x404, new ArrayList<String>());  //error:no username found
             }

@@ -2,26 +2,20 @@ package me.gensh.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
 import android.support.annotation.NonNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import me.gensh.helloustb.http.DataInfo;
-import me.gensh.helloustb.http.GetProcess;
 import me.gensh.helloustb.http.HttpClients;
-import me.gensh.helloustb.http.PostProcess;
+import me.gensh.helloustb.http.ResolvedData;
 
 /**
  * Created by gensh on 2015/11/12.
  * Rewritten with OkHttp and AsyncTask by gensh on 2017/9/22.
  */
 
-public class HttpRequestTask extends AsyncTask<Void, Integer, DataInfo> {
-    final public static int REQUEST_TYPE_GET = 1, REQUEST_TYPE_POST = 2;
+public class HttpRequestTask extends AsyncTask<Void, Integer, ResolvedData> {
     private final static int TIMEOUT = 8000;
 
     private final String url, tag, charset;
@@ -36,72 +30,41 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, DataInfo> {
      * @param context     android context
      * @param requestType http request type, post or get
      * @param url         request url
-     * @param tag         website tag
+     * @param hostTag     website tag
      * @param feedback    tag to distinguish every http progress results
-     * @param id          it will progress different http response  by different way via this id
+     * @param id          it will process different http response via this id
      * @param charset     witch decides how to encode return stream
      * @param params      http POST params or http GET params
      */
-    public HttpRequestTask(Context context, int requestType, String url, String tag, int feedback, int id, String charset, Map<String, String> params) {
+    public HttpRequestTask(Context context, int requestType, String url, String hostTag, int feedback, int id, String charset, Map<String, String> params) {
         this.context = context;
         this.requestType = requestType;
         this.url = url;
         this.feedback = feedback;
-        this.tag = tag;
+        this.tag = hostTag;
         this.id = id;
         this.charset = charset;
         this.params = params;
     }
 
-    public static void HtmlOut(BufferedReader br) {
-        try {
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected ResolvedData doInBackground(Void... voids) {
+        return httpClients.request(url, requestType, id, charset, params);
     }
 
     @Override
-    protected DataInfo doInBackground(Void... voids) {
-        if (requestType == REQUEST_TYPE_GET) {  //process get request
-            BufferedReader br = httpClients.get(url, charset);
-            DataInfo data_info = new DataInfo();
-            if (br == null) {  // connection timeout error
-                data_info.code = DataInfo.TimeOut;
-                return data_info;
-            }
-            data_info.data = GetProcess.MainProcess(br, id);
-            return data_info;
-        } else if (requestType == REQUEST_TYPE_POST) {  //process post request
-            BufferedReader br = httpClients.post(url, params, charset);
-            if (br == null) {
-                DataInfo data_info = new DataInfo();
-                data_info.code = DataInfo.TimeOut;
-                return data_info;
-            }
-            return PostProcess.MainProcess(br, id);
-        }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(DataInfo datainfo) {
+    protected void onPostExecute(ResolvedData resolvedData) {
         if (responseHandler != null) {
-            if (datainfo == null || datainfo.data == null || datainfo.code == DataInfo.TimeOut) {
+            if (resolvedData == null || resolvedData.data == null || resolvedData.code == ResolvedData.TimeOut) {
 //                System.out.println(">>>>>>timeout>>>>");
                 responseHandler.onTimeoutError();
-            } else if (datainfo.code == DataInfo.ERROR_PASSWORD) {
+            } else if (resolvedData.code == ResolvedData.ERROR_PASSWORD) {
                 responseHandler.onPasswordError();
             } else {  //ok!
-                ArrayList<String> data = datainfo.data;
-                responseHandler.onOk(feedback, data);
+                responseHandler.onOk(feedback, resolvedData.data);
             }
         }
-        super.onPostExecute(datainfo);
+        super.onPostExecute(resolvedData);
     }
 
     public void setOnTaskFinished(OnTaskFinished callback) {

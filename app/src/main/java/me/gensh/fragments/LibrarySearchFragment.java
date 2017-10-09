@@ -1,9 +1,11 @@
 package me.gensh.fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +18,6 @@ import android.widget.Toast;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import me.gensh.helloustb.BookDetail;
-import me.gensh.helloustb.MyApplication;
-import me.gensh.helloustb.R;
-import me.gensh.network.HttpRequestTask;
-
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.io.UnsupportedEncodingException;
@@ -33,10 +27,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import me.gensh.helloustb.BookDetail;
+import me.gensh.helloustb.MyApplication;
+import me.gensh.helloustb.R;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
+import me.gensh.network.HttpRequestTask;
+import me.gensh.utils.Const;
+import me.gensh.utils.NetWorkFragment;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LibrarySearchFragment extends Fragment implements HttpRequestTask.OnTaskFinished {
+public class LibrarySearchFragment extends NetWorkFragment implements HttpRequestTask.OnTaskFinished {
     private String search_key = "";
     private int page = 1;
     private boolean is_init = false, isLoading = false;
@@ -48,13 +53,22 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
     @BindView(R.id.lib_refresh)
     MaterialRefreshLayout materialRefreshLayout;
 
+    SharedPreferences sharedPreferences;
+
     public LibrarySearchFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_library, container, false);
         ButterKnife.bind(this, rootView);
+
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(final MaterialRefreshLayout materialRefreshLayout) {
@@ -64,7 +78,7 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
                 }
                 page = 1;
                 is_init = false;
-                get(getSearchURL(search_key, page), "LIB", 0x101, 19, "utf-8");
+                get(getSearchURL(search_key, page), Tags.LIB, 0x101, Tags.GET.ID_LIB_SEARCH, HttpClients.CHARSET_BTF8);
             }
 
             @Override
@@ -73,7 +87,7 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
                     materialRefreshLayout.finishRefreshLoadMore();
                     return;
                 }
-                get(getSearchURL(search_key, page), "LIB", 0x102, 19, "utf-8");
+                get(getSearchURL(search_key, page), Tags.LIB, 0x102, Tags.GET.ID_LIB_SEARCH, HttpClients.CHARSET_BTF8);
             }
         });
 
@@ -117,7 +131,7 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
         if (!search_key.isEmpty()) {
             this.search_key = search_key;
             page = 1;   //页数还原;
-            get(getSearchURL(search_key, page), "LIB", 0x100, 19, "utf-8");
+            get(getSearchURL(search_key, page), Tags.LIB, 0x100, Tags.GET.ID_LIB_SEARCH, HttpClients.CHARSET_BTF8);
         }
     }
 
@@ -165,8 +179,15 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return getString(R.string.lib_search_address)
-                + "?strSearchType=title&strText=" + search_url + "&page=" + page;
+
+        if (sharedPreferences.getBoolean(Const.SharedPreferences.KEY_USE_ALTERNATE, false)) {
+            return getString(R.string.lib_search_address_alternate)
+                    + "?strSearchType=title&strText=" + search_url + "&page=" + page;
+        } else {
+            return getString(R.string.lib_search_address)
+                    + "?strSearchType=title&strText=" + search_url + "&page=" + page;
+        }
+
     }
 
     HttpRequestTask httpRequestTask;
@@ -174,17 +195,17 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
     private void get(String url, String tag, int feedback, int id, String code) {
         if (((MyApplication) getActivity().getApplication()).CheckNetwork()) {
             if (feedback == 0x100) { // clicked search button
-                progressBar.setVisibility(View.VISIBLE);
+                showProgressDialog();
             }
             isLoading = true;
             if (httpRequestTask != null) {   //cancel task if it is not null,to make sure there is one task running in a activity or fragment.
                 httpRequestTask.cancel(true);
             }
-            httpRequestTask = new HttpRequestTask(getActivity(), HttpRequestTask.REQUEST_TYPE_GET, url, tag, feedback, id, code, null);
+            httpRequestTask = new HttpRequestTask(getActivity(), HttpClients.HTTP_GET, url, tag, feedback, id, code, null);
             httpRequestTask.setOnTaskFinished(this);
             httpRequestTask.execute();
         } else {
-            Toast.makeText(getActivity(), R.string.no_network, Toast.LENGTH_LONG).show();
+            onNetworkDisabled();
         }
     }
 
@@ -193,7 +214,7 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
         isLoading = false;
         switch (what) {
             case 0x100: //response for click search
-                progressBar.setVisibility(View.INVISIBLE);
+                dismissProgressDialog();
                 if (data.size() == 0) {
                     Toast.makeText(getActivity(), R.string.no_search_result, Toast.LENGTH_SHORT).show();
                     return;
@@ -232,5 +253,21 @@ public class LibrarySearchFragment extends Fragment implements HttpRequestTask.O
     @Override
     public void onTimeoutError() {
         Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        dismissProgressDialog();
+    }
+
+    @Override
+    public void showProgressDialog() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onNetworkDisabled() {
+        Toast.makeText(getActivity(), R.string.no_network, Toast.LENGTH_LONG).show();
     }
 }

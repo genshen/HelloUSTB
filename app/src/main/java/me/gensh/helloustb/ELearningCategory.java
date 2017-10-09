@@ -23,6 +23,8 @@ import me.gensh.database.QueryData;
 import me.gensh.fragments.ELearningExamQueryFragment;
 import me.gensh.fragments.ELearningRecordQueryFragment;
 import me.gensh.fragments.InnovationCreditFragment;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.LoginNetworkActivity;
@@ -191,13 +193,13 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
         } else {
             switch (type) {
                 case INTENT_TYPE_EXAM_QUERY:
-                    Login(new LoginDialog(LoginDialog.LoginEle), "ELE", LOGIN_FEEDBACK_TYPE_EXAM_QUERY);
+                    Login(LoginDialog.newInstanceForELearning(), Tags.E_LEARNING, LOGIN_FEEDBACK_TYPE_EXAM_QUERY);
                     break;
                 case INTENT_TYPE_INNOVATION_CREDIT:
-                    Login(new LoginDialog(LoginDialog.LoginEle), "ELE", LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT);
+                    Login(LoginDialog.newInstanceForELearning(), Tags.E_LEARNING, LOGIN_FEEDBACK_TYPE_INNOVATION_CREDIT);
                     break;
                 case INTENT_TYPE_SCORE_QUERY:
-                    Login(new LoginDialog(LoginDialog.LoginEle), "ELE", LOGIN_FEEDBACK_TYPE_SCORE_QUERY);
+                    Login(LoginDialog.newInstanceForELearning(), Tags.E_LEARNING, LOGIN_FEEDBACK_TYPE_SCORE_QUERY);
                     break;
             }
         }
@@ -218,21 +220,21 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
     private void fetchELearningData(int type, boolean showProgress) {
         switch (type) {
             case INTENT_TYPE_EXAM_QUERY:
-                DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_ELE);  //todo save username while login
+                DBAccounts account = QueryData.queryAccountByType(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.ELE);  //todo save username while login
                 if (account != null) {  //query username from DB
-                    attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_POST, getString(R.string.ele_exam_time_place_query), "ELE", DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY,
-                            6, "UTF-8", ELearningExamQueryFragment.loadExamPlaceQueryRequestParams(account.getUsername()), showProgress);
+                    attemptHttpRequest(HttpClients.HTTP_POST, getString(R.string.ele_exam_time_place_query), Tags.E_LEARNING, DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY,
+                            Tags.POST.ID_E_LEARNING_EXAM_LIST, HttpClients.CHARSET_BTF8, ELearningExamQueryFragment.loadExamPlaceQueryRequestParams(account.getUsername()), showProgress);
                 } else {
                     onOk(USERNAME_ERROR_CALLBACK, new ArrayList<String>());  //error:no username found
                 }
                 break;
             case INTENT_TYPE_INNOVATION_CREDIT:
-                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.ele_innovation_credit),
-                        "ELE", DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT, 11, "UTF-8", null, showProgress);
+                attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.ele_innovation_credit), Tags.E_LEARNING,
+                        DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT, Tags.GET.ID_E_LEARNING_INNOVATION_CREDIT, HttpClients.CHARSET_BTF8, null, showProgress);
                 break;
             case INTENT_TYPE_SCORE_QUERY:
-                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.ele_score_query),
-                        "ELE", DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY, 3, "UTF-8", null, showProgress);
+                attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.ele_score_query), Tags.E_LEARNING,
+                        DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY, Tags.GET.ID_E_LEARNING_SCORE_QUERY, HttpClients.CHARSET_BTF8, null, showProgress);
                 break;
         }
     }

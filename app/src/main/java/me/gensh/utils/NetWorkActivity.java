@@ -2,10 +2,10 @@ package me.gensh.utils;
 
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Map;
+
 import me.gensh.helloustb.MyApplication;
 import me.gensh.network.HttpRequestTask;
-
-import java.util.Map;
 
 /**
  * Created by 根深 on 2016/7/13.

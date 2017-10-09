@@ -10,15 +10,17 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import me.gensh.fragments.CampusNetworkFragment;
-import me.gensh.fragments.ErrorFragment;
-import me.gensh.network.HttpRequestTask;
-import me.gensh.utils.LoginDialog;
-import me.gensh.utils.LoginNetworkActivity;
-
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import java.util.ArrayList;
+
+import me.gensh.fragments.CampusNetworkFragment;
+import me.gensh.fragments.ErrorFragment;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
+import me.gensh.network.HttpRequestTask;
+import me.gensh.utils.LoginDialog;
+import me.gensh.utils.LoginNetworkActivity;
 
 public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTask.OnTaskFinished {
     GoogleProgressBar progressBar;
@@ -41,11 +43,12 @@ public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTa
             @Override
             public void onClick(View v) {
                 errorContainer.setVisibility(View.INVISIBLE);
-                Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x101);  //todo something goes wrong after canceling Login,showing a blank page.
+                Login(LoginDialog.newInstanceForNetwork(), Tags.NETWORK, 0x101);
+                //todo something goes wrong after canceling Login,showing a blank page.
             }
         });
 
-        Login(new LoginDialog(LoginDialog.LoginNet), "NET", 0x101);
+        Login(LoginDialog.newInstanceForNetwork(), Tags.NETWORK, 0x101);
     }
 
     @Override
@@ -64,7 +67,7 @@ public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTa
             case 0x101:  //login to 202.204.48.66 success feedback;  post
                 savePassword();
                 Toast.makeText(getBaseContext(), R.string.net_sign_in_success, Toast.LENGTH_LONG).show();
-                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.sch_net), "NET", 0x102, 8, "GB2312", null, false);
+                attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.sch_net), Tags.NETWORK, 0x102, Tags.GET.ID_NETWORK_INFO, HttpClients.CHARSET_GB2312, null, false);
                 break;
             case 0x102:
                 dismissProgressDialog();

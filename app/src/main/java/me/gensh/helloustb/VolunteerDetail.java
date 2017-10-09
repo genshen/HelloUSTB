@@ -13,12 +13,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import me.gensh.database.DBAccounts;
-import me.gensh.database.QueryData;
-import me.gensh.network.HttpRequestTask;
-import me.gensh.utils.LoginDialog;
-import me.gensh.utils.NetWorkActivity;
-
 import com.jpardogo.android.googleprogressbar.library.GoogleProgressBar;
 
 import org.json.JSONException;
@@ -29,6 +23,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+
+import me.gensh.database.DBAccounts;
+import me.gensh.database.QueryData;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
+import me.gensh.network.HttpRequestTask;
+import me.gensh.utils.LoginDialog;
+import me.gensh.utils.NetWorkActivity;
 
 public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.OnTaskFinished {
     final private static String STATUS_CODE = "statusCode";
@@ -47,19 +49,19 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        detailContainer = (LinearLayout) findViewById(R.id.detail_container);
-        progress_bar = (GoogleProgressBar) findViewById(R.id.progress_bar);
+        detailContainer = findViewById(R.id.detail_container);
+        progress_bar = findViewById(R.id.progress_bar);
         Intent intent = getIntent();
         detail_id = intent.getStringExtra("id");
         setBaseInformation((HashMap) getIntent().getSerializableExtra("detail"));
 
-        //get function in oncreate
-        attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.volunteer_detail_view, detail_id),
-                VOLUNTEER_TAG, 0x100, 18, VOLUNTEER_HTTP_CHARSET, null, true);
+        //get function in onCreate
+        attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.volunteer_detail_view, detail_id), VOLUNTEER_TAG,
+                0x100, Tags.GET.ID_VOLUNTEER_ACTIVITY_DETAIL, VOLUNTEER_HTTP_CHARSET, null, true);
     }
 
     @Override
@@ -81,14 +83,14 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
                         .setPositiveButton(R.string.alert_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET,
-                                        getString(R.string.volunteer_activity_join, detail_id), VOLUNTEER_TAG, 0x101, 10, VOLUNTEER_HTTP_CHARSET, null, true);
+                                attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.volunteer_activity_join, detail_id),
+                                        VOLUNTEER_TAG, 0x101, Tags.GET.ID_VOLUNTEER_JOIN_EXIT_COLLECT_ACTIVITY, VOLUNTEER_HTTP_CHARSET, null, true);
                             }
                         })
                         .show();
                 break;
             case R.id.action_exit:
-                final DBAccounts account = QueryData.queryAccountByTag(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserTag.TAG_ELE);
+                final DBAccounts account = QueryData.queryAccountByType(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.ELE);
                 if (account != null) {
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.dialog_exit_activity_title)
@@ -97,8 +99,8 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
                             .setPositiveButton(R.string.alert_delete, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET,
-                                            getString(R.string.volunteer_activity_exit, detail_id, account.getUsername()), VOLUNTEER_TAG, 0x102, 10, VOLUNTEER_HTTP_CHARSET, null, true);
+                                    attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.volunteer_activity_exit, detail_id, account.getUsername()),
+                                            VOLUNTEER_TAG, 0x102, Tags.GET.ID_VOLUNTEER_JOIN_EXIT_COLLECT_ACTIVITY, VOLUNTEER_HTTP_CHARSET, null, true);
                                 }
                             })
                             .show();
@@ -109,11 +111,11 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
             case R.id.action_collect:
                 if (detailLoaded) {
                     if (hasCollected) {
-                        attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.volunteer_activity_collect_cancel, cancelId),
-                                VOLUNTEER_TAG, 0x104, 10, VOLUNTEER_HTTP_CHARSET, null, true);
+                        attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.volunteer_activity_collect_cancel, cancelId),
+                                VOLUNTEER_TAG, 0x104, Tags.GET.ID_VOLUNTEER_JOIN_EXIT_COLLECT_ACTIVITY, VOLUNTEER_HTTP_CHARSET, null, true);
                     } else {
-                        attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.volunteer_activity_collect, detail_id),
-                                VOLUNTEER_TAG, 0x103, 10, VOLUNTEER_HTTP_CHARSET, null, true);
+                        attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.volunteer_activity_collect, detail_id),
+                                VOLUNTEER_TAG, 0x103, Tags.GET.ID_VOLUNTEER_JOIN_EXIT_COLLECT_ACTIVITY, VOLUNTEER_HTTP_CHARSET, null, true);
                     }
                 } else {
                     showSnackbar(R.string.error_obtain_detail_information);

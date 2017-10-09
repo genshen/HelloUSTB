@@ -194,7 +194,7 @@ public class StoreData {
     * account
      */
     public static void storeAccount(DaoSession session, String username, String pass, int tag) {
-        DBAccounts oldAccount = QueryData.queryAccountByTag(session, tag);
+        DBAccounts oldAccount = QueryData.queryAccountByType(session, tag);
         byte iv[] = StrUtils.randomByteArray(StrUtils.IV_LENGTH);
         String r = Base64.encodeToString(iv, Base64.DEFAULT);
         String passEncrypt = StrUtils.encryptWithIv(pass, iv);  //change password to encrypt password.

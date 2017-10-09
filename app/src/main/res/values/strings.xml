@@ -236,9 +236,9 @@
     <string name="CampusCard_url" translatable="false">http://e.ustb.edu.cn/index.portal?.pn=p378_p381</string>
     <!-- 相关链接 图书馆 -->
     <string name="lib_search_address" translatable="false">http://lib.ustb.edu.cn:8080/opac/openlink.php</string>
-    <string name="lib_search_address_alternate" translatable="false">http://lib.ustb.edu.cn:8080/opac/openlink.php</string>
+    <string name="lib_search_address_alternate" translatable="false">http://lib1.ustb.edu.cn:8080/opac/openlink.php</string>
     <string name="lib_main" translatable="false">http://lib.ustb.edu.cn:8080/opac/</string>
-    <string name="lib_main_alternate" translatable="false">http://lib.ustb.edu.cn:8080/opac/</string>
+    <string name="lib_main_alternate" translatable="false">http://lib1.ustb.edu.cn:8080/opac/</string>
     <!--/相关链接 图书馆-->
     <!-- 个人网站链接 -->
     <string name="downloadURL" translatable="false">http://genshen.hol.es/blog/frontend/web/file/helloustb.rar</string>
@@ -251,8 +251,9 @@
     <!-- /个人网站链接 -->
     <!-- /相关链接 -->
 
-
+    <!--图书馆-->
     <!--图书馆 搜索-->
+    <string name="action_use_alternate">Use alternate domain</string>
     <string name="start_search">检索</string>
     <string name="lib_search_hint">请键入检索内容</string>
     <string name="lib_book_search">检索</string>

@@ -21,6 +21,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.Tags;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.NetWorkActivity;
 
@@ -75,7 +77,8 @@ public class WebNotificationsActivity extends NetWorkActivity implements HttpReq
             setNotificationsList(notifications);
         } else {
             //set http request
-            attemptHttpRequest(HttpRequestTask.REQUEST_TYPE_GET, getString(R.string.teach), "TEACH", 0x101, 1, "gb2312", null, true);
+            attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.teach), Tags.TEACH, 0x101,
+                    Tags.GET.ID_TEACH_NET_HOME, HttpClients.CHARSET_GB2312, null, true);
         }
     }
 
