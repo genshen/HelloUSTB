@@ -4,11 +4,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -16,13 +19,12 @@ import me.gensh.database.DBTimetable;
 import me.gensh.database.DeleteData;
 import me.gensh.database.QueryData;
 
-import java.util.List;
-
 public class TimetableDetail extends AppCompatActivity {
     long _id;
     int i = 0;
     DBTimetable courseDetail;
 
+    Toolbar toolbar;
     @BindViews({R.id.detail_course_name_value, R.id.detail_course_teacher_value,
             R.id.detail_course_place_value, R.id.detail_course_time_value,
             R.id.detail_course_week_value, R.id.detail_course_position_value,
@@ -35,9 +37,10 @@ public class TimetableDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ButterKnife.bind(this);
 
@@ -47,10 +50,13 @@ public class TimetableDetail extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         courseDetail = QueryData.getCourseById(((MyApplication) TimetableDetail.this.getApplicationContext()).getDaoSession(), _id);
         if (courseDetail != null) {
             String positionText = "周" + (courseDetail.getWeekDay() + 1) + " 第" + (courseDetail.getLessonNo() + 1) + "节"; //todo text
-            getSupportActionBar().setTitle(getString(R.string.timetable_detail_title, courseDetail.getCourseName())); // todo  set title not work after some time
+            ((CollapsingToolbarLayout) findViewById(R.id.toolbar_layout))
+                    .setTitle(getString(R.string.timetable_detail_title, courseDetail.getCourseName()));
+            //do not use toolbar or getSupportActionBar to set title.
 
             //textView list as: "course_name", "teachers", "place", "times", "weeks", "position", "student_num","learn_time", "credit", "course_type", "time_place"
             listTextViews.get(0).setText(courseDetail.getCourseName());
@@ -65,7 +71,6 @@ public class TimetableDetail extends AppCompatActivity {
             listTextViews.get(9).setText(courseDetail.getCourseType());
             listTextViews.get(10).setText(courseDetail.getTimeAndPlace());
         }
-        super.onResume();
     }
 
     @Override
@@ -90,7 +95,6 @@ public class TimetableDetail extends AppCompatActivity {
                 break;
             case R.id.action_delete:
                 if (courseDetail != null) {
-
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.dialog_delete_course_ack_title)
                             .setMessage(getString(R.string.dialog_delete_course_ack_message,

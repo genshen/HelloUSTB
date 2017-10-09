@@ -68,6 +68,7 @@ public class TodayCourseFragment extends Fragment {
             final List<HashMap<String, Object>> mapList = QueryData.getTodayCourse(((MyApplication) getActivity().getApplicationContext()).getDaoSession(),
                     BasicDate.getWeekNum(week_start_days));
             if (mapList.size() == 0) { //the default text for todayCourseCardHint is R.string.today_course_card_hint_not_imported
+                todayCourseCardHint.setVisibility(View.VISIBLE); //for changing weeks and then resumed.
                 todayCourseCardHint.setText(R.string.today_course_card_hint_no_courses);
             } else {
                 todayCourseCardHint.setVisibility(View.GONE);

@@ -44,7 +44,7 @@ import me.gensh.utils.NetWorkFragment;
 public class LibrarySearchFragment extends NetWorkFragment implements HttpRequestTask.OnTaskFinished {
     private String search_key = "";
     private int page = 1;
-    private boolean is_init = false, isLoading = false;
+    private boolean isInitialized = false, isLoading = false;
     private SimpleAdapter search_adapter;
     @BindView(R.id.lib_search_list)
     ListView searchListView;
@@ -77,13 +77,13 @@ public class LibrarySearchFragment extends NetWorkFragment implements HttpReques
                     return;
                 }
                 page = 1;
-                is_init = false;
+                isInitialized = false;
                 get(getSearchURL(search_key, page), Tags.LIB, 0x101, Tags.GET.ID_LIB_SEARCH, HttpClients.CHARSET_BTF8);
             }
 
             @Override
             public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
-                if (!is_init || isLoading) {
+                if (!isInitialized || isLoading) {
                     materialRefreshLayout.finishRefreshLoadMore();
                     return;
                 }
@@ -97,7 +97,7 @@ public class LibrarySearchFragment extends NetWorkFragment implements HttpReques
             @Override
             public void onClick(View v) {
                 if (!isLoading) {
-                    is_init = false;
+                    isInitialized = false;
                     search();
                 }
             }
@@ -220,7 +220,7 @@ public class LibrarySearchFragment extends NetWorkFragment implements HttpReques
                     return;
                 }
                 page++;
-                is_init = true;
+                isInitialized = true;
                 setSearchResult(data, true);
                 break;
             case 0x101: // response for refresh
@@ -230,7 +230,7 @@ public class LibrarySearchFragment extends NetWorkFragment implements HttpReques
                     return;
                 }
                 page++;
-                is_init = true;
+                isInitialized = true;
                 setSearchResult(data, true);
                 break;
             case 0x102: //response for load more
@@ -252,8 +252,9 @@ public class LibrarySearchFragment extends NetWorkFragment implements HttpReques
 
     @Override
     public void onTimeoutError() {
-        Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        isLoading = false;
         dismissProgressDialog();
+        Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

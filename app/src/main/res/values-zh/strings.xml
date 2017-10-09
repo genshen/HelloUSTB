@@ -3,7 +3,6 @@
     <!--Activity 标题-->
     <string name="title_activity_main">Hello USTB</string>
     <string name="title_activity_guide">GUIDE</string>
-    <string name="title_activity_elearning">正在加载</string>
     <string name="title_activity_browser">浏览器</string>
     <string name="title_activity_timetable">课程表</string>
     <string name="title_activity_net_work_sign_in">校园网</string>
@@ -31,6 +30,7 @@
     <string name="pressAgainToExit">请再按一次退出本程序</string>
     <string name="action_settings">设置</string>
     <string name="action_search">搜索</string>
+    <string name="common_title_loading">正在加载</string>
     <!--/Activity 标题-->
 
     <!-- 开始界面 -->

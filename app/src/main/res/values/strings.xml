@@ -4,7 +4,6 @@
     <!--Activity 标题-->
     <string name="title_activity_main">Hello USTB</string>
     <string name="title_activity_guide">GUIDE</string>
-    <string name="title_activity_elearning">Loading</string>
     <string name="title_activity_browser">Browser</string>
     <string name="title_activity_timetable">Timetable</string>
     <string name="title_activity_net_work_sign_in">Network</string>
@@ -32,6 +31,7 @@
     <string name="pressAgainToExit">Press again to exit</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
+    <string name="common_title_loading">Loading</string>
     <!--/Activity 标题-->
 
     <!-- 开始界面 -->
