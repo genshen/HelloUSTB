@@ -75,7 +75,7 @@ public class TodayCourseFragment extends Fragment {
             }
             todayCourseImportOrSeeAll.setText(R.string.today_course_card_see_all);
 
-//          MainActivity.shareCourse = StrUtils.getCourseShareStr(mapList); //todo share courses.
+//          MainActivity.shareCourse = StringUtils.getCourseShareStr(mapList); //todo share courses.
 
             SimpleAdapter adapter = new SimpleAdapter(getActivity(), mapList, R.layout.listview_today_course,
                     new String[]{"lesson_no", "times", "course_name", "place", "teachers"},

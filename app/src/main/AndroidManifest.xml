@@ -165,7 +165,7 @@
         <activity
             android:name=".CampusCardConsumption"
             android:label="@string/title_activity_campus_card_consumption"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

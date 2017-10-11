@@ -254,7 +254,7 @@ public class LibrarySearchFragment extends NetWorkFragment implements HttpReques
     public void onTimeoutError() {
         isLoading = false;
         dismissProgressDialog();
-        Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.connection_timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

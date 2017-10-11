@@ -23,6 +23,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="tab_height">40dp</dimen>
 
+    <dimen name="progress_length">50dp</dimen>
     <dimen name="list_vertical_margin_small">8dp</dimen>
 
     <!--<dimen name="dashboard_item_icon_length">272dp</dimen>-->
@@ -87,6 +88,12 @@
     <dimen name="campus_network_card_view_padding">20dp</dimen>
     <dimen name="campus_network_card_view_round_corner">4dp</dimen>
     <!--/campus_network-->
+
+    <!--campus card-->
+    <dimen name="recycle_view_campus_card_item_vertical_margin">8dp</dimen>
+    <dimen name="recycle_view_campus_card_item_horizontal_margin">16dp</dimen>
+    <!--/campus card-->
+
     <!--account-->
     <dimen name="account_image">30dp</dimen>
     <dimen name="account_item_padding_horizontal">20dp</dimen>

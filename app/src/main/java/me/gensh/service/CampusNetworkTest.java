@@ -29,7 +29,7 @@ import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
 import me.gensh.utils.NotificationUtils;
-import me.gensh.utils.StrUtils;
+import me.gensh.utils.StringUtils;
 
 /**
  * @author gensh
@@ -136,7 +136,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
         if (((MyApplication) getApplication()).CheckNetwork()) {
             DBAccounts account = QueryData.queryAccountByType(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.NET);
             assert account != null;  // account is not null
-            String password = StrUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
+            String password = StringUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
 
             Map<String, String> post_params = new LinkedHashMap<>();
             post_params.put("v6ip", LoginDialog.getLocalIpv6Address());
@@ -171,7 +171,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
         errorNotifyBuilder = mNotificationUtils.getDefaultNotification(getString(R.string.auto_sign_in_error_title),
                 getString(R.string.auto_sign_in_error_ticker), getString(R.string.auto_sign_in_error_content_hand));
         mNotificationUtils.notify(AUTO_SIGN_IN_ERROR_NOTIFY_ID, errorNotifyBuilder);
-        Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.error_password, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -182,7 +182,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
                     getString(R.string.auto_sign_in_error_ticker), getString(R.string.auto_sign_in_error_content_try_again, 3));// todo
         } else {  //后续超时,次数限制
             if (errorTryTimes > 4) {//todo
-                Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), R.string.connection_timeout, Toast.LENGTH_LONG).show();
                 errorNotifyBuilder.setContentTitle(getString(R.string.auto_sign_in_error_title))
                         .setContentText(getString(R.string.auto_sign_in_error_content_try_limit, 4));//todo
 
@@ -202,6 +202,6 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
         message.what = 0x100;
         message.obj = 3; //seconds todo
         handler.sendMessageDelayed(message, 1000);
-        Toast.makeText(this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.connection_timeout, Toast.LENGTH_LONG).show();
     }
 }

@@ -122,12 +122,12 @@ public class BookDetail extends NetWorkActivity implements HttpRequestTask.OnTas
 
     @Override
     public void onPasswordError() {
-        Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.error_password, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onTimeoutError() {
-        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.connection_timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

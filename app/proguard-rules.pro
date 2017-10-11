@@ -15,7 +15,21 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--optimizationpasses 100
+-optimizationpasses 50
+
+-assumenosideeffects class android.util.Log {
+public static *** d(...);
+public static *** e(...);
+public static *** i(...);
+public static *** v(...);
+public static *** println(...);
+public static *** w(...);
+public static *** wtf(...);
+}
+
+-assumenosideeffects class me.gensh.helloustb.http.Logs {
+public static *** e(...);
+}
 
 -keep class javax.mail.**{*;}
 -keep class com.sun.mail.**{*;}

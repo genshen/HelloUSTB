@@ -137,13 +137,13 @@ public class HomeFragment extends NetWorkFragment implements HttpRequestTask.OnT
     @Override
     public void onPasswordError() {
         dismissProgressDialog();
-        Toast.makeText(getActivity(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.error_password, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onTimeoutError() {
         dismissProgressDialog();
-        Toast.makeText(getActivity(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), R.string.connection_timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

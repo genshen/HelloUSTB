@@ -24,7 +24,6 @@ public class TimetableDetail extends AppCompatActivity {
     int i = 0;
     DBTimetable courseDetail;
 
-    Toolbar toolbar;
     @BindViews({R.id.detail_course_name_value, R.id.detail_course_teacher_value,
             R.id.detail_course_place_value, R.id.detail_course_time_value,
             R.id.detail_course_week_value, R.id.detail_course_position_value,
@@ -37,7 +36,7 @@ public class TimetableDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable_detail);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowHomeEnabled(true);

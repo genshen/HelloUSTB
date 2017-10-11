@@ -324,7 +324,7 @@ public class VolunteerDetail extends NetWorkActivity implements HttpRequestTask.
     @Override
     public void onTimeoutError() {
         dismissProgressDialog();
-        showSnackbar(R.string.connectionTimeout);
+        showSnackbar(R.string.connection_timeout);
     }
 
     @Override

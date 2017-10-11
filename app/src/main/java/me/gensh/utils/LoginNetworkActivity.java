@@ -50,7 +50,7 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
                             if (!username.isEmpty() && !password.isEmpty()) {
                                 ld.setAccount(username, password);
                                 attemptHttpRequest(HttpClients.HTTP_POST, LoginNetworkActivity.this.getString(ld.post_address),
-                                        tag, feedback, ld.verify_id, HttpClients.CHARSET_GB2312, ld.post_params, true);//todo charset
+                                        tag, feedback, ld.verify_id, HttpClients.CHARSET_BTF8, ld.post_params, true);//todo charset
                                 dialog.dismiss();
                             }
                         }
@@ -60,10 +60,10 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
             canSave = false;
             DBAccounts account = QueryData.queryAccountByType(((MyApplication) getApplication()).getDaoSession(), userTag);
             assert account != null;  // account is not null
-            String password = StrUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
+            String password = StringUtils.decryptWithIv(account.getPasswordEncrypt(), Base64.decode(account.getR(), Base64.DEFAULT));
             ld.setAccount(account.getUsername(), password);
             attemptHttpRequest(HttpClients.HTTP_POST, this.getString(ld.post_address),
-                    tag, feedback, ld.verify_id, HttpClients.CHARSET_GB2312, ld.post_params, true); //todo charset
+                    tag, feedback, ld.verify_id, HttpClients.CHARSET_BTF8, ld.post_params, true); //todo charset
         }
     }
 

@@ -3,7 +3,7 @@ package me.gensh.database;
 import android.util.Base64;
 
 import me.gensh.utils.BasicDate;
-import me.gensh.utils.StrUtils;
+import me.gensh.utils.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,7 +89,7 @@ public class StoreData {
             String time = BasicDate.getCourseTime(lesson.lesson_no);
 
             DBTimetable dbTimetable = new DBTimetable(null,
-                    StrUtils.parseInt(student_num, 0), StrUtils.parseInt(learn_time, 0), StrUtils.parseInt(credit, 0),
+                    StringUtils.parseInt(student_num, 0), StringUtils.parseInt(learn_time, 0), StringUtils.parseInt(credit, 0),
                     week_id, lesson.week_day, lesson.lesson_no,
                     course_id, course_name, course_type, teachers,
                     time_place, lesson.class_place, time, lesson.weeks);
@@ -195,9 +195,9 @@ public class StoreData {
      */
     public static void storeAccount(DaoSession session, String username, String pass, int tag) {
         DBAccounts oldAccount = QueryData.queryAccountByType(session, tag);
-        byte iv[] = StrUtils.randomByteArray(StrUtils.IV_LENGTH);
+        byte iv[] = StringUtils.randomByteArray(StringUtils.IV_LENGTH);
         String r = Base64.encodeToString(iv, Base64.DEFAULT);
-        String passEncrypt = StrUtils.encryptWithIv(pass, iv);  //change password to encrypt password.
+        String passEncrypt = StringUtils.encryptWithIv(pass, iv);  //change password to encrypt password.
         if (oldAccount == null) {
             DBAccounts account = new DBAccounts(null, tag, username, passEncrypt, r);
             session.getDBAccountsDao().insert(account);

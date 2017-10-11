@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/recycle_view_campus_card_item_vertical_margin"
+    android:layout_marginLeft="@dimen/recycle_view_campus_card_item_horizontal_margin"
+    android:layout_marginRight="@dimen/recycle_view_campus_card_item_horizontal_margin"
+    android:layout_marginTop="@dimen/recycle_view_campus_card_item_vertical_margin"
+    android:orientation="horizontal">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/campus_card_tag_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/campus_card_consume_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/campus_card_consume_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/campus_card_consume_place" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/campus_card_consume_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/campus_card_consume_time" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/campus_card_consume_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/campus_card_consume_money" />
+    </RelativeLayout>
+
+</LinearLayout>

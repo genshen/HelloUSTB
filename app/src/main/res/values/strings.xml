@@ -19,7 +19,6 @@
     <string name="title_activity_open_source">Open Source License</string>
     <string name="title_activity_account">Account</string>
     <string name="title_activity_account_manager">Accounts Manager</string>
-    <string name="title_activity_campus_card">Campus Card</string>
     <string name="title_activity_volunteer">Volunteer</string>
     <string name="title_activity_library">Libaray</string>
     <string name="title_activity_book_detail">Book Detail</string>
@@ -27,6 +26,7 @@
     <string name="title_activity_volunteer_search">Volunteer Activity Search</string>
     <string name="title_activity_volunteer_detail">Activity Detail</string>
     <string name="title_activity_volunteer_search_result">Search Results</string>
+    <string name="title_activity_campus_card_consumption">Campus Card Consumption</string>
     <string name="title_activity_playground">Playground</string>
     <string name="pressAgainToExit">Press again to exit</string>
     <string name="action_settings">Settings</string>
@@ -52,8 +52,8 @@
     <!-- Global Toast 提示-->
     <string name="no_network">Network is not available now</string>
     <string name="request_error">Network request error</string>
-    <string name="connectionTimeout">Request timeout,try again later</string>
-    <string name="errorPassword">Error username or password</string>
+    <string name="connection_timeout">Request timeout,try again later</string>
+    <string name="error_password">Error username or password</string>
     <!-- /Global Toast 提示-->
 
     <!--notifications-->
@@ -217,8 +217,6 @@
     <string name="ele_exam_time_place_query" translatable="false">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_examList_loadExamListPage.action</string>
     <string name="school_timetable_addresss" translatable="false">http://elearning.ustb.edu.cn/choose_courses/choosecourse/commonChooseCourse_courseList_loadTermCourses.action</string>
     <!-- 相关链接    选课系统 -->
-
-
     <!-- 相关链接  志愿者 -->
     <string name="vol_login" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=user&amp;a=login</string>
     <string name="volunteer_home" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=index&amp;a=showIndex</string>
@@ -230,10 +228,11 @@
     <string name="volunteer_activity_collect" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=interest_detail&amp;activityId=%s</string>
     <string name="volunteer_activity_collect_cancel" translatable="false">http://zhiyuan.ustb.edu.cn/app.VPClient/index.jsp?m=vpclient&amp;c=ActivityApply&amp;a=cancel_interest&amp;interestId=%d</string>
     <!-- 相关链接 /志愿者 -->
+
     <string name="tea_hp" translatable="false">http://seam.ustb.edu.cn:8080/jwgl/index.jsp</string>
     <string name="information_url" translatable="false">http://seam.ustb.edu.cn:8080/jwgl/stuinfo.jsp</string>
     <string name="e_login" translatable="false">http://e.ustb.edu.cn/userPasswordValidate.portal</string>
-    <string name="CampusCard_url" translatable="false">http://e.ustb.edu.cn/index.portal?.pn=p378_p381</string>
+    <string name="campus_card_query_link" translatable="false">http://e.ustb.edu.cn/index.portal?.pn=p378_p381</string>
     <!-- 相关链接 图书馆 -->
     <string name="lib_search_address" translatable="false">http://lib.ustb.edu.cn:8080/opac/openlink.php</string>
     <string name="lib_search_address_alternate" translatable="false">http://lib1.ustb.edu.cn:8080/opac/openlink.php</string>
@@ -500,5 +499,4 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="developing" translatable="false">under development</string>
-    <string name="title_activity_campus_card_consumption">CampusCardConsumption</string>
 </resources>

@@ -52,7 +52,7 @@ public class PostProcess {
             br.close();
             return data_list;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -82,7 +82,7 @@ public class PostProcess {
             br.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -97,7 +97,7 @@ public class PostProcess {
                 return ResolvedData.OK;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return ResolvedData.ERROR_PASSWORD;
     }
@@ -111,7 +111,7 @@ public class PostProcess {
                 return ResolvedData.OK;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return ResolvedData.ERROR_PASSWORD;
     }
@@ -127,7 +127,7 @@ public class PostProcess {
             }
             br.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return ResolvedData.ERROR_PASSWORD;
     }
@@ -145,7 +145,7 @@ public class PostProcess {
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         resolvedData.code = ResolvedData.ERROR_PASSWORD;
     }
@@ -169,7 +169,7 @@ public class PostProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -184,7 +184,7 @@ public class PostProcess {
             br.close();
             return ResolvedData.OK;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return ResolvedData.ERROR_PASSWORD;
     }
@@ -198,24 +198,23 @@ public class PostProcess {
                 return ResolvedData.OK;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return ResolvedData.ERROR_PASSWORD;
     }
 
-    // 本函数调试用
+    // only for debug
     private static void saveBr(BufferedReader br) {
         String line;
 //        String all = "";
         try {
-            while ((line = br.readLine()) != null)    //测试代码，发布时应删除或注释
-            {
+            while ((line = br.readLine()) != null) {
 //                all += (line + "\n");
                 System.out.println(line);
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
 //        SdCardPro.write(all, "/MyUstb/e_error.log");
     }

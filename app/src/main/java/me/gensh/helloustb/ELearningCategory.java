@@ -131,13 +131,13 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
     @Override
     public void onPasswordError() {
         dismissProgressDialog();
-        Toast.makeText(ELearningCategory.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
+        Toast.makeText(ELearningCategory.this, R.string.error_password, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onTimeoutError() {
         dismissProgressDialog();
-        Toast.makeText(ELearningCategory.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(ELearningCategory.this, R.string.connection_timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

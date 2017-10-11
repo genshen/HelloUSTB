@@ -129,7 +129,7 @@ public class HttpClients {
             }
             response.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return null;
     }
@@ -162,7 +162,7 @@ public class HttpClients {
             }
             response.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return null;
     }
@@ -183,7 +183,7 @@ public class HttpClients {
             Response response = client.newCall(request).execute();
             return response.code();
         } catch (IOException e) {
-//            e.printStackTrace();
+            Logs.e(e);
         }
         return 500; //inter error.
     }

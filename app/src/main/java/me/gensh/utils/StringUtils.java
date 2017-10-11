@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import me.gensh.helloustb.R;
 import me.gensh.natives.Encrypt;
 
-public class StrUtils {
+public class StringUtils {
     static String path;
     final public static int IV_LENGTH = 10;
 
@@ -84,7 +85,15 @@ public class StrUtils {
         return returnStr;
     }
 
-
+    public static int getConsumptionTypeResourceByPlace(String place) {
+        if (place.contains("万秀") || place.contains("鸿博")) {
+            return R.drawable.ic_eating;
+        } else if (place.contains("浴室")) {
+            return R.drawable.ic_bath;
+        } else {
+            return R.drawable.ic_hot_water;
+        }
+    }
     //	Lesson.activity的处理课程表
 //	public static void getCourse(int[] id, Cursor cursor, String[] detail) {
 //		int k = -1;
@@ -104,41 +113,5 @@ public class StrUtils {
 //		cursor.close();
 //	}
 //
-//	private static void getDeatil(int k,String[] detail_copy,Cursor cursor){
-//		int k1 = cursor.getInt(cursor.getColumnIndex("lesson_no"))-1;
-//		//id_copy [k1]=k1+1;
-//		String LessonStr = "";
-//		LessonStr += cursor.getString(cursor.getColumnIndex("course_name"))+"\n";
-//		LessonStr += cursor.getString(cursor.getColumnIndex("place"))+"\n";
-//		LessonStr += cursor.getString(cursor.getColumnIndex("teachers"))+"\n";
-//		LessonStr += "第"+cursor.getString(cursor.getColumnIndex("weeks"))+"\n";
-//		LessonStr += cursor.getString(cursor.getColumnIndex("course_type"))+"\n";
-//
-//		detail_copy[k1] += LessonStr+"\n";
-//	}
-
-    //MainActivity title setting
-//	public static int getActionBarTitle(int number) {
-//
-//		switch (number) {
-//			case 1:
-//				return R.string.left_side_home;
-//			case 2:
-//				return R.string.left_side_record_query;
-//			case 3:
-//				return R.string.left_side_elective_system;
-//			case 4:
-//				return R.string.left_side_my_schedule;
-//			case 5:
-//				return R.string.left_side_volunteer;
-//			case 6:
-//				return R.string.left_side_library;
-//			case 7:
-//				return R.string.left_side_campus_network;
-//			case 8:
-//				return R.string.setting;
-//		}
-//		return R.string.left_side_home;
-//	}
 
 }

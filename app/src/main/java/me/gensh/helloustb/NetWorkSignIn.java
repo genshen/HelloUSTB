@@ -44,6 +44,7 @@ public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTa
             public void onClick(View v) {
                 errorContainer.setVisibility(View.INVISIBLE);
                 Login(LoginDialog.newInstanceForNetwork(), Tags.NETWORK, 0x101);
+                //todo redesign reload button
                 //todo something goes wrong after canceling Login,showing a blank page.
             }
         });
@@ -86,7 +87,7 @@ public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTa
         dismissProgressDialog();
         errorContainer.setVisibility(View.VISIBLE);
         errorMessage.setText(R.string.error_net_sign_in_password);
-        Toast.makeText(getBaseContext(), R.string.errorPassword, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.error_password, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -94,7 +95,7 @@ public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTa
         dismissProgressDialog();
         errorContainer.setVisibility(View.VISIBLE);
         errorMessage.setText(R.string.error_net_sign_in_connection_timeout);
-        Toast.makeText(getBaseContext(), R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.connection_timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -36,23 +36,23 @@ public class GetProcess {
             case Tags.GET.ID_E_LEARNING_INNOVATION_CREDIT:
                 return getInnovationCredits(br_html);
             case 13:
-                return getCampuscardConsumption(br_html);
+                return getCampusCardConsumption(br_html);
             case 14:
                 return getMyInfo(br_html);
             case Tags.GET.ID_VOLUNTEER_USER_INFORMATION:
-                return volunteer_home(br_html);
+                return volunteerHome(br_html);
             case Tags.GET.ID_VOLUNTEER_ACTIVITIES_LIST:
-                return get_volunteer_list(br_html);
+                return getVolunteerList(br_html);
             case Tags.GET.ID_VOLUNTEER_ACTIVITIES_SEARCH:
-                return get_volunteer_search_data(br_html);
+                return getVolunteerSearchData(br_html);
             case Tags.GET.ID_VOLUNTEER_ACTIVITY_DETAIL:
-                return get_volunteer_detail(br_html);
+                return getVolunteerDetail(br_html);
             case Tags.GET.ID_LIB_SEARCH:
-                return get_libaray_search(br_html);
+                return getLibaraySearch(br_html);
             case Tags.GET.ID_LIB_BOOK_DETAIL:
-                return get_library_book_detail(br_html);
+                return getLibraryBookDetail(br_html);
             case Tags.GET.ID_LIB_BOOK_DOUBAN:
-                return get_book_douban(br_html);
+                return getBookDouban(br_html);
             default:
                 return null;
         }
@@ -80,7 +80,7 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -101,7 +101,7 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -139,7 +139,7 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -165,7 +165,7 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -190,12 +190,12 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
-    private static ArrayList<String> getCampuscardConsumption(BufferedReader br_html) {
+    private static ArrayList<String> getCampusCardConsumption(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
@@ -204,13 +204,19 @@ public class GetProcess {
                 String regex = ".+align.+table_text.+";
                 if (line.matches(regex)) {
                     String split_str[] = line.split(">|<");
-                    process_result.add(split_str[2]);
+                    if (split_str.length == 4) {
+                        process_result.add(split_str[2].replaceAll("&nbsp;", ""));
+                        //HtmlEscape.unescapeHtml("&bnsp;") will return "/\u0160"(0xA0),not ASCII 32.
+                    } else {  //error
+                        br_html.close();
+                        return null;
+                    }
                 }
             }
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -229,7 +235,7 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -244,7 +250,7 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
@@ -259,7 +265,7 @@ public class GetProcess {
             }
             br_html.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         process_result.add(line);
         return process_result;
@@ -290,7 +296,7 @@ public class GetProcess {
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return data;
     }
@@ -305,12 +311,12 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
-    private static ArrayList<String> volunteer_home(BufferedReader br_html) {
+    private static ArrayList<String> volunteerHome(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
@@ -333,13 +339,13 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
     //todo check the length of array
-    private static ArrayList<String> get_volunteer_list(BufferedReader br_html) {
+    private static ArrayList<String> getVolunteerList(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
@@ -356,12 +362,12 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
-    private static ArrayList<String> get_volunteer_search_data(BufferedReader br_html) {
+    private static ArrayList<String> getVolunteerSearchData(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
@@ -379,13 +385,13 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
     // todo check index
-    private static ArrayList<String> get_volunteer_detail(BufferedReader br_html) {
+    private static ArrayList<String> getVolunteerDetail(BufferedReader br_html) {
         String line;
         int joinFlag = 0;
         ArrayList<String> process_result = new ArrayList<>();
@@ -424,12 +430,12 @@ public class GetProcess {
             process_result.add(joinFlag + "");
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
-    private static ArrayList<String> get_libaray_search(BufferedReader br_html) {
+    private static ArrayList<String> getLibaraySearch(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<>();
         try {
@@ -465,12 +471,12 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
-    private static ArrayList<String> get_library_book_detail(BufferedReader br_html) {
+    private static ArrayList<String> getLibraryBookDetail(BufferedReader br_html) {
         String line;
         ArrayList<String> process_result = new ArrayList<String>();
         boolean isset = true;
@@ -506,12 +512,12 @@ public class GetProcess {
             }
             return process_result;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logs.e(e);
             return null;
         }
     }
 
-    private static ArrayList<String> get_book_douban(BufferedReader br_html) {
+    private static ArrayList<String> getBookDouban(BufferedReader br_html) {
         ArrayList<String> process_result = new ArrayList<>();
         try {
             String line = br_html.readLine();
@@ -520,11 +526,12 @@ public class GetProcess {
             br_html.close();
             return process_result;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return null;
     }
 
+    //for debug
     private static ArrayList<String> printHtml(BufferedReader br_html) {
         String line;
         System.out.println(">>>>>>>>>>>>>>>>>>>>>Html here>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -534,7 +541,7 @@ public class GetProcess {
             }
             br_html.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logs.e(e);
         }
         return null;
     }

@@ -121,13 +121,13 @@ public class WebNotificationsActivity extends NetWorkActivity implements HttpReq
     @Override
     public void onPasswordError() {
         dismissProgressDialog();
-        Toast.makeText(WebNotificationsActivity.this, R.string.errorPassword, Toast.LENGTH_LONG).show();
+        Toast.makeText(WebNotificationsActivity.this, R.string.error_password, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onTimeoutError() {
         dismissProgressDialog();
-        Toast.makeText(WebNotificationsActivity.this, R.string.connectionTimeout, Toast.LENGTH_LONG).show();
+        Toast.makeText(WebNotificationsActivity.this, R.string.connection_timeout, Toast.LENGTH_LONG).show();
     }
 
     @Override

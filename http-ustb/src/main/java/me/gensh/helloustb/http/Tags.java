@@ -11,6 +11,7 @@ public class Tags {
     public final static String VOLUNTEER = "volunteer";
     public final static String TEACH = "teach";
     public final static String E_LEARNING = "ele";
+    public final static String E = "e";
 
     public final static class GET {
         public final static int
@@ -23,6 +24,7 @@ public class Tags {
                 ID_NETWORK_INFO = 8,  //get user information of campus network.
                 ID_VOLUNTEER_JOIN_EXIT_COLLECT_ACTIVITY = 10, //  join or exit or collect an volunteer activity
                 ID_E_LEARNING_INNOVATION_CREDIT = 11, //  get student'a innovation credit
+                ID_E_CAMPUS_CARD = 13, //request campus card data from http://e.ustb.edu.cn
                 ID_VOLUNTEER_USER_INFORMATION = 15,  //get volunteer user self information
                 ID_VOLUNTEER_ACTIVITIES_LIST = 16,  //get volunteer user self activities list.
                 ID_VOLUNTEER_ACTIVITIES_SEARCH = 17, //volunteer activities search

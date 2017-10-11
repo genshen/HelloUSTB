@@ -121,13 +121,13 @@ public class Volunteer extends LoginNetworkActivity implements HttpRequestTask.O
     @Override
     public void onPasswordError() {
         dismissProgressDialog();
-        setVolunteerMessage(R.string.errorPassword, R.string.login_vol_button_again);
+        setVolunteerMessage(R.string.error_password, R.string.login_vol_button_again);
     }
 
     @Override
     public void onTimeoutError() {
         dismissProgressDialog();
-        setVolunteerMessage(R.string.connectionTimeout, R.string.login_vol_button_again);
+        setVolunteerMessage(R.string.connection_timeout, R.string.login_vol_button_again);
     }
 
     @Override
