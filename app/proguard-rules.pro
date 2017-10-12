@@ -27,10 +27,6 @@ public static *** w(...);
 public static *** wtf(...);
 }
 
--assumenosideeffects class me.gensh.helloustb.http.Logs {
-public static *** e(...);
-}
-
 -keep class javax.mail.**{*;}
 -keep class com.sun.mail.**{*;}
 -keep class javax.activation.**{*;}

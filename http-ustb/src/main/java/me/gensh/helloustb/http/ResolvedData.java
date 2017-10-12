@@ -8,12 +8,15 @@ import java.util.ArrayList;
 public class ResolvedData {
     public final static int OK = 1;
     public final static int TimeOut = 0;
+    public final static int ERROR_RESOLVE = 2;
     public final static int ERROR_PASSWORD = -1;
-    public int code;
+    public int code = OK;
     public ArrayList<String> data;
 
     public ResolvedData() {
-        this.code = OK;
-        this.data = null;
+    }
+
+    public ResolvedData(int code) {
+        this.code = code;
     }
 }

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import me.gensh.helloustb.http.HttpClients;
+import me.gensh.helloustb.http.PendingException;
 import me.gensh.helloustb.http.ResolvedData;
+import me.gensh.helloustb.http.resolver.ResponseResolveException;
 
 /**
  * Created by gensh on 2015/11/12.
@@ -23,7 +25,6 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, ResolvedData> {
     private Map<String, String> params;
 
     private Context context;
-    private static HttpClients httpClients = HttpClients.newInstance(TIMEOUT, TIMEOUT);
     private OnTaskFinished responseHandler;
 
     /**
@@ -49,18 +50,27 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, ResolvedData> {
 
     @Override
     protected ResolvedData doInBackground(Void... voids) {
-        return httpClients.request(url, requestType, id, charset, params);
+        HttpClients httpClients = HttpClients.newInstance(TIMEOUT, TIMEOUT);
+        try {
+            // get a nonNull ResolvedData(resolve method returns nonNull data)
+            return httpClients.request(url, requestType, charset, params).resolve(requestType, id);
+        } catch (PendingException e) {  //for timeout
+            e.printStackTrace();
+            return new ResolvedData(ResolvedData.TimeOut);
+        } catch (ResponseResolveException e) { //for bad response/process.
+            e.printStackTrace();
+            return new ResolvedData(ResolvedData.ERROR_RESOLVE);
+        }
     }
 
     @Override
-    protected void onPostExecute(ResolvedData resolvedData) {
+    protected void onPostExecute(@NonNull ResolvedData resolvedData) {
         if (responseHandler != null) {
-            if (resolvedData == null || resolvedData.data == null || resolvedData.code == ResolvedData.TimeOut) {
-//                System.out.println(">>>>>>timeout>>>>");
+            if (resolvedData.code == ResolvedData.TimeOut || resolvedData.code == ResolvedData.ERROR_RESOLVE) { //todo
                 responseHandler.onTimeoutError();
             } else if (resolvedData.code == ResolvedData.ERROR_PASSWORD) {
                 responseHandler.onPasswordError();
-            } else {  //ok!
+            } else {  //ok,or right password
                 responseHandler.onOk(feedback, resolvedData.data);
             }
         }
