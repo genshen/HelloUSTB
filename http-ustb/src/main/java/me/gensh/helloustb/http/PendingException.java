@@ -8,4 +8,7 @@ import java.io.IOException;
 
 public class PendingException extends IOException {
 
+    public PendingException(String message) {
+        super(message);
+    }
 }

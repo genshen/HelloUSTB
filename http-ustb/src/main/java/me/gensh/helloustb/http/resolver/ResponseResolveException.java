@@ -7,4 +7,8 @@ import java.io.IOException;
  */
 
 public class ResponseResolveException extends IOException {
+
+    public ResponseResolveException(String message) {
+        super(message);
+    }
 }

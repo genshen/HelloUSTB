@@ -83,10 +83,12 @@ public class HttpClients {
                     br = new BufferedReader(new InputStreamReader(is, charset));  //remember to close it after finishing its usage.
                     return this;
                 } else {
-                    throw new PendingException();
+                    throw new PendingException("got null InputStream while http POST request.");
                 }
             } catch (IOException e) {
-                throw new PendingException();
+                PendingException pe = new PendingException(e.getMessage());
+                pe.setStackTrace(e.getStackTrace());
+                throw pe; //throw exception to higher level.
             }
         } else {  // (requestType == HTTP_GET)  process get response sa default.
             try {  //initial BufferedReader for GET ,or throw PendingException.
@@ -95,10 +97,12 @@ public class HttpClients {
                     br = new BufferedReader(new InputStreamReader(is, charset));  //remember to close it after finishing its usage.
                     return this;
                 } else {// maybe connection timeout error
-                    throw new PendingException();
+                    throw new PendingException("got null InputStream while http GET request.");
                 }
             } catch (IOException e) {
-                throw new PendingException();
+                PendingException pe = new PendingException(e.getMessage());
+                pe.setStackTrace(e.getStackTrace());
+                throw pe; //throw exception to higher level.
             }
         }
     }
@@ -122,7 +126,9 @@ public class HttpClients {
                 return resolvedData;
             }
         } catch (IOException e) {
-            throw new ResponseResolveException();
+            ResponseResolveException re = new ResponseResolveException(e.getMessage());
+            re.setStackTrace(e.getStackTrace());
+            throw re; //throw exception to higher level.
         }
     }
 
