@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import me.gensh.helloustb.R;
@@ -143,8 +144,12 @@ public class CampusNetworkFragment extends Fragment {
         return new_week;
     }
 
-    private static float[] calcVariance(Calendar calendar_now, float today_flow) {
+    private float[] calcVariance(Calendar calendar_now, float today_flow) {
         float[] data = M(calendar_now, today_flow);
+
+        System.out.println("<<<<<<<<<<<<<" + today_flow);
+        System.out.println(Arrays.toString(data));
+
         float[] variance = new float[DATA_LENGTH - 1];
         int day_counter = calendar_now.get(Calendar.DAY_OF_MONTH) - 1;
         for (int i = DATA_LENGTH - 2; i >= 0; i--) {
@@ -158,9 +163,10 @@ public class CampusNetworkFragment extends Fragment {
         return variance;
     }
 
-    public static float[] M(Calendar calendar_now, float todayFlow) {
+    public float[] M(Calendar calendar_now, float todayFlow) {
         float[] flowData = new float[]{0, 0, 0, 0, 0, 0, 0, 0};
-        File file = new File(FILE_PATH);
+
+        File file = new File(getActivity().getFilesDir(), FILE_PATH);
         if (file.exists() && file.length() == 38) {
             try {
                 RandomAccessFile random_f = new RandomAccessFile(file, "rw");

@@ -98,6 +98,9 @@
     <string name="dialog_stu_no_filter">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="please_input_account">Please input account</string>
     <!-- enter.xml -->
+    <!--empty page-->
+    <string name="empty_common_no_data">No data here&#8230;</string>
+    <!--/empty page-->
 
     <!-- 更新版本 -->
     <string name="update_downloading">正在后台下载更新包，下载完成后将会通知您安装</string>
@@ -144,6 +147,7 @@
 
     <!-- 关于界面 -->
     <string name="setting_about">关于</string>
+    <string name="about_play_snack">Closer:%d</string>
     <string name="check_update">检查更新</string>
     <string name="open_source">开源许可</string>
     <string name="open_source_file_location">file:///android_asset/open_source.html</string>
@@ -253,6 +257,7 @@
     <!--图书馆-->
     <!--图书馆 搜索-->
     <string name="action_use_alternate">Use alternate domain</string>
+    <string name="lib_search_timeout_toast">Network request time out,maybe using alternate domain(open it at upper right corner) can helps.</string>
     <string name="start_search">检索</string>
     <string name="lib_search_hint">请键入检索内容</string>
     <string name="lib_book_search">检索</string>
@@ -456,6 +461,12 @@
     <string name="network_notify_content">点击登陆%s</string>
     <string name="network_notify_ticker">登录校园网</string>
     <!--校园网-->
+
+    <!---校园卡消费-->
+    <string name="campus_card_consum_moey">Cost:%s</string>
+    <string name="campus_card_consum_left">Left:%s</string>
+    <!---校园卡消费-->
+
     <!--个人中心-->
     <string name="account_ac">Accounts Manager</string>
     <string name="account_msg">Messages</string>

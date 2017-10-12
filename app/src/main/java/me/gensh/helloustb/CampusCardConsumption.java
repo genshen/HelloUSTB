@@ -56,7 +56,6 @@ public class CampusCardConsumption extends LoginNetworkActivity implements HttpR
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new CampusCardAdapter(campusCardDataList);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setEmptyView(R.layout.list_empty_view, (ViewGroup) findViewById(R.id.recycle_view_container), true);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +106,11 @@ public class CampusCardConsumption extends LoginNetworkActivity implements HttpR
             attemptHttpRequest(HttpClients.HTTP_GET, getString(R.string.campus_card_query_link), Tags.E, 0x102, Tags.GET.ID_E_CAMPUS_CARD, HttpClients.CHARSET_BTF8, null, false);
         } else if (what == 0x102) {
             dismissProgressDialog();
+            /** todo bugs at:{@link HttpClients#newInstance }*/
+//            if (campusCardDataList != null) {
+//                campusCardDataList.clear();
+//            }
+
             int size = data.size() / 4;
             for (int i = 0; i < size; i++) {
                 if (data.get(4 * i).isEmpty() || data.get(4 * i + 1).isEmpty() ||
@@ -114,13 +118,15 @@ public class CampusCardConsumption extends LoginNetworkActivity implements HttpR
                     //filter empty content.
                     continue;
                 }
-                System.out.println(data.get(4 * i));
                 SparseArray<String> stringSparseArray = new SparseArray<>();
                 stringSparseArray.put(CAMPUS_CARD_CONSUME_TAG_TIME, data.get(4 * i));
                 stringSparseArray.put(CAMPUS_CARD_CONSUME_TAG_PLACE, data.get(4 * i + 1));
                 stringSparseArray.put(CAMPUS_CARD_CONSUME_TAG_MONEY, data.get(4 * i + 2));
                 stringSparseArray.put(CAMPUS_CARD_CONSUME_TAG_LEFT, data.get(4 * i + 3));
                 campusCardDataList.add(stringSparseArray);
+            }
+            if (!mRecyclerView.hasEmptyView()) {
+                mRecyclerView.setEmptyView(R.layout.list_empty_view, (ViewGroup) findViewById(R.id.recycle_view_container), false);
             }
             mAdapter.notifyDataSetChanged();
         }
@@ -130,15 +136,20 @@ public class CampusCardConsumption extends LoginNetworkActivity implements HttpR
     public void onPasswordError() {
         dismissProgressDialog();
         Snackbar.make(fab, R.string.error_password, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        if (!mRecyclerView.hasEmptyView()) {
+            mRecyclerView.setEmptyView(R.layout.list_empty_view, (ViewGroup) findViewById(R.id.recycle_view_container), false);
+        }
     }
 
     @Override
     public void onTimeoutError() {
         dismissProgressDialog();
         Snackbar.make(fab, R.string.connection_timeout, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        if (!mRecyclerView.hasEmptyView()) {
+            mRecyclerView.setEmptyView(R.layout.list_empty_view, (ViewGroup) findViewById(R.id.recycle_view_container), false);
+        }
     }
 
-    //
     private class CampusCardAdapter extends RecyclerViewWithEmptySupport.Adapter<CampusCardAdapter.ViewHolder> {
         List<SparseArray<String>> data;
 
@@ -156,9 +167,9 @@ public class CampusCardConsumption extends LoginNetworkActivity implements HttpR
         public void onBindViewHolder(CampusCardAdapter.ViewHolder holder, int position) {
             SparseArray<String> item = data.get(position);
             holder.consumePlace.setText(item.get(CAMPUS_CARD_CONSUME_TAG_PLACE));
+            holder.consumeMoney.setText(getString(R.string.campus_card_consum_moey, item.get(CAMPUS_CARD_CONSUME_TAG_MONEY)));
+            holder.consumeLeft.setText(getString(R.string.campus_card_consum_left, item.get(CAMPUS_CARD_CONSUME_TAG_LEFT)));
             holder.consumeTime.setText(item.get(CAMPUS_CARD_CONSUME_TAG_TIME));
-            holder.consumeMoney.setText(item.get(CAMPUS_CARD_CONSUME_TAG_MONEY));
-            holder.consumeLeft.setText(item.get(CAMPUS_CARD_CONSUME_TAG_LEFT));
             holder.tagImage.setImageResource(StringUtils.getConsumptionTypeResourceByPlace(item.get(CAMPUS_CARD_CONSUME_TAG_PLACE)));
         }
 

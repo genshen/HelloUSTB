@@ -48,6 +48,8 @@ public class HttpClients {
                 @Override
                 public synchronized void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
                     cookieStore.put(url.host(), cookies);
+                    /** todo cookie manager: put method would clear previous Cookies,
+                     * which will lead an empty data in http://e.ustb.edu.cn/index.portal?.pn=p378_p381.*/
                 }
 
                 @Override

@@ -12,7 +12,7 @@ android {
         targetSdkVersion 26
         versionCode 112
         versionName "2.1.0"
-        buildConfigField "String", "APP_BUILD_TIME", "\"Mon, 09 October. 2017 \""   // build time
+        buildConfigField "String", "APP_BUILD_TIME", "\"Fri, 13 October. 2017 \""   // build time
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {

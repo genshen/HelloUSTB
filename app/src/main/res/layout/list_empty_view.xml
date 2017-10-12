@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
+        android:id="@+id/empty_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World" />
-</LinearLayout>
+        android:layout_centerInParent="true"
+        android:text="@string/empty_common_no_data"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/empty_image"
+        android:layout_width="@dimen/empty_image_width"
+        android:layout_height="@dimen/empty_image_height"
+        android:layout_above="@id/empty_text"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_nodata_common"/>
+
+</RelativeLayout>

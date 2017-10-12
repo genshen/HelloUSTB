@@ -24,22 +24,23 @@
             android:layout_height="wrap_content" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/campus_card_consume_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/campus_card_consume_place" />
-
-        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/campus_card_consume_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/campus_card_consume_time" />
+            android:layout_below="@+id/campus_card_consume_place" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/campus_card_consume_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/campus_card_consume_money" />
+            android:layout_below="@+id/campus_card_consume_money" />
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/campus_card_consume_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/campus_card_consume_left" />
     </RelativeLayout>
 
 </LinearLayout>

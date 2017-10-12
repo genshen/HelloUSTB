@@ -13,16 +13,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20sp" />
-
         <RelativeLayout
+            android:id="@+id/about_header_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="clickHandle"
+            android:clickable="true"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
 
             <ImageView
-                android:id="@+id/logo"
+                android:id="@+id/app_icon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
@@ -33,7 +34,7 @@
                 android:id="@+id/this_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/logo"
+                android:layout_below="@id/app_icon"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
@@ -49,10 +50,6 @@
                 android:text="@string/build_time_format"
                 android:textSize="16sp" />
         </RelativeLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

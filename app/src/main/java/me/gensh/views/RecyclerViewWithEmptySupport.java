@@ -89,4 +89,8 @@ public class RecyclerViewWithEmptySupport extends RecyclerView {
         this.emptyView = view;
         checkIfEmpty();
     }
+
+    public boolean hasEmptyView() {
+        return emptyView != null;
+    }
 }

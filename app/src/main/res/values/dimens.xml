@@ -39,6 +39,10 @@
     <dimen name="dialog_padding_horizontal">6dp</dimen>
     <!--/dialog-->
 
+    <!--empty page-->
+    <dimen name="empty_image_width">150dp</dimen>
+    <dimen name="empty_image_height">180dp</dimen>
+    <!--/empty page-->
     <!--record query-->
     <dimen name="record_width">6dp</dimen>
     <dimen name="margin_axis_record_left">10dp</dimen>

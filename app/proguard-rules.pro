@@ -58,6 +58,7 @@ public static java.lang.String TABLENAME;
 -dontwarn okhttp3.**
 -dontwarn okio.**
 -dontwarn javax.annotation.**
+ -keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase  #addtionally added to solve campus card consumption bug
 
 ### https://github.com/Yalantis/uCrop
 -dontwarn com.yalantis.ucrop**

@@ -13,7 +13,10 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 import me.gensh.network.VersionCheckerTask;
 import me.gensh.service.ApkDownloadIntentService;
@@ -34,7 +37,6 @@ public class About extends AppCompatActivity implements VersionCheckerTask.OnNew
         setContentView(R.layout.activity_about);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         setVersion();
     }
 
@@ -80,7 +82,7 @@ public class About extends AppCompatActivity implements VersionCheckerTask.OnNew
     @NeedsPermission({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     public void startDownload(long packageSize, int newVersionCode, String newVersionName) {
         Toast.makeText(this, R.string.update_downloading, Toast.LENGTH_SHORT).show();
-        ApkDownloadIntentService.startActionDownloadApk(this, packageSize, newVersionCode,newVersionName);
+        ApkDownloadIntentService.startActionDownloadApk(this, packageSize, newVersionCode, newVersionName);
     }
 
     @OnShowRationale({Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
@@ -118,9 +120,27 @@ public class About extends AppCompatActivity implements VersionCheckerTask.OnNew
         AboutPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
+    final static private short TURN = 4;
+    final static private short ICON_COUNT = 8;
+    final static private int[] icons = {R.drawable.play_1, R.drawable.play_2, R.drawable.play_3,
+            R.drawable.play_4, R.drawable.play_5, R.drawable.play_6, R.drawable.play_7, R.drawable.play_8};
+    private short iconClickCounter = 0;
+    Random random = new Random();
+
     public void clickHandle(View view) {
         int id = view.getId();
         switch (id) {
+            case R.id.about_header_container:
+                iconClickCounter++;
+                if (iconClickCounter == TURN) {
+                    ImageView appIcon = findViewById(R.id.app_icon);
+                    int index = random.nextInt(ICON_COUNT);  //ic_launcher is also needed ?
+                    appIcon.setImageResource(icons[index]); // 0 to ICON_COUNT-1
+                    iconClickCounter = 0;
+                } /*else { //1,2,3,TURN-1
+                    Snackbar.make(view, getString(R.string.about_play_snack, TURN - iconClickCounter), Snackbar.LENGTH_SHORT).show();
+                }*/
+                break;
             case R.id.check_update:
                 checker = new VersionCheckerTask(getString(R.string.UpdateAddress), this, false);
                 checker.execute();
