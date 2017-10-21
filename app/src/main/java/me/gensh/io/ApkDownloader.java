@@ -26,7 +26,7 @@ public class ApkDownloader {
     public File writeToSDFromInputStream(InputStream inputStream) {
         long downloadSize = 0;
         try {
-            File file = IOUtils.createFileInDownloadsDirectory(appName + versionName + ".apk");
+            File file = IOUtils.createFileInSelfDownloadsDirectory(appName + versionName + ".apk");
             OutputStream outStream = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
             int count;

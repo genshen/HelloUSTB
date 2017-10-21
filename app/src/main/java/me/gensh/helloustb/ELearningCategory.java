@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,6 +86,7 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
             loginStatus = true;
             savePassword();
             Toast.makeText(this, R.string.edu_login_success, Toast.LENGTH_SHORT).show();
+//            Snackbar.make(fab, R.string.edu_login_success, Snackbar.LENGTH_LONG).show();
             switch (what) {
                 case LOGIN_FEEDBACK_TYPE_EXAM_QUERY:
                     fetchELearningData(INTENT_TYPE_EXAM_QUERY, false);
@@ -99,20 +101,12 @@ public class ELearningCategory extends LoginNetworkActivity implements Innovatio
         } else {  //get request,etc. data fetch.
             if (what == DATA_FETCH_FEEDBACK_TYPE_EXAM_QUERY) {
                 dismissProgressDialog();
-                if (data != null) {
-                    ELearningExamQueryFragment examQueryFragment = ELearningExamQueryFragment.newInstance(data);
-                    getFragmentManager().beginTransaction().replace(R.id.e_learning_container, examQueryFragment).commit();
-                } else {
-                    Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
-                }
+                ELearningExamQueryFragment examQueryFragment = ELearningExamQueryFragment.newInstance(data);
+                getFragmentManager().beginTransaction().replace(R.id.e_learning_container, examQueryFragment).commit();
             } else if (what == DATA_FETCH_FEEDBACK_TYPE_INNOVATION_CREDIT) {
                 dismissProgressDialog();
-                if (data != null) {
-                    InnovationCreditFragment innovationCreditFragment = InnovationCreditFragment.newInstance(data);
-                    getFragmentManager().beginTransaction().replace(R.id.e_learning_container, innovationCreditFragment).commit();
-                } else {
-                    Toast.makeText(this, R.string.request_error, Toast.LENGTH_LONG).show();
-                }
+                InnovationCreditFragment innovationCreditFragment = InnovationCreditFragment.newInstance(data);
+                getFragmentManager().beginTransaction().replace(R.id.e_learning_container, innovationCreditFragment).commit();
             } else if (what == DATA_FETCH_FEEDBACK_TYPE_SCORE_QUERY) {
                 dismissProgressDialog();
                 if (data.size() % 8 == 2) {

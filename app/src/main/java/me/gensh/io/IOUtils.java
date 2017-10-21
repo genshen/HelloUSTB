@@ -10,56 +10,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class IOUtils {
-    final static String HELLO_USTB_DIRECTORY = "HelloUSTB";
-    final static String HELLO_USTB_DIRECTORY_APK = "HelloUSTB/apk";
-    final public static String HELLO_USTB_AVATAR_NAME = "avatar.png";
-    final public static String CACHE_APK_DIR = "apk";
+    static final String HELLO_USTB_DIRECTORY = "HelloUSTB";
+    static final String HELLO_USTB_DIRECTORY_APK = "HelloUSTB/apk";
+    public static final String HELLO_USTB_AVATAR_NAME = "avatar.png";
+    public static final String CACHE_APK_DIR = "apk";
     public static final String CACHE_LOGS = "logs";
+    public static final String FLOW_STORE_FILE_PATH = "flow";  //todo no directory
 
     /**
      * note: those classes also use I/O:
-     * {@link me.gensh.fragments.CampusNetworkFragment#FILE_PATH }
      * {@link me.gensh.fragments.CampusNetworkFragment#M }
      * {@link me.gensh.helloustb.Account#setAvatar }
      */
-
-    //     if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
-    public static void checkDirExit() {
-        createSDCardDir("/MyUstb");
-        createSDCardDir("/MyUstb/Pass_store");
-        createSDCardDir("/MyUstb/Apk");
-        createSDCardDir("/MyUstb/Data");
-        createSDCardDir("/MyUstb/Data/Info");
-        createSDCardDir("/MyUstb/Data/Info/images");
-        createSDCardDir("/MyUstb/Data/Course");
-        createSDCardDir("/MyUstb/DownloadFile");
-    }
-
-    //
-    private static void createSDCardDir(String dirName) {
-        String path = getSDPath() + dirName;
-        File newDir = new File(path);
-        if (!newDir.exists()) {
-            newDir.mkdirs();
-        }
-    }
-
-    public static void write(String content, String file_name) {
-        try {
-            String SDPath = getSDPath();
-            File targetFile = new File(SDPath + file_name);
-            RandomAccessFile raf = new RandomAccessFile(targetFile, "rw");
-            raf.seek(targetFile.length());
-            raf.write(content.getBytes());
-            raf.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static String getSDPath() {
         try {
@@ -76,7 +41,6 @@ public class IOUtils {
         File[] tempList = file.listFiles();
 
         ArrayList<File> file_temp = new ArrayList<>();
-
         for (File aTempList : tempList) {
             if (aTempList.isFile()) {
                 file_temp.add(aTempList);
@@ -85,11 +49,12 @@ public class IOUtils {
         return file_temp;
     }
 
-    //
-    private static File createSDFile(String fileName) {
-        String SDPath = getSDPath();
-        File file = new File(SDPath + fileName);
+    private static File createFile(String fileName) {
+        File file = new File(fileName);
         try {
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
             file.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,8 +62,8 @@ public class IOUtils {
         return file;
     }
 
-    public static File writeToSDfromInput(String path, String fileName, InputStream inputStream) {
-        File file = createSDFile(path + fileName);
+    // write data to a file from inputStream,if write is success return true,otherwise return false.
+    static public boolean writeToStore(File file, InputStream inputStream) {
         try {
             OutputStream outStream = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
@@ -108,24 +73,20 @@ public class IOUtils {
             }
             outStream.flush();
             outStream.close();
+            inputStream.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        return file;
+        return false;
     }
 
     //create file in directory: Downloads
-    public static File createFileInDownloadsDirectory(String filename) throws IOException {
-        return createFileInDownloadsDirectory(HELLO_USTB_DIRECTORY, filename);
+    public static File createFileInSelfDownloadsDirectory(String filename) throws IOException {
+        return createFileInSelfDownloadsDirectory(HELLO_USTB_DIRECTORY, filename);
     }
 
-    public static File createFileInDownloadsDirectory(String parent, String filename) throws IOException {
+    public static File createFileInSelfDownloadsDirectory(String parent, String filename) throws IOException {
         File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), parent);
         if (!directory.exists()) {
             boolean success = directory.mkdirs();

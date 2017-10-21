@@ -23,14 +23,14 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import me.gensh.io.IOUtils;
-import me.gensh.utils.NotificationUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import me.gensh.io.IOUtils;
+import me.gensh.utils.NotificationUtils;
 
 public class Browser extends AppCompatActivity {
     final static String LABEL_BROWSER_URL = "BROWSER_URL";
@@ -88,16 +88,14 @@ public class Browser extends AppCompatActivity {
                             URL url = new URL(downloadURL);//下载地址
                             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
                             urlConn.setConnectTimeout(3000);
-                            InputStream inputStream = urlConn.getInputStream();
-                            IOUtils.checkDirExit();
-                            File resultFile = IOUtils.writeToSDfromInput("/MyUstb/DownloadFile", "/" + FileName, inputStream); // TODO: 2017/10/6
-                            if (resultFile == null) {
-                                System.out.print("error");
-                            } else {
+                            File file = IOUtils.createFileInSelfDownloadsDirectory(FileName);
+                            if (IOUtils.writeToStore(file,urlConn.getInputStream())) {
                                 Message msg = new Message();
                                 msg.what = 0x100;
                                 msg.obj = FileName;
                                 handler.sendMessage(msg);
+                            } else {
+                                System.out.print("error");
                             }
                         } catch (IOException e) {
                             System.out.print("error");

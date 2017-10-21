@@ -25,10 +25,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 import me.gensh.helloustb.R;
+import me.gensh.io.IOUtils;
 
 public class CampusNetworkFragment extends Fragment {
     private static final String ARG_PARAM_CAMPUS_NETWORK = "ARG_PARAM_CAMPUS_NETWORK";
-    static final String FILE_PATH = "flow";
+
     static final int DATA_LENGTH = 8; // >=2
     float today_flow = 0f;
     ArrayList<String> args;
@@ -166,7 +167,7 @@ public class CampusNetworkFragment extends Fragment {
     public float[] M(Calendar calendar_now, float todayFlow) {
         float[] flowData = new float[]{0, 0, 0, 0, 0, 0, 0, 0};
 
-        File file = new File(getActivity().getFilesDir(), FILE_PATH);
+        File file = new File(getActivity().getFilesDir(), IOUtils.FLOW_STORE_FILE_PATH);
         if (file.exists() && file.length() == 38) {
             try {
                 RandomAccessFile random_f = new RandomAccessFile(file, "rw");
