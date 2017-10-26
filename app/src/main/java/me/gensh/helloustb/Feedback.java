@@ -268,7 +268,7 @@ public class Feedback extends AppCompatActivity implements View.OnClickListener 
 
         ArrayList<Uri> uris = new ArrayList<>();
         if (withInfo) {
-            File deviceInfoFile = createFileFromString(new File(getExternalCacheDir(), IOUtils.CACHE_LOGS), deviceInfo, getString(R.string.file_name_device_info));
+            File deviceInfoFile = createFileFromString(new File(getExternalCacheDir(), IOUtils.CACHE_LOGS_DIRECTORY), deviceInfo, getString(R.string.file_name_device_info));
             if (deviceInfoFile != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     uris.add(FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", deviceInfoFile));
@@ -278,7 +278,7 @@ public class Feedback extends AppCompatActivity implements View.OnClickListener 
                 }
             }
 
-            File logFile = createFileFromString(new File(getExternalCacheDir(), IOUtils.CACHE_LOGS), LOG_TO_STRING, getString(R.string.file_name_device_log));
+            File logFile = createFileFromString(new File(getExternalCacheDir(), IOUtils.CACHE_LOGS_DIRECTORY), LOG_TO_STRING, getString(R.string.file_name_device_log));
             if (logFile != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     uris.add(FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", logFile));
@@ -306,16 +306,15 @@ public class Feedback extends AppCompatActivity implements View.OnClickListener 
 
     /**
      * no permission needed see: http://unclechen.github.io/2016/03/06/Android6.0%E6%9D%83%E9%99%90%E9%80%82%E9%85%8D%E4%B9%8BSD%E5%8D%A1%E5%86%99%E5%85%A5/
+     *
      * @param parent parent directory
-     * @param text the text to be wrote
-     * @param name file name
+     * @param text   the text to be wrote
+     * @param name   file name
      * @return file or null if error
      */
     private File createFileFromString(File parent, String text, String name) {
         try {
-            parent.mkdirs();
-            File file = new File(parent, name);
-
+            File file = IOUtils.createFile(parent, name);
             //BufferedWriter for performance, false to overrite to file flag
             BufferedWriter buf = new BufferedWriter(new FileWriter(file, false));
             buf.write(text);

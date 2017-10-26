@@ -92,7 +92,7 @@ public class ShareApp extends AppCompatActivity {
     private File getCacheApkFile() throws PackageManager.NameNotFoundException {
         PackageInfo packageInfo = getPackageManager().getPackageInfo(this.getPackageName(), 0);
         final String fileName = getString(R.string.app_name) + "-" + packageInfo.versionName + ".apk ";
-        return new File(new File(getCacheDir(), IOUtils.CACHE_APK_DIR), fileName);
+        return new File(new File(getCacheDir(), IOUtils.CACHE_APK_DIRECTORY), fileName);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

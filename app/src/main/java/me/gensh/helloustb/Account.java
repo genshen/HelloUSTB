@@ -101,7 +101,7 @@ public class Account extends AppCompatActivity {
             switch (requestCode) {
                 case PICK_PHOTO_REQUEST_CODE:
                     Uri sourceUri = intent.getData();
-                    File f = new File(getFilesDir(), IOUtils.HELLO_USTB_AVATAR_NAME);
+                    File f = new File(getFilesDir(), IOUtils.HELLO_USTB_AVATAR_FILENAME);
 
                     UCrop.Options options = new UCrop.Options();
                     options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
@@ -136,7 +136,7 @@ public class Account extends AppCompatActivity {
     }
 
     private void setAvatar() {
-        File avatarFile = new File(getFilesDir(), IOUtils.HELLO_USTB_AVATAR_NAME);
+        File avatarFile = new File(getFilesDir(), IOUtils.HELLO_USTB_AVATAR_FILENAME);
         if (avatarFile.exists()) {
             if (bitmap != null) {
                 bitmap.recycle();

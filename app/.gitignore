@@ -1,4 +1,5 @@
 /build
 # cpp files
 /src/main/cpp/*.cpp
+release/
 *.apk

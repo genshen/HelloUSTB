@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setAvatar() {
-        File avatarFile = new File(getFilesDir(), IOUtils.HELLO_USTB_AVATAR_NAME);
+        File avatarFile = new File(getFilesDir(), IOUtils.HELLO_USTB_AVATAR_FILENAME);
         if (avatarFile.exists()) {
             if (avatarBitmap != null) {
                 avatarBitmap.recycle();

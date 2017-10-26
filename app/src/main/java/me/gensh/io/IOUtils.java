@@ -13,11 +13,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class IOUtils {
-    static final String HELLO_USTB_DIRECTORY = "HelloUSTB";
-    static final String HELLO_USTB_DIRECTORY_APK = "HelloUSTB/apk";
-    public static final String HELLO_USTB_AVATAR_NAME = "avatar.png";
-    public static final String CACHE_APK_DIR = "apk";
-    public static final String CACHE_LOGS = "logs";
+    static final String HELLO_USTB_DOWNLOAD_DIRECTORY = "HelloUSTB";
+    static final String HELLO_USTB_DIRECTORY_DOWNLOAD_APK = "HelloUSTB/apk";
+    public static final String HELLO_USTB_AVATAR_FILENAME = "avatar.png";
+    public static final String CACHE_APK_DIRECTORY = "apk";
+    public static final String CACHE_LOGS_DIRECTORY = "logs";
     public static final String FLOW_STORE_FILE_PATH = "flow";  //todo no directory
 
     /**
@@ -35,11 +35,12 @@ public class IOUtils {
         return null;
     }
 
-    public static ArrayList<File> getFileList(String path) {
-        String SDPath = getSDPath();
-        File file = new File(SDPath + path);
-        File[] tempList = file.listFiles();
+    public static ArrayList<File> getFileListInSelfDownloadsDirectory() {
+        return getFileList(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), HELLO_USTB_DOWNLOAD_DIRECTORY));
+    }
 
+    public static ArrayList<File> getFileList(File path) {
+        File[] tempList = path.listFiles();
         ArrayList<File> file_temp = new ArrayList<>();
         for (File aTempList : tempList) {
             if (aTempList.isFile()) {
@@ -49,17 +50,11 @@ public class IOUtils {
         return file_temp;
     }
 
-    private static File createFile(String fileName) {
-        File file = new File(fileName);
-        try {
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static File createFile(File parent, String filename) {
+        if (!parent.exists()) {
+            parent.mkdirs();
         }
-        return file;
+        return new File(parent, filename);
     }
 
     // write data to a file from inputStream,if write is success return true,otherwise return false.
@@ -83,7 +78,7 @@ public class IOUtils {
 
     //create file in directory: Downloads
     public static File createFileInSelfDownloadsDirectory(String filename) throws IOException {
-        return createFileInSelfDownloadsDirectory(HELLO_USTB_DIRECTORY, filename);
+        return createFileInSelfDownloadsDirectory(HELLO_USTB_DOWNLOAD_DIRECTORY, filename);
     }
 
     public static File createFileInSelfDownloadsDirectory(String parent, String filename) throws IOException {
