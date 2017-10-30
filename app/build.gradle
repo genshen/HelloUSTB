@@ -24,10 +24,10 @@ android {
 //        }
         vectorDrawables.useSupportLibrary = true
     }
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_8
-//        targetCompatibility JavaVersion.VERSION_1_8
-//    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         debug {
 
@@ -51,8 +51,8 @@ android {
 }
 
 repositories {
-    maven { url "https://jitpack.io" }
     google()
+    maven { url "https://jitpack.io" }
 //    maven { url "https://maven.google.com" }
 }
 
@@ -65,7 +65,6 @@ dependencies {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
-
     //    compile 'com.mikhaellopez:circularimageview:3.0.2'  // clone
     //    compile 'com.webianks.library:easy-feedback:1.0.2'  //clone
     //    compile 'com.github.Todd-Davies:ProgressWheel:1.2'  //clone

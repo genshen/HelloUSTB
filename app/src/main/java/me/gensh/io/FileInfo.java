@@ -1,9 +1,12 @@
 package me.gensh.io;
 
-import me.gensh.helloustb.R;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import me.gensh.helloustb.R;
 
 
 /**
@@ -45,187 +48,131 @@ public class FileInfo {
         return file_name.substring(dotIndex, file_name.length()).toLowerCase();
     }
 
+    private static Map<String, Integer> FileIconMap;
+    private static Map<String, String> MatchAppMap;
+
+    static {
+        Map<String, Integer> map = new HashMap<>();
+        map.put(".doc", R.drawable.filesystem_icon_word);
+        map.put(".apk", R.drawable.filesystem_icon_apk);
+        map.put(".bmp", R.drawable.filesystem_icon_photo);
+        map.put(".docx", R.drawable.filesystem_icon_word);
+        map.put(".xls", R.drawable.filesystem_icon_excel);
+        map.put(".xlsx", R.drawable.filesystem_icon_excel);
+        map.put(".gif", R.drawable.filesystem_icon_photo);
+//	    map.put( ".gtar",R.drawable.filesystem_icon_photo);
+        map.put(".gz", R.drawable.filesystem_icon_rar);
+        map.put(".htm", R.drawable.filesystem_icon_web);
+        map.put(".html", R.drawable.filesystem_icon_web);
+        map.put(".jpeg", R.drawable.filesystem_icon_photo);
+        map.put(".jpg", R.drawable.filesystem_icon_photo);
+//		map.put( ".js",R.drawable.filesystem_icon_photo);
+        map.put(".log", R.drawable.filesystem_icon_text);
+        map.put(".mp3", R.drawable.filesystem_icon_music);
+        map.put(".mp4", R.drawable.filesystem_icon_movie);
+        map.put(".pdf", R.drawable.filesystem_icon_pdf);
+        map.put(".png", R.drawable.filesystem_icon_photo);
+        map.put(".ppt", R.drawable.filesystem_icon_ppt);
+        map.put(".pptx", R.drawable.filesystem_icon_ppt);
+//		map.put( ".rmvb",R.drawable.filesystem_icon_photo);
+//		map.put( ".rtf",R.drawable.filesystem_icon_photo);
+        map.put(".tar", R.drawable.filesystem_icon_rar);
+        map.put(".tgz", R.drawable.filesystem_icon_rar);
+        map.put(".txt", R.drawable.filesystem_icon_text);
+        map.put(".wav", R.drawable.filesystem_icon_music);
+        map.put(".wmv", R.drawable.filesystem_icon_movie);
+        map.put(".wps", R.drawable.filesystem_icon_word);
+//		map.put( ".xml",R.drawable.filesystem_icon_photo);
+//		map.put( ".z",R.drawable.filesystem_icon_photo);
+        map.put(".zip", R.drawable.filesystem_icon_rar);
+        FileIconMap = Collections.unmodifiableMap(map);
+
+        Map<String, String> mapApp = new HashMap<>();
+        mapApp.put(".doc", "application/msword");
+//		mapApp.put( ".3gp": return "video/3gpp");
+        mapApp.put(".apk", "application/vnd.android.package-archive");
+//	            {".asf",    "video/x-ms-asf"},
+//	            {".avi",    "video/x-msvideo"},
+//	            {".bin",    "application/octet-stream"},
+        mapApp.put(".bmp", "image/bmp");
+//	            {".c",  "text/plain"},
+//	            {".class",  "application/octet-stream"},
+//	            {".conf",   "text/plain"},
+//	            {".cpp",    "text/plain"},
+//		".doc",    "application/msword"},
+        mapApp.put(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        mapApp.put(".xls", "application/vnd.ms-excel");
+        mapApp.put(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+//	            {".exe",    "application/octet-stream"},
+        mapApp.put(".gif", "image/gif");
+        mapApp.put(".gtar", "application/x-gtar");
+
+        mapApp.put(".gz", "application/x-gzip");
+//	            {".h",  "text/plain"},
+        mapApp.put(".htm", "text/html");
+        mapApp.put(".html", "text/html");
+//	            {".jar",    "application/java-archive"},
+//	            {".java",   "text/plain"},
+        mapApp.put(".jpeg", "image/jpeg");
+        mapApp.put(".jpg", "image/jpeg");
+        mapApp.put(".js", "application/x-javascript");
+        mapApp.put(".log", "text/plain");
+//	            {".m3u",    "audio/x-mpegurl"},
+//	            {".m4a",    "audio/mp4a-latm"},
+//	            {".m4b",    "audio/mp4a-latm"},
+//	            {".m4p",    "audio/mp4a-latm"},
+//	            {".m4u",    "video/vnd.mpegurl"},
+//	            {".m4v",    "video/x-m4v"},
+//	            {".mov",    "video/quicktime"},
+//	            {".mp2",    "audio/x-mpeg"},
+        mapApp.put(".mp3", "audio/x-mpeg");
+        mapApp.put(".mp4", "video/mp4");
+//	            {".mpc",    "application/vnd.mpohun.certificate"},
+//	            {".mpe",    "video/mpeg"},
+//	            {".mpeg",   "video/mpeg"},
+//	            {".mpg",    "video/mpeg"},
+//	            {".mpg4",   "video/mp4"},
+//	            {".mpga",   "audio/mpeg"},
+//	            {".msg",    "application/vnd.ms-outlook"},
+//	            {".ogg",    "audio/ogg"},
+        mapApp.put(".pdf", "application/pdf");
+        mapApp.put(".png", "image/png");
+//	            {".pps",    "application/vnd.ms-powerpoint"},
+        mapApp.put(".ppt", "application/vnd.ms-powerpoint");
+        mapApp.put(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+//	            {".prop",   "text/plain"},
+//	            {".rc", "text/plain"},
+        mapApp.put(".rmvb", "audio/x-pn-realaudio");
+        mapApp.put(".rtf", "application/rtf");
+//	            {".sh", "text/plain"},
+        mapApp.put(".tar", "application/x-tar");
+        mapApp.put(".tgz", "application/x-compressed");
+        mapApp.put(".txt", "text/plain");
+        mapApp.put(".wav", "audio/x-wav");
+//	            {".wma",    "audio/x-ms-wma"},
+        mapApp.put(".wmv", "audio/x-ms-wmv");
+        mapApp.put(".wps", "application/vnd.ms-works");
+        mapApp.put(".xml", "text/plain");
+        mapApp.put(".z", "application/x-compress");
+        mapApp.put(".zip", "application/x-zip-compressed");
+        MatchAppMap = Collections.unmodifiableMap(mapApp);
+    }
+
     public static int getFileIcon(String end) {
         if (end != null) {
-            switch (end) {
-                case ".doc":
-                    return R.drawable.filesystem_icon_word;
-                case ".apk":
-                    return R.drawable.filesystem_icon_apk;
-                case ".bmp":
-                    return R.drawable.filesystem_icon_photo;
-                case ".docx":
-                    return R.drawable.filesystem_icon_word;
-                case ".xls":
-                    return R.drawable.filesystem_icon_excel;
-                case ".xlsx":
-                    return R.drawable.filesystem_icon_excel;
-                case ".gif":
-                    return R.drawable.filesystem_icon_photo;
-//			case ".gtar":
-//				return R.drawable.filesystem_icon_photo; 
-                case ".gz":
-                    return R.drawable.filesystem_icon_rar;
-                case ".htm":
-                    return R.drawable.filesystem_icon_web;
-                case ".html":
-                    return R.drawable.filesystem_icon_web;
-                case ".jpeg":
-                    return R.drawable.filesystem_icon_photo;
-                case ".jpg":
-                    return R.drawable.filesystem_icon_photo;
-//			case ".js": 
-//				return R.drawable.filesystem_icon_photo; 
-                case ".log":
-                    return R.drawable.filesystem_icon_text;
-                case ".mp3":
-                    return R.drawable.filesystem_icon_music;
-                case ".mp4":
-                    return R.drawable.filesystem_icon_movie;
-                case ".pdf":
-                    return R.drawable.filesystem_icon_pdf;
-                case ".png":
-                    return R.drawable.filesystem_icon_photo;
-                case ".ppt":
-                    return R.drawable.filesystem_icon_ppt;
-                case ".pptx":
-                    return R.drawable.filesystem_icon_ppt;
-//			case ".rmvb":
-//				return R.drawable.filesystem_icon_photo; 
-//			case ".rtf": 
-//				return R.drawable.filesystem_icon_photo; 
-                case ".tar":
-                    return R.drawable.filesystem_icon_rar;
-                case ".tgz":
-                    return R.drawable.filesystem_icon_rar;
-                case ".txt":
-                    return R.drawable.filesystem_icon_text;
-                case ".wav":
-                    return R.drawable.filesystem_icon_music;
-                case ".wmv":
-                    return R.drawable.filesystem_icon_movie;
-                case ".wps":
-                    return R.drawable.filesystem_icon_word;
-//			case ".xml":
-//				return R.drawable.filesystem_icon_photo; 
-//			case ".z":
-//				return R.drawable.filesystem_icon_photo; 
-                case ".zip":
-                    return R.drawable.filesystem_icon_rar;
-                default:
-                    return R.drawable.filesystem_icon_default;
+            Integer res = FileIconMap.get(end);
+            if (res != null) {
+                return res;
             }
-        } else {
-            return R.drawable.filesystem_icon_default;
         }
+        return R.drawable.filesystem_icon_default;
     }
 
     public static String matchApp(String name) {
-        if (name == null || name.isEmpty()) {
+        if (name != null) {
+            return MatchAppMap.get(name);
+        } else {
             return null;
-        }
-        switch (name) {
-            case ".doc":
-                return "application/msword";
-//		case ".3gp": return "video/3gpp";  
-            case ".apk":
-                return "application/vnd.android.package-archive";
-//	            {".asf",    "video/x-ms-asf"},  
-//	            {".avi",    "video/x-msvideo"},  
-//	            {".bin",    "application/octet-stream"},  
-            case ".bmp":
-                return "image/bmp";
-//	            {".c",  "text/plain"},  
-//	            {".class",  "application/octet-stream"},  
-//	            {".conf",   "text/plain"},  
-//	            {".cpp",    "text/plain"},  
-//		".doc",    "application/msword"},  
-            case ".docx":
-                return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            case ".xls":
-                return "application/vnd.ms-excel";
-            case ".xlsx":
-                return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-//	            {".exe",    "application/octet-stream"},  
-            case ".gif":
-                return "image/gif";
-            case ".gtar":
-                return "application/x-gtar";
-
-            case ".gz":
-                return "application/x-gzip";
-//	            {".h",  "text/plain"},  
-            case ".htm":
-                return "text/html";
-            case ".html":
-                return "text/html";
-//	            {".jar",    "application/java-archive"},  
-//	            {".java",   "text/plain"},  
-            case ".jpeg":
-                return "image/jpeg";
-            case ".jpg":
-                return "image/jpeg";
-            case ".js":
-                return "application/x-javascript";
-            case ".log":
-                return "text/plain";
-//	            {".m3u",    "audio/x-mpegurl"},  
-//	            {".m4a",    "audio/mp4a-latm"},  
-//	            {".m4b",    "audio/mp4a-latm"},  
-//	            {".m4p",    "audio/mp4a-latm"},  
-//	            {".m4u",    "video/vnd.mpegurl"},  
-//	            {".m4v",    "video/x-m4v"},   
-//	            {".mov",    "video/quicktime"},  
-//	            {".mp2",    "audio/x-mpeg"},  
-            case ".mp3":
-                return "audio/x-mpeg";
-            case ".mp4":
-                return "video/mp4";
-//	            {".mpc",    "application/vnd.mpohun.certificate"},        
-//	            {".mpe",    "video/mpeg"},    
-//	            {".mpeg",   "video/mpeg"},    
-//	            {".mpg",    "video/mpeg"},    
-//	            {".mpg4",   "video/mp4"},     
-//	            {".mpga",   "audio/mpeg"},  
-//	            {".msg",    "application/vnd.ms-outlook"},  
-//	            {".ogg",    "audio/ogg"},  
-            case ".pdf":
-                return "application/pdf";
-            case ".png":
-                return "image/png";
-//	            {".pps",    "application/vnd.ms-powerpoint"},  
-            case ".ppt":
-                return "application/vnd.ms-powerpoint";
-            case ".pptx":
-                return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-//	            {".prop",   "text/plain"},  
-//	            {".rc", "text/plain"},  
-            case ".rmvb":
-                return "audio/x-pn-realaudio";
-            case ".rtf":
-                return "application/rtf";
-//	            {".sh", "text/plain"},  
-            case ".tar":
-                return "application/x-tar";
-            case ".tgz":
-                return "application/x-compressed";
-            case ".txt":
-                return "text/plain";
-            case ".wav":
-                return "audio/x-wav";
-//	            {".wma",    "audio/x-ms-wma"},  
-            case ".wmv":
-                return "audio/x-ms-wmv";
-            case ".wps":
-                return "application/vnd.ms-works";
-            case ".xml":
-                return "text/plain";
-            case ".z":
-                return "application/x-compress";
-            case ".zip":
-                return "application/x-zip-compressed";
-            default:
-                return null;
         }
     }
 }

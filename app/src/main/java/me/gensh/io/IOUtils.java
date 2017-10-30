@@ -57,7 +57,7 @@ public class IOUtils {
         return new File(parent, filename);
     }
 
-    // write data to a file from inputStream,if write is success return true,otherwise return false.
+    // write data to a file from inputStream,,return true if write is success ,otherwise return false.
     static public boolean writeToStore(File file, InputStream inputStream) {
         try {
             OutputStream outStream = new FileOutputStream(file);

@@ -156,16 +156,17 @@
             android:name=".OpenSource"
             android:label="@string/title_activity_open_source"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CampusCardConsumption"
+            android:label="@string/title_activity_campus_card_consumption"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- third part activity -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".CampusCardConsumption"
-            android:label="@string/title_activity_campus_card_consumption"
-            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>
