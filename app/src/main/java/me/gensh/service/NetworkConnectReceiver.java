@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import me.gensh.utils.Const;
 
@@ -24,8 +23,7 @@ public class NetworkConnectReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {//wifi连接上与否
+        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {//wifi连接上与否
             NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             if (info.getState().equals(NetworkInfo.State.CONNECTED)) {
 
@@ -44,8 +42,8 @@ public class NetworkConnectReceiver extends BroadcastReceiver {
                 }
                 lastReceiveTime = currentTime;
 
-                Log.v("net", "wifi connected");
-                WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                //    Log.v("net", "wifi connected");
+                WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                 CampusNetworkTest.startCampusNetworkService(context, wifiInfo.getSSID());
             }

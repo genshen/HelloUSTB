@@ -10,9 +10,9 @@ android {
         applicationId "me.gensh.helloustb"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 112
-        versionName "2.1.0"
-        buildConfigField "String", "APP_BUILD_TIME", "\"Fri, 13 October. 2017 \""   // build time
+        versionCode 113
+        versionName "2.1.1"
+        buildConfigField "String", "APP_BUILD_TIME", "\"Mon, 30 October. 2017 \""   // build time
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {

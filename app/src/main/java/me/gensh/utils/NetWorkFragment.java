@@ -34,6 +34,9 @@ public abstract class NetWorkFragment extends Fragment {
                     httpRequestTask.cancel(true);
                 }
                 httpRequestTask = new HttpRequestTask(getActivity(), requestTypePost, url, tag, feedback, id, code, params);
+                if (this instanceof HttpRequestTask.CustomRequestBackgroundTask) {  //set CustomRequestTask,or use default background task.
+                    httpRequestTask.setCustomRequestBackgroundTask((HttpRequestTask.CustomRequestBackgroundTask) this);
+                }
                 httpRequestTask.setOnTaskFinished((HttpRequestTask.OnTaskFinished) this);
                 httpRequestTask.execute();
             } else {

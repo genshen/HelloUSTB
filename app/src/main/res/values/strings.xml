@@ -28,6 +28,7 @@
     <string name="title_activity_volunteer_search_result">Search Results</string>
     <string name="title_activity_campus_card_consumption">Campus Card Consumption</string>
     <string name="title_activity_playground">Playground</string>
+    <string name="title_activity_ustb__vpn">USTB VPN</string>
     <string name="pressAgainToExit">Press again to exit</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
@@ -207,7 +208,7 @@
     <!-- 相关链接 -->
     <string name="app_github_url" translatable="false">https://github.com/genshen/HelloUSTB</string>
     <string name="teach" translatable="false">http://teach.ustb.edu.cn</string>
-    <string name="sch_net" translatable="false">http://202.204.48.66</string>
+    <string name="sch_net" translatable="false">http://202.204.48.82</string>
     <string name="tea_login" translatable="false">http://seam.ustb.edu.cn:8080/jwgl/Login</string>
     <!-- 相关链接   校园网 -->
     <string name="cippv6" translatable="false">http://cippv6.ustb.edu.cn/get_ip.php</string>
@@ -458,8 +459,11 @@
     <string name="campus_network_flow_value_v4">IPV4:%sMB</string>
     <string name="campus_network_flow_value_v6">IPV6:%sMB</string>
     <string name="network_notify_title">登录校园网</string>
-    <string name="network_notify_content">点击登陆%s</string>
+    <string name="network_notify_content">点击登录%s</string>
     <string name="network_notify_ticker">登录校园网</string>
+    <string name="normal_network_notify_title">登录到WLAN网络</string>
+    <string name="normal_network_notify_content">点击登录%s</string>
+    <string name="normal_network_notify_ticker">WLAN网络需要登录认证</string>
     <!--校园网-->
 
     <!---校园卡消费-->

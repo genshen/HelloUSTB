@@ -1,9 +1,9 @@
 package me.gensh.fragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,7 @@ import me.gensh.helloustb.Library;
 import me.gensh.helloustb.NetWorkSignIn;
 import me.gensh.helloustb.R;
 import me.gensh.helloustb.Timetable;
+import me.gensh.helloustb.USTB_VPNActivity;
 import me.gensh.helloustb.Volunteer;
 import me.gensh.helloustb.WebNotificationsActivity;
 
@@ -37,16 +38,19 @@ public class DashboardFragment extends Fragment {
     final static String GRID_VIEW_ITEM_ICON = "icon", GRID_VIEW_ITEM_TITLE = "title";
     final static int GRID_VIEW_ITEM_TAG_SCORE = 0x800, GRID_VIEW_ITEM_TAG_INNOVATION_CREDIT = 0x801, GRID_VIEW_ITEM_TAG_NOTIFICATION = 0x802,
             GRID_VIEW_ITEM_TAG_TIMETABLE = 0x803, GRID_VIEW_ITEM_TAG_NETWORK = 0x804, GRID_VIEW_ITEM_TAG_CAMPUS_CARD = 0x805,
-            GRID_VIEW_ITEM_TAG_LIBRARY = 0x806, GRID_VIEW_ITEM_TAG_VOLUNTEER = 0x807, GRID_VIEW_ITEM_TAG_EXAM_QUERY = 0x808;
+            GRID_VIEW_ITEM_TAG_LIBRARY = 0x806, GRID_VIEW_ITEM_TAG_VOLUNTEER = 0x807, GRID_VIEW_ITEM_TAG_EXAM_QUERY = 0x808,
+            GRID_VIEW_ITEM_TAG_USTB_VPN = 0x809;
     final static int GRID_VIEW_ITEM_TAGS[] = {GRID_VIEW_ITEM_TAG_SCORE, GRID_VIEW_ITEM_TAG_INNOVATION_CREDIT, GRID_VIEW_ITEM_TAG_NOTIFICATION,
             GRID_VIEW_ITEM_TAG_TIMETABLE, GRID_VIEW_ITEM_TAG_NETWORK, GRID_VIEW_ITEM_TAG_CAMPUS_CARD,
-            GRID_VIEW_ITEM_TAG_LIBRARY, GRID_VIEW_ITEM_TAG_VOLUNTEER, GRID_VIEW_ITEM_TAG_EXAM_QUERY};
+            GRID_VIEW_ITEM_TAG_LIBRARY, GRID_VIEW_ITEM_TAG_VOLUNTEER, GRID_VIEW_ITEM_TAG_EXAM_QUERY,
+            GRID_VIEW_ITEM_TAG_USTB_VPN};
     final static int[] resIcons = {R.drawable.ic_dashboard_item_score_query, R.drawable.ic_dashboard_item_innovation_credit,
             R.drawable.ic_dashboard_item_notice, R.drawable.ic_dashboard_item_timetable, R.drawable.ic_dashboard_item_internet,
             R.drawable.ic_dashboard_item_campus_card, R.drawable.ic_dashboard_item_libaray,
-            R.drawable.ic_dashboard_item_volunteer, R.drawable.ic_dashboard_item_exam_query,};
+            R.drawable.ic_dashboard_item_volunteer, R.drawable.ic_dashboard_item_exam_query,
+            R.drawable.ic_dashboard_item_ustbvpn};
     final static String[] resTitles = {"成绩查询", "创新学分", "本科教学网通知", "课程表", "校园网",
-            "校园卡消费", "图书馆", "志愿服务", "考试查询"}; //todo multi-language
+            "校园卡消费", "图书馆", "志愿服务", "考试查询", "USTB VPN"}; //todo multi-language
     ArrayList<Map<String, Object>> dataList = new ArrayList<>();
 
     public DashboardFragment() {
@@ -73,60 +77,61 @@ public class DashboardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        ButterKnife.bind(this, view);
+        View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        ButterKnife.bind(this, v);
 
         DashboardSimpleAdapter adapter = new DashboardSimpleAdapter(getActivity(), getData(), R.layout.grid_view_dashboard,
                 new String[]{GRID_VIEW_ITEM_ICON, GRID_VIEW_ITEM_TITLE}, new int[]{R.id.grid_view_dashboard_icon, R.id.grid_view_dashboard_title});
         gridViewDashboard.setAdapter(adapter);
-        gridViewDashboard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                int tag = (int) view.getTag();
-                switch (tag) {
-                    case GRID_VIEW_ITEM_TAG_SCORE:
-                        Intent score = new Intent(getActivity(), ELearningCategory.class);
-                        score.putExtra(ELearningCategory.E_LEARNING_EXTRA_TYPE, ELearningCategory.INTENT_TYPE_SCORE_QUERY);
-                        startActivity(score);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_INNOVATION_CREDIT:
-                        Intent innovationCredit = new Intent(getActivity(), ELearningCategory.class);
-                        innovationCredit.putExtra(ELearningCategory.E_LEARNING_EXTRA_TYPE, ELearningCategory.INTENT_TYPE_INNOVATION_CREDIT);
-                        startActivity(innovationCredit);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_NOTIFICATION:
-                        Intent notification = new Intent(getActivity(), WebNotificationsActivity.class);
-                        startActivity(notification);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_TIMETABLE:
-                        Intent timetable = new Intent(getActivity(), Timetable.class);
-                        startActivity(timetable);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_NETWORK:
-                        Intent network = new Intent(getActivity(), NetWorkSignIn.class);
-                        startActivity(network);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_CAMPUS_CARD:
-                        Intent card = new Intent(getActivity(), CampusCardConsumption.class);
-                        startActivity(card);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_LIBRARY:
-                        Intent library = new Intent(getActivity(), Library.class);
-                        startActivity(library);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_VOLUNTEER:
-                        Intent volunteer = new Intent(getActivity(), Volunteer.class);
-                        startActivity(volunteer);
-                        break;
-                    case GRID_VIEW_ITEM_TAG_EXAM_QUERY:
-                        Intent examQuery = new Intent(getActivity(), ELearningCategory.class);
-                        examQuery.putExtra(ELearningCategory.E_LEARNING_EXTRA_TYPE, ELearningCategory.INTENT_TYPE_EXAM_QUERY);
-                        startActivity(examQuery);
-                        break;
-                }
+        gridViewDashboard.setOnItemClickListener((adapterView, view, position, id) -> {
+            int tag = (int) view.getTag();
+            switch (tag) {
+                case GRID_VIEW_ITEM_TAG_SCORE:
+                    Intent score = new Intent(getActivity(), ELearningCategory.class);
+                    score.putExtra(ELearningCategory.E_LEARNING_EXTRA_TYPE, ELearningCategory.INTENT_TYPE_SCORE_QUERY);
+                    startActivity(score);
+                    break;
+                case GRID_VIEW_ITEM_TAG_INNOVATION_CREDIT:
+                    Intent innovationCredit = new Intent(getActivity(), ELearningCategory.class);
+                    innovationCredit.putExtra(ELearningCategory.E_LEARNING_EXTRA_TYPE, ELearningCategory.INTENT_TYPE_INNOVATION_CREDIT);
+                    startActivity(innovationCredit);
+                    break;
+                case GRID_VIEW_ITEM_TAG_NOTIFICATION:
+                    Intent notification = new Intent(getActivity(), WebNotificationsActivity.class);
+                    startActivity(notification);
+                    break;
+                case GRID_VIEW_ITEM_TAG_TIMETABLE:
+                    Intent timetable = new Intent(getActivity(), Timetable.class);
+                    startActivity(timetable);
+                    break;
+                case GRID_VIEW_ITEM_TAG_NETWORK:
+                    Intent network = new Intent(getActivity(), NetWorkSignIn.class);
+                    startActivity(network);
+                    break;
+                case GRID_VIEW_ITEM_TAG_CAMPUS_CARD:
+                    Intent card = new Intent(getActivity(), CampusCardConsumption.class);
+                    startActivity(card);
+                    break;
+                case GRID_VIEW_ITEM_TAG_LIBRARY:
+                    Intent library = new Intent(getActivity(), Library.class);
+                    startActivity(library);
+                    break;
+                case GRID_VIEW_ITEM_TAG_VOLUNTEER:
+                    Intent volunteer = new Intent(getActivity(), Volunteer.class);
+                    startActivity(volunteer);
+                    break;
+                case GRID_VIEW_ITEM_TAG_EXAM_QUERY:
+                    Intent examQuery = new Intent(getActivity(), ELearningCategory.class);
+                    examQuery.putExtra(ELearningCategory.E_LEARNING_EXTRA_TYPE, ELearningCategory.INTENT_TYPE_EXAM_QUERY);
+                    startActivity(examQuery);
+                    break;
+                case GRID_VIEW_ITEM_TAG_USTB_VPN:
+                    Intent vpn = new Intent(getActivity(), USTB_VPNActivity.class);
+                    startActivity(vpn);
+                    break;
             }
         });
-        return view;
+        return v;
     }
 
     private List<Map<String, Object>> getData() {

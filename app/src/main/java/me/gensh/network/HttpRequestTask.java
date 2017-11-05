@@ -24,8 +24,9 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, ResolvedData> {
     private final int requestType, feedback, id;
     private Map<String, String> params;
 
-    private Context context;
+    private Context context; //todo leak.
     private OnTaskFinished responseHandler;
+    private CustomRequestBackgroundTask customRequestBackgroundTask;
 
     /**
      * @param context     android context
@@ -50,16 +51,20 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, ResolvedData> {
 
     @Override
     protected ResolvedData doInBackground(Void... voids) {
-        HttpClients httpClients = HttpClients.newInstance(TIMEOUT, TIMEOUT);
-        try {
-            // get a nonNull ResolvedData(resolve method returns nonNull data)
-            return httpClients.request(url, requestType, charset, params).resolve(requestType, id);
-        } catch (PendingException e) {  //for timeout
-            e.printStackTrace();
-            return new ResolvedData(ResolvedData.TimeOut);
-        } catch (ResponseResolveException e) { //for bad response/process.
-            e.printStackTrace();
-            return new ResolvedData(ResolvedData.ERROR_RESOLVE);
+        if (customRequestBackgroundTask != null) {  //have
+            return customRequestBackgroundTask.OnCustomDoInBackground(url, id, requestType, charset, params);
+        } else {
+            HttpClients httpClients = HttpClients.newInstance(TIMEOUT, TIMEOUT);
+            try {
+                // get a nonNull ResolvedData(resolve method returns nonNull data)
+                return httpClients.request(url, requestType, charset, params).resolve(requestType, id);
+            } catch (PendingException e) {  //for timeout
+                e.printStackTrace();
+                return new ResolvedData(ResolvedData.TimeOut);
+            } catch (ResponseResolveException e) { //for bad response/process.
+                e.printStackTrace();
+                return new ResolvedData(ResolvedData.ERROR_RESOLVE);
+            }
         }
     }
 
@@ -75,6 +80,18 @@ public class HttpRequestTask extends AsyncTask<Void, Integer, ResolvedData> {
             }
         }
         super.onPostExecute(resolvedData);
+    }
+
+    /**
+     * set custom background task running in {@link #doInBackground(Void...)}
+     */
+    public void setCustomRequestBackgroundTask(CustomRequestBackgroundTask callback) {
+        customRequestBackgroundTask = callback;
+    }
+
+    public interface CustomRequestBackgroundTask {
+        //return value can not be Null
+        ResolvedData OnCustomDoInBackground(String url, int id, int requestType, String charset, Map<String, String> params);
     }
 
     public void setOnTaskFinished(OnTaskFinished callback) {

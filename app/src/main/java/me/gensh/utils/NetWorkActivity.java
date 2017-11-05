@@ -8,7 +8,7 @@ import me.gensh.helloustb.MyApplication;
 import me.gensh.network.HttpRequestTask;
 
 /**
- * Created by 根深 on 2016/7/13.
+ * Created by gensh on 2016/7/13.
  * Big update by gensh on 2017/09/22
  */
 public abstract class NetWorkActivity extends AppCompatActivity {
@@ -31,6 +31,9 @@ public abstract class NetWorkActivity extends AppCompatActivity {
                     httpRequestTask.cancel(true);
                 }
                 httpRequestTask = new HttpRequestTask(this, requestTypePost, url, tag, feedback, id, code, params);
+                if (this instanceof HttpRequestTask.CustomRequestBackgroundTask) {  //set CustomRequestTask.
+                    httpRequestTask.setCustomRequestBackgroundTask((HttpRequestTask.CustomRequestBackgroundTask) this);
+                }
                 httpRequestTask.setOnTaskFinished((HttpRequestTask.OnTaskFinished) this);
                 httpRequestTask.execute();
             } else {

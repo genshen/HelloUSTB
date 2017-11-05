@@ -37,7 +37,6 @@ public class NotificationUtils extends ContextWrapper {
         }
     }
 
-
     /**
      * Build notification for secondary channel.
      *

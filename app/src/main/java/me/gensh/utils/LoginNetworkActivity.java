@@ -70,7 +70,7 @@ public abstract class LoginNetworkActivity extends NetWorkActivity {
     public void savePassword() {
         if (canSave) {
             StoreData.storeAccount(((MyApplication) getApplication()).getDaoSession(), username, password, userTag);
-            // TODO: 2017/9/23 see{@link me.gensh.fragment.ELearningCategory}
+            // todo: 2017/9/23 see{@link me.gensh.fragment.ELearningCategory}
         }
     }
 }

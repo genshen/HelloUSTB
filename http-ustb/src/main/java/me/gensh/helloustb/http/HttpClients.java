@@ -209,6 +209,7 @@ public class HttpClients {
         Request request = new Request.Builder().url(url).build();
         try {
             Response response = client.newCall(request).execute();
+            //response.isRedirect()
             return response.code();
         } catch (IOException e) {
             e.printStackTrace();

@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- https://android-developers.googleblog.com/2017/08/making-it-safer-to-get-apps-on-android-o.html -->
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -35,8 +34,8 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+                <!--<action android:name="android.net.wifi.WIFI_STATE_CHANGED" />-->
                 <action android:name="android.net.wifi.STATE_CHANGE" />
             </intent-filter>
         </receiver>
@@ -159,14 +158,17 @@
         <activity
             android:name=".CampusCardConsumption"
             android:label="@string/title_activity_campus_card_consumption"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- third part activity -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
+        <activity
+            android:name=".USTB_VPNActivity"
+            android:label="@string/title_activity_ustb__vpn"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

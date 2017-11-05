@@ -39,14 +39,11 @@ public class NetWorkSignIn extends LoginNetworkActivity implements HttpRequestTa
         reload = findViewById(R.id.reload);
         errorMessage = findViewById(R.id.error_message);
         errorContainer = findViewById(R.id.error_container);
-        reload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                errorContainer.setVisibility(View.INVISIBLE);
-                Login(LoginDialog.newInstanceForNetwork(), Tags.NETWORK, 0x101);
-                //todo redesign reload button
-                //todo something goes wrong after canceling Login,showing a blank page.
-            }
+        reload.setOnClickListener(v -> {
+            errorContainer.setVisibility(View.INVISIBLE);
+            Login(LoginDialog.newInstanceForNetwork(), Tags.NETWORK, 0x101);
+            //todo redesign reload button
+            //todo something goes wrong after canceling Login,showing a blank page.
         });
 
         Login(LoginDialog.newInstanceForNetwork(), Tags.NETWORK, 0x101);

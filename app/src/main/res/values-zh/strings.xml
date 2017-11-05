@@ -27,6 +27,7 @@
     <string name="title_activity_volunteer_search_result">搜索结果</string>
     <string name="title_activity_campus_card_consumption">校园卡消费</string>
     <string name="title_activity_playground">操场</string>
+    <string name="title_activity_ustb__vpn">USTB VPN</string>
     <string name="pressAgainToExit">请再按一次退出本程序</string>
     <string name="action_settings">设置</string>
     <string name="action_search">搜索</string>
@@ -403,8 +404,11 @@
     <string name="campus_network_flow_value_v4">IPV4:%sMB</string>
     <string name="campus_network_flow_value_v6">IPV6:%sMB</string>
     <string name="network_notify_title">登录校园网</string>
-    <string name="network_notify_content">点击登陆%s</string>
+    <string name="network_notify_content">点击登录%s</string>
     <string name="network_notify_ticker">登录校园网</string>
+    <string name="normal_network_notify_title">登录到WLAN网络</string>
+    <string name="normal_network_notify_content">点击登录%s</string>
+    <string name="normal_network_notify_ticker">WLAN网络需要登录认证</string>
     <!--校园网-->
 
     <!---校园卡消费-->

@@ -54,7 +54,7 @@
         <item name="android:background">@drawable/menu_item_background</item>
     </style>
 
-    <style name="setting_text_no_arrow">
+    <style name="list_item_text_without_arrow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">12dp</item>
@@ -66,7 +66,7 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="setting_text" parent="setting_text_no_arrow">
+    <style name="list_item_text_with_arrow" parent="list_item_text_without_arrow">
         <item name="android:drawableRight">@drawable/setting_arrow</item>
         <item name="android:drawableEnd">@drawable/setting_arrow</item>
     </style>

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import me.gensh.helloustb.NetWorkSignIn;
 import me.gensh.helloustb.R;
 import me.gensh.helloustb.http.HttpClients;
 import me.gensh.helloustb.http.Tags;
+import me.gensh.helloustb.http.portal.WifiPortal;
 import me.gensh.network.HttpRequestTask;
 import me.gensh.utils.Const;
 import me.gensh.utils.LoginDialog;
@@ -38,6 +40,7 @@ import me.gensh.utils.StringUtils;
 public class CampusNetworkTest extends IntentService implements HttpRequestTask.OnTaskFinished {
     final String TEST_URL = "http://www.sohu.com";
     final String TEST_TAG = "test connection";
+    final static String INTENT_EXTRA_SSID = "ssid";
     final int NETWORK_SING_IN_NOTIFY_ID = 10;
     final int AUTO_SIGN_IN_ERROR_NOTIFY_ID = 12;
 
@@ -50,7 +53,7 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
 
     public static void startCampusNetworkService(Context context, String ssid) {
         Intent intent = new Intent(context, CampusNetworkTest.class);
-        intent.putExtra("ssid", ssid);
+        intent.putExtra(INTENT_EXTRA_SSID, ssid);
         context.startService(intent);
     }
 
@@ -63,49 +66,63 @@ public class CampusNetworkTest extends IntentService implements HttpRequestTask.
     @Override
     protected void onHandleIntent(Intent intent) {  //todo 似乎打开和关闭wifi都会调用service
         if (intent != null) {
-            String ssID = intent.getStringExtra("ssid");
-            handleActionNetworkCheck(ssID);
+            String ssid = intent.getStringExtra(INTENT_EXTRA_SSID);
+            handleActionNetworkCheck(ssid);
         }
     }
 
-    private void handleActionNetworkCheck(String ssID) {
+    private void handleActionNetworkCheck(String ssid) {
         try {
-            //HttpURLConnection  3s延迟
-            Thread.sleep(300);//todo 150
-            int statusCode = HttpClients.testConnection(TEST_URL);
-//            Log.v(TEST_TAG, "CONNECTION TEST returned code:" + statusCode);
-            if (statusCode == 302) { //todo and location url =="202.204.48.66"
-                SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
-                String mode = pre.getString(Const.Settings.KEY_NET_SIGN_IN_MODE, Const.Settings.NET_SIGN_IN_NORMAL_MODE);
-                if (Const.Settings.NET_SIGN_IN_SILENT_MODE.equals(mode) &&
-                        QueryData.hasAccount(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.NET)) {
-                    //静默模式(有密码)
-                    autoSignInNetwork();
-                } else if (Const.Settings.NET_SIGN_IN_BROWSER_MODE.equals(mode)) { //浏览器模式
-                    Intent browser = new Intent(getBaseContext(), Browser.class);
-                    browser.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-                    browser.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                    browser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    browser.putExtra("url", getString(R.string.sch_net));
-                    startActivity(browser);
-                } else {   //普通模式或者静默模式(无密码)
-                    final NotificationUtils notificationUtils = new NotificationUtils(this);
-                    final Notification.Builder mBuilder = notificationUtils.getDefaultNotification(getString(R.string.network_notify_title),
-                            getString(R.string.network_notify_ticker), getString(R.string.network_notify_content, ssID));
+            Thread.sleep(200);
+            final WifiPortal.Status status = WifiPortal.Companion.isWifiSetPortal();
+            if (status != null && status.getNeedAuth()) {
+                if (!status.isInnerNet()) { //normal auth
+                    //start browser to auth.
+                    setAuthWithBrowser(R.string.normal_network_notify_title, R.string.normal_network_notify_ticker,
+                            R.string.normal_network_notify_content, ssid, WifiPortal.WALLED_GARDEN_URL);
+                } else {  //campus net auth.
+                    SharedPreferences pre = PreferenceManager.getDefaultSharedPreferences(this);
+                    String mode = pre.getString(Const.Settings.KEY_NET_SIGN_IN_MODE, Const.Settings.NET_SIGN_IN_NORMAL_MODE);
+                    if (Const.Settings.NET_SIGN_IN_SILENT_MODE.equals(mode) &&
+                            QueryData.hasAccount(((MyApplication) getApplication()).getDaoSession(), LoginDialog.UserType.NET)) {
+                        //静默模式(有密码)
+                        autoSignInNetwork();
+                    } else if (Const.Settings.NET_SIGN_IN_BROWSER_MODE.equals(mode)) { //浏览器模式
+                        setAuthWithBrowser(R.string.network_notify_title, R.string.network_notify_ticker,
+                                R.string.network_notify_content, ssid, getString(R.string.sch_net));
+                    } else {   //普通模式或者静默模式(无密码)
+                        final NotificationUtils notificationUtils = new NotificationUtils(this);
+                        final Notification.Builder mBuilder = notificationUtils.getDefaultNotification(getString(R.string.network_notify_title),
+                                getString(R.string.network_notify_ticker), getString(R.string.network_notify_content, ssid));
 
-                    Intent notifyIntent = new Intent(this, NetWorkSignIn.class);
-                    notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-                    notifyIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        Intent notifyIntent = new Intent(this, NetWorkSignIn.class);
+                        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 //                notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    // Creates the PendingIntent
-                    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    mBuilder.setContentIntent(contentIntent);
-                    notificationUtils.notify(NETWORK_SING_IN_NOTIFY_ID, mBuilder);
+                        // Creates the PendingIntent
+                        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        mBuilder.setContentIntent(contentIntent);
+                        notificationUtils.notify(NETWORK_SING_IN_NOTIFY_ID, mBuilder);
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    void setAuthWithBrowser(@StringRes int title, @StringRes int ticker, @StringRes int body, String ssid, String url) {
+        final NotificationUtils notificationUtils = new NotificationUtils(this);
+        final Notification.Builder mBuilder = notificationUtils.getDefaultNotification(getString(title), getString(ticker), getString(body, ssid));
+
+        Intent notifyIntent = new Intent(this, Browser.class);
+        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        notifyIntent.putExtra("url", url);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(contentIntent);
+        notificationUtils.notify(NETWORK_SING_IN_NOTIFY_ID, mBuilder);
     }
 
     int errorTryTimes = 0;

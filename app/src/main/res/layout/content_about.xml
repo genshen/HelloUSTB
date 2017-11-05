@@ -58,7 +58,7 @@
 
             <TextView
                 android:id="@+id/check_update"
-                style="@style/setting_text_no_arrow"
+                style="@style/list_item_text_without_arrow"
                 android:clickable="true"
                 android:onClick="clickHandle"
                 android:text="@string/check_update" />
@@ -70,7 +70,7 @@
 
             <TextView
                 android:id="@+id/open_source"
-                style="@style/setting_text"
+                style="@style/list_item_text_with_arrow"
                 android:clickable="true"
                 android:onClick="clickHandle"
                 android:text="@string/open_source" />
@@ -82,7 +82,7 @@
 
             <TextView
                 android:id="@+id/app_web"
-                style="@style/setting_text"
+                style="@style/list_item_text_with_arrow"
                 android:clickable="true"
                 android:onClick="clickHandle"
                 android:text="@string/app_web" />
