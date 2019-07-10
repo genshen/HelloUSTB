@@ -1,4 +1,4 @@
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_form"
@@ -20,7 +20,7 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <!--Course Name-->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -32,10 +32,10 @@
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!--Teacher-->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -47,10 +47,10 @@
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!--place-->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -62,7 +62,7 @@
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:singleLine="true" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!--week_id: all weeks-->
         <RelativeLayout
@@ -77,14 +77,14 @@
             android:paddingRight="@dimen/course_edit_item_padding_horizontal"
             android:paddingTop="@dimen/course_edit_item_padding_vertical">
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_course_week_id_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/edit_course_week_id"
                 android:textSize="12sp" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_course_week_id_summary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,14 +110,14 @@
             android:paddingRight="@dimen/course_edit_item_padding_horizontal"
             android:paddingTop="@dimen/course_edit_item_padding_vertical">
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_course_lesson_no_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/edit_course_lesson_no"
                 android:textSize="12sp" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_course_lesson_no_summary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -140,4 +140,4 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

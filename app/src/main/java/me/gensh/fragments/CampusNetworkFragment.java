@@ -4,10 +4,11 @@ import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.db.chart.Tools;
 import com.db.chart.listener.OnEntryClickListener;

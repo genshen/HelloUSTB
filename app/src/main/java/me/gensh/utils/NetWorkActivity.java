@@ -1,6 +1,6 @@
 package me.gensh.utils;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Map;
 
