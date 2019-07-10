@@ -1,15 +1,14 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 //    useLibrary "org.apache.http.legacy"
 
     defaultConfig {
         applicationId "me.gensh.helloustb"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 113
         versionName "2.1.1"
         buildConfigField "String", "APP_BUILD_TIME", "\"Mon, 30 October. 2017 \""   // build time
@@ -42,12 +41,6 @@ android {
             path "CMakeLists.txt"
         }
     }
-    greendao {
-//        see http://greenrobot.org/greendao/documentation/modelling-entities/
-//        schemaVersion 1
-//        daoPackage 'me.gensh.greendao.gen'
-//        targetGenDir 'src/main/java'
-    }
 }
 
 repositories {
@@ -57,11 +50,11 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile('com.github.hotchemi:permissionsdispatcher:3.0.1') {
+    implementation('com.github.hotchemi:permissionsdispatcher:3.0.1') {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
@@ -71,26 +64,29 @@ dependencies {
     //    compile 'com.lapism:searchview:5.0.0-alpha4'
     //    compile 'com.jaeger.statusbarutil:library:1.4.0'  //todo remove it
     //    compile 'com.github.yalantis:ucrop:2.2.1-native'
-    compile project(':http-ustb')
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
-    compile 'com.android.support:support-v4:26.1.0'
-    compile 'com.android.support:support-vector-drawable:26.1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.afollestad.material-dialogs:core:0.8.6.1'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.github.clans:fab:1.6.4'
-    compile 'com.jpardogo.googleprogressbar:library:1.2.0'
-    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
-    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
-    compile 'com.cjj.materialrefeshlayout:library:1.3.0'
-    compile 'com.diogobernardino:williamchart:2.2'
+    def room_version = "2.1.0"
+
+    implementation project(':http-ustb')
+    implementation 'com.android.support:appcompat-v7:28.0.3'
+    implementation 'com.android.support:design:28.0.3'
+    implementation 'com.android.support:cardview-v7:28.0.3'
+    implementation 'com.android.support:support-v4:28.0.3'
+    implementation 'com.android.support:support-vector-drawable:28.0.3'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.afollestad.material-dialogs:core:0.8.6.1'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.github.clans:fab:1.6.4'
+    implementation 'com.jpardogo.googleprogressbar:library:1.2.0'
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+    implementation 'com.cjj.materialrefeshlayout:library:1.3.0'
+    implementation 'com.diogobernardino:williamchart:2.2'
     //    compile 'com.google.android:flexbox:0.3.0'  //for searchview
-    compile 'com.jakewharton:butterknife:8.8.1'
-    compile 'org.greenrobot:greendao:3.2.2'
-    compile 'com.github.yalantis:ucrop:2.2.1'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation 'com.github.yalantis:ucrop:2.2.1'
+    testImplementation 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
 }
