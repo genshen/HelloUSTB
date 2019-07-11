@@ -39,8 +39,6 @@ import me.gensh.utils.StringUtils;
  */
 
 public class CampusNetworkTest extends IntentService implements HttpRequestTask.OnTaskFinished {
-    final String TEST_URL = "http://www.sohu.com";
-    final String TEST_TAG = "test connection";
     final static String INTENT_EXTRA_SSID = "ssid";
     final int NETWORK_SING_IN_NOTIFY_ID = 10;
     final int AUTO_SIGN_IN_ERROR_NOTIFY_ID = 12;
