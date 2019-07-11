@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class StoreData {
 
-    public static boolean SaveTimetableToDb(DaoSession session, String msg) {
+    public static boolean SaveTimetableToDb(DB session, String msg) {
         try {
             JSONObject dataJson = new JSONObject(msg);
             JSONArray data = dataJson.getJSONArray("selectedCourses");
@@ -51,7 +51,7 @@ public class StoreData {
     }
 
     //配套课(如实验课)
-    private static boolean addPTK(DaoSession session, JSONArray ptks) {
+    private static boolean addPTK(DB session, JSONArray ptks) {
         try {
             for (int i = ptks.length() - 1; i >= 0; i--) {
                 JSONObject ptk = ptks.getJSONObject(i);
@@ -77,7 +77,7 @@ public class StoreData {
         return false;
     }
 
-    private static boolean InsertToDB(DaoSession session, String student_num, String learn_time,
+    private static boolean InsertToDB(DB session, String student_num, String learn_time,
                                       String credit, String course_id,
                                       String course_name, String course_type,
                                       String teachers, String time_place,
@@ -93,7 +93,7 @@ public class StoreData {
                     week_id, lesson.week_day, lesson.lesson_no,
                     course_id, course_name, course_type, teachers,
                     time_place, lesson.class_place, time, lesson.weeks);
-            session.getDBTimetableDao().insert(dbTimetable);
+            session.getTimetableDao().insertTimetable(dbTimetable);
 
 //            String sql_sentence = "insert into Course_info values(" +
 //                    (key++) + "," + student_num + "," + learn_time + "," + credit + "," +
@@ -191,22 +191,22 @@ public class StoreData {
     }
 
     /*
-    * account
+     * account
      */
-    public static void storeAccount(DaoSession session, String username, String pass, int tag) {
+    public static void storeAccount(DB session, String username, String pass, int tag) {
         DBAccounts oldAccount = QueryData.queryAccountByType(session, tag);
         byte iv[] = StringUtils.randomByteArray(StringUtils.IV_LENGTH);
         String r = Base64.encodeToString(iv, Base64.DEFAULT);
         String passEncrypt = StringUtils.encryptWithIv(pass, iv);  //change password to encrypt password.
         if (oldAccount == null) {
             DBAccounts account = new DBAccounts(null, tag, username, passEncrypt, r);
-            session.getDBAccountsDao().insert(account);
+            session.getAccountDao().insertAccount(account);
         } else {
             // same tag
             oldAccount.setUsername(username);
             oldAccount.setPasswordEncrypt(passEncrypt);
             oldAccount.setR(r);
-            session.getDBAccountsDao().update(oldAccount);
+            session.getAccountDao().updateAccount(oldAccount);
         }
     }
-}	
+}

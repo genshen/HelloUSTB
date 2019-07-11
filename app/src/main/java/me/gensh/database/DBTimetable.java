@@ -1,9 +1,8 @@
 package me.gensh.database;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.Generated;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
@@ -11,57 +10,56 @@ import java.io.Serializable;
  * Created by gensh on 2017/9/19.
  */
 @Entity(
-        nameInDb = "time_table_dbs"
+        tableName = Config.TIMETABLE_DB_TABLE_NAME
 )
 public class DBTimetable implements Serializable {
     private static final long serialVersionUID = 0x1000L;
 
-    @Id(autoincrement = true)
-    @Property(nameInDb = TimetableInfo._ID)
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = TimetableInfo._ID)
     private Long id; //id
 
-    @Property(nameInDb = TimetableInfo.STUDENT_NUM)
+    @ColumnInfo(name = TimetableInfo.STUDENT_NUM)
     int studentNum; //学生数目
 
-    @Property(nameInDb = TimetableInfo.LEARN_TIME)
+    @ColumnInfo(name = TimetableInfo.LEARN_TIME)
     int learnTime;  //学时
 
-    @Property(nameInDb = TimetableInfo.CREDIT)
+    @ColumnInfo(name = TimetableInfo.CREDIT)
     int credit;  //学分
 
-    @Property(nameInDb = TimetableInfo.WEEK_ID)
+    @ColumnInfo(name = TimetableInfo.WEEK_ID)
     int weekId;  // 哪些周有课,比特为1表示该周有课
 
-    @Property(nameInDb = TimetableInfo.WEEK_DAY)
+    @ColumnInfo(name = TimetableInfo.WEEK_DAY)
     int weekDay;  // 周几有课
 
-    @Property(nameInDb = TimetableInfo.LESSON_NO)
+    @ColumnInfo(name = TimetableInfo.LESSON_NO)
     int lessonNo;   //第几节课
 
-    @Property(nameInDb = TimetableInfo.COURSE_ID)
+    @ColumnInfo(name = TimetableInfo.COURSE_ID)
     String courseID;  // 课程ID
 
-    @Property(nameInDb = TimetableInfo.COURSE_NAME)
+    @ColumnInfo(name = TimetableInfo.COURSE_NAME)
     String courseName;  // 课程名称
 
-    @Property(nameInDb = TimetableInfo.COURSE_TYPE)
+    @ColumnInfo(name = TimetableInfo.COURSE_TYPE)
     String courseType;  // 课程类型
 
-    @Property(nameInDb = TimetableInfo.TEACHERS)
+    @ColumnInfo(name = TimetableInfo.TEACHERS)
     String teachers;  // 授课教师
 
-    @Property(nameInDb = TimetableInfo.TIME_PLACE)
+    @ColumnInfo(name = TimetableInfo.TIME_PLACE)
     String timeAndPlace;  // 时间地点
 
-    @Property(nameInDb = TimetableInfo.PLACE)
+    @ColumnInfo(name = TimetableInfo.PLACE)
     String place;  //地点
 
-    @Property(nameInDb = TimetableInfo.TIME)
+    @ColumnInfo(name = TimetableInfo.TIME)
     String time;    //上课时间
-    @Property(nameInDb = TimetableInfo.WEEKS)
+    @ColumnInfo(name = TimetableInfo.WEEKS)
     String weeks;     //哪几周都有课
 
-    @Generated(hash = 103522139)
     public DBTimetable(Long id, int studentNum, int learnTime, int credit,
                        int weekId, int weekDay, int lessonNo, String courseID,
                        String courseName, String courseType, String teachers,
@@ -81,10 +79,6 @@ public class DBTimetable implements Serializable {
         this.place = place;
         this.time = time;
         this.weeks = weeks;
-    }
-
-    @Generated(hash = 1232475460)
-    public DBTimetable() {
     }
 
     public Long getId() {
@@ -208,7 +202,7 @@ public class DBTimetable implements Serializable {
     }
 
     final public static class TimetableInfo {
-        final public static String TABLE_NAME = "time_table_dbs";
+        final public static String TABLE_NAME = Config.TIMETABLE_DB_TABLE_NAME;
         final public static String _ID = "_id";
         final public static String STUDENT_NUM = "student_num";
         final public static String LEARN_TIME = "learn_time";

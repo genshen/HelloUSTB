@@ -1,47 +1,41 @@
 package me.gensh.database;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Property;
-import org.greenrobot.greendao.annotation.Generated;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 /**
  * Created by gensh on 2017/9/22.
  */
 
 @Entity(
-        nameInDb = "accounts_dbs"
+        tableName = Config.ACCOUNT_DB_TABLE_NAME
 )
 public class DBAccounts {
-    @Id
-    @Property(nameInDb = AccountsInfo.ID)
+    @PrimaryKey
+    @ColumnInfo(name = AccountsInfo.ID)
     private Long id; //id
 
-    @Property(nameInDb = AccountsInfo.TYPE)
+    @ColumnInfo(name = AccountsInfo.TYPE)
     int type;         //标记是哪个网站的密码
 
-    @Property(nameInDb = AccountsInfo.USERNAME)
+    @ColumnInfo(name = AccountsInfo.USERNAME)
     String username;   //用户名
 
-    @Property(nameInDb = AccountsInfo.PASSWORD_ENCRYPT)
+    @ColumnInfo(name = AccountsInfo.PASSWORD_ENCRYPT)
     String passwordEncrypt;  //加密的密码
 
-    @Property(nameInDb = AccountsInfo.R)
+    @ColumnInfo(name = AccountsInfo.R)
     String r;
 
-
-    @Generated(hash = 32811746)
     public DBAccounts(Long id, int type, String username, String passwordEncrypt,
-            String r) {
+                      String r) {
         this.id = id;
         this.type = type;
         this.username = username;
         this.passwordEncrypt = passwordEncrypt;
         this.r = r;
-    }
-
-    @Generated(hash = 640312663)
-    public DBAccounts() {
     }
 
     public Long getId() {

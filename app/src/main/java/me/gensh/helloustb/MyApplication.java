@@ -7,11 +7,11 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import org.greenrobot.greendao.database.Database;
+
+import androidx.room.Room;
 
 import me.gensh.database.Config;
-import me.gensh.database.DaoMaster;
-import me.gensh.database.DaoSession;
+import me.gensh.database.DB;
 
 /**
  * @author gensh
@@ -24,20 +24,21 @@ public class MyApplication extends Application {
      * A flag to show how easily you can switch from standard SQLite to the encrypted SQLCipher.
      */
 
-    private DaoSession daoSession;
+    private DB dbSession;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, Config.DB_ENCRYPTED ? Config.DB_FILE_NAME_ENCRYPTED : Config.DB_FILE_NAME);
-        Database db = Config.DB_ENCRYPTED ? helper.getEncryptedWritableDb(Config.DB_ENCRYPTED_PASSWORD) : helper.getWritableDb();
-        daoSession = new DaoMaster(db).newSession();
+        dbSession = Room.databaseBuilder(getApplicationContext(),
+                DB.class, Config.DB_ENCRYPTED ? Config.DB_FILE_NAME_ENCRYPTED : Config.DB_FILE_NAME)
+                .allowMainThreadQueries()
+                .build();
     }
 
-    public DaoSession getDaoSession() {
-        return daoSession;
+    public DB getDaoSession() {
+        return dbSession;
     }
 
     public static Context getMyApplication() {
