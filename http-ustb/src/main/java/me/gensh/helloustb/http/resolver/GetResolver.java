@@ -125,7 +125,7 @@ public class GetResolver {
                 }
             } else if (line.contains("red")) {
                 String split_str[] = line.split(">|<");
-                if (split_str.length > 6) {
+                if (split_str.length > 6 && split_str[6].length() > 2) {
                     process_result.add(split_str[6].substring(2));
                 }
             }

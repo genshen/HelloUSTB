@@ -10,20 +10,18 @@ import java.util.List;
 
 public class QueryData {
 
-    //todo maybe we have a better implementation  for this method.
-    public static boolean haveCoursesImported(DaoSession session) {
-        return session.getDBTimetableDao().count() != 0;
+    //todo maybe we have a better implementation for this method.
+    public static boolean haveCoursesImported(DB session) {
+        return session.getTimetableDao().getNumberOfRows() != 0;
     }
 
-    public static List<HashMap<String, Object>> getTodayCourse(DaoSession session, int week_num) {
+    public static List<HashMap<String, Object>> getTodayCourse(DB session, int week_num) {
         List<HashMap<String, Object>> mList = new ArrayList<>();
         String[] key = {DBTimetable.TimetableInfo._ID, DBTimetable.TimetableInfo.WEEK_DAY,
                 DBTimetable.TimetableInfo.LESSON_NO, DBTimetable.TimetableInfo.COURSE_ID,
                 DBTimetable.TimetableInfo.TIME, DBTimetable.TimetableInfo.COURSE_NAME,
                 DBTimetable.TimetableInfo.PLACE, DBTimetable.TimetableInfo.TEACHERS};
-        String sql = "select * from  " + DBTimetable.TimetableInfo.TABLE_NAME + " where " + DBTimetable.TimetableInfo.WEEK_ID + " >> " +
-                week_num + "&1 = 1 and " + DBTimetable.TimetableInfo.WEEK_DAY + " = " + BasicDate.getWeek() + " order by " + DBTimetable.TimetableInfo.LESSON_NO;
-        Cursor cursor = session.getDatabase().rawQuery(sql, null);
+        Cursor cursor = session.getTimetableDao().loadRawTimetable(week_num, BasicDate.getWeek());
 
         cursor.moveToFirst();
         int length = key.length;
@@ -48,33 +46,42 @@ public class QueryData {
     }
 
     //获得某一天的课表
-    public static List<DBTimetable> getSomedayCourse(DaoSession session, int position) {
+    public static List<DBTimetable> getSomedayCourse(DB session, int position) {
         //select * from course_info  where week_day = position{val}
-        return session.getDBTimetableDao().queryBuilder().where(DBTimetableDao.Properties.WeekDay.eq(position)).list();
+        return session.getTimetableDao().querySomedayCourse(position);
     }
 
-    public static DBTimetable getCourseById(DaoSession session, long id) {
+    public static DBTimetable getCourseById(DB session, long id) {
         //select * from course_info  where _id = id{val}
         try {
-            return session.getDBTimetableDao().queryBuilder().where(DBTimetableDao.Properties.Id.eq(id)).uniqueOrThrow();
+            List<DBTimetable> tbs = session.getTimetableDao().getUniqueTimetable(id);
+            if (tbs.size() != 1) { // make it unique
+                return null;
+            }
+            return tbs.get(0);
         } catch (Exception e) {
             return null;
         }
     }
 
-    public static DBAccounts queryAccountByType(DaoSession session, int type) {
+    public static DBAccounts queryAccountByType(DB session, int type) {
         try {
-            return session.getDBAccountsDao().queryBuilder().where(DBAccountsDao.Properties.Type.eq(type)).uniqueOrThrow();  //can also be null
+            List<DBAccounts> accounts = session.getAccountDao().getUniqueAccountByTag(type);
+            if (accounts.size() != 1) {
+                return null;
+            } else {
+                return accounts.get(0);
+            }
         } catch (Exception e) {
             return null;
         }
     }
 
-    public static List<DBAccounts> queryAllAccount(DaoSession session) {
-        return session.getDBAccountsDao().queryBuilder().list();
+    public static List<DBAccounts> queryAllAccount(DB session) {
+        return session.getAccountDao().listAll();
     }
 
-    public static boolean hasAccount(DaoSession session, int type) {
+    public static boolean hasAccount(DB session, int type) {
         return queryAccountByType(session, type) != null;
     }
 

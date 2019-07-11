@@ -3,8 +3,10 @@ package me.gensh.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.support.v4.view.*;
 import android.view.View;
+
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * @author gensh

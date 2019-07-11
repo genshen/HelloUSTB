@@ -33,8 +33,8 @@ public static *** wtf(...);
 -keep class org.apache.harmony.**{*;}
 -keep class java.security.**{*;}
 
--keep class android.support.v7.widget.SearchView { *; }
--keep class android.support.v7.widget.LinearLayoutManager { *; }
+-keep class androidx.appcompat.widget.SearchView { *; }
+-keep class androidx.appcompat.widget.LinearLayoutManager { *; }
 -keep class com.jpardogo.android.googleprogressbar.** { *; }
 
 -dontwarn javax.mail.**

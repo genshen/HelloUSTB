@@ -3,12 +3,14 @@ package me.gensh.utils;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import me.gensh.database.DBAccounts;
 import me.gensh.database.QueryData;
@@ -18,7 +20,7 @@ import me.gensh.helloustb.R;
 import me.gensh.helloustb.http.HttpClients;
 
 /**
- * Created by 根深 on 2016/7/13.
+ * Created by genshen on 2016/7/13.
  */
 public abstract class LoginNetworkActivity extends NetWorkActivity {
     protected String username, password;  // if one login does not finish, another new login can overwrite the username ,password and userType

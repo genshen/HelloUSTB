@@ -247,11 +247,10 @@
     <!-- 个人网站链接 -->
     <string name="downloadURL" translatable="false">http://genshen.hol.es/blog/frontend/web/file/helloustb.rar</string>
     <string name="UpdateAddress" translatable="false">http://genshen.hol.es/blog/frontend/web/index.php?r=hello%2Fjson-apk</string>
-    <string name="wifi_check_url" translatable="false">http://genshen.hol.es/code/android/myustb/wifi.php</string>
-    <string name="myHomePage" translatable="false">http://genshen.hol.es</string>
-    <string name="app_website" translatable="false">http://genshen.hol.es/blog/frontend/web/index.php?r=hello</string>
+    <string name="myHomePage" translatable="false">https://genshen.github.io/HelloUSTB</string>
+    <string name="app_website" translatable="false">https://genshen.github.io/HelloUSTB</string>
     <!-- 注意：更新下载链接时，要更新二维码 -->
-    <string name="download_link" translatable="false">http://genshen.hol.es/blog/frontend/web/index.php?r=hello%2Fdownload</string>
+    <string name="download_link" translatable="false">https://github.com/genshen/HelloUSTB/releases</string>
     <!-- /个人网站链接 -->
     <!-- /相关链接 -->
 

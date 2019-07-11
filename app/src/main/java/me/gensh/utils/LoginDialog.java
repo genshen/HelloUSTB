@@ -1,7 +1,8 @@
 package me.gensh.utils;
 
-import android.support.annotation.StringRes;
 import android.util.Log;
+
+import androidx.annotation.StringRes;
 
 import java.io.BufferedReader;
 import java.io.IOException;

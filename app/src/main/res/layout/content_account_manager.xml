@@ -9,7 +9,7 @@
     tools:context=".AccountManager"
     tools:showIn="@layout/activity_account_manager">
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/account_manager_logout_ele"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         android:enabled="false"
         android:text="@string/logout_ele" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/account_manager_logout_network"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:enabled="false"
         android:text="@string/logout_network" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/account_manager_logout_volunteer"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:enabled="false"
         android:text="@string/logout_volunteer" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/account_manager_logout_e"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"

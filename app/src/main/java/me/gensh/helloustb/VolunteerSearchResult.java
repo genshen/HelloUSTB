@@ -2,8 +2,6 @@ package me.gensh.helloustb;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +9,9 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
@@ -41,7 +42,7 @@ public class VolunteerSearchResult extends NetWorkActivity implements HttpReques
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_search_result);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -113,7 +114,7 @@ public class VolunteerSearchResult extends NetWorkActivity implements HttpReques
             }
             is_loading = true; //@important: cancel task if it is not null,to make sure there is one task running in a activity or fragment.
             httpRequestTask = new HttpRequestTask(this, HttpClients.HTTP_GET,
-                    getSearchUrl(search_method, page_count, key_word),  Tags.VOLUNTEER, what, Tags.GET.ID_VOLUNTEER_ACTIVITIES_SEARCH, HttpClients.CHARSET_BTF8, null);
+                    getSearchUrl(search_method, page_count, key_word), Tags.VOLUNTEER, what, Tags.GET.ID_VOLUNTEER_ACTIVITIES_SEARCH, HttpClients.CHARSET_BTF8, null);
             httpRequestTask.setOnTaskFinished(this);
             httpRequestTask.execute();
         } else {

@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:text="@string/empty_common_no_data"/>
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/empty_image"
         android:layout_width="@dimen/empty_image_width"
         android:layout_height="@dimen/empty_image_height"

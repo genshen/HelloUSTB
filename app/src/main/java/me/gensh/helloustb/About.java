@@ -6,16 +6,20 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import me.gensh.network.VersionCheckerTask;
@@ -69,7 +73,8 @@ public class About extends AppCompatActivity implements VersionCheckerTask.OnNew
         }
         AppCompatTextView version = findViewById(R.id.this_version);
         AppCompatTextView builtTime = findViewById(R.id.app_build_time);
-        builtTime.setText(getString(R.string.build_time_format, BuildConfig.APP_BUILD_TIME));
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMM dd, yyyy", getResources().getConfiguration().locale);
+        builtTime.setText(getString(R.string.build_time_format, formatter.format(new Date(BuildConfig.APP_BUILD_TIME))));
         version.setText(getString(R.string.version_base, getString(R.string.app_name), versionName));
     }
 
