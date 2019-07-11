@@ -17,13 +17,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="课程表设置">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="today_week_num"
-            android:layout="@layout/preference_item"
-            android:summaryOff="CheckBox(关)"
-            android:summaryOn="CheckBox(开)"
-            android:title="测试CheckBox" />
 
         <me.gensh.views.MaterialListPreference
             android:defaultValue="1"
