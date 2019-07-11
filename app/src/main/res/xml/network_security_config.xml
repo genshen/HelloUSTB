@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">teach.ustb.edu.cn</domain>
+        <domain includeSubdomains="false">elearning.ustb.edu.cn</domain>
+        <domain includeSubdomains="false">e.ustb.edu.cn</domain>
+        <domain includeSubdomains="false">h.ustb.edu.cn</domain>
+        <domain includeSubdomains="false">202.204.48.82</domain>
+        <domain includeSubdomains="false">202.204.48.66</domain>
+        <domain includeSubdomains="false">zhiyuan.ustb.edu.cn</domain>
+        <domain includeSubdomains="false">lib.ustb.edu.cn</domain>
+        <domain includeSubdomains="false">lib1.ustb.edu.cn</domain>
+        <domain includeSubdomains="false">connect.rom.miui.com</domain>
+    </domain-config>
+</network-security-config>
