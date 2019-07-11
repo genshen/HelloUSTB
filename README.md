@@ -1,5 +1,5 @@
 # HelloUSTB
-a school app for USTB students http://genshen.hol.es/blog/frontend/web/index.php?r=hello
+a school app for USTB students https://github.com/genshen/HelloUSTB
 
 
 This is a Android based campus assistant application,whitch services to USTB students. 
@@ -12,5 +12,4 @@ At present, we provide notice obtaining,score inquiry , campus network connectin
 ![image](Screenshot/5.png)
 ![image](Screenshot/6.png)
 
-Download address：http://genshen.hol.es/blog/frontend/web/index.php?r=hello
---the old repository has removed
+Download address：https://github.com/genshen/HelloUSTB/releases
