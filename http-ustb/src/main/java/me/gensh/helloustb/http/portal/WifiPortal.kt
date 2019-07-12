@@ -28,12 +28,12 @@ class WifiPortal {
             try {
                 val response: Response = client.newCall(request).execute()
                 val status = Status()
-                if (response.code() == 200) { //not 204.
+                if (response.code == 200) { //not 204.
                     status.needAuth = true
                     // try to resolve html content.
                     // <html><head><script type="text/javascript">location.href="http://202.204.48.66"</script></head><body><a href="http://202.204.48.66"></a></body></html>
-                    if (response.body() != null) {
-                        val body = response.body()!!.string()
+                    if (response.body != null) {
+                        val body = response.body !!.string()
                         if (body.contains(REDIRECT_URL1) || body.contains(REDIRECT_URL2)) {
                             status.isInnerNet = true
                         }
